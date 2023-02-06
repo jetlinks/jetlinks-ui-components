@@ -10835,6 +10835,11 @@ vue@^3.2.45:
     "@vue/server-renderer" "3.2.45"
     "@vue/shared" "3.2.45"
 
+vuescroll@^4.17.5:
+  version "4.17.5"
+  resolved "https://registry.npmmirror.com/vuescroll/-/vuescroll-4.17.5.tgz#25a3b86f14a31abac4a7e2e57d47da899f16fa06"
+  integrity sha512-TjzRp0OpF99SiulIFw2txoT5tbUyCT0IaMiMw87r1shbQ6Mi94ZcEJ294ihEaiVcHHDpTm9oEudIkWThz7HUPQ==
+
 walker@^1.0.7, walker@~1.0.5:
   version "1.0.8"
   resolved "https://registry.npmmirror.com/walker/-/walker-1.0.8.tgz#bd498db477afe573dc04185f011d3ab8a8d7653f"
