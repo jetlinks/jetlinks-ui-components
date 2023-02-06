@@ -1,18 +1,39 @@
-# Vue 3 + TypeScript + Vite
+# Jetlinks-ui-components
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+前端 UI 组件库，采用 vue3 + TypeScript 开发
 
-## Recommended IDE Setup
+## 特性
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+整合 element-plus、ant-design-vue 和 naive-ui 组件和方法，更加全面、方便快捷于项目开发
 
-## Type Support For `.vue` Imports in TS
+## StoryBook
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+使用 [StoryBook](https://storybook.js.org/docs/vue/get-started/introduction) 展示组件，StoryBook 更加方便快捷展示 props 以及修改相应 props 产生的效果。
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## 代码规范
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+本项目采用 [Airbnb](https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md) 前端代码规范
+
+## 安装
+
+需要 node 16.x 环境及以上
+
+```shell
+$ npm run install
+```
+
+```shell
+$ yarn
+```
+
+## 运行
+
+查看组件以及示例
+
+```shell
+$ npm run storybook
+```
+
+```shell
+$ yarn run storybook
+```

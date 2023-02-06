@@ -3,6 +3,6 @@ import { create } from '@storybook/theming/create'
 
 addons.setConfig({
     theme: create({
-        brandTitle: '123'
+        brandTitle: 'Jetlinks-ui-components'
     })
 })

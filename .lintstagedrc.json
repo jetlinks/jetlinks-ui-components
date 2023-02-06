@@ -1,0 +1,9 @@
+{
+  "**/*.{vue,js,jsx,ts,tsx}": [
+    "npm run lint",
+    "prettier --write"
+  ],
+  "**/*.{html,css,less,md}": [
+    "prettier --write"
+  ]
+}
