@@ -1,15 +1,16 @@
-import MyPagination from '../../components/Pagination'
+import MyPagination from '../../components/Pagination';
 
 export default {
     title: '导航/Pagination',
     component: MyPagination,
-    argTypes: { // props属性的类型，用于复杂类型
+    argTypes: {
+        // props属性的类型，用于复杂类型
         size: {
             control: { type: 'select' },
             options: ['small', 'medium', 'large'],
-        }
-    }
-}
+        },
+    },
+};
 
 const Template = (args) => ({
     components: { MyPagination },
@@ -29,15 +30,15 @@ Pagination.args = {
     total: 12,
     size: 'small',
     showTotal: (total) => `共 ${total} 条`,
-}
+};
 
 Pagination.parameters = {
     docs: {
         source: {
             code: '<Pagination :isShowContent="false"/>',
-            language: "html",
+            language: 'html',
             type: 'auto',
-            format: true
-        }
-    }
-}
+            format: true,
+        },
+    },
+};

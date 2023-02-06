@@ -12,7 +12,7 @@
 
 ## 代码规范
 
-本项目采用 [Airbnb](https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md) 前端代码规范
+本项目采用 [Airbnb](./airbnb.md) 前端代码规范
 
 ## 安装
 
