@@ -5,10 +5,19 @@
 <script lang="ts" setup name="Pagination">
 import { Pagination } from 'ant-design-vue';
 import { computed, defineProps, reactive } from 'vue';
-import { PaginationProps } from './paginationTypes';
+import { paginationProps } from 'ant-design-vue/es/pagination';
 import { omit } from 'lodash';
 
-const props = defineProps(PaginationProps);
+const props = defineProps({
+    ...paginationProps(),
+    /**
+     *  是否显示分页内容
+     */
+    isShowContent: {
+        type: Boolean,
+        default: false,
+    },
+});
 const baseProps = omit(props, ['isShowContent']);
 
 const { isShowContent } = reactive(props);
