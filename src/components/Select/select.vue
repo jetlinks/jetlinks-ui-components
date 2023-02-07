@@ -2,6 +2,7 @@
   <div class="custom-select">
     <Select v-bind="baseProps" :showSearch="props.filterable" :filter-option="filterOption" :style="{width: props.width}">
       <slot name="default"/>
+      <slot name="dropdownRender"/>
     </Select>
   </div>
 </template>
