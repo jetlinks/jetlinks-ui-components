@@ -16,8 +16,8 @@ const props = defineProps(SelectProps)
 const baseProps = omit(props, ['width', 'filterable'])
 
 const filterOption = (input: string, option: any) => {
-  const str = option.label ? 'label' : 'value'
-  return String(option[str]).toLowerCase().indexOf(input.toLowerCase()) >= 0
+  const str = option.label || option.value
+  return String(str).toLowerCase().indexOf(input.toLowerCase()) >= 0
 }
 
 </script>
