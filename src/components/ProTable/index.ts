@@ -1,5 +1,5 @@
-import {withInstall} from "../util/type";
-import ProTable from "./src/Table.vue";
+import { withInstall } from "../util/type";
+import ProTable from "./src/proTable.vue";
 
 export const JLProTable = withInstall(ProTable)
 
