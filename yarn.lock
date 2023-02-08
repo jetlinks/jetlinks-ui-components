@@ -12038,6 +12038,11 @@ vue@^3.2.45:
     "@vue/server-renderer" "3.2.45"
     "@vue/shared" "3.2.45"
 
+vuescroll@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmmirror.com/vuescroll/-/vuescroll-5.0.0.tgz#ff6fac5b8ced265ee5ebffed0ff5ae49d6e2e116"
+  integrity sha512-gi1wOeRYUrWbC3/L3azqwmEB1pJHvZZxtTI0jxIch0VA5fioxey/Q3MgRN75Kc9ZaQuwUlDa+N0gcUSzM+q8WQ==
+
 walker@^1.0.7, walker@~1.0.5:
   version "1.0.8"
   resolved "https://registry.npmmirror.com/walker/-/walker-1.0.8.tgz#bd498db477afe573dc04185f011d3ab8a8d7653f"
