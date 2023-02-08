@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import {globby, globbySync} from 'globby';
+import {globby} from 'globby';
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { ESLint } from 'eslint'
-import esConfig from '../../.eslintrc'
+import esConfig from '../../.eslintrc.js'
 // const globby = require('globby');
 // const fs = require('fs');
 // const path = require('path');
@@ -22,7 +22,7 @@ import esConfig from '../../.eslintrc'
       components[componentName] = { ...components[componentName], ...data };
     }
   });
-  console.log(paths)
+  console.log(paths, esConfig)
   const TEMPLATE = `
 export default [
   ${Object.keys(components).map(
