@@ -22,7 +22,7 @@ import esConfig from '../../.eslintrc.js'
       components[componentName] = { ...components[componentName], ...data };
     }
   });
-  console.log(paths, esConfig)
+
   const TEMPLATE = `
 export default [
   ${Object.keys(components).map(
@@ -39,10 +39,10 @@ export default [
     fix: true,
     useEslintrc: false,
     // baseConfig: require(path.join(process.cwd(), '.eslintrc.js')),
-    baseConfig: esConfig,
+    // baseConfig: esConfig,
   });
 
   const report = await engine.lintText(TEMPLATE);
 
-  fs.writeFileSync('site/src/router/demoRoutes.js', report[0].output);
+  fs.writeFileSync('site/src/router/demoRoutes.js', TEMPLATE);
 })();
