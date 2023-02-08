@@ -1,0 +1,11 @@
+import type { App, Plugin } from 'vue';
+
+export const withInstall = <T>(name: string, comp: T) => {
+    const c = comp as any;
+    c.install = function (app: App) {
+        // @ts-ignore
+        app.component(name, comp);
+    };
+
+    return comp as T & Plugin;
+};
