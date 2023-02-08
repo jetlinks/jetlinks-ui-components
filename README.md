@@ -6,10 +6,6 @@
 
 整合 element-plus、ant-design-vue 和 naive-ui 组件和方法，更加全面、方便快捷于项目开发
 
-## StoryBook
-
-使用 [StoryBook](https://storybook.js.org/docs/vue/get-started/introduction) 展示组件，StoryBook 更加方便快捷展示 props 以及修改相应 props 产生的效果。
-
 ## 代码规范
 
 本项目采用 [Airbnb](./airbnb.md) 前端代码规范
@@ -31,9 +27,9 @@ $ yarn
 查看组件以及示例
 
 ```shell
-$ npm run storybook
+$ npm run dev
 ```
 
 ```shell
-$ yarn run storybook
+$ yarn dev
 ```
