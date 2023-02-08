@@ -24,11 +24,11 @@ import { throwError } from '../util/scrollbar'
 import { useNamespace } from './hooks'
 import { BAR_MAP, renderThumbStyle } from '../util/scrollbar'
 import { thumbProps } from './thumbUtil'
+
 const COMPONENT_NAME = 'Thumb'
 const props = defineProps(thumbProps)
 const scrollbar = inject(scrollbarContextKey)
 const ns = useNamespace('scrollbar')
-console.log(ns);
 if (!scrollbar) throwError(COMPONENT_NAME, 'can not inject scrollbar context')
 const instance = ref<HTMLDivElement>()
 const thumb = ref<HTMLDivElement>()

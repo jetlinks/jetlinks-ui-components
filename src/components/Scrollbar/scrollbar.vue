@@ -51,18 +51,15 @@ const COMPONENT_NAME = 'ElScrollbar'
 
 const props = defineProps(scrollbarProps)
 const baseProps = omit(props, ['height'])
-console.log(baseProps);
 const emit = defineEmits(scrollbarEmits)
 
 const ns = useNamespace('scrollbar')
-console.log(ns.b());
 
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
-console.log(wrapRef);
 const resizeRef = ref<HTMLElement>()
 
 const sizeWidth = ref('0')
@@ -210,15 +207,25 @@ defineExpose({
 })
 </script>
 <style scoped lang="less">
-:deep(.el-scrollbar) {
+@import './style/scrollbar.scss';
+
+.el-scrollbar {
+  ::-webkit-scrollbar {display:none}
   overflow: hidden;
   position: relative;
   height: 100%;
+  .el-scrollbar__wrap{
+    overflow: auto;
+    height: 100%;
+    .hidden-default{
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
 }
-:deep(.el-scrollbar__wrap) {
-  overflow: auto;
-  height: 100% !important;
-}
+
 :deep(.el-scrollbar__bar) {
   position: absolute;
   right: 2px;
@@ -229,21 +236,28 @@ defineExpose({
 :deep(.el-scrollbar__bar.is-horizontal) {
   height: 6px;
   left: 2px;
+  .el-scrollbar__thumb{
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border-radius: inherit;
+    background-color: #000;
+    /*transition: #000;*/
+    opacity: var(--el-scrollbar-opacity,.3);
+    height: 100%;
+  }
 }
 :deep(.el-scrollbar__bar.is-vertical) {
   width: 6px;
   top: 2px;
-}
-
-:deep(.el-scrollbar__thumb) {
-  position: relative;
-  display: block;
-  width: 0;
-  height: 0;
-  cursor: pointer;
-  border-radius: inherit;
-  background-color: #000;
-  /*transition: #000;*/
-  /*opacity: var(--el-scrollbar-opacity,.3);*/
+  .el-scrollbar__thumb{
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border-radius: inherit;
+    background-color: #000;
+    /*transition: #000;*/
+    opacity: var(--el-scrollbar-opacity,.3);
+  }
 }
 </style>

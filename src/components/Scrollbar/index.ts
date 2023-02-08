@@ -1,6 +1,8 @@
 import {withInstall} from "../util/type";
-import Scrollbar from "./scrollbar.vue";
-
-export const JLScrollbar = withInstall(Scrollbar)
-
+import demo from './demo.vue'
+export const JLScrollbar = withInstall(demo)
 export default JLScrollbar
+
+export * from '../Scrollbar/scrollbarUtil'
+export * from '../Scrollbar/thumbUtil'
+export * from '../util/scrollbar'
