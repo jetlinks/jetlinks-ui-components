@@ -33,24 +33,24 @@
           </a-affix>
         </section>
         <a-back-top />
-        <div class="fixed-widgets" :style="{ bottom: '175px' }">
-          <a-dropdown placement="top">
-            <template #overlay>
-              <a-menu
-                :selected-keys="[themeMode.theme.value]"
-                @click="({ key }) => themeMode.changeTheme(key)"
-              >
-                <a-menu-item key="default">{{ $t('app.theme.switch.default') }}</a-menu-item>
-                <a-menu-item key="dark">{{ $t('app.theme.switch.dark') }}</a-menu-item>
-              </a-menu>
-            </template>
-            <a-avatar class="fixed-widgets-avatar" :size="44">
-              <template #icon><ThemeIcon /></template>
-            </a-avatar>
-          </a-dropdown>
-        </div>
-        <PrevAndNext :menus="menus" :current-menu-index="currentMenuIndex" :is-zh-c-n="true" />
-        <Footer />
+<!--        <div class="fixed-widgets" :style="{ bottom: '175px' }">-->
+<!--          <a-dropdown placement="top">-->
+<!--            <template #overlay>-->
+<!--              <a-menu-->
+<!--                :selected-keys="[themeMode.theme.value]"-->
+<!--                @click="({ key }) => themeMode.changeTheme(key)"-->
+<!--              >-->
+<!--                <a-menu-item key="default">{{ $t('app.theme.switch.default') }}</a-menu-item>-->
+<!--                <a-menu-item key="dark">{{ $t('app.theme.switch.dark') }}</a-menu-item>-->
+<!--              </a-menu>-->
+<!--            </template>-->
+<!--            <a-avatar class="fixed-widgets-avatar" :size="44">-->
+<!--              <template #icon><ThemeIcon /></template>-->
+<!--            </a-avatar>-->
+<!--          </a-dropdown>-->
+<!--        </div>-->
+<!--        <PrevAndNext :menus="menus" :current-menu-index="currentMenuIndex" :is-zh-c-n="true" />-->
+<!--        <Footer />-->
       </a-col>
     </a-row>
   </div>

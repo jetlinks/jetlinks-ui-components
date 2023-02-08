@@ -6,12 +6,12 @@
         <Logo />
       </a-col>
       <a-col v-bind="colProps[1]" class="menu-row">
-        <SearchBox
-          key="search"
-          :is-zh-c-n="true"
-          :responsive="responsive"
-          @triggerFocus="onTriggerSearching"
-        />
+<!--        <SearchBox-->
+<!--          key="search"-->
+<!--          :is-zh-c-n="true"-->
+<!--          :responsive="responsive"-->
+<!--          @triggerFocus="onTriggerSearching"-->
+<!--        />-->
         <Menu />
       </a-col>
     </a-row>

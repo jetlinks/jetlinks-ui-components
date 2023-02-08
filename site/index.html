@@ -22,66 +22,11 @@
         display: none;
       }
     </style>
-    <script>
-      if (
-        location.host === 'ant-design-vue.gitee.io' ||
-        location.host === 'vue.ant.design' ||
-        location.host === 'next.antdv.com'
-      ) {
-        location.replace(location.href.replace(location.host, 'www.antdv.com'));
-      }
-      var _hmt = _hmt || [];
-      var srcMap = {
-        'ant-design-vue.gitee.io': 'https://hm.baidu.com/hm.js?1e30265f06f76fabfcdb7ed272017441',
-        'vue.ant.design': 'https://hm.baidu.com/hm.js?f0ba868f114e674b816b4880f7525811',
-        'www.antdv.com': 'https://hm.baidu.com/hm.js?4ad38a0c8f0960d731b654425317da22',
-      };
-      var src =
-        srcMap[location.host] || 'https://hm.baidu.com/hm.js?4ad38a0c8f0960d731b654425317da22';
-      (function () {
-        var hm = document.createElement('script');
-        hm.src = src;
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(hm, s);
-      })();
-    </script>
   </head>
 
   <body>
     <div id="app"></div>
-    <script src="https://aliyuncdn.antdv.com/common/docsearch.min_2.6.3.js"></script>
     <script type="module" src="/src/main.js"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151755889-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-
-      gtag('config', 'UA-151755889-1');
-    </script>
-    <script type="text/javascript" src="https://cdn.wwads.cn/js/makemoney.js" async></script>
-    <div
-      class="surveybyantdv"
-      data-sf-id="63ad5912f3e10066"
-      data-sf-mode="popover"
-      data-sf-button-color="#1890ff"
-      data-sf-text-color="#ffffff"
-      data-sf-font-size="18"
-      data-sf-button-text=""
-      data-sf-button-radius="50%"
-      data-sf-button-icon="like-outlined"
-      data-sf-default-open="false"
-      data-sf-allow-repeat-submit="true"
-      data-sf-close-after-submit="false"
-      data-sf-hide-after-submit="false"
-      data-sf-delay-visible="false"
-      data-sf-width="350px"
-      data-sf-height="450px"
-      data-sf-preload="true"
-    ></div>
-    <script async src="//aliyuncdn.antdv.com/form/static/embed/v1.js"></script>
   </body>
 </html>

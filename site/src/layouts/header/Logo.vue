@@ -11,7 +11,7 @@
 import type { GlobalConfig } from '../../App.vue';
 import { GLOBAL_CONFIG } from '../../SymbolKey';
 import { defineComponent, inject } from 'vue';
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/logo.png';
 export default defineComponent({
   setup() {
     return { logo };
