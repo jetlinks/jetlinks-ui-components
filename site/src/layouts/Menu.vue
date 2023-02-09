@@ -12,7 +12,7 @@
     </a-menu-item>
     <template v-for="m in menus">
       <template v-if="m.children">
-        <a-menu-item-group :key="m.order" :title="isZhCN ? m.title : m.enTitle">
+        <a-menu-item-group :key="m.order" :title="m.title">
           <template v-for="n in m.children">
             <a-menu-item v-if="n.path" :key="n.path">
               <a v-if="n.target" :target="n.target" :href="n.path">
