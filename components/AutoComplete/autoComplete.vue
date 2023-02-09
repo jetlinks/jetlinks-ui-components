@@ -49,4 +49,7 @@ const onSearch = (searchText: string) => {
 </script>
 
 <style scoped lang="less">
+:deep(.ant-select-selector){
+  border-radius: 6px !important;
+}
 </style>
