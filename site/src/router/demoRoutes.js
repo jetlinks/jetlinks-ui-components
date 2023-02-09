@@ -27,6 +27,11 @@ export default [
     component: () => import('../../../components/Pagination/demo/index.vue'),
   },
   {
+    path: 'AutoComplete',
+    meta: {"category":"Components","subtitle":"自动完成","type":"数据录入","cols":2,"title":"AutoComplete","cover":"https://gw.alipayobjects.com/zos/alicdn/qtJm4yt45/AutoComplete.svg"},
+    component: () => import('../../../components/AutoComplete/demo/index.vue'),
+  },
+  {
     path: 'Scrollbar',
     meta: {"category":"Components","subtitle":"滚动条","cols":1,"type":"导航","title":"Scrollbar","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Scrollbar.svg"},
     component: () => import('../../../components/Scrollbar/demo/index.vue'),
