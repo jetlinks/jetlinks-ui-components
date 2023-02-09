@@ -13,13 +13,13 @@ import { preWrapperPlugin } from './plugins/preWrapper';
 import { linkPlugin } from './plugins/link';
 import { extractHeaderPlugin } from './plugins/header';
 import type { Header } from '../../shared';
-import emoji from 'markdown-it-emoji'
-import anchor from 'markdown-it-anchor'
-import toc from 'markdown-it-table-of-contents'
+// import emoji from 'markdown-it-emoji'
+// import anchor from 'markdown-it-anchor'
+// import toc from 'markdown-it-table-of-contents'
 
-// const emoji = require('markdown-it-emoji');
-// const anchor = require('markdown-it-anchor');
-// const toc = require('markdown-it-table-of-contents');
+const emoji = require('markdown-it-emoji');
+const anchor = require('markdown-it-anchor');
+const toc = require('markdown-it-table-of-contents');
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean;

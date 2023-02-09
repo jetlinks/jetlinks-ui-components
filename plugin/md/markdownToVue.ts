@@ -10,10 +10,9 @@ import slash from 'slash';
 import escapeHtml from 'escape-html';
 import fetchCode from './utils/fetchCode';
 import tsToJs from './utils/tsToJs';
-import _debug from 'debug'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const debug = _debug('vitepress:md');
+const debug = require('debug')('vitepress:md');
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 });
 
 interface MarkdownCompileResult {

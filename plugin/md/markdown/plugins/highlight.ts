@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// const chalk = require('chalk');
-// const prism = require('prismjs');
-// const loadLanguages = require('prismjs/components/index');
-// const escapeHtml = require('escape-html');
-import chalk from 'chalk'
-import prism from 'prismjs'
-import loadLanguages from 'prismjs/components/index'
-import escapeHtml from 'escape-html'
+const chalk = require('chalk');
+const prism = require('prismjs');
+const loadLanguages = require('prismjs/components/index');
+const escapeHtml = require('escape-html');
+// import chalk from 'chalk'
+// import prism from 'prismjs'
+// import loadLanguages from 'prismjs/components/index'
+// import escapeHtml from 'escape-html'
 
 // required to make embedded highlighting work...
 loadLanguages(['markup', 'css', 'javascript']);

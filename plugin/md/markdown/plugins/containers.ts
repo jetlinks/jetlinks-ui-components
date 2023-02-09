@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import type MarkdownIt from 'markdown-it';
 import type Token from 'markdown-it/lib/token';
-import container from 'markdown-it-container'
-// const container = require('markdown-it-container');
+// import container from 'markdown-it-container'
+const container = require('markdown-it-container');
 
 export const containerPlugin = (md: MarkdownIt) => {
   md.use(...createContainer('tip', 'TIP'))

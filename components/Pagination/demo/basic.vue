@@ -8,8 +8,17 @@ title: 基本
 
 </docs>
 <template>
-  <j-pagination :total="100" />
+  <j-pagination :total="total" />
 </template>
-<script>
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+export default defineComponent({
+  setup() {
+    const total = ref(100)
 
+    return {
+      total
+    }
+  }
+})
 </script>

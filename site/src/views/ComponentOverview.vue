@@ -91,9 +91,9 @@ export default defineComponent({
           })
           .filter(i => i.children.length)
     });
-    onMounted(() => {
-      inputRef.value.focus();
-    });
+    // onMounted(() => {
+    //   inputRef.value.focus();
+    // });
     return {
       globalConfig,
       search,
