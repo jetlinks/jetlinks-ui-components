@@ -32,9 +32,15 @@ const props = defineProps({
         }
     }
     :deep(.ant-input-affix-wrapper) {
+        &:not(.ant-input-affix-wrapper-disabled):hover {
+            border-color: #315efb;
+        }
         &:focus {
             border-radius: 6px;
             border-color: #315efb;
+            box-shadow: none;
+        }
+        &-focused {
             box-shadow: none;
         }
         input.ant-input {
