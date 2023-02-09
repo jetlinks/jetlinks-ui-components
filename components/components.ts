@@ -1,4 +1,5 @@
 export { default as Pagination} from './Pagination'
+export { default as TableCard} from './TableCard'
 export { default as Scrollbar} from './Scrollbar'
 export { default as AIcon } from './AIcon';
 export { default as Empty } from './Empty'
