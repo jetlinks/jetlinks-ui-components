@@ -1,6 +1,6 @@
 ---
 category: Components
-type: 导航
+type: 数据录入
 title: Input
 subtitle: 输入框
 cols: 1
