@@ -7,6 +7,11 @@ export default [
     component: () => import('../../../components/AIcon/demo/index.vue'),
   },
   {
+    path: 'Input',
+    meta: {"category":"Components","type":"数据录入","title":"Input","subtitle":"输入框","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
+    component: () => import('../../../components/Input/demo/index.vue'),
+  },
+  {
     path: 'Message',
     meta: {"category":"Components","subtitle":"全局提示","cols":1,"type":"反馈","title":"Message","cover":"https://gw.alipayobjects.com/zos/alicdn/hAkKTIW0K/Message.svg"},
     component: () => import('../../../components/Message/demo/index.vue'),
