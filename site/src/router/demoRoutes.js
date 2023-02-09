@@ -3,8 +3,13 @@ export default [
   
   {
     path: 'AIcon',
-    meta: {"category":"Components","subtitle":"图标","cols":1,"type":"导航","title":"Icon"},
+    meta: {"category":"Components","subtitle":"图标","cols":1,"type":"通用","title":"Icon","cover":"https://gw.alipayobjects.com/zos/alicdn/rrwbSt3FQ/Icon.svg"},
     component: () => import('../../../components/AIcon/demo/index.vue'),
+  },
+  {
+    path: 'Message',
+    meta: {"category":"Components","subtitle":"全局提示","cols":1,"type":"反馈","title":"Message","cover":"https://gw.alipayobjects.com/zos/alicdn/hAkKTIW0K/Message.svg"},
+    component: () => import('../../../components/Message/demo/index.vue'),
   },
   {
     path: 'Pagination',
