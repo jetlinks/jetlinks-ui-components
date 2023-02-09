@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import type MarkdownIt from 'markdown-it';
 import type { RuleBlock } from 'markdown-it/lib/parser_block';
-import blockNames from 'markdown-it/lib/common/html_blocks'
-import { HTML_OPEN_CLOSE_TAG_RE } from 'markdown-it/lib/common/html_re'
-
+// import blockNames from 'markdown-it/lib/common/html_blocks'
+// import { HTML_OPEN_CLOSE_TAG_RE } from 'markdown-it/lib/common/html_re'
+const blockNames: string[] = require('markdown-it/lib/common/html_blocks');
+const HTML_OPEN_CLOSE_TAG_RE: RegExp =
+    require('markdown-it/lib/common/html_re').HTML_OPEN_CLOSE_TAG_RE;
 // Replacing the default htmlBlock rule to allow using custom components at
 // root level
 
