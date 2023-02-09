@@ -1,10 +1,10 @@
 <template>
     <div class="scroll-warp">
-        <vuescroll ref="vs" @handle-scroll="handleScroll" :ops="ops">
+        <!-- <vuescroll ref="vs" @handle-scroll="handleScroll" :ops="ops"> -->
             <div ref="scrollContent" class="scroll-content">
                 <slot></slot>
             </div>
-        </vuescroll>
+        <!-- </vuescroll> -->
     </div>
 </template>
 

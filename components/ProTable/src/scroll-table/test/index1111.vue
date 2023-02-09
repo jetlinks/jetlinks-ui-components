@@ -12,7 +12,7 @@
             <slot name="prev"></slot>
         </template>
         <template #item="{ itemData, index }">
-            <slot name="item" :itemData="itemData" :index="index"></slot>
+            <slot name="card" :itemData="itemData" :index="index"></slot>
         </template>
     </FlexListWrapper>
 </template>

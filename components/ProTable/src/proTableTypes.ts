@@ -14,6 +14,11 @@ export enum TypeEnum {
     SCROLL = 'SCROLL',
 }
 
+export enum ModelEnum {
+    TABLE = 'TABLE',
+    CARD = 'CARD',
+}
+
 export type RequestData = {
     code: string;
     result: {
@@ -23,9 +28,9 @@ export type RequestData = {
         total: number;
     };
     status: number;
-} & Record<string, any>;
+} | Record<string, any>;
 
-export interface ActionsType {
+export type ActionsType = {
     key: string;
     text?: string;
     disabled?: boolean;
@@ -37,7 +42,7 @@ export interface ActionsType {
     icon?: string;
 }
 
-interface JColumnProps extends ColumnProps {
+export interface JColumnProps extends ColumnProps {
     scopedSlots?: boolean; // 是否为插槽 true: 是 false: 否
 }
 

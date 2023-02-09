@@ -1,14 +1,14 @@
 <template>
   <ScrollWrap @onReachBottom="onReachBottom" @handleScroll="handleScroll" ref="sw" :more="more" :ops="ops">
     <div :style="{ width, ...gridStyle }" class="flex-list-wrapper">
-      <div v-if="$slots.prev" class="item-wrap">
+      <!-- <div v-if="$slots.prev" class="item-wrap">
         <slot name="prev"></slot>
-      </div>
+      </div> -->
       <div v-for="(item, index) in list"
           :key="index"
           class="item-wrap">
         <div ref="edgeItem">
-          <slot name="item" :index="index" :itemData="item">
+          <slot name="card" :index="index" :itemData="item">
             <a-card style="width: 100%">{{item}}</a-card>
           </slot>
         </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watchEffect, nextTick} from "vue";
+import {ref, watchEffect, nextTick, watch} from "vue";
 import ScrollWrap from './ScrollWrap.vue'
 const props = defineProps({
   list: {
@@ -56,22 +56,27 @@ const emit = defineEmits(['handleScroll', 'onReachBottom'])
 const gridStyle = ref({})
 const edgeItem = ref([])
 
-watchEffect(() => {
-  if (props.list.length) {
-    nextTick().then(() => {
-      if (!edgeItem.value || !edgeItem.value[0]) {
-        return
-      }
-      gridStyle.value = {
-        gridTemplateColumns: `repeat(auto-fill, ${edgeItem.value[0]?.getBoundingClientRect().width}px)`
-      }
-    })
-  } else {
-    nextTick().then(() => {
-      gridStyle.value = {}
-    })
-  }
-})
+watch(
+      () => props.list,
+      (newVal) => {
+        console.log(newVal, '123')
+          if (newVal.length) {
+            nextTick().then(() => {
+              if (!edgeItem.value || !edgeItem.value[0]) {
+                return
+              }
+              gridStyle.value = {
+                gridTemplateColumns: `repeat(auto-fill, ${edgeItem.value[0]?.getBoundingClientRect().width}px)`
+              }
+            })
+          } else {
+            nextTick().then(() => {
+              gridStyle.value = {}
+            })
+          }
+      },
+      { deep: true, immediate: true }
+  )
 
 
 const handleScroll = (e: Event) => {
