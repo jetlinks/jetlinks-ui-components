@@ -7,6 +7,9 @@ export default [
     component: () => import('../../../components/AIcon/demo/index.vue'),
   },
   {
+    path: 'Empty',
+    meta: {"category":"Components","type":"数据展示","title":"Empty","subtitle":"空状态","cover":"https://gw.alipayobjects.com/zos/alicdn/MNbKfLBVb/Empty.svg"},
+    component: () => import('../../../components/Empty/demo/index.vue'),
     path: 'Input',
     meta: {"category":"Components","type":"数据录入","title":"Input","subtitle":"输入框","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
     component: () => import('../../../components/Input/demo/index.vue'),
@@ -25,6 +28,11 @@ export default [
     path: 'Pagination',
     meta: {"category":"Components","subtitle":"分页","cols":1,"type":"导航","title":"Pagination","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
     component: () => import('../../../components/Pagination/demo/index.vue'),
+  },
+  {
+    path: 'Tree',
+    meta: {"category":"Components","type":"数据展示","title":"Tree","subtitle":"树形控件","cover":"https://gw.alipayobjects.com/zos/alicdn/Xh-oWqg9k/Tree.svg"},
+    component: () => import('../../../components/Tree/demo/index.vue'),
   },
   {
     path: 'AutoComplete',
