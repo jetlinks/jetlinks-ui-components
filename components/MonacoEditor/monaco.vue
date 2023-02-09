@@ -45,7 +45,6 @@ let instance: any;
 
 onMounted(() => {
     const model = monaco.editor.createModel(props.value, props.language);
-
     instance = monaco.editor.create(dom.value, {
         model: model,
         tabSize: 2,
