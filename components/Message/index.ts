@@ -1,6 +1,6 @@
-import { withInstall } from '../util/type'
-import Message from './message.vue'
+import { withInstall } from '../util/type';
+import Message from './demo/index.vue';
 
-export const JLMessage = withInstall(Message)
+export const JLMessage = withInstall(Message, 'JMessage');
 
-export default JLMessage
+export default JLMessage;
