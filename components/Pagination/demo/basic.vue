@@ -10,3 +10,6 @@ title: 基本
 <template>
   <j-pagination :total="100" />
 </template>
+<script>
+
+</script>
