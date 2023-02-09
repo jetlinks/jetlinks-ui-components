@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="JAutoComplete">
 import { AutoComplete } from 'ant-design-vue'
 import type { DefaultOptionType } from 'ant-design-vue/lib/vc-select/Select'
 import { autoCompleteProps } from 'ant-design-vue/lib/auto-complete'
@@ -49,4 +49,7 @@ const onSearch = (searchText: string) => {
 </script>
 
 <style scoped lang="less">
+:deep(.ant-select-selector){
+  border-radius: 6px !important;
+}
 </style>
