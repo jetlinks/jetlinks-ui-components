@@ -7,6 +7,9 @@ export default [
     component: () => import('../../../components/AIcon/demo/index.vue'),
   },
   {
+    path: 'Empty',
+    meta: {"category":"Components","type":"数据展示","title":"Empty","subtitle":"空状态","cover":"https://gw.alipayobjects.com/zos/alicdn/MNbKfLBVb/Empty.svg"},
+    component: () => import('../../../components/Empty/demo/index.vue'),
     path: 'Input',
     meta: {"category":"Components","type":"数据录入","title":"Input","subtitle":"输入框","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
     component: () => import('../../../components/Input/demo/index.vue'),
