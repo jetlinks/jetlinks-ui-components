@@ -1,17 +1,18 @@
 <template>
-    <AntdIcon class="icon" :type="props.type" />
+    <j-aIcon class="icon" :type="props.type" :scriptUrl="props.scriptUrl" />
 </template>
 
 <script lang="ts" setup>
-import { AntdIcon } from './aIcon';
+import JAIcon from './icon';
+
 const props = defineProps({
-    /**
-     * 图标(大驼峰命名) https://www.antdv.com/components/icon-cn
-     *
-     */
     type: {
         type: String,
         default: 'ZoomOutOutlined',
+    },
+    scriptUrl: {
+        type: String,
+        default: '',
     },
 });
 </script>
