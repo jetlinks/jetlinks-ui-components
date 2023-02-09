@@ -2,6 +2,11 @@
 export default [
   
   {
+    path: 'AIcon',
+    meta: {"category":"Components","subtitle":"图标","cols":1,"type":"导航","title":"Icon"},
+    component: () => import('../../../components/AIcon/demo/index.vue'),
+  },
+  {
     path: 'Input',
     meta: {"category":"Components","type":"导航","title":"Input","subtitle":"输入框","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
     component: () => import('../../../components/Input/demo/index.vue'),

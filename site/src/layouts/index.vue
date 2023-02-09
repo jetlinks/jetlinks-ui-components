@@ -5,7 +5,6 @@
       <a-col :xxxl="4" :xxl="4" :xl="5" :lg="6" :md="6" :sm="24" :xs="24" class="main-menu">
         <a-affix>
           <section class="main-menu-inner">
-            <!-- <Sponsors :is-c-n="isZhCN" /> -->
             <Menu :menus="dataSource" :active-menu-item="activeMenuItem" :is-zh-c-n="true" />
           </section>
         </a-affix>
@@ -33,23 +32,6 @@
           </a-affix>
         </section>
         <a-back-top />
-<!--        <div class="fixed-widgets" :style="{ bottom: '175px' }">-->
-<!--          <a-dropdown placement="top">-->
-<!--            <template #overlay>-->
-<!--              <a-menu-->
-<!--                :selected-keys="[themeMode.theme.value]"-->
-<!--                @click="({ key }) => themeMode.changeTheme(key)"-->
-<!--              >-->
-<!--                <a-menu-item key="default">{{ $t('app.theme.switch.default') }}</a-menu-item>-->
-<!--                <a-menu-item key="dark">{{ $t('app.theme.switch.dark') }}</a-menu-item>-->
-<!--              </a-menu>-->
-<!--            </template>-->
-<!--            <a-avatar class="fixed-widgets-avatar" :size="44">-->
-<!--              <template #icon><ThemeIcon /></template>-->
-<!--            </a-avatar>-->
-<!--          </a-dropdown>-->
-<!--        </div>-->
-<!--        <PrevAndNext :menus="menus" :current-menu-index="currentMenuIndex" :is-zh-c-n="true" />-->
 <!--        <Footer />-->
       </a-col>
     </a-row>
@@ -63,12 +45,10 @@ import { useRoute } from 'vue-router';
 import Header from './header/index.vue';
 import Footer from './Footer.vue';
 import Menu from './Menu.vue';
-import PrevAndNext from './PrevAndNext.vue';
 import Demo from './Demo.vue';
 import useMenus from '../hooks/useMenus';
 import TopAd from '../components/rice/top_rice.vue';
 import Sponsors from '../components/rice/sponsors.vue';
-// import RightBottomAd from '../components/rice/right_bottom_rice.vue';
 import { CloseOutlined, MenuOutlined, LinkOutlined } from '@ant-design/icons-vue';
 import ThemeIcon from './ThemeIcon.vue';
 
@@ -84,7 +64,6 @@ export default defineComponent({
     Header,
     Footer,
     Menu,
-    PrevAndNext,
     CloseOutlined,
     MenuOutlined,
     ThemeIcon,

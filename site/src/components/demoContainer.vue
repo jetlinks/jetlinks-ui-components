@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { marked } from 'marked';
+import marked from 'marked';
 import Prism from 'prismjs';
 // import 'prismjs/components/prism-jsx.min.js';
 // import 'prismjs/components/prism-bash.min.js';
@@ -34,7 +34,7 @@ const renderHighlight = function (str, lang) {
     return replaceDelimiters(Prism.highlight(str, Prism.languages[lang], lang));
   } catch (err) {}
 };
-const renderer = new marked.Renderer();
+const renderer = new marked.Renderer()
 renderer.heading = function (text, level) {
   return (
     '<h' + level + ' id="' + text.replace(/[^\w]+/g, '-') + '">' + text + '</h' + level + '>\n'

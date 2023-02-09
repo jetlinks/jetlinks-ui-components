@@ -3,23 +3,23 @@
     <h1>组件总览</h1>
     <section class="markdown">
       <p>
-        <code>ant-design-vue</code>
+        <code>Jetlinks UI Components</code>
         为 Web 应用提供了丰富的基础 UI 组件，我们还将持续探索企业级应用的最佳 UI 实践。
       </p>
     </section>
     <a-divider></a-divider>
-    <a-input
-      ref="inputRef"
-      v-model:value="search"
-      :placeholder="$t('app.components.overview.search')"
-      class="components-overview-search"
-      auto-focus
-    >
-      <template #suffix>
-        <SearchOutlined />
-      </template>
-    </a-input>
-    <a-divider></a-divider>
+<!--    <a-input-->
+<!--      ref="inputRef"-->
+<!--      v-model:value="search"-->
+<!--      :placeholder="$t('app.components.overview.search')"-->
+<!--      class="components-overview-search"-->
+<!--      auto-focus-->
+<!--    >-->
+<!--      <template #suffix>-->
+<!--        <SearchOutlined />-->
+<!--      </template>-->
+<!--    </a-input>-->
+<!--    <a-divider></a-divider>-->
     <template v-for="group in menuItems" :key="group.title">
       <div class="components-overview">
         <h2 class="ant-typography components-overview-group-title">
@@ -91,9 +91,9 @@ export default defineComponent({
           })
           .filter(i => i.children.length)
     });
-    onMounted(() => {
-      inputRef.value.focus();
-    });
+    // onMounted(() => {
+    //   inputRef.value.focus();
+    // });
     return {
       globalConfig,
       search,

@@ -171,21 +171,21 @@ export default defineComponent({
       }
       type.value = type.value === 'TS' ? 'JS' : 'TS';
     };
-    const handleCodeSandbox = () => {
-      const code = codeRef.value!.innerText;
-      const params = getCodeSandboxParams(code, {
-        title: `${title.value} - ant-design-vue@${packageInfo.version}`,
-      });
-      const div = document.createElement('div');
-      div.style.display = 'none';
-      div.innerHTML = `<form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
-        <input type="hidden" name="parameters" value="${params}" />
-        <input type="submit" value="Open in sandbox" />
-      </form>`;
-      document.body.appendChild(div);
-      (div.firstElementChild as HTMLFormElement).submit();
-      document.body.removeChild(div);
-    };
+    // const handleCodeSandbox = () => {
+    //   const code = codeRef.value!.innerText;
+    //   const params = getCodeSandboxParams(code, {
+    //     title: `${title.value} - ant-design-vue@${packageInfo.version}`,
+    //   });
+    //   const div = document.createElement('div');
+    //   div.style.display = 'none';
+    //   div.innerHTML = `<form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
+    //     <input type="hidden" name="parameters" value="${params}" />
+    //     <input type="submit" value="Open in sandbox" />
+    //   </form>`;
+    //   document.body.appendChild(div);
+    //   (div.firstElementChild as HTMLFormElement).submit();
+    //   document.body.removeChild(div);
+    // };
     const highlightClass = computed(() => {
       return {
         'highlight-wrapper': true,
@@ -223,7 +223,7 @@ export default defineComponent({
       sourceCode: decodeURIComponent(escape(window.atob(props.jsfiddle?.sourceCode))),
       jsSourceCode: decodeURIComponent(escape(window.atob(props.jsfiddle?.jsSourceCode))),
       codeRef,
-      handleCodeSandbox,
+      // handleCodeSandbox,
     };
   },
 });

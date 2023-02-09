@@ -6,12 +6,6 @@
         <Logo />
       </a-col>
       <a-col v-bind="colProps[1]" class="menu-row">
-<!--        <SearchBox-->
-<!--          key="search"-->
-<!--          :is-zh-c-n="true"-->
-<!--          :responsive="responsive"-->
-<!--          @triggerFocus="onTriggerSearching"-->
-<!--        />-->
         <Menu />
       </a-col>
     </a-row>
@@ -26,7 +20,6 @@ import { useRoute } from 'vue-router';
 import Logo from './Logo.vue';
 import { UnorderedListOutlined, CloseOutlined } from '@ant-design/icons-vue';
 import SearchBox from './SearchBox.vue';
-import { version } from 'ant-design-vue';
 export default defineComponent({
   components: {
     Logo,
@@ -68,27 +61,7 @@ export default defineComponent({
     const onTriggerSearching = (value: boolean) => {
       searching.value = value;
     };
-    const initDocSearch = () => {
-      window.docsearch({
-        apiKey: '92003c1d1d07beef165b08446f4224a3',
-        indexName: 'antdv',
-        inputSelector: '#search-box input',
-        algoliaOptions: { facetFilters: [`tags: 'cn' }`] },
-        transformData(hits: any[]) {
-          hits.forEach(hit => {
-            hit.url = hit.url.replace('www.antdv.com', window.location.host);
-            hit.url = hit.url.replace('https:', window.location.protocol);
-          });
-          return hits;
-        },
-        debug: false, // Set debug to true if you want to inspect the dropdown
-      });
-    };
-    onMounted(() => {
-      setTimeout(() => {
-        initDocSearch();
-      });
-    });
+
     const visibleAdblockBanner = ref(false);
     watch(globalConfig?.blocked, val => {
       visibleAdblockBanner.value = val;
