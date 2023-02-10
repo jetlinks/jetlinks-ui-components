@@ -9,5 +9,8 @@ export { default as Message } from './Message';
 export { default as Input } from './Input';
 export { default as Textarea } from './Textarea';
 export { default as MonacoEditor } from './MonacoEditor';
+export { default as Tabs, JTabPane } from './Tabs';
+export { default as Ellipsis } from './Ellipsis';
 export { default as Popconfirm } from './Popconfirm';
+export { default as Divider } from './Divider';
 export { default as Modal } from './Modal';
