@@ -41,6 +41,7 @@ cover: https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg
 | ghost | 幽灵属性，使按钮背景透明 | boolean | `false` |  |
 | href | 点击跳转的地址，指定此属性 button 的行为和 a 链接一致 | string | - |  |
 | htmlType | 设置 `button` 原生的 `type` 值，可选值请参考 [HTML 标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type) | string | `button` |  |
+| myIcon | 设置按钮的图标 | string | - |  |
 | icon | 设置按钮的图标类型 | v-slot | - |  |
 | loading | 设置按钮载入状态 | boolean \| { delay: number } | `false` |  |
 | shape | 设置按钮形状 | `default` \| `circle` \| `round` | 'default' |  |
