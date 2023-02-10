@@ -1,11 +1,12 @@
 <template>
-    <div class="costom-table-card" :style="style">
+    <div class="costom-table-card" :style="{width}">
         <div class="table-card-title">
             <span>{{ name }}</span>
         </div>
         <div
             class="table-card-status"
             :style="{ backgroundColor: getRgb(status?.color, 0.3) }"
+            v-if="status"
         >
             <Badge :color="status?.color" :text="status?.text" />
         </div>
@@ -14,7 +15,7 @@
         </div>
         <div class="table-card-btns">
             <div
-                v-for="item in actions"
+                v-for="item in actions.filter((val, index) => index < 3)"
                 :key="item.name"
                 class="card-btn"
                 @click="handleClick(item)"
@@ -63,27 +64,16 @@ const getRgb = (str: string, opacity: number): string => {
     var myred = arr[1] + arr[2];
     var mygreen = arr[3] + arr[4];
     var myblue = arr[5] + arr[6];
-    return (
-        'rgba(' +
-        parseInt(myred, 16) +
-        '' +
-        parseInt(mygreen, 16) +
-        ' , ' +
-        parseInt(myblue, 16) +
-        ' , ' +
-        opacity +
-        ')'
-    );
+    return `rgba(${parseInt(myred, 16)}, ${parseInt(mygreen, 16)}, ${parseInt(myblue, 16)}, ${opacity})`
 };
 
 const props = defineProps({
     /**
      * 卡片样式
      */
-    style: {
-        type: Object,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        default: () => {},
+    width: {
+        type: String,
+        default: '400px'
     },
     /**
      * 卡片数据，用于按钮操作传递数据
