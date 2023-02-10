@@ -9,3 +9,4 @@ export { default as Message } from './Message';
 export { default as Input} from './Input'
 export { default as Textarea} from './Textarea'
 export { default as MonacoEditor} from './MonacoEditor'
+export { default as Popconfirm} from './Popconfirm'

@@ -1,0 +1,67 @@
+<docs>
+---
+order: 1
+title: 图标按钮
+---
+  
+  ## zh-CN
+  
+  当需要在 `Button` 内嵌入 `Icon` 时，可以设置 `icon` 属性，或者直接在 `Button` 内使用 `Icon` 组件。
+  
+  如果想控制 `Icon` 具体的位置，只能直接使用 `Icon` 组件，而非 `icon` 属性。
+  
+  </docs>
+
+<template>
+    <Space>
+        <j-button type="text">
+            <j-aIcon type="ImportOutlined" />
+            导入
+        </j-button>
+        <j-button danger type="primary"> Primary </j-button>
+        <j-button danger type="icon-danger" shape="circle">
+            <template #icon>
+                <j-aIcon type="DeleteOutlined" />
+            </template>
+        </j-button>
+        <j-button type="primary">
+            <j-aIcon type="ImportOutlined" />
+            导入
+        </j-button>
+        <j-button shape="circle">
+            <j-aIcon type="SearchOutlined" />
+        </j-button>
+        <j-button>
+            <j-aIcon type="SearchOutlined" />
+            Search
+        </j-button>
+        <j-button shape="circle">
+            <j-aIcon type="SearchOutlined" />
+        </j-button>
+        <j-button>
+            <j-aIcon type="SearchOutlined" />
+            Search
+        </j-button>
+        <j-button type="dashed" shape="circle">
+            <j-aIcon type="SearchOutlined" />
+        </j-button>
+        <j-button type="dashed">
+            <j-aIcon type="SearchOutlined" />
+            Search
+        </j-button>
+        <j-button href="https://www.google.com">
+            <j-aIcon type="SearchOutlined" />
+        </j-button>
+    </Space>
+</template>
+<script lang="ts">
+import { Space } from 'ant-design-vue';
+import { SearchOutlined } from '@ant-design/icons-vue';
+export default {
+    components: {
+        SearchOutlined,
+        Space,
+    },
+};
+</script>
+<style lang="less" scoped></style>
