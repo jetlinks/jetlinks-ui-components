@@ -23,7 +23,6 @@ const props = defineProps({
 });
 
 const className = computed(() => {
-    console.log('type', props.type)
     return {
         'tag-btn': props.tag,
         'icon-danger': String(props.type) === 'icon-danger'
