@@ -32,14 +32,29 @@ export default [
     component: () => import('../../../components/Message/demo/index.vue'),
   },
   {
+    path: 'Pagination',
+    meta: {"category":"Components","subtitle":"分页","cols":1,"type":"导航","title":"Pagination","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
+    component: () => import('../../../components/Pagination/demo/index.vue'),
+  },
+  {
     path: 'MonacoEditor',
     meta: {"category":"Components","type":"数据录入","title":"MonacoEditor","subtitle":"代码编辑器","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
     component: () => import('../../../components/MonacoEditor/demo/index.vue'),
   },
   {
-    path: 'Pagination',
-    meta: {"category":"Components","subtitle":"分页","cols":1,"type":"导航","title":"Pagination","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
-    component: () => import('../../../components/Pagination/demo/index.vue'),
+    path: 'TableCard',
+    meta: {"category":"Components","subtitle":"表格卡片","cols":2,"type":"导航","title":"TableCard","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
+    component: () => import('../../../components/TableCard/demo/index.vue'),
+  },
+  {
+    path: 'Tabs',
+    meta: {"category":"Components","subtitle":"标签页","type":"数据展示","title":"Tabs","cover":"https://gw.alipayobjects.com/zos/antfincdn/lkI2hNEDr2V/Tabs.svg"},
+    component: () => import('../../../components/Tabs/demo/index.vue'),
+  },
+  {
+    path: 'Tree',
+    meta: {"category":"Components","type":"数据展示","title":"Tree","subtitle":"树形控件","cover":"https://gw.alipayobjects.com/zos/alicdn/Xh-oWqg9k/Tree.svg"},
+    component: () => import('../../../components/Tree/demo/index.vue'),
   },
   {
     path: 'Popconfirm',
@@ -56,9 +71,4 @@ export default [
     meta: {"category":"Components","subtitle":"表格卡片","cols":2,"type":"导航","title":"TableCard","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
     component: () => import('../../../components/TableCard/demo/index.vue'),
   },
-  {
-    path: 'Tree',
-    meta: {"category":"Components","type":"数据展示","title":"Tree","subtitle":"树形控件","cover":"https://gw.alipayobjects.com/zos/alicdn/Xh-oWqg9k/Tree.svg"},
-    component: () => import('../../../components/Tree/demo/index.vue'),
-  }
 ];
