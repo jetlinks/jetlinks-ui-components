@@ -12,6 +12,11 @@ export default [
     component: () => import('../../../components/AutoComplete/demo/index.vue'),
   },
   {
+    path: 'Empty',
+    meta: {"category":"Components","type":"数据展示","title":"Empty","subtitle":"空状态","cover":"https://gw.alipayobjects.com/zos/alicdn/MNbKfLBVb/Empty.svg"},
+    component: () => import('../../../components/Empty/demo/index.vue'),
+  },
+  {
     path: 'Input',
     meta: {"category":"Components","type":"数据录入","title":"Input","subtitle":"输入框","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
     component: () => import('../../../components/Input/demo/index.vue'),
@@ -37,9 +42,19 @@ export default [
     component: () => import('../../../components/ProTable/demo/index.vue'),
   },
   {
+    path: 'Popconfirm',
+    meta: {"category":"Components","type":"反馈","title":"Popconfirm","subtitle":"气泡确认框","cover":"https://gw.alipayobjects.com/zos/alicdn/fjMCD9xRq/Popconfirm.svg","cols":1},
+    component: () => import('../../../components/Popconfirm/demo/index.vue'),
+  },
+  {
     path: 'Scrollbar',
     meta: {"category":"Components","subtitle":"滚动条","cols":1,"type":"导航","title":"Scrollbar","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Scrollbar.svg"},
     component: () => import('../../../components/Scrollbar/demo/index.vue'),
+  },
+  {
+    path: 'TableCard',
+    meta: {"category":"Components","subtitle":"表格卡片","cols":2,"type":"导航","title":"TableCard","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
+    component: () => import('../../../components/TableCard/demo/index.vue'),
   },
   {
     path: 'Tree',
