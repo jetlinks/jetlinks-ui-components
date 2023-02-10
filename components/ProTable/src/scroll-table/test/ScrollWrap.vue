@@ -45,10 +45,8 @@ onMounted(() => {
 })
 
 const handleScroll = (vertical, horizontal, nativeEvent) => {
-  console.log(11111)
   if (vertical.scrollTop + nativeEvent.target.clientHeight + 5 > nativeEvent.target.scrollHeight) {
     // 触底事件
-    console.log('触底事件')
     emit('onReachBottom', nativeEvent)
   }
   // 滚动事件

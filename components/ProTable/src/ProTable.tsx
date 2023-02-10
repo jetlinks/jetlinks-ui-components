@@ -3,6 +3,7 @@ import { defineComponent, PropType, ref, watch, watchEffect } from 'vue';
 import { JColumnProps, ModelEnum, RequestData, TypeEnum } from './proTableTypes';
 import JTable from './j-table/index';
 import ScrollTable from './scroll-table/index'
+import { debounce } from 'lodash-es';
 
 export interface JProTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -104,7 +105,8 @@ const JProTable = defineComponent<JProTableProps>({
         'headerTitle', // 顶部左边插槽
         'card', // 卡片内容
         'rightExtraRender', // 顶部右边插槽
-        'paginationRender' // 分页
+        'paginationRender', // 分页
+        'prev'
     ],
     emits: [
         'cancelSelect' // 刷新数据
@@ -147,6 +149,21 @@ const JProTable = defineComponent<JProTableProps>({
                             pageIndex.value = resp.result?.pageIndex || 0
                             pageSize.value = resp.result?.pageSize || 6
                             total.value = resp.result?.total || 0
+                        }
+                    } else if(props.type === 'SCROLL'){
+                        const obj = Array.isArray(resp.result) ? resp.result[0] : resp.result
+                        if(obj) {
+                            // Object.keys(obj).forEach(key => {
+                            //     dataSource[key] = obj[key]
+                            // })
+                            // if(props.params) {
+                            //     _dataSource.value = [...obj.data]
+                            // } else {
+                                _dataSource.value = [..._dataSource.value, ...obj.data]
+                                pageIndex.value = resp.result?.pageIndex || 0
+                                pageSize.value = resp.result?.pageSize || 6
+                                total.value = resp.result?.total || 0
+                            // }
                         }
                     } else {
                         _dataSource.value = resp?.result || []
@@ -194,6 +211,14 @@ const JProTable = defineComponent<JProTableProps>({
             })
         }
 
+        const onReachBottom = debounce(() => {
+            console.log(123)
+            if (total.value > _dataSource.value.length) {
+              pageIndex.value += 1
+              handleSearch({...props.params, pageIndex: pageIndex.value})
+            }
+          }, 1000)
+
         /**
          * 导出方法
          */
@@ -224,6 +249,7 @@ const JProTable = defineComponent<JProTableProps>({
                 total={total.value}
                 loading={loading.value}
                 dataSource={_dataSource.value}
+                onReachBottom={onReachBottom}
             >
                 {{...slots}}
             </ScrollTable>
