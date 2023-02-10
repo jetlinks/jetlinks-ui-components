@@ -27,7 +27,7 @@ export default {
     md(),
     vue({
       include: [/\.vue$/, /\.md$/],
-    }),
+    })
   ],
   optimizeDeps: {
     include: [
@@ -40,6 +40,7 @@ export default {
       less: {
         modifyVars: {
           'root-entry-name': 'variable',
+          '@primary-color': '#315EFB',
         },
         javascriptEnabled: true,
         // includePaths: ["node_modules/"],
