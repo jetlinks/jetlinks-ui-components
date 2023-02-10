@@ -40,6 +40,11 @@ export default [
     component: () => import('../../../components/Pagination/demo/index.vue'),
   },
   {
+    path: 'Select',
+    meta: {"category":"Components","subtitle":"选择器","type":"数据录入","cols":2,"title":"Select","cover":"https://gw.alipayobjects.com/zos/alicdn/qtJm4yt45/AutoComplete.svg"},
+    component: () => import('../../../components/Select/demo/index.vue'),
+  },
+  {
     path: 'Popconfirm',
     meta: {"category":"Components","type":"反馈","title":"Popconfirm","subtitle":"气泡确认框","cover":"https://gw.alipayobjects.com/zos/alicdn/fjMCD9xRq/Popconfirm.svg","cols":1},
     component: () => import('../../../components/Popconfirm/demo/index.vue'),
