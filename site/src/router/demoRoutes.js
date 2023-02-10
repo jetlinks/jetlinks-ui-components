@@ -12,6 +12,11 @@ export default [
     component: () => import('../../../components/AutoComplete/demo/index.vue'),
   },
   {
+    path: 'Ellipsis',
+    meta: {"category":"Components","title":"Ellipsis","subtitle":"文本省略","cover":"https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original","cols":2,"type":"布局","order":3},
+    component: () => import('../../../components/Ellipsis/demo/index.vue'),
+  },
+  {
     path: 'Empty',
     meta: {"category":"Components","type":"数据展示","title":"Empty","subtitle":"空状态","cover":"https://gw.alipayobjects.com/zos/alicdn/MNbKfLBVb/Empty.svg"},
     component: () => import('../../../components/Empty/demo/index.vue'),
