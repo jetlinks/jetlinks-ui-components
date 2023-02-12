@@ -13,10 +13,12 @@ title: 远程加载数据
     :request="query"
     :params="{}"
     :defaultParams="{}"
+    ref="instanceRef"
   >
+    <template #headerTitle><a-button type="primary" @click="refresh">刷新页面</a-button></template>
     <template #card="slotProps">
       <div style="width: 100%">
-        <a-card style="width: 100%" :title="slotProps?.name" hoverable>
+        <a-card style="width: 100%" :title="slotProps?.name + slotProps?.key" hoverable>
           <p>年龄： {{slotProps?.age}}</p>
           <p>{{slotProps?.address}}</p>
         </a-card>
@@ -28,7 +30,7 @@ title: 远程加载数据
 
 <script lang="ts">
 import { random } from 'lodash';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 const columns = [
   {
@@ -47,6 +49,8 @@ const columns = [
     key: 'address',
   }
 ];
+
+const instanceRef = ref<Record<string, any>>({});
 
 const query = (params: Record<string, any>) => new Promise((resolve) => {
   const data = Array(100).fill(1).map((item, index) => {
@@ -70,14 +74,20 @@ const query = (params: Record<string, any>) => new Promise((resolve) => {
       status: 200
       
     })
-  }, 2000)
+  }, 1000)
 })
+
+const refresh = () =>  {
+  instanceRef.value?.reload();
+}
 
 export default defineComponent({
   setup() {
     return {
       query,
       columns,
+      refresh,
+      instanceRef
     };
   },
 });

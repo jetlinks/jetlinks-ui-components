@@ -1,37 +1,40 @@
 <template>
-    <div class="scroll-warp">
-        <vuescroll ref="vs" @handle-scroll="handleScroll" :ops="ops">
-            <div ref="scrollContent" class="scroll-content">
-                <slot></slot>
-            </div>
-        </vuescroll>
-    </div>
+  <div class="scroll-wrap">
+    <vueScroll ref="vs" @handle-scroll="handleScroll" :ops="ops">
+      <div ref="scrollContent" class="scroll-content">
+        <slot></slot>
+      </div>
+    </vueScroll>
+    <div @click="getMore" v-if="more" class="more">查看更多</div>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { ref, defineProps, onMounted, nextTick } from "vue"
-import vuescroll from 'vuescroll'
+<script setup>
+import {onMounted, nextTick, ref} from 'vue'
 const props = defineProps({
-    ops: {
-        type: Object,
-        default: () => {
-            return {
-                scrollPanel: {
-                    scrollingX: false
-                },
-                bar: {
-                    background: '#e9ebed',
-                    size: '4px'
-                }
-            }
+  more: { // 是否有下一页
+    type: Boolean,
+    default: false
+  },
+  ops: { // 滚动条样式
+    type: Object,
+    default: () => {
+      return {
+        scrollPanel: {
+          scrollingX: false
+        },
+        bar: {
+          background: '#c1c1c1',
+          size: '4px'
         }
+      }
     }
+  },
 })
-
 const scrollContent = ref()
 const vs = ref()
 
-const emit = defineEmits(['handleScroll', 'onReachBottom'])
+const emit = defineEmits(['handleScroll', 'reachBottom'])
 
 onMounted(() => {
   const config = { attributes: true, childList: true, subtree: true }
@@ -45,33 +48,48 @@ onMounted(() => {
 })
 
 const handleScroll = (vertical, horizontal, nativeEvent) => {
-  console.log(11111)
   if (vertical.scrollTop + nativeEvent.target.clientHeight + 5 > nativeEvent.target.scrollHeight) {
     // 触底事件
-    console.log('触底事件')
-    emit('onReachBottom', nativeEvent)
+    emit('reachBottom', nativeEvent)
   }
   // 滚动事件
   emit('handleScroll', nativeEvent)
 }
+const scrollToTop = (delay = 10) => {
+  vs.value.scrollTo(
+      {
+        y: '0%'
+      },
+      delay
+  )
+}
+const scrollIntoView = (id, time = 300) => {
+  vs.value.scrollIntoView(id, time)
+}
 
+const getMore = () => {
+  /**
+   * 触底事件
+   */
+  emit('reachBottom')
+}
 const needGetMore = () => {
   setTimeout(() => {
     if (vs.value) {
       const isScroll = vs.value.$el.className.includes('hasVBar')
-      if (isScroll === false) {
-        emit('onReachBottom')
+      if (isScroll === false && props.more) {
+        getMore()
       }
     }
   }, 100)
 }
-
 </script>
-
 
 <style scoped lang="less">
 .scroll-wrap {
   height: 100%;
+  //overflow: hidden;
+  //margin-right: -4px;
 
   .scroll-content {
     padding-right: 4px;

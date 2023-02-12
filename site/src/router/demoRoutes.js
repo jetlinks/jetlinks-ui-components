@@ -37,14 +37,14 @@ export default [
     component: () => import('../../../components/Pagination/demo/index.vue'),
   },
   {
-    path: 'ProTable',
-    meta: {"category":"Components","subtitle":"表格","cols":1,"type":"导航","title":"ProTable","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
-    component: () => import('../../../components/ProTable/demo/index.vue'),
-  },
-  {
     path: 'Popconfirm',
     meta: {"category":"Components","type":"反馈","title":"Popconfirm","subtitle":"气泡确认框","cover":"https://gw.alipayobjects.com/zos/alicdn/fjMCD9xRq/Popconfirm.svg","cols":1},
     component: () => import('../../../components/Popconfirm/demo/index.vue'),
+  },
+  {
+    path: 'ProTable',
+    meta: {"category":"Components","subtitle":"表格","cols":1,"type":"导航","title":"ProTable","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
+    component: () => import('../../../components/ProTable/demo/index.vue'),
   },
   {
     path: 'Scrollbar',

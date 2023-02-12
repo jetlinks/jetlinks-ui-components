@@ -137,9 +137,9 @@ const JTable = defineComponent<JTableProps>({
             window.onresize = null
         })
 
-        watchEffect(() => {
-            console.log(props)
-        })
+        // watchEffect(() => {
+        //     console.log(props)
+        // })
 
         return () => <Spin spinning={props.loading}>
             <div class={styles["jtable-body"]} style={{ ...props.bodyStyle }}>

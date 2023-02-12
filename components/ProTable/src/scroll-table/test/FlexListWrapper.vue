@@ -1,16 +1,14 @@
 <template>
   <ScrollWrap @onReachBottom="onReachBottom" @handleScroll="handleScroll" ref="sw" :more="more" :ops="ops">
     <div :style="{ width, ...gridStyle }" class="flex-list-wrapper">
-      <!-- <div v-if="$slots.prev" class="item-wrap">
+      <div v-if="$slots.prev" class="item-wrap">
         <slot name="prev"></slot>
-      </div> -->
+      </div>
       <div v-for="(item, index) in list"
           :key="index"
           class="item-wrap">
         <div ref="edgeItem">
-          <slot name="card" :index="index" :itemData="item">
-            <a-card style="width: 100%">{{item}}</a-card>
-          </slot>
+          <slot name="card" :index="index" :slotProps="item"></slot>
         </div>
       </div>
     </div>

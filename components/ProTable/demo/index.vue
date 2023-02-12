@@ -1,9 +1,9 @@
 <template>
   <demo-sort :cols="1">
+    <Scroll />
     <Basic />
     <Promise />
     <Selection />
-    <Scroll />
   </demo-sort>
 </template>
 <script lang="ts">

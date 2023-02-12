@@ -54,14 +54,15 @@ const handleScroll = (vertical, horizontal, nativeEvent) => {
 }
 
 const needGetMore = () => {
-  setTimeout(() => {
-    if (vs.value) {
-      const isScroll = vs.value.$el.className.includes('hasVBar')
-      if (isScroll === false) {
-        emit('onReachBottom')
-      }
-    }
-  }, 100)
+  console.log('111111111')
+  // setTimeout(() => {
+  //   if (vs.value) {
+  //     const isScroll = vs.value.$el.className.includes('hasVBar')
+  //     if (isScroll === false) {
+  //       emit('onReachBottom')
+  //     }
+  //   }
+  // }, 100)
 }
 
 </script>

@@ -1,9 +1,18 @@
-.flex-list-wrapper {
+.scroll-wrap {
+  height: 100%;
+
+  .scroll-content {
+    padding-right: 4px;
+    padding-bottom: 24px;
+  }
+
+  .flex-list-wrapper {
     display: grid;
     justify-content: start;
     grid-gap: 24px 24px;
   
     .item-wrap {
+      max-width: 225px;
       position: relative;
       display: inline-flex;
       flex-direction: column;
@@ -11,3 +20,11 @@
       cursor: pointer;
     }
   }
+
+  .more {
+    text-align: center;
+    color: #a19f9d;
+    cursor: pointer;
+    margin-top: 24px;
+  }
+}

@@ -2,7 +2,7 @@ import type { TableProps } from 'ant-design-vue/es/table'
 import { defineComponent, PropType, ref, watch, watchEffect } from 'vue';
 import { JColumnProps, ModelEnum, RequestData, TypeEnum } from './proTableTypes';
 import JTable from './j-table/index';
-import ScrollTable from './scroll-table/index'
+import ScrollTable from './scroll-table/test/index.vue'
 import { debounce } from 'lodash-es';
 
 export interface JProTableProps extends TableProps {
@@ -211,13 +211,13 @@ const JProTable = defineComponent<JProTableProps>({
             })
         }
 
-        const onReachBottom = debounce(() => {
-            console.log(123)
+        const onReachBottom = () => {
+            console.log('onReachBottom', props.params)
             if (total.value > _dataSource.value.length) {
               pageIndex.value += 1
               handleSearch({...props.params, pageIndex: pageIndex.value})
             }
-          }, 1000)
+          }
 
         /**
          * 导出方法

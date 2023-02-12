@@ -12,14 +12,14 @@ title: 可选择
     :columns="columns" 
     :data-source="data" 
     :rowSelection="{
-        selectedRowKeys: _selectedRowKeys,
+        selectedRowKeys: selectedKeys,
         onChange: onSelectChange,
     }"
     :noPagination="true"
     @cancelSelect="cancelSelect"
   >
     <template #card="slotProps">
-      <div style="width: 100%" :style="{border: `1px solid ${_selectedRowKeys.includes(slotProps.key) ? 'red' : 'lightgray'}`}">
+      <div style="width: 100%" :style="{border: `1px solid ${selectedKeys.includes(slotProps.key) ? 'red' : 'lightgray'}`}">
         <a-card hoverable @click="handleClick(slotProps)" style="width: 100%">{{slotProps?.name + slotProps.key}}</a-card>
       </div>
     </template>
@@ -58,22 +58,22 @@ const data = Array(10).fill(1).map((item, index) => {
   }
 })
 
-const _selectedRowKeys = ref<string[]>([]);
+const selectedKeys = ref<string[]>([]);
 
 const onSelectChange = (keys: string[]) => {
-    _selectedRowKeys.value = [...keys];
+    selectedKeys.value = [...keys];
 };
 
 const cancelSelect = () => {
-    _selectedRowKeys.value = [];
+    selectedKeys.value = [];
 };
 
 const handleClick = (dt: any) => {
-    if (_selectedRowKeys.value.includes(dt.key)) {
-        const _index = _selectedRowKeys.value.findIndex((i) => i === dt.key);
-        _selectedRowKeys.value.splice(_index, 1);
+    if (selectedKeys.value.includes(dt.key)) {
+        const _index = selectedKeys.value.findIndex((i) => i === dt.key);
+        selectedKeys.value.splice(_index, 1);
     } else {
-        _selectedRowKeys.value = [..._selectedRowKeys.value, dt.key];
+        selectedKeys.value = [...selectedKeys.value, dt.key];
     }
 };
 
@@ -82,7 +82,7 @@ export default defineComponent({
     return {
       data,
       columns,
-      _selectedRowKeys,
+      selectedKeys,
       onSelectChange,
       cancelSelect,
       handleClick

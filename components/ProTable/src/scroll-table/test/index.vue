@@ -11,8 +11,8 @@
         <template #prev v-if="$slots.prev">
             <slot name="prev"></slot>
         </template>
-        <template #item="{ itemData, index }">
-            <slot name="card" :itemData="itemData" :index="index"></slot>
+        <template #card="{ slotProps, index }">
+            <slot name="card" :slotProps="slotProps" :index="index"></slot>
         </template>
     </FlexListWrapper>
 </template>
@@ -32,10 +32,10 @@ const props = withDefaults(defineProps<ScrollTableProps>(), {
 });
 
 const emit = defineEmits<{
-    (e: 'onReachBottom'): void;
+    (e: 'reachBottom'): void;
 }>();
 
 const onReachBottom = () => {
-    emit('onReachBottom');
+    emit('reachBottom');
 };
 </script>
