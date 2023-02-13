@@ -16,6 +16,6 @@ cover: https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg
 | name | 卡片标题 | string | - |  |
 | width | 卡片高度 | string | 400px |  |
 | content | 卡片内容插槽 | slot | - |  |
-| actions | 卡片下方按钮，最多显示三个按钮 ，按钮图标引用ICON组件，可自定义 | object[] | - |  |
-| moreActions| 卡片隐藏按钮 | object[] | - |  |
-| status | 卡片右上角状态 | object | - |   |
+| actions | 卡片下方按钮，最多显示三个按钮 ，按钮图标引用ICON组件，可自定义 |  []{name: string, icon: string, key: string, disabled: string, onClick: Function} | - |  |
+| moreActions| 卡片隐藏按钮 | 同actions | - |  |
+| status | 卡片右上角状态 | {text: string, value: string, color: string} | - |   |
