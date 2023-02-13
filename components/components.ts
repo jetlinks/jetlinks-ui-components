@@ -1,6 +1,7 @@
-export { default as Pagination } from './Pagination';
-export { default as TableCard } from './TableCard';
-export { default as Scrollbar } from './Scrollbar';
+export { default as Pagination} from './Pagination'
+export { default as ProTable} from './ProTable'
+export { default as TableCard} from './TableCard'
+export { default as Scrollbar} from './Scrollbar'
 export { default as AIcon } from './AIcon';
 export { default as Select, JLSelectOptGroup, JLSelectOption } from './Select';
 export { default as Empty } from './Empty';
