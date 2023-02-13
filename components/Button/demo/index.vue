@@ -1,18 +1,18 @@
 <template>
-    <demo-sort>
+    <demo-sort :cols="1">
         <Basic />
-        <Optgroup />
+        <Icon />
     </demo-sort>
 </template>
 <script lang="ts">
 import Basic from './basic.vue';
-import Optgroup from './optgroup.vue';
+import Icon from './icon.vue';
 import CN from '../index.md';
 export default {
     CN,
     components: {
         Basic,
-        Optgroup
+        Icon
     },
 };
 </script>

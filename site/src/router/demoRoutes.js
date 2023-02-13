@@ -2,6 +2,16 @@
 export default [
   
   {
+    path: 'AIcon',
+    meta: {"category":"Components","subtitle":"图标","cols":1,"type":"通用","title":"Icon","cover":"https://gw.alipayobjects.com/zos/alicdn/rrwbSt3FQ/Icon.svg"},
+    component: () => import('../../../components/AIcon/demo/index.vue'),
+  },
+  {
+    path: 'Button',
+    meta: {"category":"Components","type":"通用","title":"Button","subtitle":"按钮","cover":"https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg"},
+    component: () => import('../../../components/Button/demo/index.vue'),
+  },
+  {
     path: 'AutoComplete',
     meta: {"category":"Components","subtitle":"自动完成","type":"数据录入","cols":2,"title":"AutoComplete","cover":"https://gw.alipayobjects.com/zos/alicdn/qtJm4yt45/AutoComplete.svg"},
     component: () => import('../../../components/AutoComplete/demo/index.vue'),
@@ -10,11 +20,6 @@ export default [
     path: 'Divider',
     meta: {"category":"Components","title":"Divider","subtitle":"分割线","cover":"https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original","cols":2,"type":"布局","order":2},
     component: () => import('../../../components/Divider/demo/index.vue'),
-  },
-  {
-    path: 'AIcon',
-    meta: {"category":"Components","subtitle":"图标","cols":1,"type":"通用","title":"Icon","cover":"https://gw.alipayobjects.com/zos/alicdn/rrwbSt3FQ/Icon.svg"},
-    component: () => import('../../../components/AIcon/demo/index.vue'),
   },
   {
     path: 'Empty',
@@ -52,6 +57,11 @@ export default [
     component: () => import('../../../components/Pagination/demo/index.vue'),
   },
   {
+    path: 'Select',
+    meta: {"category":"Components","subtitle":"选择器","type":"数据录入","cols":2,"title":"Select","cover":"https://gw.alipayobjects.com/zos/alicdn/qtJm4yt45/AutoComplete.svg"},
+    component: () => import('../../../components/Select/demo/index.vue'),
+  },
+  {
     path: 'Popconfirm',
     meta: {"category":"Components","type":"反馈","title":"Popconfirm","subtitle":"气泡确认框","cover":"https://gw.alipayobjects.com/zos/alicdn/fjMCD9xRq/Popconfirm.svg","cols":1},
     component: () => import('../../../components/Popconfirm/demo/index.vue'),
@@ -78,7 +88,7 @@ export default [
   },
   {
     path: 'TableCard',
-    meta: {"category":"Components","subtitle":"表格卡片","cols":2,"type":"导航","title":"TableCard","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
+    meta: {"category":"Components","subtitle":"表格卡片","cols":1,"type":"数据展示","title":"TableCard","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
     component: () => import('../../../components/TableCard/demo/index.vue'),
   },
   {
