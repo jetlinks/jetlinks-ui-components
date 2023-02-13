@@ -19,3 +19,4 @@ export { default as Modal } from './Modal';
 export { default as Descriptions, JDescriptionsItem } from './Descriptions'
 export { default as Button} from './Button'
 export { default as Result } from './Result';
+export { default as ProLayout, PageContainer} from './ProLayout'
