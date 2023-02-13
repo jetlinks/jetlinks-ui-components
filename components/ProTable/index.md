@@ -2,7 +2,7 @@
 category: Components
 subtitle: 表格
 cols: 1
-type: 导航
+type: 高阶组件
 title: ProTable
 cover: https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg
 ---
