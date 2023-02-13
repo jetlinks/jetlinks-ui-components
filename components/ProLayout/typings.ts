@@ -59,15 +59,9 @@ export type WithFalse<T> = T | false;
 
 export type FormatMessage = (message?: string) => string;
 
-
-
-// Custom render or slot
-export type DefaultPropRender = WithFalse<VueNode>;
-
 export type BreadcrumbRender = BreadcrumbProps['itemRender'];
 export type HeaderContentRender = WithFalse<() => VueNode>;
 export type HeaderRender = WithFalse<(props: ProProps) => VueNode>;
-export type FooterRender = WithFalse<(props: ProProps) => VueNode>;
 export type RightContentRender = WithFalse<(props: ProProps) => VueNode>;
 export type MenuItemRender = WithFalse<
     (args: { item: MenuDataItem; title?: JSX.Element; icon?: JSX.Element }) => VueNode
@@ -75,11 +69,9 @@ export type MenuItemRender = WithFalse<
 export type SubMenuItemRender = WithFalse<(args: { item: MenuDataItem; children?: VueNode[] }) => VueNode>;
 export type MenuHeaderRender = WithFalse<(logo: VueNode, title: VueNode, props?: ProProps) => VueNode>;
 export type MenuContentRender = WithFalse<(props: ProProps, defaultDom: VueNode) => VueNode>;
-export type MenuFooterRender = WithFalse<(props?: ProProps) => VueNode>;
 export type MenuExtraRender = WithFalse<(props?: ProProps) => VueNode>;
 export type LogoRender = WithFalse<VueNode>;
 
 export type CollapsedButtonRender = WithFalse<(collapsed?: boolean) => VueNode>;
-
+export type DefaultPropRender = WithFalse<VueNode>;
 export type PageHeaderRender = WithFalse<(props?: ProProps) => VueNode>;
-

@@ -5,7 +5,6 @@ import type {
     WithFalse,
     HeaderRender,
     RightContentRender,
-    MenuFooterRender,
     CollapsedButtonRender,
     MenuExtraRender,
     SubMenuItemRender,
@@ -223,7 +222,6 @@ export default defineComponent({
             const menuHeaderRender = getSlot<MenuHeaderRender>(slots, props, 'menuHeaderRender');
             const menuExtraRender = getSlot<MenuExtraRender>(slots, props, 'menuExtraRender');
             const menuContentRender = getSlot<MenuContentRender>(slots, props, 'menuContentRender');
-            const menuFooterRender = getSlot<MenuFooterRender>(slots, props, 'menuFooterRender');
             const menuItemRender = getSlot<MenuItemRender>(slots, props, 'menuItemRender');
             const subMenuItemRender = getSlot<SubMenuItemRender>(slots, props, 'subMenuItemRender');
 
@@ -260,6 +258,7 @@ export default defineComponent({
                     [`${baseClassName.value}-content-disable-margin`]: props.disableContentMargin,
                 };
             });
+            console.log('isTop.value', isTop.value)
 
             return (
                 <>

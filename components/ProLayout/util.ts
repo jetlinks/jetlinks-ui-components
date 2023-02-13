@@ -6,7 +6,7 @@ export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): Rout
     return menusData
         .map((item: RouteRecord | RouteRecordRaw) => {
             const finalItem = { ...item };
-            if (!finalItem.name || finalItem.meta?.hideInMenu) {
+            if (finalItem.meta?.hideInMenu) {
                 return null;
             }
 
@@ -54,4 +54,11 @@ export function getSlot<T>(slots: Slots, props: Record<string, unknown>, prop = 
         return false;
     }
     return (props[prop] || slots[prop]) as T;
+}
+
+export function getSlotVNode<T>(slots: Slots, props: Record<string, unknown>, prop = 'default'): T | false {
+    if (props[prop] === false) {
+        return false;
+    }
+    return (props[prop] || slots[prop]?.()) as T;
 }

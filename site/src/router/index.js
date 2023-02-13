@@ -20,6 +20,29 @@ const routes = [
       ...demoRoutes,
     ],
   },
+  {
+    path: '/iframe',
+    component: Iframe,
+    children: [
+      {
+        path: 'layout',
+        meta: {
+          category: 'Components',
+          subtitle: '布局',
+          type: '布局',
+          cols: 1,
+          title: 'layout',
+          cover: 'https://gw.alipayobjects.com/zos/alicdn/hzEndUVEx/Layout.svg',
+        },
+        props: route => {
+          const hash = route.hash.replace('#', '');
+          console.log('hash',hash)
+          return { iframeName: hash };
+        },
+        component: () => import('../../../components/ProLayout/demo/index.vue'),
+      },
+    ],
+  },
   { path: '/', redirect: '/components/overview' },
 ];
 

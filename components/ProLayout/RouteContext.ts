@@ -43,7 +43,7 @@ export interface RouteContextProps extends Partial<DefaultSettingProps>, MenuSta
     [key: string]: any;
 }
 
-export const defaultPrefixCls = 'jetlinks';
+export const defaultPrefixCls = 'ant-pro';
 
 export const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
     if (customizePrefixCls) return customizePrefixCls;

@@ -57,6 +57,7 @@ export default defineComponent({
         });
 
         const renderContent = () => {
+            console.log('renderContent', clearMenuData.value)
             const defaultDom = (
                 <TopNavHeader
                     mode="horizontal"

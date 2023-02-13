@@ -171,6 +171,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
     if (hasSplitMenu.value && unref(context.flatMenuData).length === 0) {
         return null;
     }
+    console.log('sider', context.menuData)
     const defaultMenuDom = (
         <BaseMenu
             prefixCls={getPrefixCls()}

@@ -4,7 +4,14 @@
   </template>
   <section v-else :id="sectionId" class="code-box">
     <section class="code-box-demo">
-      <slot />
+      <template v-if="iframeDemo[iframeDemoKey]">
+        <div class="browser-mockup with-url">
+          <iframe :src="iframeDemo[iframeDemoKey]" :height="iframeHeight" />
+        </div>
+      </template>
+      <template v-else>
+        <slot />
+      </template>
     </section>
     <section class="code-box-meta markdown">
       <div class="code-box-title">
@@ -108,7 +115,6 @@ export default defineComponent({
       const relativePath = props.jsfiddle?.relativePath || '';
       return `${relativePath.split('/').join('-').replace('.vue', '')}`;
     });
-    console.log('sectionId',sectionId.value)
     const inIframe = inject('inIframe', false);
     const iframeHeight = computed(() => props.jsfiddle?.iframe);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -124,14 +130,13 @@ export default defineComponent({
 
     };
     const iframeDemoKey = computed(() => {
+      console.log(props.jsfiddle)
       return (
         props.jsfiddle &&
-        props.jsfiddle.title &&
-        props.jsfiddle?.title['en-US'] &&
-        String(props.jsfiddle?.title['en-US']).split(' ').join('-').toLowerCase()
+        props.jsfiddle.title && props.jsfiddle.iframeName
       );
     });
-    console.log('iframeDemoKey', iframeDemoKey.value)
+
     const onCopyTooltipVisibleChange = (visible: boolean) => {
       if (visible) {
         copyTooltipVisible.value = visible;
@@ -199,6 +204,7 @@ export default defineComponent({
         title,
       });
     });
+
     const theme = computed(() => inject('themeMode', { theme: ref('default') }).theme.value);
     return {
       docHtml,

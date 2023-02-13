@@ -38,7 +38,7 @@ export default [
   },
   {
     path: 'ProLayout',
-    meta: {"category":"Components","subtitle":"pro-layout","cols":1,"type":"高阶组件","title":null,"cover":null},
+    meta: {"category":"Components","subtitle":"ProLayout","cols":1,"type":"高阶组件","iframeName":"ProLayout","title":null,"cover":null},
     component: () => import('../../../components/ProLayout/demo/index.vue'),
   },
   {
