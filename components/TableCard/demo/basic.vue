@@ -31,7 +31,7 @@ title: 基本用法
 
       const actions = reactive([
         {name: '按钮1', icon: 'EditOutlined', onClick: () => {}},
-        {name: '按钮2', icon: 'StopOutlined', onClick: () => {}},
+        {name: '按钮2', onClick: () => {}},
       ])
       return {
         status,

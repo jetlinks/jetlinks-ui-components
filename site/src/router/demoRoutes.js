@@ -62,9 +62,14 @@ export default [
     component: () => import('../../../components/Tree/demo/index.vue'),
   },
   {
-    path: 'Popconfirm',
-    meta: {"category":"Components","type":"反馈","title":"Popconfirm","subtitle":"气泡确认框","cover":"https://gw.alipayobjects.com/zos/alicdn/fjMCD9xRq/Popconfirm.svg","cols":1},
-    component: () => import('../../../components/Popconfirm/demo/index.vue'),
+    path: 'Tree',
+    meta: {"category":"Components","type":"数据展示","title":"Tree","subtitle":"树形控件","cover":"https://gw.alipayobjects.com/zos/alicdn/Xh-oWqg9k/Tree.svg"},
+    component: () => import('../../../components/Tree/demo/index.vue'),
+  },
+  {
+    path: 'AutoComplete',
+    meta: {"category":"Components","subtitle":"自动完成","type":"数据录入","cols":2,"title":"AutoComplete","cover":"https://gw.alipayobjects.com/zos/alicdn/qtJm4yt45/AutoComplete.svg"},
+    component: () => import('../../../components/AutoComplete/demo/index.vue'),
   },
   {
     path: 'Scrollbar',
@@ -73,7 +78,7 @@ export default [
   },
   {
     path: 'TableCard',
-    meta: {"category":"Components","subtitle":"表格卡片","cols":2,"type":"导航","title":"TableCard","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
+    meta: {"category":"Components","subtitle":"表格卡片","cols":1,"type":"数据展示","title":"TableCard","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg"},
     component: () => import('../../../components/TableCard/demo/index.vue'),
   },
 ];
