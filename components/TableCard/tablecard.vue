@@ -1,20 +1,21 @@
 <template>
-    <div class="costom-table-card" :style="style">
+    <div class="costom-table-card" :style="{width}">
         <div class="table-card-title">
             <span>{{ name }}</span>
         </div>
         <div
             class="table-card-status"
-            :style="{ backgroundColor: getRgb(status?.color, 0.3) }"
-        >
-            <Badge :color="status?.color" :text="status?.text" />
+            :style="{ backgroundColor: status.color ? getRgb(status.color, 0.3) : getRgb(StatusType[status.value], 0.3)}"
+            v-if="status"
+        >   
+            <Badge :color="status?.color ? status?.color : StatusType[status.value]" :text="status?.text" />
         </div>
         <div class="table-card-content">
             <slot name="content"></slot>
         </div>
         <div class="table-card-btns">
             <div
-                v-for="item in actions"
+                v-for="item in actions.filter((val, index) => index < 3)"
                 :key="item.name"
                 class="card-btn"
                 @click="handleClick(item)"
@@ -22,7 +23,7 @@
                 <Button type="link" :disabled="item.disabled">
                     {{ item.name }}
                     <template #icon>
-                        <JLAIcon :type="item.icon"></JLAIcon>
+                        <JLAIcon :type="item.icon" v-if="item.icon"></JLAIcon>
                     </template>
                 </Button>
             </div>
@@ -41,7 +42,7 @@
                             class="card-popover-item"
                             @click="handleClick(item)"
                         >
-                            <JLAIcon :type="item.icon"></JLAIcon>
+                        <JLAIcon :type="item.icon" v-if="item.icon"></JLAIcon>
                             <span>{{ item.name }}</span>
                         </div>
                     </template>
@@ -56,41 +57,22 @@ import './style/index.less';
 import { Badge, Button, Popover } from 'ant-design-vue';
 import { ref } from 'vue';
 import type { PropType } from 'vue';
-import type { ActionType } from './tablecardType';
+import { ActionType, StatusType } from './tablecardType';
 import JLAIcon from '../AIcon';
-const getRgb = (str: string, opacity: number): string => {
-    var arr = str.split('');
-    var myred = arr[1] + arr[2];
-    var mygreen = arr[3] + arr[4];
-    var myblue = arr[5] + arr[6];
-    return (
-        'rgba(' +
-        parseInt(myred, 16) +
-        '' +
-        parseInt(mygreen, 16) +
-        ' , ' +
-        parseInt(myblue, 16) +
-        ' , ' +
-        opacity +
-        ')'
-    );
-};
 
 const props = defineProps({
     /**
      * 卡片样式
      */
-    style: {
-        type: Object,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        default: () => {},
+    width: {
+        type: String,
+        default: '400px'
     },
     /**
      * 卡片数据，用于按钮操作传递数据
      */
     cardData: {
         type: Object,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         default: () => {},
     },
     /**
@@ -105,7 +87,6 @@ const props = defineProps({
      */
     status: {
         type: Object,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         default: () => {},
     },
     /**
@@ -120,6 +101,17 @@ const props = defineProps({
         default: () => [],
     },
 });
+
+const getRgb = (str: string, opacity: number): string => {
+    if(!str) {
+        return
+    }
+    var arr = str.split('');
+    var myred = arr[1] + arr[2];
+    var mygreen = arr[3] + arr[4];
+    var myblue = arr[5] + arr[6];
+    return `rgba(${parseInt(myred, 16)}, ${parseInt(mygreen, 16)}, ${parseInt(myblue, 16)}, ${opacity})`
+};
 
 const visible = ref(false);
 const handleClick = (item: ActionType) => {
