@@ -2,8 +2,9 @@ import type { TableProps } from 'ant-design-vue/es/table'
 import { defineComponent, PropType, ref, watch, watchEffect } from 'vue';
 import { JColumnProps, ModelEnum, RequestData, TypeEnum } from './proTableTypes';
 import JTable from './j-table/index';
-import ScrollTable from './scroll-table/test/index.vue'
+import ScrollTable from './scroll-table/index'
 import { debounce } from 'lodash-es';
+import { Spin } from "ant-design-vue";
 
 export interface JProTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -13,7 +14,7 @@ export interface JProTableProps extends TableProps {
     model?: keyof typeof ModelEnum | undefined; // 显示table还是card
     noPagination?: boolean;
     rowSelection?: TableProps['rowSelection'];
-    cardProps?: Record<string, any>;
+    // cardProps?: Record<string, any>;
     dataSource?: Record<string, any>[];
     gridColumn?: number;
     /**
@@ -27,6 +28,12 @@ export interface JProTableProps extends TableProps {
     type?: keyof typeof TypeEnum;
     defaultParams?: Record<string, any>;
     bodyStyle?: Record<string, any>;
+
+    cardHeight: number;
+    cardWidth: number;
+    windowHeight: number;
+    columnSpan: number;
+    rowSpan: number;
 }
 
 const tableProps = () => {
@@ -63,10 +70,10 @@ const tableProps = () => {
             type: Object as PropType<TableProps['rowSelection']>,
             default: () => undefined
         },
-        cardProps: {
-            type: Object,
-            default: undefined
-        },
+        // cardProps: {
+        //     type: Object,
+        //     default: undefined
+        // },
         dataSource: {
             type: Array,
             default: () => []
@@ -95,7 +102,27 @@ const tableProps = () => {
                     pageSize: 12
                 }
             }
-        }
+        },
+        cardHeight: { // 卡片的高度
+            type: Number,
+            default: 100
+        },
+        cardWidth: { // 卡片的宽度
+            type: Number,
+            default: 100
+        },
+        windowHeight: { // 可视高度
+            type: Number,
+            default: 500
+        },
+        columnSpan: { // 上下间隔
+            type: Number,
+            default: 20
+        },
+        rowSpan: { // 左右间隔
+            type: Number,
+            default: 20
+        },
     }
 }
 
@@ -119,7 +146,7 @@ const JProTable = defineComponent<JProTableProps>({
         const total = ref<number>(0)
         const loading = ref<boolean>(true)
 
-        const handleSearch = async (_params?: Record<string, any>) => {
+        const handleSearch = async (_params?: Record<string, any>, isRest?: boolean) => {
             loading.value = true
             if(!props.request){
                 _dataSource.value = props?.dataSource || []
@@ -153,17 +180,18 @@ const JProTable = defineComponent<JProTableProps>({
                     } else if(props.type === 'SCROLL'){
                         const obj = Array.isArray(resp.result) ? resp.result[0] : resp.result
                         if(obj) {
-                            // Object.keys(obj).forEach(key => {
-                            //     dataSource[key] = obj[key]
-                            // })
-                            // if(props.params) {
-                            //     _dataSource.value = [...obj.data]
-                            // } else {
+                            console.log(isRest)
+                            if(isRest) {
+                                _dataSource.value = [...obj.data]
+                                pageIndex.value = resp.result?.pageIndex || 0
+                                pageSize.value = resp.result?.pageSize || 6
+                                total.value = resp.result?.total || 0
+                            } else {
                                 _dataSource.value = [..._dataSource.value, ...obj.data]
                                 pageIndex.value = resp.result?.pageIndex || 0
                                 pageSize.value = resp.result?.pageSize || 6
                                 total.value = resp.result?.total || 0
-                            // }
+                            }
                         }
                     } else {
                         _dataSource.value = resp?.result || []
@@ -177,14 +205,10 @@ const JProTable = defineComponent<JProTableProps>({
             loading.value = false
         }
 
-        // watchEffect(() => {
-        //     console.log(props.dataSource, props.type)
-        // })
-
         watch(
             () => props.params,
             (newValue) => {
-                handleSearch(newValue)
+                handleSearch(newValue, true)
             },
             { deep: true, immediate: true }
         )
@@ -208,52 +232,55 @@ const JProTable = defineComponent<JProTableProps>({
                 ..._params,
                 pageSize: 12,
                 pageIndex: 0
-            })
+            }, true)
         }
 
-        const onReachBottom = () => {
-            console.log('onReachBottom', props.params)
+        const onReachBottom = (scrollTop: number) => {
             if (total.value > _dataSource.value.length) {
-              pageIndex.value += 1
-              handleSearch({...props.params, pageIndex: pageIndex.value})
+                pageIndex.value += 1
+                handleSearch({...props.params, pageIndex: pageIndex.value})
             }
-          }
+        }
 
         /**
          * 导出方法
          */
         expose({ reload })
 
-        return () => props.type !== 'SCROLL' ? 
-            <JTable 
-                {...props} 
-                pageIndex={pageIndex.value} 
-                dataSource={_dataSource.value}
-                total={total.value}
-                pageSize={pageSize.value}
-                loading={loading.value}
-                onSelectCancel={() => {
-                    emit('cancelSelect')
-                }}
-                onPageChange={(page, size) => {
-                    handleSearch({
-                        ...props.params,
-                        pageSize: size,
-                        pageIndex: pageSize.value === size ? (page ? page - 1 : 0) : 0
-                    })
-                }}
-            > 
-                {{...slots}}
-            </JTable>: 
-            <ScrollTable 
-                total={total.value}
-                loading={loading.value}
-                dataSource={_dataSource.value}
-                onReachBottom={onReachBottom}
-            >
-                {{...slots}}
-            </ScrollTable>
-        
+        return () => <Spin spinning={loading.value}>
+            <div>
+                {
+                    props.type !== 'SCROLL' ? 
+                    <JTable 
+                        {...props} 
+                        pageIndex={pageIndex.value} 
+                        dataSource={_dataSource.value}
+                        total={total.value}
+                        pageSize={pageSize.value}
+                        onSelectCancel={() => {
+                            emit('cancelSelect')
+                        }}
+                        onPageChange={(page, size) => {
+                            handleSearch({
+                                ...props.params,
+                                pageSize: size,
+                                pageIndex: pageSize.value === size ? (page ? page - 1 : 0) : 0
+                            })
+                        }}
+                    > 
+                        {{...slots}}
+                    </JTable>: 
+                    <ScrollTable 
+                       {...props} 
+                        total={total.value}
+                        dataSource={_dataSource.value}
+                        onReachBottom={onReachBottom}
+                    >
+                        {{...slots}}
+                    </ScrollTable>
+                }
+            </div>
+        </Spin>
     }
 })
 

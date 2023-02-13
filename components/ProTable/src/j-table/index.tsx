@@ -1,6 +1,6 @@
 import { UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons-vue'
 import styles from './index.module.less'
-import { Pagination, Table, Empty, Spin, Alert } from 'ant-design-vue'
+import { Pagination, Table, Empty, Alert } from 'ant-design-vue'
 import type { TableProps } from 'ant-design-vue/es/table'
 import { defineComponent, onMounted, onUnmounted, PropType, ref, watchEffect } from 'vue';
 import { JColumnProps, ModelEnum, TypeEnum } from '../proTableTypes';
@@ -11,7 +11,7 @@ export interface JTableProps extends TableProps {
     model?: keyof typeof ModelEnum | undefined; // 显示table还是card
     noPagination?: boolean;
     rowSelection?: TableProps['rowSelection'];
-    cardProps?: Record<string, any>;
+    // cardProps?: Record<string, any>;
     dataSource?: Record<string, any>[];
     gridColumn?: number;
     gridColumns?: number[];
@@ -22,7 +22,6 @@ export interface JTableProps extends TableProps {
     pageIndex: number;
     pageSize: number;
     total: number;
-    loading: boolean;
 }
 
 const tableProps = () => {
@@ -51,10 +50,10 @@ const tableProps = () => {
             type: Object as PropType<TableProps['rowSelection']>,
             default: () => undefined
         },
-        cardProps: {
-            type: Object,
-            default: undefined
-        },
+        // cardProps: {
+        //     type: Object,
+        //     default: undefined
+        // },
         dataSource: {
             type: Array,
             default: () => []
@@ -87,10 +86,10 @@ const tableProps = () => {
             type: Number,
             default: 0
         },
-        loading: {
-            type: Boolean,
-            default: true
-        }
+        // loading: {
+        //     type: Boolean,
+        //     default: true
+        // }
     }
 }
 
@@ -137,123 +136,117 @@ const JTable = defineComponent<JTableProps>({
             window.onresize = null
         })
 
-        // watchEffect(() => {
-        //     console.log(props)
-        // })
-
-        return () => <Spin spinning={props.loading}>
-            <div class={styles["jtable-body"]} style={{ ...props.bodyStyle }}>
-                <div class={styles["jtable-body-header"]}>
-                    <div class={styles["jtable-body-header-left"]}>
-                        {/* 顶部左边插槽 */}
-                        {slots.headerTitle && slots.headerTitle()}
-                    </div>
-                    <div class={styles["jtable-body-header-right"]}>
-                        {/* 顶部右边插槽 */}
-                        {slots.rightExtraRender && slots.rightExtraRender()}
-                        {
-                            !props.model && <div class={styles["jtable-body-header-right-button"]}>
-                                <div class={[styles["jtable-setting-item"], ModelEnum.CARD === _model.value ? styles['active'] : '']} onClick={() => {
-                                    _model.value = ModelEnum.CARD
-                                }}>
-                                    <AppstoreOutlined />
-                                </div>
-                                <div class={[styles["jtable-setting-item"], ModelEnum.TABLE === _model.value ? styles['active'] : '']} onClick={() => {
-                                    _model.value = ModelEnum.TABLE
-                                }}>
-                                    <UnorderedListOutlined />
-                                </div>
-                            </div>
-                        }
-                    </div>
+        return () => <div class={styles["jtable-body"]} style={{ ...props.bodyStyle }}>
+            <div class={styles["jtable-body-header"]}>
+                <div class={styles["jtable-body-header-left"]}>
+                    {/* 顶部左边插槽 */}
+                    {slots.headerTitle && slots.headerTitle()}
                 </div>
-                {/* content */}
-                <div class={styles['jtable-content']}>
+                <div class={styles["jtable-body-header-right"]}>
+                    {/* 顶部右边插槽 */}
+                    {slots.rightExtraRender && slots.rightExtraRender()}
                     {
-                        props.alertRender && props?.rowSelection && props?.rowSelection?.selectedRowKeys && props.rowSelection.selectedRowKeys?.length ?
-                            <div class={styles['jtable-alert']}>
-                                <Alert
-                                    message={'已选择' + props?.rowSelection?.selectedRowKeys?.length + '项'}
-                                    type="info"
-                                    onClose={() => {
-                                        emit('selectCancel')
-                                    }}
-                                    closeText={<a-button type="link">取消选择</a-button>}
-                                />
-                            </div> : null
-                    }
-                    {
-                        _model.value === ModelEnum.CARD ?
-                            <div class={styles['jtable-card']}>
-                                {
-                                    props.dataSource.length ?
-                                        <div
-                                            class={styles['jtable-card-items']}
-                                            style={{ gridTemplateColumns: `repeat(${column.value}, 1fr)` }}
-                                        >
-                                            {
-                                                props.dataSource.map(item => slots.card ?
-                                                    <div class={[styles['jtable-card-item'], props.cardBodyClass]}>
-                                                        {slots.card(item)}
-                                                    </div> : null
-                                                )
-                                            }
-                                        </div> :
-                                        <div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
-                                }
-                            </div> :
-                            <div>
-                                <Table
-                                    dataSource={props.dataSource}
-                                    columns={props.columns}
-                                    pagination={false}
-                                    rowKey="id"
-                                    rowSelection={props.rowSelection}
-                                    // scroll={{ x: 1366 }}
-                                    v-slots={{
-                                        bodyCell: (dt: Record<string, any>) => {
-                                            const { column, record } = dt;
-                                            if ((column?.key || column?.dataIndex) && column?.scopedSlots && (slots?.[column?.dataIndex] || slots?.[column?.key])) {
-                                                const _key = column?.key || column?.dataIndex
-                                                return slots?.[_key]!(record)
-                                            } else {
-                                                return record?.[column?.dataIndex] || ''
-                                            }
-                                        }
-                                    }}
-                                />
+                        !props.model && <div class={styles["jtable-body-header-right-button"]}>
+                            <div class={[styles["jtable-setting-item"], ModelEnum.CARD === _model.value ? styles['active'] : '']} onClick={() => {
+                                _model.value = ModelEnum.CARD
+                            }}>
+                                <AppstoreOutlined />
                             </div>
+                            <div class={[styles["jtable-setting-item"], ModelEnum.TABLE === _model.value ? styles['active'] : '']} onClick={() => {
+                                _model.value = ModelEnum.TABLE
+                            }}>
+                                <UnorderedListOutlined />
+                            </div>
+                        </div>
                     }
                 </div>
-                {/* 分页 */}
+            </div>
+            {/* content */}
+            <div class={styles['jtable-content']}>
                 {
-                    (!!props.dataSource.length) && !props.noPagination && props.type === 'PAGE' &&
-                    <div class={styles['jtable-pagination']}>
-                        {
-                            slots?.paginationRender ? 
-                            slots.paginationRender() : 
-                            <Pagination
-                                size="small"
-                                total={props.total}
-                                showQuickJumper={false}
-                                showSizeChanger={true}
-                                current={props.pageIndex + 1}
-                                pageSize={props.pageSize}
-                                pageSizeOptions={['12', '24', '48', '60', '100']}
-                                showTotal={(num) => {
-                                    const minSize = props.pageIndex * props.pageSize + 1;
-                                    const MaxSize = (props.pageIndex + 1) * props.pageSize;
-                                    return `第 ${minSize} - ${MaxSize > num ? num : MaxSize} 条/总共 ${num} 条`;
+                    props.alertRender && props?.rowSelection && props?.rowSelection?.selectedRowKeys && props.rowSelection.selectedRowKeys?.length ?
+                        <div class={styles['jtable-alert']}>
+                            <Alert
+                                message={'已选择' + props?.rowSelection?.selectedRowKeys?.length + '项'}
+                                type="info"
+                                onClose={() => {
+                                    emit('selectCancel')
                                 }}
-                                onChange={(page, size) => {
-                                    emit('pageChange', page, size)
+                                closeText={<a-button type="link">取消选择</a-button>}
+                            />
+                        </div> : null
+                }
+                {
+                    _model.value === ModelEnum.CARD ?
+                        <div class={styles['jtable-card']}>
+                            {
+                                props.dataSource.length ?
+                                    <div
+                                        class={styles['jtable-card-items']}
+                                        style={{ gridTemplateColumns: `repeat(${column.value}, 1fr)` }}
+                                    >
+                                        {
+                                            props.dataSource.map(item => slots.card ?
+                                                <div class={[styles['jtable-card-item'], props.cardBodyClass]}>
+                                                    {slots.card(item)}
+                                                </div> : null
+                                            )
+                                        }
+                                    </div> :
+                                    <div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
+                            }
+                        </div> :
+                        <div>
+                            <Table
+                                dataSource={props.dataSource}
+                                columns={props.columns}
+                                pagination={false}
+                                rowKey="id"
+                                rowSelection={props.rowSelection}
+                                // scroll={{ x: 1366 }}
+                                v-slots={{
+                                    bodyCell: (dt: Record<string, any>) => {
+                                        const { column, record } = dt;
+                                        if ((column?.key || column?.dataIndex) && column?.scopedSlots && (slots?.[column?.dataIndex] || slots?.[column?.key])) {
+                                            const _key = column?.key || column?.dataIndex
+                                            return slots?.[_key]!(record)
+                                        } else {
+                                            return record?.[column?.dataIndex] || ''
+                                        }
+                                    }
                                 }}
                             />
-                        }
-                    </div>
+                        </div>
                 }
             </div>
-        </Spin>
+            {/* 分页 */}
+            {
+                (!!props.dataSource.length) && !props.noPagination && props.type === 'PAGE' &&
+                <div class={styles['jtable-pagination']}>
+                    {
+                        slots?.paginationRender ? 
+                        slots.paginationRender() : 
+                        <Pagination
+                            size="small"
+                            total={props.total}
+                            showQuickJumper={false}
+                            showSizeChanger={true}
+                            current={props.pageIndex + 1}
+                            pageSize={props.pageSize}
+                            pageSizeOptions={['12', '24', '48', '60', '100']}
+                            showTotal={(num) => {
+                                const minSize = props.pageIndex * props.pageSize + 1;
+                                const MaxSize = (props.pageIndex + 1) * props.pageSize;
+                                return `第 ${minSize} - ${MaxSize > num ? num : MaxSize} 条/总共 ${num} 条`;
+                            }}
+                            onChange={(page, size) => {
+                                emit('pageChange', page, size)
+                            }}
+                        />
+                    }
+                </div>
+            }
+        </div>
     }
 })
 

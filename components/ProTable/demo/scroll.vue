@@ -4,7 +4,7 @@ order: 3
 title: 滚动表格
 ---
 
-简单的表格，最后一列是各种操作
+滚动表格
 
 </docs>
 <template>
@@ -13,15 +13,20 @@ title: 滚动表格
         type="SCROLL"
         :request="query"
         :params="searchParams"
+        :windowHeight="600"
+        :cardHeight="150"
+        :cardWidth="150"
+        :columnSpan="20"
+        :rowSpan="20"
     >
         <template #prev>
-            <div style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; border: 1px solid lightgray">
+            <div class="card">
                 <h1 style="font-size: 25px;">+</h1>
             </div>
         </template>
         <template #card="slotProps">
-            <div style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; border: 1px solid lightgray">
-                <h1 style="font-size: 25px;">{{slotProps.slotProps.name}}</h1>
+            <div class="card">
+                <h1 style="font-size: 25px;">{{slotProps?.key}}</h1>
             </div>
         </template>
     </j-pro-table>
@@ -41,14 +46,14 @@ const searchParams = reactive<Record<string, any>>({
 })
 
 const query = (params: Record<string, any>) => new Promise((resolve) => {
-  const data = Array(100).fill(1).map((item, index) => {
+  const data = Array(500).fill(1).map((item, index) => {
     return {
       key: index + item,
       name: index + item
     }
   })
-  const _from = params.pageIndex * params.pageSize;
-  const _to = (params.pageIndex + 1)* params.pageSize 
+  const _from = Math.max(params.pageIndex * params.pageSize, 0);
+  const _to = Math.min((params.pageIndex + 1)* params.pageSize, data.length) 
   setTimeout(() => {
     resolve({
       result: {
@@ -58,9 +63,8 @@ const query = (params: Record<string, any>) => new Promise((resolve) => {
         total: data.length
       },
       status: 200
-      
     })
-  }, 500)
+  }, 2000)
 })
 
 export default defineComponent({
@@ -75,8 +79,17 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .box {
-    height: 500px;
+    height: 600px;
     overflow-y: auto;
+
+    .card {
+      width: 150px;
+      height: 150px;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      border: 1px solid lightgray;
+    }
 }
 </style>
 

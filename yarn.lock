@@ -8086,11 +8086,6 @@ vue@^3.2.45:
     "@vue/server-renderer" "3.2.47"
     "@vue/shared" "3.2.47"
 
-vuescroll@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmmirror.com/vuescroll/-/vuescroll-5.0.1.tgz#3fb679da16b154eda1849a856f4f88f3183dc5ab"
-  integrity sha512-w8FBwkZE9gqLpWUtcL3K4PVsda9ut+Cip1jBnu5g83cq+KS0FvQi3vOJaskMxp/X1tJXjkHTIu2ybfLlMUTJHw==
-
 walk-up-path@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmmirror.com/walk-up-path/-/walk-up-path-1.0.0.tgz#d4745e893dd5fd0dbb58dd0a4c6a33d9c9fec53e"

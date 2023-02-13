@@ -52,7 +52,7 @@ export interface CommonProps extends TableProps {
     model?: ModelType; // 显示table还是card
     noPagination?: boolean;
     rowSelection?: TableProps['rowSelection'];
-    cardProps?: Record<string, any>;
+    // cardProps?: Record<string, any>;
     dataSource?: Record<string, any>[];
     gridColumn?: number;
     /**

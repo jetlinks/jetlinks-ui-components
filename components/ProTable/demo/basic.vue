@@ -4,7 +4,7 @@ order: 0
 title: 基本
 ---
 
-简单的表格，最后一列是各种操作
+简单的表格
 
 </docs>
 <template>
