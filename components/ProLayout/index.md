@@ -1,10 +1,10 @@
 ---
 category: Components
-subtitle: ProLayout
+subtitle: 布局
 cols: 1
 type: 高阶组件
 iframeName: ProLayout
-title: 
+title: ProLayout
 cover:
 ---
 
