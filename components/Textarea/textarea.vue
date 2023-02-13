@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="JTextarea">
 import { Textarea } from 'ant-design-vue';
 import { textAreaProps } from 'ant-design-vue/lib/input/inputProps';
 
