@@ -9,12 +9,12 @@ title: 按钮类型
 </docs>
 <template>
   <Space>
-    <j-button type="primary">Primary Button</j-button>
-    <j-button>Default Button</j-button>
-    <j-button type="dashed">Dashed Button</j-button>
-    <j-button type="text">Text Button</j-button>
-    <j-button type="link">Link Button</j-button>
-    <j-button tag type="primary">tag</j-button>
+    <j-button type="primary">主按钮</j-button>
+    <j-button type="stroke">描边按钮</j-button>
+    <j-button>默认按钮</j-button>
+    <j-button type="dashed">虚线按钮</j-button>
+    <j-button type="text">文本按钮</j-button>
+    <j-button type="link">链接按钮</j-button>
   </Space>
 </template>
 

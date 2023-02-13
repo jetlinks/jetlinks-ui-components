@@ -34,7 +34,6 @@ cover: https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg
 
 | 属性 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| tag | 用于标签类 | boolean | `false` |  |
 | block | 将按钮宽度调整为其父宽度的选项 | boolean | `false` |  |
 | danger | 设置危险按钮 | boolean | `false` | 2.2.0 |
 | disabled | 按钮失效状态 | boolean | `false` |  |
@@ -47,4 +46,4 @@ cover: https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg
 | shape | 设置按钮形状 | `default` \| `circle` \| `round` | 'default' |  |
 | size | 设置按钮大小 | `large` \| `middle` \| `small` | `middle` |  |
 | target | 相当于 a 链接的 target 属性，href 存在时生效 | string | - |  |
-| type | 设置按钮类型 | `primary` \| `ghost` \| `dashed` \| `link` \| `text` \| `icon-danger` \| `default` | `default` |  |
+| type | 设置按钮类型 | `primary` \| `stroke`\| `ghost` \| `dashed` \| `link` \| `text` \| `icon-danger` \| `default` | `default` |  |

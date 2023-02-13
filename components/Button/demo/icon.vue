@@ -14,23 +14,15 @@ title: 图标按钮
 
 <template>
     <Space>
-        <j-button type="text">
-            <j-aIcon type="ImportOutlined" />
-            导入
-        </j-button>
+        <j-button type="text" myIcon="ImportOutlined">导入</j-button>
         <j-button type="primary"> <j-aIcon type="DownloadOutlined" />Primary </j-button>
-        <j-button danger type="primary">Primary </j-button>
+        <j-button danger type="primary">Primary</j-button>
         <j-button danger type="icon-danger" shape="circle">
             <template #icon>
                 <j-aIcon type="DeleteOutlined" />
             </template>
         </j-button>
-        <j-button danger type="icon-danger" shape="circle" disabled>
-            <template #icon>
-                <j-aIcon type="DeleteOutlined" />
-            </template>
-        </j-button>
-        <j-button type="primary" disabled>
+        <j-button type="primary">
             <j-aIcon type="ImportOutlined" />
             导入
         </j-button>
@@ -38,11 +30,8 @@ title: 图标按钮
             <j-aIcon type="SearchOutlined" />
         </j-button>
         <j-button>
-            <j-aIcon type="SearchOutlined" />
-            Search
-        </j-button>
-        <j-button shape="circle">
-            <j-aIcon type="SearchOutlined" />
+          Search
+          <j-aIcon type="SearchOutlined" />
         </j-button>
         <j-button type="dashed" shape="circle">
             <j-aIcon type="SearchOutlined" />
@@ -51,10 +40,6 @@ title: 图标按钮
             <j-aIcon type="SearchOutlined" />
             Search
         </j-button>
-        <j-button>
-            <j-aIcon type="SearchOutlined" />
-        </j-button>
-        
         <j-button myIcon="StepBackwardFilled"></j-button>
     </Space>
 </template>

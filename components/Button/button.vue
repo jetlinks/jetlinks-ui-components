@@ -1,9 +1,14 @@
 <template>
-  <Button v-bind="props" :style="{borderRadius: '6px'}" :class="className">
-    <j-aIcon :type="props.myIcon" v-if="props.myIcon"/>
-    <slot name="icon"></slot>
-    <slot name="default"></slot>
-  </Button>
+    <div class="custom-button">
+        <Button
+            v-bind="props"
+            :class="className"
+        >
+            <j-aIcon :type="props.myIcon" v-if="props.myIcon" />
+            <slot name="icon"></slot>
+            <slot name="default"></slot>
+        </Button>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -13,51 +18,63 @@ import { computed, defineProps } from 'vue';
 
 const props = defineProps({
     ...buttonProps(),
-    tag: {
-      type: Boolean,
-      default: false
-    },
     iconDanger: {
-      type: Boolean,
-      default: false
+        type: Boolean,
+        default: false,
     },
     myIcon: {
-      type: String,
-      default: ''
-    }
+        type: String,
+        default: '',
+    },
 });
 
 const className = computed(() => {
     return {
-        'tag-btn': props.tag,
-        'icon-danger': String(props.type) === 'icon-danger'
+        'stroke-btn': String(props.type) === 'stroke',
+        'icon-danger': String(props.type) === 'icon-danger',
     };
 });
-
 </script>
 
 <style lang="less" scoped>
 @import 'ant-design-vue/es/style/themes/default.less';
-.tag-btn{
-  height: 20px;
-  padding: 0 15px !important;
-  font-size: 12px ;
-  line-height: 12px; 
+@btn-denger: #e50012;
+.custom-button {
+    .stroke-btn {
+        color: @primary-color;
+        background-color: #F6F6F6;
+
+        &:hover {
+          color: #FFFFFF;
+          background-color: @primary-color;;
+        }
+        &:disabled {
+            color: @btn-disable-color;
+            background-color: @btn-disable-bg;
+        }
+    }
+
+    .icon-danger {
+        color: @btn-denger;
+        border: none;
+        background-color: #f1f1f1;
+
+        &:hover {
+            color: #FFFFFF;
+            background-color: @btn-denger;
+        }
+
+        &:disabled {
+            color: @btn-disable-color;
+            background-color: @btn-disable-bg;
+        }
+    }
+
+    :deep(.ant-btn-text) {
+        &:hover {
+            color: @primary-color !important;
+            background-color: transparent;
+        }
+    }
 }
-
-.icon-danger{
-  border: none;
-  background-color: #f1f1f1;
-
-  &:hover {
-    color: #fff;
-    background-color: #e50012;
-  }
-
-  &:disabled {
-    color: @btn-disable-color;
-    background-color: @btn-disable-bg;
-  }
-}
-
 </style>
