@@ -1,4 +1,4 @@
-import { selectProps } from 'ant-design-vue/es/select'
+import { selectProps } from 'ant-design-vue/lib/select'
 
 export const SelectProps = {
     ...selectProps(),
