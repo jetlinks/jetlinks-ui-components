@@ -1,10 +1,23 @@
-import type { TableProps } from 'ant-design-vue/es/table'
-import { defineComponent, PropType, ref, watch, watchEffect } from 'vue';
-import { JColumnProps, ModelEnum, RequestData, TypeEnum } from './proTableTypes';
+import type { TableProps } from 'ant-design-vue/es/table';
+import {
+    defineComponent,
+    PropType,
+    ref,
+    watch,
+    watchEffect,
+    onMounted,
+    onUnmounted,
+} from 'vue';
+import {
+    JColumnProps,
+    ModelEnum,
+    RequestData,
+    TypeEnum,
+} from './proTableTypes';
 import JTable from './j-table/index';
-import ScrollTable from './scroll-table/index'
+import ScrollTable from './scroll-table/index';
 import { debounce } from 'lodash-es';
-import { Spin } from "ant-design-vue";
+import { Spin } from 'ant-design-vue';
 
 export interface JProTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -29,46 +42,46 @@ export interface JProTableProps extends TableProps {
     defaultParams?: Record<string, any>;
     bodyStyle?: Record<string, any>;
 
-    cardHeight: number;
-    cardWidth: number;
+    // cardHeight: number;
+    // cardWidth: number;
     windowHeight: number;
-    columnSpan: number;
-    rowSpan: number;
+    // columnSpan: number;
+    // rowSpan: number;
 }
 
 const tableProps = () => {
     return {
         request: {
             type: Function,
-            default: undefined
+            default: undefined,
         },
         cardBodyClass: {
             type: String,
-            default: ''
+            default: '',
         },
         bodyStyle: {
             type: Object,
-            default: {}
+            default: {},
         },
         columns: {
             type: Array,
-            default: () => []
+            default: () => [],
         },
         params: {
             type: Object,
-            default: () => { }
+            default: () => {},
         },
         model: {
             type: [String, undefined],
-            default: undefined
+            default: undefined,
         },
         noPagination: {
             type: Boolean,
-            default: false
+            default: false,
         },
         rowSelection: {
             type: Object as PropType<TableProps['rowSelection']>,
-            default: () => undefined
+            default: () => undefined,
         },
         // cardProps: {
         //     type: Object,
@@ -76,55 +89,55 @@ const tableProps = () => {
         // },
         dataSource: {
             type: Array,
-            default: () => []
+            default: () => [],
         },
         gridColumns: {
             type: Array as PropType<Number[]>,
-            default: [2, 3, 4]
+            default: [2, 3, 4],
         },
         gridColumn: {
             type: Number,
-            default: 4
+            default: 4,
         },
         alertRender: {
             type: Boolean,
-            default: true
+            default: true,
         },
         type: {
             type: String,
-            default: 'PAGE'
+            default: 'PAGE',
         },
         defaultParams: {
             type: Object,
             default: () => {
                 return {
                     pageIndex: 0,
-                    pageSize: 12
-                }
-            }
+                    pageSize: 12,
+                };
+            },
         },
-        cardHeight: { // 卡片的高度
-            type: Number,
-            default: 100
-        },
-        cardWidth: { // 卡片的宽度
-            type: Number,
-            default: 100
-        },
-        windowHeight: { // 可视高度
-            type: Number,
-            default: 500
-        },
-        columnSpan: { // 上下间隔
-            type: Number,
-            default: 20
-        },
-        rowSpan: { // 左右间隔
-            type: Number,
-            default: 20
-        },
-    }
-}
+        // cardHeight: { // 卡片的高度
+        //     type: Number,
+        //     default: 100
+        // },
+        // cardWidth: { // 卡片的宽度
+        //     type: Number,
+        //     default: 100
+        // },
+        // windowHeight: { // 可视高度
+        //     type: Number,
+        //     default: 500
+        // },
+        // columnSpan: { // 上下间隔
+        //     type: Number,
+        //     default: 20
+        // },
+        // rowSpan: { // 左右间隔
+        //     type: Number,
+        //     default: 20
+        // },
+    };
+};
 
 const JProTable = defineComponent<JProTableProps>({
     name: 'JProTable',
@@ -133,23 +146,27 @@ const JProTable = defineComponent<JProTableProps>({
         'card', // 卡片内容
         'rightExtraRender', // 顶部右边插槽
         'paginationRender', // 分页
-        'prev'
+        'prev',
     ],
     emits: [
-        'cancelSelect' // 刷新数据
+        'cancelSelect', // 刷新数据
     ],
     props: tableProps() as any,
     setup(props: JProTableProps, { slots, emit, expose }) {
-        const _dataSource = ref<Record<string, any>[]>([])
-        const pageIndex = ref<number>(0)
-        const pageSize = ref<number>(6)
-        const total = ref<number>(0)
-        const loading = ref<boolean>(true)
+        const _dataSource = ref<Record<string, any>[]>([]);
+        const pageIndex = ref<number>(0);
+        const pageSize = ref<number>(6);
+        const total = ref<number>(0);
+        const loading = ref<boolean>(true);
+        const column = ref<number>(props.gridColumn || 4);
 
-        const handleSearch = async (_params?: Record<string, any>, isRest?: boolean) => {
-            loading.value = true
-            if(!props.request){
-                _dataSource.value = props?.dataSource || []
+        const handleSearch = async (
+            _params?: Record<string, any>,
+            isRest?: boolean,
+        ) => {
+            loading.value = true;
+            if (!props.request) {
+                _dataSource.value = props?.dataSource || [];
             } else {
                 // 请求数据
                 const resp = await props.request({
@@ -159,129 +176,188 @@ const JProTable = defineComponent<JProTableProps>({
                     ..._params,
                     terms: [
                         ...(props.defaultParams?.terms || []),
-                        ...(_params?.terms || [])
-                    ]
-                })
+                        ...(_params?.terms || []),
+                    ],
+                });
                 if (resp.status === 200) {
                     if (props.type === 'PAGE') {
                         // 判断如果是最后一页且最后一页为空，就跳转到前一页
-                        if (resp.result.total && resp.result.pageSize && resp.result.pageIndex && resp.result?.data?.length === 0) {
+                        if (
+                            resp.result.total &&
+                            resp.result.pageSize &&
+                            resp.result.pageIndex &&
+                            resp.result?.data?.length === 0
+                        ) {
                             handleSearch({
                                 ..._params,
                                 pageSize: pageSize.value,
-                                pageIndex: pageIndex.value > 0 ? pageIndex.value - 1 : 0,
-                            })
+                                pageIndex:
+                                    pageIndex.value > 0
+                                        ? pageIndex.value - 1
+                                        : 0,
+                            });
                         } else {
-                            _dataSource.value = resp.result?.data || []
-                            pageIndex.value = resp.result?.pageIndex || 0
-                            pageSize.value = resp.result?.pageSize || 6
-                            total.value = resp.result?.total || 0
+                            _dataSource.value = resp.result?.data || [];
+                            pageIndex.value = resp.result?.pageIndex || 0;
+                            pageSize.value = resp.result?.pageSize || 6;
+                            total.value = resp.result?.total || 0;
                         }
-                    } else if(props.type === 'SCROLL'){
-                        const obj = Array.isArray(resp.result) ? resp.result[0] : resp.result
-                        if(obj) {
-                            console.log(isRest)
-                            if(isRest) {
-                                _dataSource.value = [...obj.data]
-                                pageIndex.value = resp.result?.pageIndex || 0
-                                pageSize.value = resp.result?.pageSize || 6
-                                total.value = resp.result?.total || 0
+                    } else if (props.type === 'SCROLL') {
+                        const obj = Array.isArray(resp.result)
+                            ? resp.result[0]
+                            : resp.result;
+                        if (obj) {
+                            if (isRest) {
+                                _dataSource.value = [...obj.data];
+                                pageIndex.value = resp.result?.pageIndex || 0;
+                                pageSize.value = resp.result?.pageSize || 6;
+                                total.value = resp.result?.total || 0;
                             } else {
-                                _dataSource.value = [..._dataSource.value, ...obj.data]
-                                pageIndex.value = resp.result?.pageIndex || 0
-                                pageSize.value = resp.result?.pageSize || 6
-                                total.value = resp.result?.total || 0
+                                _dataSource.value = [
+                                    ..._dataSource.value,
+                                    ...obj.data,
+                                ];
+                                pageIndex.value = resp.result?.pageIndex || 0;
+                                pageSize.value = resp.result?.pageSize || 6;
+                                total.value = resp.result?.total || 0;
                             }
                         }
                     } else {
-                        _dataSource.value = resp?.result || []
-                        total.value = resp?.result?.length || 0
+                        _dataSource.value = resp?.result || [];
+                        total.value = resp?.result?.length || 0;
                     }
                 } else {
-                    _dataSource.value = []
-                    
+                    _dataSource.value = [];
                 }
             }
-            loading.value = false
-        }
+            loading.value = false;
+        };
 
         watch(
             () => props.params,
             (newValue) => {
-                handleSearch(newValue, true)
+                handleSearch(newValue, true);
             },
-            { deep: true, immediate: true }
-        )
+            { deep: true, immediate: true },
+        );
 
         watch(
             () => props.dataSource,
             () => {
                 if (props.dataSource && !props.request) {
-                    handleSearch(props.params)
+                    handleSearch(props.params);
                 }
             },
-            { deep: true, immediate: true }
-        )
+            { deep: true, immediate: true },
+        );
 
         /**
          * 刷新数据
-         * @param _params 
+         * @param _params
          */
         const reload = (_params?: Record<string, any>) => {
-            handleSearch({
-                ..._params,
-                pageSize: 12,
-                pageIndex: 0
-            }, true)
-        }
+            handleSearch(
+                {
+                    ..._params,
+                    pageSize: 12,
+                    pageIndex: 0,
+                },
+                true,
+            );
+        };
 
         const onReachBottom = (scrollTop: number) => {
             if (total.value > _dataSource.value.length) {
-                pageIndex.value += 1
-                handleSearch({...props.params, pageIndex: pageIndex.value})
+                pageIndex.value += 1;
+                handleSearch({ ...props.params, pageIndex: pageIndex.value });
             }
-        }
+        };
+
+        const windowChange = () => {
+            if (window.innerWidth <= 1440) {
+                const _column =
+                    props.gridColumn && props.gridColumn < 2
+                        ? props.gridColumn
+                        : 2;
+                column.value = props.gridColumns
+                    ? props.gridColumns[0]
+                    : _column;
+            } else if (window.innerWidth > 1440 && window.innerWidth <= 1600) {
+                const _column =
+                    props.gridColumn && props.gridColumn < 3
+                        ? props.gridColumn
+                        : 3;
+                column.value = props.gridColumns
+                    ? props.gridColumns[1]
+                    : _column;
+            } else if (window.innerWidth > 1600) {
+                const _column =
+                    props.gridColumn && props.gridColumn < 4
+                        ? props.gridColumn
+                        : 4;
+                column.value = props.gridColumns
+                    ? props.gridColumns[2]
+                    : _column;
+            }
+        };
+
+        onMounted(() => {
+            window.onresize = () => {
+                windowChange();
+            };
+        });
+
+        onUnmounted(() => {
+            window.onresize = null;
+        });
 
         /**
          * 导出方法
          */
-        expose({ reload })
+        expose({ reload });
 
-        return () => <Spin spinning={loading.value}>
-            <div>
-                {
-                    props.type !== 'SCROLL' ? 
-                    <JTable 
-                        {...props} 
-                        pageIndex={pageIndex.value} 
-                        dataSource={_dataSource.value}
-                        total={total.value}
-                        pageSize={pageSize.value}
-                        onSelectCancel={() => {
-                            emit('cancelSelect')
-                        }}
-                        onPageChange={(page, size) => {
-                            handleSearch({
-                                ...props.params,
-                                pageSize: size,
-                                pageIndex: pageSize.value === size ? (page ? page - 1 : 0) : 0
-                            })
-                        }}
-                    > 
-                        {{...slots}}
-                    </JTable>: 
-                    <ScrollTable 
-                       {...props} 
-                        total={total.value}
-                        dataSource={_dataSource.value}
-                        onReachBottom={onReachBottom}
-                    >
-                        {{...slots}}
-                    </ScrollTable>
-                }
-            </div>
-        </Spin>
-    }
-})
+        return () => (
+            <Spin spinning={loading.value}>
+                <div>
+                    {props.type !== 'SCROLL' ? (
+                        <JTable
+                            {...props}
+                            pageIndex={pageIndex.value}
+                            dataSource={_dataSource.value}
+                            total={total.value}
+                            pageSize={pageSize.value}
+                            onSelectCancel={() => {
+                                emit('cancelSelect');
+                            }}
+                            onPageChange={(page, size) => {
+                                handleSearch({
+                                    ...props.params,
+                                    pageSize: size,
+                                    pageIndex:
+                                        pageSize.value === size
+                                            ? page
+                                                ? page - 1
+                                                : 0
+                                            : 0,
+                                });
+                            }}
+                        >
+                            {{ ...slots }}
+                        </JTable>
+                    ) : (
+                        <ScrollTable
+                            {...props}
+                            total={total.value}
+                            dataSource={_dataSource.value}
+                            onReachBottom={onReachBottom}
+                        >
+                            {{ ...slots }}
+                        </ScrollTable>
+                    )}
+                </div>
+            </Spin>
+        );
+    },
+});
 
-export default JProTable
+export default JProTable;

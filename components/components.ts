@@ -1,7 +1,6 @@
-export { default as Pagination} from './Pagination'
-export { default as ProTable} from './ProTable'
-export { default as TableCard} from './TableCard'
-export { default as Scrollbar} from './Scrollbar'
+export { default as Pagination } from './Pagination';
+export { default as TableCard } from './TableCard';
+export { default as Scrollbar } from './Scrollbar';
 export { default as AIcon } from './AIcon';
 export { default as Select, JLSelectOptGroup, JLSelectOption } from './Select';
 export { default as Empty } from './Empty';
@@ -16,8 +15,10 @@ export { default as Ellipsis } from './Ellipsis';
 export { default as Popconfirm } from './Popconfirm';
 export { default as Divider } from './Divider';
 export { default as Modal } from './Modal';
-export { default as Descriptions, JDescriptionsItem } from './Descriptions'
-export { default as Button} from './Button'
+export { default as Upload } from './Upload';
+export { default as Descriptions, JDescriptionsItem } from './Descriptions';
+export { default as Button } from './Button';
 export { default as Result } from './Result';
-export { default as ProLayout, PageContainer} from './ProLayout'
-export { default as Search, AdvancedSearch } from './Search'
+export { default as ProLayout, PageContainer } from './ProLayout';
+export { default as JProTable } from './ProTable';
+export { default as Search, AdvancedSearch } from './Search';
