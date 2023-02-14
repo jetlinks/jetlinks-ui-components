@@ -1,5 +1,5 @@
 import type { TableProps } from 'ant-design-vue/es/table'
-import { defineComponent, PropType, ref, watch, watchEffect } from 'vue';
+import { defineComponent, PropType, ref, watch, watchEffect, onMounted, onUnmounted } from 'vue';
 import { JColumnProps, ModelEnum, RequestData, TypeEnum } from './proTableTypes';
 import JTable from './j-table/index';
 import ScrollTable from './scroll-table/index'
@@ -29,11 +29,11 @@ export interface JProTableProps extends TableProps {
     defaultParams?: Record<string, any>;
     bodyStyle?: Record<string, any>;
 
-    cardHeight: number;
-    cardWidth: number;
+    // cardHeight: number;
+    // cardWidth: number;
     windowHeight: number;
-    columnSpan: number;
-    rowSpan: number;
+    // columnSpan: number;
+    // rowSpan: number;
 }
 
 const tableProps = () => {
@@ -103,26 +103,26 @@ const tableProps = () => {
                 }
             }
         },
-        cardHeight: { // 卡片的高度
-            type: Number,
-            default: 100
-        },
-        cardWidth: { // 卡片的宽度
-            type: Number,
-            default: 100
-        },
-        windowHeight: { // 可视高度
-            type: Number,
-            default: 500
-        },
-        columnSpan: { // 上下间隔
-            type: Number,
-            default: 20
-        },
-        rowSpan: { // 左右间隔
-            type: Number,
-            default: 20
-        },
+        // cardHeight: { // 卡片的高度
+        //     type: Number,
+        //     default: 100
+        // },
+        // cardWidth: { // 卡片的宽度
+        //     type: Number,
+        //     default: 100
+        // },
+        // windowHeight: { // 可视高度
+        //     type: Number,
+        //     default: 500
+        // },
+        // columnSpan: { // 上下间隔
+        //     type: Number,
+        //     default: 20
+        // },
+        // rowSpan: { // 左右间隔
+        //     type: Number,
+        //     default: 20
+        // },
     }
 }
 
@@ -145,6 +145,7 @@ const JProTable = defineComponent<JProTableProps>({
         const pageSize = ref<number>(6)
         const total = ref<number>(0)
         const loading = ref<boolean>(true)
+        const column = ref<number>(props.gridColumn || 4);
 
         const handleSearch = async (_params?: Record<string, any>, isRest?: boolean) => {
             loading.value = true
@@ -180,7 +181,6 @@ const JProTable = defineComponent<JProTableProps>({
                     } else if(props.type === 'SCROLL'){
                         const obj = Array.isArray(resp.result) ? resp.result[0] : resp.result
                         if(obj) {
-                            console.log(isRest)
                             if(isRest) {
                                 _dataSource.value = [...obj.data]
                                 pageIndex.value = resp.result?.pageIndex || 0
@@ -241,6 +241,29 @@ const JProTable = defineComponent<JProTableProps>({
                 handleSearch({...props.params, pageIndex: pageIndex.value})
             }
         }
+
+        const windowChange = () => {
+            if (window.innerWidth <= 1440) {
+                const _column = props.gridColumn && props.gridColumn < 2 ? props.gridColumn : 2;
+                column.value = props.gridColumns ? props.gridColumns[0] : _column
+            } else if (window.innerWidth > 1440 && window.innerWidth <= 1600) {
+                const _column = props.gridColumn && props.gridColumn < 3 ? props.gridColumn : 3;
+                column.value = props.gridColumns ? props.gridColumns[1] : _column
+            } else if (window.innerWidth > 1600) {
+                const _column = props.gridColumn && props.gridColumn < 4 ? props.gridColumn : 4;
+                column.value = props.gridColumns ? props.gridColumns[2] : _column
+            }
+        }
+  
+        onMounted(() => {
+            window.onresize = () => {
+                windowChange()
+            }
+        })
+  
+        onUnmounted(() => {
+            window.onresize = null
+        })
 
         /**
          * 导出方法

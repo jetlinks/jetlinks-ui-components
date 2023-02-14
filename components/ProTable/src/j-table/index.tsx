@@ -1,9 +1,10 @@
 import { UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons-vue'
 import styles from './index.module.less'
-import { Pagination, Table, Empty, Alert } from 'ant-design-vue'
+import { Pagination, Table, Alert } from 'ant-design-vue'
 import type { TableProps } from 'ant-design-vue/es/table'
 import { defineComponent, onMounted, onUnmounted, PropType, ref, watchEffect } from 'vue';
 import { JColumnProps, ModelEnum, TypeEnum } from '../proTableTypes';
+import JLEmpty from '../../../Empty'
 
 export interface JTableProps extends TableProps {
     cardBodyClass?: string;
@@ -22,6 +23,7 @@ export interface JTableProps extends TableProps {
     pageIndex: number;
     pageSize: number;
     total: number;
+    column: number;
 }
 
 const tableProps = () => {
@@ -86,10 +88,10 @@ const tableProps = () => {
             type: Number,
             default: 0
         },
-        // loading: {
-        //     type: Boolean,
-        //     default: true
-        // }
+        column: {
+            type: Number,
+            default: 4
+        }
     }
 }
 
@@ -108,33 +110,32 @@ const JTable = defineComponent<JTableProps>({
     props: tableProps() as any,
     setup(props: JTableProps, { slots, emit }) {
         const _model = ref<keyof typeof ModelEnum>(props.model ? props.model : ModelEnum.CARD); // 模式切换
-        const column = ref<number>(props.gridColumn || 4);
 
         /**
          * 监听宽度，计算显示卡片个数
          */
-        const windowChange = () => {
-            if (window.innerWidth <= 1440) {
-                const _column = props.gridColumn && props.gridColumn < 2 ? props.gridColumn : 2;
-                column.value = props.gridColumns ? props.gridColumns[0] : _column
-            } else if (window.innerWidth > 1440 && window.innerWidth <= 1600) {
-                const _column = props.gridColumn && props.gridColumn < 3 ? props.gridColumn : 3;
-                column.value = props.gridColumns ? props.gridColumns[1] : _column
-            } else if (window.innerWidth > 1600) {
-                const _column = props.gridColumn && props.gridColumn < 4 ? props.gridColumn : 4;
-                column.value = props.gridColumns ? props.gridColumns[2] : _column
-            }
-        }
+        // const windowChange = () => {
+        //     if (window.innerWidth <= 1440) {
+        //         const _column = props.gridColumn && props.gridColumn < 2 ? props.gridColumn : 2;
+        //         column.value = props.gridColumns ? props.gridColumns[0] : _column
+        //     } else if (window.innerWidth > 1440 && window.innerWidth <= 1600) {
+        //         const _column = props.gridColumn && props.gridColumn < 3 ? props.gridColumn : 3;
+        //         column.value = props.gridColumns ? props.gridColumns[1] : _column
+        //     } else if (window.innerWidth > 1600) {
+        //         const _column = props.gridColumn && props.gridColumn < 4 ? props.gridColumn : 4;
+        //         column.value = props.gridColumns ? props.gridColumns[2] : _column
+        //     }
+        // }
 
-        onMounted(() => {
-            window.onresize = () => {
-                windowChange()
-            }
-        })
+        // onMounted(() => {
+        //     window.onresize = () => {
+        //         windowChange()
+        //     }
+        // })
 
-        onUnmounted(() => {
-            window.onresize = null
-        })
+        // onUnmounted(() => {
+        //     window.onresize = null
+        // })
 
         return () => <div class={styles["jtable-body"]} style={{ ...props.bodyStyle }}>
             <div class={styles["jtable-body-header"]}>
@@ -183,7 +184,7 @@ const JTable = defineComponent<JTableProps>({
                                 props.dataSource.length ?
                                     <div
                                         class={styles['jtable-card-items']}
-                                        style={{ gridTemplateColumns: `repeat(${column.value}, 1fr)` }}
+                                        style={{ gridTemplateColumns: `repeat(${props.column}, 1fr)` }}
                                     >
                                         {
                                             props.dataSource.map(item => slots.card ?
@@ -193,7 +194,7 @@ const JTable = defineComponent<JTableProps>({
                                             )
                                         }
                                     </div> :
-                                    <div><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
+                                    <div><JLEmpty /></div>
                             }
                         </div> :
                         <div>
@@ -213,7 +214,8 @@ const JTable = defineComponent<JTableProps>({
                                         } else {
                                             return record?.[column?.dataIndex] || ''
                                         }
-                                    }
+                                    },
+                                    emptyText: () => <JLEmpty />
                                 }}
                             />
                         </div>
