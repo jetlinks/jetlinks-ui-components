@@ -20,3 +20,4 @@ export { default as Descriptions, JDescriptionsItem } from './Descriptions'
 export { default as Button} from './Button'
 export { default as Result } from './Result';
 export { default as ProLayout, PageContainer} from './ProLayout'
+export { default as Search, AdvancedSearch } from './Search'
