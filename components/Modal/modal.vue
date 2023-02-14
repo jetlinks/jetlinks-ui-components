@@ -3,11 +3,11 @@
         v-bind="props"
         :ok-text="props.okText || '确定'"
         :cancel-text="props.cancelText || '取消'"
-        :wrapClassName="
+        :wrap-class-name="
             props.modalType === 'message' ? 'modalRef-message' : 'modalRef'
         "
     >
-        <template v-for="slot in Object.keys(slots)" v-slot:[slot]>
+        <template v-for="slot in Object.keys(slots)" #[slot]>
             <slot :name="slot"></slot>
         </template>
         <template v-if="props.modalType === 'draggable'" #title>
