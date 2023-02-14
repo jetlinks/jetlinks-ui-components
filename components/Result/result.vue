@@ -17,16 +17,14 @@
 <script lang="ts" setup>
 import { Result } from 'ant-design-vue';
 import { useSlots } from 'vue';
-import ResultProps from 'ant-design-vue/es/result';
+import { resultProps } from 'ant-design-vue/es/result';
 import NoFound from './noFound.vue';
 
 const slots = useSlots();
 
 const props = defineProps({
-    ...ResultProps.props,
+    ...resultProps(),
 });
-
-const status = props.status;
 </script>
 
 <style lang="less" scoped>
