@@ -65,6 +65,8 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
         const windowWidth = ref<number>(0)
         const _scrollTop = ref<number>(0)
 
+        const loading = ref<boolean>(true)
+
         // 每排展示的卡片数量
         const totalRow = computed(() => Math.floor((windowWidth.value + props.rowSpan) / (props.cardWidth + props.rowSpan)))
         
@@ -92,7 +94,6 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
         /**
          * 计算可是区域的列
          */
-
         const getColumnsStartIndexForOffset = (
             { cardHeight, columnSpan },
             scrollTop: number
@@ -262,7 +263,7 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
                 for (let column = columnStart; column <= columnEnd; column++) {
                     for (let row = 0; row < totalRow.value; row++) {
                         const _index = slots.prev ? totalRow.value*column + row - 1  : totalRow.value*column + row
-                        // console.log(_index, props.dataSource[_index])
+                        
                         children.push(
                             <div key={`${row}:${column}`} style={{...getItemStyle(row, column)}}>
                                 {slots.prev && row === 0 && column === 0 ? slots.prev() : (props.dataSource[_index] && slots.card && slots.card(props.dataSource[_index], _index))}
@@ -275,10 +276,16 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
         }
 
         watchEffect(() => {
-          console.log(props)
+          // slots.card
             if(innerRef.value){
                 windowWidth.value = innerRef.value.offsetWidth || 0
             }
+        })
+
+        onMounted(() => {
+          loading.value = true
+          // 计算卡片的宽度和高度
+          console.log(props.cardWidth)
         })
 
         return () => <div class={styles['wrapper']} style={props.bodyStyle}>
@@ -295,9 +302,13 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
                 onScroll={onScroll} 
                 ref={el => windowRef.value = el}
             >
+              {
+                loading.value ? 
+                (slots.card && slots.card('', 0)) :
                 <div ref={el => innerRef.value = el} style={{width: '100%', height: `${totalColumn.value * (props.cardHeight + props.columnSpan) - props.columnSpan}px`}}>
-                    {renderItems()}
+                  {renderItems()}
                 </div>
+              }
             </div>
         </div>
     }
