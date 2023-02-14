@@ -14,19 +14,15 @@ title: 滚动表格
         :request="query"
         :params="searchParams"
         :windowHeight="600"
-        :cardHeight="150"
-        :cardWidth="150"
-        :columnSpan="20"
-        :rowSpan="20"
     >
         <template #prev>
             <div class="card">
-                <h1 style="font-size: 25px;">+</h1>
+              <div><h1 style="font-size: 25px;">+</h1></div>
             </div>
         </template>
         <template #card="slotProps">
             <div class="card">
-                <h1 style="font-size: 25px;">{{slotProps?.key}}</h1>
+                <div><h1 style="font-size: 25px;">{{slotProps?.key}}</h1></div>
             </div>
         </template>
     </j-pro-table>
@@ -64,7 +60,7 @@ const query = (params: Record<string, any>) => new Promise((resolve) => {
       },
       status: 200
     })
-  }, 2000)
+  }, 500)
 })
 
 export default defineComponent({
@@ -83,8 +79,8 @@ export default defineComponent({
     overflow-y: auto;
 
     .card {
-      width: 150px;
-      height: 150px;
+      width: 100%;
+      height: 100px;
       display: flex; 
       align-items: center; 
       justify-content: center; 

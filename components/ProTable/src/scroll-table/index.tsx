@@ -1,17 +1,19 @@
 import { defineComponent, nextTick, onMounted, ref, watch, watchEffect, computed, unref, getCurrentInstance } from "vue";
 import styles from './index.module.less'
 import { memoize, isNumber } from 'lodash'
+import JLEmpty from '../../../Empty'
 
 interface ScrollTableProps {
     dataSource: Record<string, any>[];
     total: number;
     cardHeight: number;
-    cardWidth: number;
+    // cardWidth: number;
     windowHeight: number;
     // windowWidth: number;
     columnSpan: number;
     rowSpan: number;
     bodyStyle?: Record<string, any>;
+    column: number;
 }
 
 const ScrollTableProps = defineComponent<ScrollTableProps>({
@@ -24,51 +26,38 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             type: Number,
             default: 0
         },
-        cardHeight: { // 卡片的高度
-            type: Number,
-            default: 100
-        },
-        cardWidth: { // 卡片的宽度
-            type: Number,
-            default: 100
-        },
         windowHeight: { // 可视高度
             type: Number,
             default: 500
-        },
-        // windowWidth: { // 可视宽度
-        //     type: Number,
-        //     default: 1300
-        // },
-        columnSpan: { // 上下间隔
-            type: Number,
-            default: 20
-        },
-        rowSpan: { // 左右间隔
-            type: Number,
-            default: 20
         },
         bodyStyle: {
           type: Object,
           default: {}
         },
-        // style: {
-        //     type: [Object, String, Array]
-        // }
+        column: {
+          type: Number,
+          default: 4
+        }
     } as any,
     emits: ['reachBottom'],
     setup(props: ScrollTableProps, { slots, emit }) {
 
         const windowRef = ref<HTMLElement>()
         const innerRef = ref<HTMLElement>()
+        const itemRef = ref<HTMLElement>()
+
+        const columnSpan = 20
+        const rowSpan = 20
 
         const windowWidth = ref<number>(0)
         const _scrollTop = ref<number>(0)
 
         const loading = ref<boolean>(true)
+        const cardWidth = ref<number>(0)
+        const cardHeight = ref<number>(0)
 
         // 每排展示的卡片数量
-        const totalRow = computed(() => Math.floor((windowWidth.value + props.rowSpan) / (props.cardWidth + props.rowSpan)))
+        const totalRow = computed(() => props?.column || 4) // computed(() => Math.floor((windowWidth.value + rowSpan) / (cardWidth.value + rowSpan)))
         
         // 总共展示的列数
         const totalColumn = computed(() => Math.ceil(props.total / totalRow.value))
@@ -94,22 +83,19 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
         /**
          * 计算可是区域的列
          */
-        const getColumnsStartIndexForOffset = (
-            { cardHeight, columnSpan },
-            scrollTop: number
-          ): number =>
+        const getColumnsStartIndexForOffset = (scrollTop: number): number =>
             Math.max(
               0,
-              Math.min(totalColumn.value - 1, Math.floor(scrollTop / ((cardHeight + columnSpan) as number)))
+              Math.min(totalColumn.value - 1, Math.floor(scrollTop / ((cardHeight.value + columnSpan) as number)))
         )
         
         const getColumnsStopIndexForStartIndex = (
-            { cardHeight, windowHeight, columnSpan },
+            { windowHeight },
             startIndex: number,
             scrollTop: number
           ): number => {
             const numVisibleRows = Math.ceil(
-              (windowHeight as number) / ((cardHeight + columnSpan) as number)
+              (windowHeight as number) / ((cardHeight.value + columnSpan) as number)
             )
 
             return Math.max(
@@ -128,10 +114,7 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
               return [0, 0, 0, 0]
             }
     
-            const startIndex = getColumnsStartIndexForOffset(
-              props,
-              scrollTop,
-            )
+            const startIndex = getColumnsStartIndexForOffset(scrollTop)
             const stopIndex = getColumnsStopIndexForStartIndex(
               props,
               startIndex,
@@ -158,7 +141,7 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             } = unref(states)
             if(updateRequested && isScrolling && yAxisScrollDir === 'forward' && scrollTop > 0){
                 const t = scrollTop - _scrollTop.value
-                if(t > props.cardHeight * 2) {
+                if(t > cardHeight.value * 2) {
                     _scrollTop.value = scrollTop
                     emit('reachBottom', scrollTop)
                 }
@@ -219,15 +202,14 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             emitEvents()
         }
 
-        const getTopPosition = ({ cardHeight, columnSpan }, index) => index * ((cardHeight + columnSpan) as number)
+        const getTopPosition = (index) => index * ((cardHeight.value + columnSpan) as number)
 
-        const getLeftPosition = ({ cardWidth, rowSpan }, index) => index * ((cardWidth + rowSpan) as number)
+        const getLeftPosition = (index) => index * ((cardWidth.value + rowSpan) as number)
 
         const getItemStyle = (
             rowIndex: number,
             columnIndex: number
           ): CSSProperties => {
-            const { cardHeight } = props
             const itemStyleCache = getItemStyleCache.value
             // since there was no need to introduce an nested array into cache object
             // we use row,column to construct the key for indexing the map.
@@ -236,18 +218,16 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             if (itemStyleCache.hasOwnProperty(key)) {
               return itemStyleCache[key]
             } else {
-              const left = getLeftPosition(props, rowIndex)
-
-              console.log(left)
+              const left = getLeftPosition(rowIndex)
     
-              const top = getTopPosition(props, columnIndex)
+              const top = getTopPosition(columnIndex)
     
               itemStyleCache[key] = {
                 position: 'absolute',
                 left: `${left}px`,
                 top: `${top}px`,
-                height: `${props.cardHeight}px`,
-                width: `${props.cardWidth}px`,
+                height: `${cardHeight.value}px`,
+                width: `${cardWidth.value}px`,
               }
     
               return itemStyleCache[key]
@@ -271,21 +251,25 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
                         )
                     }
                 }
+            } else if(slots.prev){
+                children.push(
+                  <div key={`${0}:${0}`} style={{...getItemStyle(0, 0)}}>
+                      {slots.prev && slots.prev()}
+                  </div>
+                )
             }
             return children
         }
 
-        watchEffect(() => {
-          // slots.card
-            if(innerRef.value){
-                windowWidth.value = innerRef.value.offsetWidth || 0
-            }
-        })
-
         onMounted(() => {
           loading.value = true
           // 计算卡片的宽度和高度
-          console.log(props.cardWidth)
+          if(windowRef.value){
+              windowWidth.value = windowRef.value.offsetWidth || 0
+              cardHeight.value = itemRef.value.offsetHeight || 0
+              cardWidth.value = Math.ceil(windowWidth.value / totalRow.value - rowSpan)
+              loading.value = false
+          }
         })
 
         return () => <div class={styles['wrapper']} style={props.bodyStyle}>
@@ -304,10 +288,12 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             >
               {
                 loading.value ? 
-                (slots.card && slots.card('', 0)) :
-                <div ref={el => innerRef.value = el} style={{width: '100%', height: `${totalColumn.value * (props.cardHeight + props.columnSpan) - props.columnSpan}px`}}>
-                  {renderItems()}
-                </div>
+                <div ref={el => itemRef.value = el}>{(slots.card && slots.card('', 0))}<div style="clear:both; height:0;"></div></div> : (
+                  (props.dataSource.length || slots.prev) ? 
+                    <div ref={el => innerRef.value = el} style={{width: '100%', height: `${totalColumn.value * (cardHeight.value + columnSpan) - columnSpan}px`}}>
+                      {renderItems()}
+                    </div> : <JLEmpty />
+                )
               }
             </div>
         </div>

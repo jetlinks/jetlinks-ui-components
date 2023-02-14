@@ -30,11 +30,7 @@ cover: https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg
 | alertRender | 是否展示上方选择提示框 | boolean | true |  |
 | defaultParams | 默认参数 | object | {} |  |
 | bodyStyle | 内容区域自定义样式  | object | - |  |
-| cardHeight | 卡片高度| number | 100 |  |
-| cardWidth | 卡片宽度 | number | 100 |  |
 | windowHeight | 可视范围的高度 | number | 500 |  |
-| columnSpan | 卡片上下间隔 | number | 20 |  |
-| rowSpan | 卡片左右间隔 | number | 20 |  |
 | card | 卡片插槽 | slot | - |  |
 | pre | 滑动表格的第一个卡片插槽 | slot | - |  |
 | headerTitle | type为`PAGE`和`TREE`时顶部左边插槽 | slot | - |  |
