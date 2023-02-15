@@ -1,3 +1,4 @@
+@import 'ant-design-vue/es/style/themes/default.less';
 .costom-table-card {
     border: 1px solid #e6e6e6;
     width: 398px;
@@ -76,8 +77,12 @@
             border: 1px solid #e6e6e6;
             color: #000000;
             &:hover {
-                background: #315efb;
+                background-color: @primary-color;
                 color: #ffffff;
+            }
+            &:disabled {
+                color: @btn-disable-color;
+                background-color: @btn-disable-bg;
             }
         }
     }
