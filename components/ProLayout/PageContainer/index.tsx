@@ -1,22 +1,29 @@
 import { withInstall } from '../../util/type';
-import { TabPaneProps } from 'ant-design-vue'
-import type { ExtractPropTypes, FunctionalComponent, PropType, VNodeChild } from 'vue'
-import { defineComponent, unref, toRefs, computed } from 'vue'
+import { TabPaneProps, Affix, Spin, PageHeader, Tabs } from 'ant-design-vue';
+import type {
+    ExtractPropTypes,
+    FunctionalComponent,
+    PropType,
+    VNodeChild,
+} from 'vue';
+import { defineComponent, unref, toRefs, computed } from 'vue';
 import { pageHeaderProps } from 'ant-design-vue/es/page-header';
-import type { DefaultPropRender, PageHeaderRender } from '../typings'
-import type { AffixProps, TabBarExtraContent } from './typings'
-import { useRouteContext } from '../RouteContext'
-import { getSlotVNode } from '../util'
-import { Affix, Spin, PageHeader, Tabs } from 'ant-design-vue';
-import './index.less'
-import {VueNode} from "ant-design-vue/es/_util/type";
+import type { DefaultPropRender, PageHeaderRender } from '../typings';
+import type { AffixProps, TabBarExtraContent } from './typings';
+import { useRouteContext } from '../RouteContext';
+import { getSlotVNode } from '../util';
+
+import './index.less';
+import { VueNode } from 'ant-design-vue/es/_util/type';
 
 export const pageHeaderTabConfig = {
     /**
      * @name tabs 的列表
      */
     tabList: {
-        type: [Object, Function, Array] as PropType<(Omit<TabPaneProps, 'id'> & { key?: string })[]>,
+        type: [Object, Function, Array] as PropType<
+            (Omit<TabPaneProps, 'id'> & { key?: string })[]
+        >,
         default: () => undefined,
     },
     /**
@@ -44,8 +51,9 @@ export const pageHeaderTabConfig = {
     // events
     onTabChange: Function, //PropTypes.func,
 };
-export type PageHeaderTabConfig = Partial<ExtractPropTypes<typeof pageHeaderTabConfig>>;
-
+export type PageHeaderTabConfig = Partial<
+    ExtractPropTypes<typeof pageHeaderTabConfig>
+>;
 
 export const pageContainerProps = {
     ...pageHeaderTabConfig,
@@ -55,27 +63,57 @@ export const pageContainerProps = {
         default: 'ant-pro',
     }, //PropTypes.string.def('ant-pro'),
     title: {
-        type: [Object, String, Boolean, Function] as PropType<DefaultPropRender>,
+        type: [
+            Object,
+            String,
+            Boolean,
+            Function,
+        ] as PropType<DefaultPropRender>,
         default: () => null,
     },
     subTitle: {
-        type: [Object, String, Boolean, Function] as PropType<DefaultPropRender>,
+        type: [
+            Object,
+            String,
+            Boolean,
+            Function,
+        ] as PropType<DefaultPropRender>,
         default: () => null,
     },
     content: {
-        type: [Object, String, Boolean, Function] as PropType<DefaultPropRender>,
+        type: [
+            Object,
+            String,
+            Boolean,
+            Function,
+        ] as PropType<DefaultPropRender>,
         default: () => null,
     },
     extra: {
-        type: [Object, String, Boolean, Function] as PropType<DefaultPropRender>,
+        type: [
+            Object,
+            String,
+            Boolean,
+            Function,
+        ] as PropType<DefaultPropRender>,
         default: () => null,
     },
     extraContent: {
-        type: [Object, String, Boolean, Function] as PropType<DefaultPropRender>,
+        type: [
+            Object,
+            String,
+            Boolean,
+            Function,
+        ] as PropType<DefaultPropRender>,
         default: () => null,
     },
     header: {
-        type: [Object, String, Boolean, Function] as PropType<DefaultPropRender>,
+        type: [
+            Object,
+            String,
+            Boolean,
+            Function,
+        ] as PropType<DefaultPropRender>,
         default: () => null,
     },
     pageHeaderRender: {
@@ -96,15 +134,18 @@ export const pageContainerProps = {
     childrenFullHeight: {
         type: Boolean,
         default: () => true,
-    }
+    },
 };
 
-export type PageContainerProps = Partial<ExtractPropTypes<typeof pageContainerProps>>;
+export type PageContainerProps = Partial<
+    ExtractPropTypes<typeof pageContainerProps>
+>;
 
 const renderFooter = (
-    props: Omit< PageContainerProps, 'title' >
+    props: Omit<PageContainerProps, 'title'>,
 ): VNodeChild | JSX.Element => {
-    const { tabList, tabActiveKey, onTabChange, tabBarExtraContent, tabProps } = props;
+    const { tabList, tabActiveKey, onTabChange, tabBarExtraContent, tabProps } =
+        props;
     if (tabList && tabList.length) {
         return (
             <Tabs
@@ -125,13 +166,12 @@ const renderFooter = (
         );
     }
     return null;
-}
-
+};
 
 const renderPageHeader = (
     content: VueNode,
     extraContent: VueNode,
-    prefixedClassName: string
+    prefixedClassName: string,
 ): VNodeChild | JSX.Element | null => {
     if (!content && !extraContent) {
         return null;
@@ -141,16 +181,21 @@ const renderPageHeader = (
             <div class={`${prefixedClassName}-main`}>
                 <div class={`${prefixedClassName}-row`}>
                     {content && (
-                        <div class={`${prefixedClassName}-content`}>{
-                            // @ts-ignore
-                            (typeof content === 'function' && content()) || content
-                        }</div>
+                        <div class={`${prefixedClassName}-content`}>
+                            {
+                                // @ts-ignore
+                                (typeof content === 'function' && content()) ||
+                                    content
+                            }
+                        </div>
                     )}
                     {extraContent && (
                         <div class={`${prefixedClassName}-extraContent`}>
                             {
                                 // @ts-ignore
-                                (typeof extraContent === 'function' && extraContent()) || extraContent
+                                (typeof extraContent === 'function' &&
+                                    extraContent()) ||
+                                    extraContent
                             }
                         </div>
                     )}
@@ -160,7 +205,9 @@ const renderPageHeader = (
     );
 };
 
-const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassName: string }> = (props) => {
+const ProPageHeader: FunctionalComponent<
+    PageContainerProps & { prefixedClassName: string }
+> = (props) => {
     const {
         title,
         tabList,
@@ -175,7 +222,7 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
         ...restProps
     } = props;
 
-    const value = useRouteContext()
+    const value = useRouteContext();
 
     if (pageHeaderRender === false) {
         return null;
@@ -206,22 +253,24 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
                 footer={renderFooter({
                     ...restProps,
                     tabList,
-                    tabActiveKey
+                    tabActiveKey,
                 })}
                 prefixCls={prefixCls}
             >
-                {header || renderPageHeader(content, extraContent, prefixedClassName)}
+                {header ||
+                    renderPageHeader(content, extraContent, prefixedClassName)}
             </PageHeader>
         </div>
     );
-}
+};
 
 const PageContainer = defineComponent({
     name: 'JPageContainer',
     inheritAttrs: false,
     props: pageContainerProps,
     setup(props, { slots }) {
-        const { loading, affixProps, ghost, childrenFullHeight } = toRefs(props);
+        const { loading, affixProps, ghost, childrenFullHeight } =
+            toRefs(props);
 
         const value = useRouteContext();
         const { getPrefixCls } = value;
@@ -235,14 +284,33 @@ const PageContainer = defineComponent({
             };
         });
 
-
         const headerDom = computed(() => {
             // const tags = getSlotVNode<DefaultPropRender>(slots, props, 'tags');
-            const headerContent = getSlotVNode<DefaultPropRender>(slots, props, 'content');
-            const extra = getSlotVNode<DefaultPropRender>(slots, props, 'extra');
-            const extraContent = getSlotVNode<DefaultPropRender>(slots, props, 'extraContent');
-            const subTitle = getSlotVNode<DefaultPropRender>(slots, props, 'subTitle');
-            const title = getSlotVNode<DefaultPropRender>(slots, props, 'title');
+            const headerContent = getSlotVNode<DefaultPropRender>(
+                slots,
+                props,
+                'content',
+            );
+            const extra = getSlotVNode<DefaultPropRender>(
+                slots,
+                props,
+                'extra',
+            );
+            const extraContent = getSlotVNode<DefaultPropRender>(
+                slots,
+                props,
+                'extraContent',
+            );
+            const subTitle = getSlotVNode<DefaultPropRender>(
+                slots,
+                props,
+                'subTitle',
+            );
+            const title = getSlotVNode<DefaultPropRender>(
+                slots,
+                props,
+                'title',
+            );
 
             // @ts-ignore
             return (
@@ -259,14 +327,21 @@ const PageContainer = defineComponent({
                     extraContent={extraContent}
                 />
             );
-        })
+        });
 
         return () => {
             const { fixedHeader } = props;
             return (
                 <div class={classNames.value}>
                     {fixedHeader && headerDom.value ? (
-                        <Affix {...affixProps.value} offsetTop={value.hasHeader && value.fixedHeader ? value.headerHeight : 0}>
+                        <Affix
+                            {...affixProps.value}
+                            offsetTop={
+                                value.hasHeader && value.fixedHeader
+                                    ? value.headerHeight
+                                    : 0
+                            }
+                        >
                             {headerDom.value}
                         </Affix>
                     ) : (
@@ -277,7 +352,17 @@ const PageContainer = defineComponent({
                             <Spin />
                         ) : slots.default ? (
                             <div>
-                                <div class={`${prefixedClassName.value}-children-content ${childrenFullHeight.value ? 'children-full-height' : ''}`}>{slots.default()}</div>
+                                <div
+                                    class={`${
+                                        prefixedClassName.value
+                                    }-children-content ${
+                                        childrenFullHeight.value
+                                            ? 'children-full-height'
+                                            : ''
+                                    }`}
+                                >
+                                    {slots.default()}
+                                </div>
                                 {value.hasFooterToolbar && (
                                     <div
                                         style={{
@@ -292,7 +377,7 @@ const PageContainer = defineComponent({
                 </div>
             );
         };
-    }
-})
+    },
+});
 
-export default withInstall(PageContainer, 'JPageContainer')
+export default withInstall(PageContainer, 'JPageContainer');

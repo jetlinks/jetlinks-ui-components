@@ -17,41 +17,41 @@
 <script lang="ts" setup>
 import { Result } from 'ant-design-vue';
 import { useSlots } from 'vue';
-import ResultProps from 'ant-design-vue/es/result';
+import { resultProps } from 'ant-design-vue/es/result';
 import NoFound from './noFound.vue';
 
 const slots = useSlots();
 
 const props = defineProps({
-    ...ResultProps.props,
+    ...resultProps(),
 });
-
-const status = props.status;
 </script>
 
 <style lang="less" scoped>
+@import 'ant-design-vue/es/style/themes/default.less';
+
 :deep(.ant-btn-primary) {
-    background: #315efb;
-    border-color: #315efb;
+    background: @primary-color;
+    border-color: @primary-color;
 }
 .info {
     :deep(svg) {
-        color: #4293ff;
+        color: @info-color;
     }
 }
 .success {
     :deep(svg) {
-        color: #32d4a4;
+        color: @success-color;
     }
 }
 .warning {
     :deep(svg) {
-        color: #e7ad56;
+        color: @warning-color;
     }
 }
 .error {
     :deep(svg) {
-        color: #f76f5d;
+        color: @error-color;
     }
 }
 </style>
