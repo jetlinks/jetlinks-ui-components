@@ -25,6 +25,19 @@ export default [
             import('../../../components/AutoComplete/demo/index.vue'),
     },
     {
+        path: 'ColorPicker',
+        meta: {
+            category: 'Components',
+            type: '数据录入',
+            title: 'ColorPicker',
+            subtitle: '颜色选择器',
+            cols: 1,
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
+        },
+        component: () =>
+            import('../../../components/ColorPicker/demo/index.vue'),
+    },
+    {
         path: 'Button',
         meta: {
             category: 'Components',
@@ -34,6 +47,19 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg',
         },
         component: () => import('../../../components/Button/demo/index.vue'),
+    },
+    {
+        path: 'Divider',
+        meta: {
+            category: 'Components',
+            title: 'Divider',
+            subtitle: '分割线',
+            cover: 'https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original',
+            cols: 2,
+            type: '布局',
+            order: 2,
+        },
+        component: () => import('../../../components/Divider/demo/index.vue'),
     },
     {
         path: 'Descriptions',
@@ -48,19 +74,6 @@ export default [
         },
         component: () =>
             import('../../../components/Descriptions/demo/index.vue'),
-    },
-    {
-        path: 'Divider',
-        meta: {
-            category: 'Components',
-            title: 'Divider',
-            subtitle: '分割线',
-            cover: 'https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original',
-            cols: 2,
-            type: '布局',
-            order: 2,
-        },
-        component: () => import('../../../components/Divider/demo/index.vue'),
     },
     {
         path: 'Ellipsis',
@@ -87,18 +100,6 @@ export default [
         component: () => import('../../../components/Empty/demo/index.vue'),
     },
     {
-        path: 'Input',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'Input',
-            subtitle: '输入框',
-            cols: 1,
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
-        },
-        component: () => import('../../../components/Input/demo/index.vue'),
-    },
-    {
         path: 'Message',
         meta: {
             category: 'Components',
@@ -109,6 +110,18 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/hAkKTIW0K/Message.svg',
         },
         component: () => import('../../../components/Message/demo/index.vue'),
+    },
+    {
+        path: 'Input',
+        meta: {
+            category: 'Components',
+            type: '数据录入',
+            title: 'Input',
+            subtitle: '输入框',
+            cols: 1,
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
+        },
+        component: () => import('../../../components/Input/demo/index.vue'),
     },
     {
         path: 'Modal',
