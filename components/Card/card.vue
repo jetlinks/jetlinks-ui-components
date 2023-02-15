@@ -57,10 +57,6 @@ const props = defineProps({
     type: Array as PropType<Array<CardOption>>,
     default: []
   },
-  size: {
-    type: String as PropType<'large' | 'middle' | 'small'>,
-    default: 'default'
-  },
   disabled: {
     type: Boolean,
     default: false

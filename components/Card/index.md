@@ -20,6 +20,5 @@ order: 2
 | type     | 以配置形式设置子元素                              | `vertical | horizontal  `                                                                                     | vertical | -   |
 | float    | 只有设置了`type='horizontal'`才生效             | `left     | right `                                                                                           | left     | -           |
 | options  | 以配置形式设置子元素                              | Array     | `Array<{value:string number label: string subLabel?: string iconUrl: string disabled?: boolean}>` | -        |
-| size     | 大小                                      | `large    | middle                                                                                            | small`   |   middle | - |                                                                                      | -        |
 | disabled | 禁选所有子单选器，单项禁用在options中设置`disabled=true` | boolean   | false                                                                                             | -        |
 | multiple | 是否多选                                    | boolean   | false                                                                                             | -        |
