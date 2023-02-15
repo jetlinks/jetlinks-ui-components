@@ -15,5 +15,5 @@ cover: https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg
 | --- | --- | --- | --- | --- |
 | value(v-model) | 编辑器内容 | string |  |  |
 | theme | 主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色) | string |  |  |
-| language | 编辑器支持的语言: json, javascript, typescript ... | string |  |  |
+| language | 编辑器支持的语言: json, css, html, typescript, javascript | string |  |  |
 

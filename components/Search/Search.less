@@ -1,0 +1,103 @@
+@import 'ant-design-vue/es/style/themes/default.less';
+.JSearch-warp {
+  padding: 24px;
+  background-color: #fff;
+  margin-bottom: 24px;
+
+  .JSearch-content {
+    display: flex;
+    gap: 12px;
+
+    .JSearch-items,& .JSearch-footer {
+      flex-grow: 1;
+    }
+
+    .JSearch-items {
+      display: flex;
+      gap: 16px;
+
+      .left, & .right {
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+        width: 0;
+        flex-grow: 1;
+        min-width: 0;
+      }
+
+      .center {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 80px;
+      }
+
+      &.vertical {
+        flex-direction: column;
+        .left,& .right,& .center {
+          width: 100%;
+        }
+        .center {
+          flex-direction: row;
+        }
+        .center-select {
+          width: 120px;
+        }
+      }
+    }
+    .JSearch-footer {
+      display: flex;
+      gap: 64px;
+      position: relative;
+
+      &.expand {
+        margin-top: 12px;
+        width: 100%;
+        justify-content: center;
+
+        .more-btn {
+          position: absolute;
+          right: 0;
+        }
+      }
+
+      .JSearch-footer--btns {
+        display: flex;
+        gap: 8px;
+
+      }
+    }
+
+    &.senior-expand {
+      display: block;
+    }
+
+    .more-up {
+      transform: rotate(-180deg);
+    }
+
+    &.big {
+      gap: 64px;
+    }
+
+    &.small {
+      flex-direction: column;
+    }
+
+    &.simple {
+      .JSearch-items {
+        flex-grow: 4;
+      }
+      .JSearch-footer {
+        flex-grow: 3;
+      }
+    }
+
+    &.no-flex {
+      flex-wrap: wrap;
+      .JSearch-items {
+        flex-grow: unset;
+      }
+    }
+  }
+}

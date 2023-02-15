@@ -1,5 +1,5 @@
 <template>
-    <demo-sort>
+    <demo-sort :cols="1">
         <Basic />
     </demo-sort>
 </template>

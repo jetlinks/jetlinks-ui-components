@@ -1,6 +1,6 @@
 <template>
     <Empty v-bind="baseProps">
-        <template v-for="item in renderArr" :key="item" v-slot:[item]="scope">
+        <template v-for="item in renderArr" :key="item" #[item]="scope">
             <slot :name="item" :scope="scope"></slot>
         </template>
     </Empty>
@@ -19,19 +19,21 @@ console.log(renderArr);
 const props = defineProps({
     description: {
         type: String,
-        default: '暂无数据'
+        default: '暂无数据',
     },
     image: {
         type: String,
-        default: NoData
+        default: NoData,
     },
     imageStyle: {
         type: Object as PropType<CSSProperties>,
-        default: () => { return {height: '60px'}}
-    }
-})
+        default: () => {
+            return { height: '60px' };
+        },
+    },
+});
 
-const baseProps = omit(props, ...renderArr)
+const baseProps = omit(props, ...renderArr);
 </script>
 
 <style lang="less" scoped>
