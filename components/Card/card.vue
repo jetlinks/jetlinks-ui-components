@@ -77,9 +77,11 @@ const handleSelect = (i) => {
   if (disabled.value || itemOptions.value[i].disabled) return;
   if (multiple.value) {
     const index = getItemSelected(i);
-    index === -1 ? selectedItem.value?.push(i) : selectedItem.value?.splice(index, 1)
+    index === -1 ? selectedItem.value?.push(i) : selectedItem.value?.splice(index, 1);
+    emits('update:value', selectedItem.value?.map(i => itemOptions.value[i]?.value));
   } else {
     selectedItem.value = [i];
+    emits('update:value', itemOptions.value[i]?.value);
   }
 }
 
