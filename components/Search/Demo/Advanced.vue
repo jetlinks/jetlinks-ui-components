@@ -9,67 +9,65 @@ AdvancedSearch组件组件基本使用
 </docs>
 
 <template>
-  <j-advanced-search :columns="columns" @search="onSearch" />
-  <div>
-    查询结果:
-    <br>
-    {{ paramsStr }}
-  </div>
+    <j-advanced-search :columns="columns" @search="onSearch" />
+    <div>
+        查询结果:
+        <br />
+        {{ paramsStr }}
+    </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref } from 'vue';
 export default {
-  name: "AdvancedSearch",
-  setup() {
-    const paramsStr = ref()
-    const columns = [
-      {
-        title: '名称',
-        dataIndex: 'name',
-        search: {
-          type: 'string',
-          componentProps: {
-            placeholder: '请输入名称'
-          }
-        }
-      },
-      {
-        title: '年龄',
-        dataIndex: 'age',
-        search: {
-          type: 'number',
-          componentProps: {
-            placeholder: '请输入真实年龄'
-          }
-        }
-      },
-      {
-        title: '类型',
-        dataIndex: 'type',
-        search: {
-          type: 'select',
-          options: [
-            { label: '类型1', value: 1},
-            { label: '类型2', value: 2},
-          ]
-        }
-      },
-    ]
+    name: 'AdvancedSearch',
+    setup() {
+        const paramsStr = ref();
+        const columns = [
+            {
+                title: '名称',
+                dataIndex: 'name',
+                search: {
+                    type: 'string',
+                    componentProps: {
+                        placeholder: '请输入名称',
+                    },
+                },
+            },
+            {
+                title: '年龄',
+                dataIndex: 'age',
+                search: {
+                    type: 'number',
+                    componentProps: {
+                        placeholder: '请输入真实年龄',
+                    },
+                },
+            },
+            {
+                title: '类型',
+                dataIndex: 'type',
+                search: {
+                    type: 'select',
+                    options: [
+                        { label: '类型1', value: 1 },
+                        { label: '类型2', value: 2 },
+                    ],
+                },
+            },
+        ];
 
-    const onSearch = (e) => {
-      paramsStr.value = JSON.stringify(e)
-    }
+        const onSearch = (e) => {
+            paramsStr.value = JSON.stringify(e);
+        };
 
-    return {
-      columns,
-      paramsStr,
-      onSearch
-    }
-  }
-}
+        return {
+            columns,
+            paramsStr,
+            onSearch,
+        };
+    },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -64,7 +64,6 @@
                                     <span
                                         v-if="file.status === 'uploading'"
                                         class="tips"
-                                        style="color: #315efb"
                                     >
                                         已上传{{ parseInt(file.percent) }}%
                                     </span>
@@ -74,7 +73,7 @@
                                         :style="
                                             file.status === 'error'
                                                 ? 'color: red'
-                                                : 'color: #315EFB'
+                                                : ''
                                         "
                                     >
                                         {{
@@ -204,7 +203,6 @@
                                     <span
                                         v-if="file.status === 'uploading'"
                                         class="tips"
-                                        style="color: #315efb"
                                     >
                                         已上传{{ parseInt(file.percent) }}%
                                     </span>
@@ -214,7 +212,7 @@
                                         :style="
                                             file.status === 'error'
                                                 ? 'color: red'
-                                                : 'color: #315EFB'
+                                                : ''
                                         "
                                     >
                                         {{
@@ -311,6 +309,7 @@ const $slots = useSlots();
                     font-weight: 400;
                     font-size: 12px;
                     line-height: 20px;
+                    color: @primary-color;
                 }
                 .file-name {
                     flex: auto;
@@ -327,7 +326,7 @@ const $slots = useSlots();
         font-size: 14px;
         line-height: 0;
         :deep(.ant-progress-bg) {
-            background-color: #315efb;
+            background-color: @primary-color;
         }
         :deep(.ant-progress-inner) {
             background-color: rgba(49, 94, 251, 0.1);
@@ -377,7 +376,7 @@ const $slots = useSlots();
 
             .ant-progress-bg {
                 height: 6px !important;
-                background-color: var(--ant-primary-color);
+                background-color: @primary-color;
             }
 
             .ant-progress-inner {
@@ -429,7 +428,7 @@ const $slots = useSlots();
 
             .ant-progress-bg {
                 height: 6px !important;
-                background-color: var(--ant-primary-color);
+                background-color: @primary-color;
             }
 
             .ant-progress-inner {
@@ -446,7 +445,7 @@ const $slots = useSlots();
         border-radius: 6px !important;
     }
     .ant-progress-status-success .ant-progress-bg {
-        background-color: var(--ant-primary-color);
+        background-color: @primary-color;
     }
 }
 .error-pic {

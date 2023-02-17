@@ -29,12 +29,12 @@
                 class="card-btn"
                 @click="handleClick(item)"
             >
-                <Button type="link" :disabled="item.disabled">
+                <JButton type="link" :disabled="item.disabled">
                     {{ item.name }}
                     <template #icon>
                         <JLAIcon v-if="item.icon" :type="item.icon"></JLAIcon>
                     </template>
-                </Button>
+                </JButton>
             </div>
             <div v-if="moreActions?.length" class="card-btn-more">
                 <Popover
@@ -43,7 +43,7 @@
                     placement="bottomRight"
                     overlay-class-name="card-popover"
                 >
-                    <Button type="link">...</Button>
+                    <JButton type="link">...</JButton>
                     <template #content>
                         <div
                             v-for="item in moreActions"
@@ -66,7 +66,8 @@
 
 <script lang="ts" setup>
 import './style/index.less';
-import { Badge, Button, Popover } from 'ant-design-vue';
+import { Badge, Popover } from 'ant-design-vue';
+import JButton from '../Button';
 import { ref } from 'vue';
 import type { PropType } from 'vue';
 import { ActionType, StatusType } from './tablecardType';

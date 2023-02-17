@@ -1,6 +1,6 @@
 import { withInstall } from '../util/type';
-import ColorPicker from './color-picker.vue';
+import Color from './color-picker.vue';
 
-export const JLInput = withInstall(ColorPicker, 'JColorPicker');
+export const JLColorPicker = withInstall(Color, 'JColorPicker');
 
-export default JLInput;
+export default JLColorPicker;
