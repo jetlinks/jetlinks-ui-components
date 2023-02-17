@@ -19,5 +19,8 @@ export { default as Upload } from './Upload';
 export { default as Descriptions, JDescriptionsItem } from './Descriptions'
 export { default as Button } from './Button'
 export { default as Result } from './Result';
-export { default as ProLayout, PageContainer } from './ProLayout'
+export { default as ProLayout, PageContainer } from './ProLayout';
 export { default as Card } from './Card'
+export { default as JProTable } from './ProTable';
+export { default as Search, AdvancedSearch } from './Search';
+export { default as ColorPicker } from './ColorPicker';
