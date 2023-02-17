@@ -18,8 +18,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "importsNotUsedAsValues": "preserve",
     "paths": {
-      "JUI": ["./components/*"],
+      "JUI": ["components/components"],
     }
   },
-  "exclude": ["node_modules", "lib", "es"]
+  "exclude": ["node_modules", "lib", "es", "dist"]
 }
