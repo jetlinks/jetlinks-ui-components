@@ -42,36 +42,21 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    onConfirm: {
-        type: Function,
-        default: () => {
-            console.log('ok');
-        },
-    },
 });
 
 const visible = ref<boolean>(false);
-const loading = ref<boolean>(false);
-const cancelStatus = ref<boolean>(false);
 
 const cancel = () => {
-    cancelStatus.value = true;
     visible.value = false;
 };
 
-const ok = async () => {
-    if (props.loading) {
-        loading.value = true;
-        const isdone: void = await props?.onConfirm();
-        if (!!isdone || cancelStatus.value) visible.value = false;
-    } else {
-        props?.onConfirm();
-        visible.value = false;
-    }
+const ok = async (e: MouseEvent) => {
+    await props.onConfirm?.(e);
+    visible.value = false;
 };
+
 const visibleChange = (value: boolean) => {
     visible.value = value;
-    value ? (loading.value = false) : (cancelStatus.value = true);
 };
 </script>
 
@@ -84,5 +69,6 @@ const visibleChange = (value: boolean) => {
 // }
 .popconfirm-button {
     border-radius: 6px;
+    min-width: 70px;
 }
 </style>
