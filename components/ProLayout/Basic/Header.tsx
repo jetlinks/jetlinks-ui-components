@@ -1,53 +1,74 @@
-import { baseHeaderProps} from "../TopHeader";
-import type { BaseHeaderPropsType } from "../TopHeader";
-import PropTypes from "ant-design-vue/es/_util/vue-types";
-import type {ExtractPropTypes, PropType} from "vue";
-import type { WithFalse } from "../typings";
-import type { VueNode } from 'ant-design-vue/es/_util/type'
+import { baseHeaderProps, TopNavHeader } from '../TopHeader';
+import type { BaseHeaderPropsType } from '../TopHeader';
+import PropTypes from 'ant-design-vue/es/_util/vue-types';
+import type { ExtractPropTypes, PropType } from 'vue';
+import type { WithFalse } from '../typings';
+import type { VueNode } from 'ant-design-vue/es/_util/type';
 import { defineComponent, computed, toRefs } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
-import {useRouteContext} from "../RouteContext";
+import { useRouteContext } from '../RouteContext';
 import { Layout } from 'ant-design-vue';
-import {clearMenuItem} from "../util";
-import { TopNavHeader } from '../TopHeader'
-
+import { clearMenuItem } from '../util';
 
 export const headerViewProps = {
     ...baseHeaderProps,
     headerRender: {
-        type: [Object, Function, Boolean] as PropType<WithFalse<(props: any, defaultDom: VueNode) => VueNode>>,
+        type: [Object, Function, Boolean] as PropType<
+            WithFalse<(props: any, defaultDom: VueNode) => VueNode>
+        >,
         default: () => undefined,
     },
     headerTitleRender: {
-        type: [Object, Function, Boolean] as PropType<WithFalse<(props: any, defaultDom: VueNode) => VueNode>>,
+        type: [Object, Function, Boolean] as PropType<
+            WithFalse<(props: any, defaultDom: VueNode) => VueNode>
+        >,
         default: () => undefined,
     },
     headerContentRender: {
-        type: [Object, Function, Boolean] as PropType<WithFalse<(props: any) => VueNode>>,
+        type: [Object, Function, Boolean] as PropType<
+            WithFalse<(props: any) => VueNode>
+        >,
         default: () => undefined,
     },
     hasSiderMenu: PropTypes.looseBool,
     siderWidth: PropTypes.number.def(208),
 };
 
-export type HeaderViewProps = Partial<ExtractPropTypes<typeof headerViewProps> & BaseHeaderPropsType>;
+export type HeaderViewProps = Partial<
+    ExtractPropTypes<typeof headerViewProps> & BaseHeaderPropsType
+>;
 
 export default defineComponent({
     name: 'HeaderView',
     inheritAttrs: false,
     props: headerViewProps,
     setup(props) {
-        const { prefixCls, fixedHeader, hasSiderMenu, headerHeight, layout, navTheme, onCollapse } =
-            toRefs(props);
+        const {
+            prefixCls,
+            fixedHeader,
+            hasSiderMenu,
+            headerHeight,
+            layout,
+            navTheme,
+            onCollapse,
+        } = toRefs(props);
         const context = useRouteContext();
-        const needFixedHeader = computed(() => fixedHeader.value || context.fixedHeader || layout.value === 'mix');
+        const needFixedHeader = computed(
+            () =>
+                fixedHeader.value ||
+                context.fixedHeader ||
+                layout.value === 'mix',
+        );
         const isMix = computed(() => layout.value === 'mix');
         const isTop = computed(() => layout.value === 'top');
         const needSettingWidth = computed(
-            () => needFixedHeader.value && hasSiderMenu.value && !isTop.value
+            () => needFixedHeader.value && hasSiderMenu.value && !isTop.value,
         );
         const clearMenuData = computed(
-            () => (context.menuData && clearMenuItem(context.menuData as RouteRecordRaw[])) || []
+            () =>
+                (context.menuData &&
+                    clearMenuItem(context.menuData as RouteRecordRaw[])) ||
+                [],
         );
         const className = computed(() => {
             return {
@@ -57,7 +78,7 @@ export default defineComponent({
         });
 
         const renderContent = () => {
-            console.log('renderContent', clearMenuData.value)
+            console.log('renderContent', clearMenuData.value);
             const defaultDom = (
                 <TopNavHeader
                     mode="horizontal"
@@ -65,12 +86,12 @@ export default defineComponent({
                     onCollapse={onCollapse.value}
                     menuData={clearMenuData.value}
                 />
-            )
+            );
             if (props.headerRender) {
                 return props.headerRender(props, defaultDom);
             }
             return defaultDom;
-        }
+        };
 
         const width = computed(() => {
             return layout.value !== 'mix' && needSettingWidth.value
@@ -104,6 +125,6 @@ export default defineComponent({
                     {renderContent()}
                 </Layout.Header>
             </>
-        )
-    }
-})
+        );
+    },
+});
