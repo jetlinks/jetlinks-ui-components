@@ -14,6 +14,7 @@ const props = defineProps({
 </script>
 
 <style scoped lang="less">
+@import '../style/variable.less';
 .custom-input {
     :deep(.ant-input) {
         border-radius: 6px;
@@ -23,7 +24,7 @@ const props = defineProps({
             border-color: #cecece;
         }
         &:focus {
-            border-color: #315efb;
+            border-color: @primary-color;
             color: #333333;
             box-shadow: none;
         }
@@ -33,11 +34,11 @@ const props = defineProps({
     }
     :deep(.ant-input-affix-wrapper) {
         &:not(.ant-input-affix-wrapper-disabled):hover {
-            border-color: #315efb;
+            border-color: @primary-color;
         }
         &:focus {
             border-radius: 6px;
-            border-color: #315efb;
+            border-color: @primary-color;
             box-shadow: none;
         }
         &-focused {

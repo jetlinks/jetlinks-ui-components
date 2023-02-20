@@ -162,6 +162,8 @@ const props = defineProps({
     },
 });
 
+type optionItemType = { label: string; value: any };
+
 const emit = defineEmits<Emit>();
 
 const termsModel = reactive<SearchItemData>({
@@ -176,7 +178,7 @@ const cProps = ref({});
 
 const options = ref<any[]>([]);
 
-const columnOptions = ref<{ label: string; value: string }[]>([]);
+const columnOptions = ref<optionItemType[]>([]);
 const columnOptionMap = new Map();
 
 const termTypeOptions = reactive({ option: termType });
