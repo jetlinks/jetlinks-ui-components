@@ -47,7 +47,6 @@ import { scrollbarEmits, scrollbarProps } from './scrollbarUtil';
 import type { BarInstance } from './barUtil';
 import type { CSSProperties, StyleValue } from 'vue';
 import { omit } from 'lodash';
-
 const COMPONENT_NAME = 'ElScrollbar';
 
 // defineOptions({
@@ -214,60 +213,3 @@ defineExpose({
     handleScroll,
 });
 </script>
-<style scoped lang="less">
-@import './style/scrollbar.less';
-
-.el-scrollbar {
-    ::-webkit-scrollbar {
-        display: none;
-    }
-    overflow: hidden;
-    position: relative;
-    height: 100%;
-    .el-scrollbar__wrap {
-        overflow: auto;
-        height: 100%;
-        .hidden-default {
-            scrollbar-width: none;
-            &::-webkit-scrollbar {
-                display: none;
-            }
-        }
-    }
-}
-
-:deep(.el-scrollbar__bar) {
-    position: absolute;
-    right: 2px;
-    bottom: 2px;
-    z-index: 1;
-    border-radius: 4px;
-}
-:deep(.el-scrollbar__bar.is-horizontal) {
-    height: 6px;
-    left: 2px;
-    .el-scrollbar__thumb {
-        position: relative;
-        display: block;
-        cursor: pointer;
-        border-radius: inherit;
-        background-color: #000;
-        /*transition: #000;*/
-        opacity: var(--el-scrollbar-opacity, 0.3);
-        height: 100%;
-    }
-}
-:deep(.el-scrollbar__bar.is-vertical) {
-    width: 6px;
-    top: 2px;
-    .el-scrollbar__thumb {
-        position: relative;
-        display: block;
-        cursor: pointer;
-        border-radius: inherit;
-        background-color: #000;
-        /*transition: #000;*/
-        opacity: var(--el-scrollbar-opacity, 0.3);
-    }
-}
-</style>
