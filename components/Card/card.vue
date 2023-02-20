@@ -93,8 +93,3 @@ function handleChange(value: any) {
   emits('update:value', value);
 }
 </script>
-
-<style lang="less" scoped>
-@import "./style/index.less";
-
-</style>
