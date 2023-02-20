@@ -35,10 +35,3 @@ const props = defineProps({
 
 const baseProps = omit(props, ...renderArr);
 </script>
-
-<style lang="less" scoped>
-:deep(.ant-empty-description) {
-    color: #b3b3b3;
-    font-size: 14px;
-}
-</style>
