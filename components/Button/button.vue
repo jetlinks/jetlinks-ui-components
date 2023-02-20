@@ -1,10 +1,7 @@
 <template>
     <div class="custom-button">
-        <Button
-            v-bind="props"
-            :class="className"
-        >
-            <j-aIcon :type="props.myIcon" v-if="props.myIcon" />
+        <Button v-bind="props" :class="className">
+            <j-aIcon v-if="props.myIcon" :type="props.myIcon" />
             <slot name="icon"></slot>
             <slot name="default"></slot>
         </Button>
@@ -37,16 +34,16 @@ const className = computed(() => {
 </script>
 
 <style lang="less" scoped>
-@import 'ant-design-vue/es/style/themes/default.less';
+@import '../style/variable.less';
 @btn-denger: #e50012;
 .custom-button {
     .stroke-btn {
         color: @primary-color;
-        background-color: #F6F6F6;
+        background-color: #f6f6f6;
 
         &:hover {
-          color: #FFFFFF;
-          background-color: @primary-color;;
+            color: #ffffff;
+            background-color: @primary-color;
         }
         &:disabled {
             color: @btn-disable-color;
@@ -60,7 +57,7 @@ const className = computed(() => {
         background-color: #f1f1f1;
 
         &:hover {
-            color: #FFFFFF;
+            color: #ffffff;
             background-color: @btn-denger;
         }
 

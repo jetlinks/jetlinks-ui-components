@@ -8,43 +8,40 @@ import { additionalData } from './themeConfig';
  * @type {import('vite').UserConfig}
  */
 export default {
-  resolve: {
-    alias: {
-      vue: 'vue/dist/vue.esm-bundler.js',
-      'JUI': path.resolve(__dirname, '../components'),
-    },
-  },
-  server: {
-    host: true,
-  },
-  plugins: [
-    vueJsx({
-      // options are passed on to @vue/babel-plugin-jsx
-      mergeProps: false,
-      enableObjectSlots: false,
-    }),
-    docs(),
-    md(),
-    vue({
-      include: [/\.vue$/, /\.md$/],
-    }),
-  ],
-  optimizeDeps: {
-    include: [
-      'vue',
-      'vue-router',
-    ],
-  },
-  css: {
-    preprocessorOptions: {
-      less: {
-        modifyVars: {
-          'root-entry-name': 'variable',
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler.js',
+            JUI: path.resolve(__dirname, '../components'),
         },
-        javascriptEnabled: true,
-        // includePaths: ["node_modules/"],
-        additionalData,
-      },
     },
-  },
+    server: {
+        host: true,
+    },
+    plugins: [
+        vueJsx({
+            // options are passed on to @vue/babel-plugin-jsx
+            mergeProps: false,
+            enableObjectSlots: false,
+        }),
+        docs(),
+        md(),
+        vue({
+            include: [/\.vue$/, /\.md$/],
+        }),
+    ],
+    optimizeDeps: {
+        include: ['vue', 'vue-router'],
+    },
+    css: {
+        preprocessorOptions: {
+            less: {
+                modifyVars: {
+                    hack: `true; @border-radius-base: 6px;@base-primary: #315EFB;@ant-prefix:jetlinks;`,
+                },
+                javascriptEnabled: true,
+                // includePaths: ["node_modules/"],
+                additionalData,
+            },
+        },
+    },
 };
