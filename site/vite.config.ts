@@ -35,9 +35,6 @@ export default {
     css: {
         preprocessorOptions: {
             less: {
-                modifyVars: {
-                    hack: `true; @border-radius-base: 6px;@base-primary: #315EFB;@ant-prefix:jetlinks;`,
-                },
                 javascriptEnabled: true,
                 // includePaths: ["node_modules/"],
                 additionalData,
