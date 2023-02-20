@@ -280,7 +280,7 @@ const $slots = useSlots();
 </script>
 
 <style scoped lang="less">
-@import 'ant-design-vue/es/style/themes/default.less';
+@import '../style/variable.less';
 .upload-inner {
     .upload-inner-context {
         position: relative;

@@ -22,6 +22,19 @@ export default [
     component: () => import('../../../components/Card/demo/index.vue'),
   },
   {
+    path: 'ColorPicker',
+    meta: {
+        category: 'Components',
+        type: '数据录入',
+        title: 'ColorPicker',
+        subtitle: '颜色选择器',
+        cols: 1,
+        cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
+    },
+    component: () =>
+        import('../../../components/ColorPicker/demo/index.vue'),
+  },
+  {
     path: 'Descriptions',
     meta: {"category":"Components","type":"数据展示","title":"Descriptions","subtitle":"描述列表","cover":"https://gw.alipayobjects.com/zos/alicdn/MjtG9_FOI/Descriptions.svg","cols":2,"order":3},
     component: () => import('../../../components/Descriptions/demo/index.vue'),

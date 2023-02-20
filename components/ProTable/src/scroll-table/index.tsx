@@ -10,8 +10,9 @@ import {
     getCurrentInstance,
 } from 'vue';
 import styles from './index.module.less';
-import { memoize, isNumber } from 'lodash';
+import { memoize } from 'lodash';
 import JLEmpty from '../../../Empty';
+import type { VNodeChild, CSSProperties } from 'vue';
 
 interface ScrollTableProps {
     dataSource: Record<string, any>[];
