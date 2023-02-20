@@ -1,7 +1,7 @@
 export const typeOptions = [
     { label: '或者', value: 'or' },
     { label: '并且', value: 'and' },
-]
+];
 
 export const termType = [
     { label: '=', value: 'eq' },
@@ -28,5 +28,5 @@ export const componentType = {
     treeSelect: 'treeSelect',
     upload: 'upload',
     tree: 'tree',
-    select: 'select'
-}
+    select: 'select',
+};

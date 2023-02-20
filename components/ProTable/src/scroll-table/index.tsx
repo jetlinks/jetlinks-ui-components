@@ -9,9 +9,10 @@ import {
     unref,
     getCurrentInstance,
 } from 'vue';
-import styles from './index.module.less';
-import { memoize, isNumber } from 'lodash';
+import '../../style/index.ts';
+import { memoize } from 'lodash';
 import JLEmpty from '../../../Empty';
+import type { VNodeChild, CSSProperties } from 'vue';
 
 interface ScrollTableProps {
     dataSource: Record<string, any>[];
@@ -307,9 +308,9 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
         });
 
         return () => (
-            <div class={styles['wrapper']} style={props.bodyStyle}>
+            <div class={'wrapper'} style={props.bodyStyle}>
                 <div
-                    class={styles['window']}
+                    class={'window'}
                     style={{
                         position: 'relative',
                         overflowY: 'scroll',

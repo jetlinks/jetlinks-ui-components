@@ -29,12 +29,3 @@ const className = computed(() => {
 });
 </script>
 
-<style scoped lang="less">
-@import 'ant-design-vue/es/style/themes/default.less';
-
-.show-content {
-    :deep(.ant-pagination-item) {
-        display: none;
-    }
-}
-</style>

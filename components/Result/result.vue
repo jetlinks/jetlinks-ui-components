@@ -28,28 +28,30 @@ const props = defineProps({
 </script>
 
 <style lang="less" scoped>
+@import '../style/variable.less';
+
 :deep(.ant-btn-primary) {
-    background: #315efb;
-    border-color: #315efb;
+    background: @primary-color;
+    border-color: @primary-color;
 }
 .info {
     :deep(svg) {
-        color: #4293ff;
+        color: @info-color;
     }
 }
 .success {
     :deep(svg) {
-        color: #32d4a4;
+        color: @success-color;
     }
 }
 .warning {
     :deep(svg) {
-        color: #e7ad56;
+        color: @warning-color;
     }
 }
 .error {
     :deep(svg) {
-        color: #f76f5d;
+        color: @error-color;
     }
 }
 </style>

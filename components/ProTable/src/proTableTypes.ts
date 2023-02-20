@@ -44,6 +44,7 @@ export type ActionsType = {
 
 export interface JColumnProps extends ColumnProps {
     scopedSlots?: boolean; // 是否为插槽 true: 是 false: 否
+    hideInTable?: boolean; // 
 }
 
 export interface CommonProps extends TableProps {

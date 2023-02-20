@@ -14,7 +14,7 @@ const props = defineProps({
 </script>
 
 <style scoped lang="less">
-@import 'ant-design-vue/es/style/themes/default.less';
+@import '../style/variable.less';
 .custom-input {
     :deep(.ant-input) {
         border-radius: 6px;
