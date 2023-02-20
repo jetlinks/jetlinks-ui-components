@@ -20,6 +20,27 @@ const routes = [
       ...demoRoutes,
     ],
   },
+  {
+    path: '/iframe',
+    component: Iframe,
+    children: [
+      {
+        path: 'layout',
+        meta: {
+          category: 'Components',
+          subtitle: '布局',
+          type: '布局',
+          cols: 1,
+          title: 'Layout',
+        },
+        props: route => {
+          const hash = route.hash.replace('#', '');
+          return { iframeName: hash };
+        },
+        component: () => import('../../../components/ProLayout/demo/index.vue'),
+      },
+    ],
+  },
   { path: '/', redirect: '/components/overview' },
 ];
 
