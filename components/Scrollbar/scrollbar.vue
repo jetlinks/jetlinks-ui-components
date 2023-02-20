@@ -47,7 +47,6 @@ import { scrollbarEmits, scrollbarProps } from './scrollbarUtil';
 import type { BarInstance } from './barUtil';
 import type { CSSProperties, StyleValue } from 'vue';
 import { omit } from 'lodash';
-import './style/index.ts'
 const COMPONENT_NAME = 'ElScrollbar';
 
 // defineOptions({
