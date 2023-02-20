@@ -311,29 +311,6 @@ const JProTable = defineComponent<JProTableProps>({
             window.onresize = null;
         });
 
-        const windowChange = () => {
-            if (window.innerWidth <= 1440) {
-                const _column = props.gridColumn && props.gridColumn < 2 ? props.gridColumn : 2;
-                column.value = props.gridColumns ? props.gridColumns[0] : _column
-            } else if (window.innerWidth > 1440 && window.innerWidth <= 1600) {
-                const _column = props.gridColumn && props.gridColumn < 3 ? props.gridColumn : 3;
-                column.value = props.gridColumns ? props.gridColumns[1] : _column
-            } else if (window.innerWidth > 1600) {
-                const _column = props.gridColumn && props.gridColumn < 4 ? props.gridColumn : 4;
-                column.value = props.gridColumns ? props.gridColumns[2] : _column
-            }
-        }
-  
-        onMounted(() => {
-            window.onresize = () => {
-                windowChange()
-            }
-        })
-  
-        onUnmounted(() => {
-            window.onresize = null
-        })
-
         /**
          * 导出方法
          */

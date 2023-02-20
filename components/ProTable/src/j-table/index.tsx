@@ -1,6 +1,6 @@
 import { UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons-vue';
-import styles from './index.module.less';
-import { Pagination, Table, Alert } from 'ant-design-vue';
+import '../../style/index.ts'
+import { Table, Alert } from 'ant-design-vue';
 import type { TableProps } from 'ant-design-vue/es/table';
 import {
     defineComponent,
@@ -12,6 +12,7 @@ import {
 } from 'vue';
 import { JColumnProps, ModelEnum, TypeEnum } from '../proTableTypes';
 import JLEmpty from '../../../Empty';
+import JLPagination from '../../../Pagination';
 
 export interface JTableProps extends TableProps {
     cardBodyClass?: string;
@@ -147,26 +148,24 @@ const JTable = defineComponent<JTableProps>({
         // })
 
         return () => (
-            <div class={styles['jtable-body']} style={{ ...props.bodyStyle }}>
-                <div class={styles['jtable-body-header']}>
-                    <div class={styles['jtable-body-header-left']}>
+            <div class={'jtable-body'} style={{ ...props.bodyStyle }}>
+                <div class={'jtable-body-header'}>
+                    <div class={'jtable-body-header-left'}>
                         {/* 顶部左边插槽 */}
                         {slots.headerTitle && slots.headerTitle()}
                     </div>
-                    <div class={styles['jtable-body-header-right']}>
+                    <div class={'jtable-body-header-right'}>
                         {/* 顶部右边插槽 */}
                         {slots.rightExtraRender && slots.rightExtraRender()}
                         {!props.model && (
                             <div
-                                class={
-                                    styles['jtable-body-header-right-button']
-                                }
+                                class={'jtable-body-header-right-button'}
                             >
                                 <div
                                     class={[
-                                        styles['jtable-setting-item'],
+                                        'jtable-setting-item',
                                         ModelEnum.CARD === _model.value
-                                            ? styles['active']
+                                            ? 'active'
                                             : '',
                                     ]}
                                     onClick={() => {
@@ -177,9 +176,9 @@ const JTable = defineComponent<JTableProps>({
                                 </div>
                                 <div
                                     class={[
-                                        styles['jtable-setting-item'],
+                                        'jtable-setting-item',
                                         ModelEnum.TABLE === _model.value
-                                            ? styles['active']
+                                            ? 'active'
                                             : '',
                                     ]}
                                     onClick={() => {
@@ -193,12 +192,12 @@ const JTable = defineComponent<JTableProps>({
                     </div>
                 </div>
                 {/* content */}
-                <div class={styles['jtable-content']}>
+                <div class={'jtable-content'}>
                     {props.alertRender &&
                     props?.rowSelection &&
                     props?.rowSelection?.selectedRowKeys &&
                     props.rowSelection.selectedRowKeys?.length ? (
-                        <div class={styles['jtable-alert']}>
+                        <div class={'jtable-alert'}>
                             <Alert
                                 message={
                                     '已选择' +
@@ -217,10 +216,10 @@ const JTable = defineComponent<JTableProps>({
                         </div>
                     ) : null}
                     {_model.value === ModelEnum.CARD ? (
-                        <div class={styles['jtable-card']}>
+                        <div class={'jtable-card'}>
                             {props.dataSource.length ? (
                                 <div
-                                    class={styles['jtable-card-items']}
+                                    class={'jtable-card-items'}
                                     style={{
                                         gridTemplateColumns: `repeat(${props.column}, 1fr)`,
                                     }}
@@ -229,7 +228,7 @@ const JTable = defineComponent<JTableProps>({
                                         slots.card ? (
                                             <div
                                                 class={[
-                                                    styles['jtable-card-item'],
+                                                    'jtable-card-item',
                                                     props.cardBodyClass,
                                                 ]}
                                             >
@@ -284,11 +283,11 @@ const JTable = defineComponent<JTableProps>({
                 {!!props.dataSource.length &&
                     !props.noPagination &&
                     props.type === 'PAGE' && (
-                        <div class={styles['jtable-pagination']}>
+                        <div class={'jtable-pagination'}>
                             {slots?.paginationRender ? (
                                 slots.paginationRender()
                             ) : (
-                                <Pagination
+                                <JLPagination
                                     size="small"
                                     total={props.total}
                                     showQuickJumper={false}

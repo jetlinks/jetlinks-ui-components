@@ -45,6 +45,7 @@ cover: https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg
 | 参数        | 说明       | 类型    | 默认值 | 版本 |
 | ----------- | ---------- | ------- | ------ | ---- |
 | scopedSlots | 是否为插槽 | boolean | false  |      |
+| hideInTable | 是否在表格中隐藏 | boolean | -  |      |
 
 ### 事件
 

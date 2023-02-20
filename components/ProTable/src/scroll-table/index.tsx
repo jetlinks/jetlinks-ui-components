@@ -9,7 +9,7 @@ import {
     unref,
     getCurrentInstance,
 } from 'vue';
-import styles from './index.module.less';
+import '../../style/index.ts';
 import { memoize } from 'lodash';
 import JLEmpty from '../../../Empty';
 import type { VNodeChild, CSSProperties } from 'vue';
@@ -37,9 +37,10 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             type: Number,
             default: 0,
         },
-        windowHeight: { // 可视高度
+        windowHeight: {
+            // 可视高度
             type: Number,
-            default: 500
+            default: 500,
         },
         bodyStyle: {
             type: Object,
@@ -67,8 +68,8 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
         const cardHeight = ref<number>(0);
 
         // 每排展示的卡片数量
-        const totalRow = computed(() => props?.column || 4) // computed(() => Math.floor((windowWidth.value + rowSpan) / (cardWidth.value + rowSpan)))
-        
+        const totalRow = computed(() => props?.column || 4); // computed(() => Math.floor((windowWidth.value + rowSpan) / (cardWidth.value + rowSpan)))
+
         // 总共展示的列数
         const totalColumn = computed(() =>
             Math.ceil(props.total / totalRow.value),
@@ -97,18 +98,24 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
          */
         const getColumnsStartIndexForOffset = (scrollTop: number): number =>
             Math.max(
-              0,
-              Math.min(totalColumn.value - 1, Math.floor(scrollTop / ((cardHeight.value + columnSpan) as number)))
-        )
-        
+                0,
+                Math.min(
+                    totalColumn.value - 1,
+                    Math.floor(
+                        scrollTop / ((cardHeight.value + columnSpan) as number),
+                    ),
+                ),
+            );
+
         const getColumnsStopIndexForStartIndex = (
             { windowHeight },
             startIndex: number,
             scrollTop: number,
         ): number => {
             const numVisibleRows = Math.ceil(
-              (windowHeight as number) / ((cardHeight.value + columnSpan) as number)
-            )
+                (windowHeight as number) /
+                    ((cardHeight.value + columnSpan) as number),
+            );
 
             return Math.max(
                 0,
@@ -125,8 +132,8 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             if (totalColumn.value === 0 || totalRow.value === 0) {
                 return [0, 0, 0, 0];
             }
-    
-            const startIndex = getColumnsStartIndexForOffset(scrollTop)
+
+            const startIndex = getColumnsStartIndexForOffset(scrollTop);
             const stopIndex = getColumnsStopIndexForStartIndex(
                 props,
                 startIndex,
@@ -136,18 +143,27 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             // const cacheBackward = !isScrolling || yAxisScrollDir === 'backward' ? 2 : 1
             // const cacheForward = !isScrolling || yAxisScrollDir === 'forward' ? 2 : 1
 
-          const emitEvents = () => {
-            const {
-              isScrolling,
-              scrollTop,
-              updateRequested,
-              yAxisScrollDir,
-            } = unref(states)
-            if(updateRequested && isScrolling && yAxisScrollDir === 'forward' && scrollTop > 0){
-                const t = scrollTop - _scrollTop.value
-                if(t > cardHeight.value * 2) {
-                    _scrollTop.value = scrollTop
-                    emit('reachBottom', scrollTop)
+            return [
+                Math.max(0, startIndex),
+                Math.max(0, Math.min(totalColumn.value! - 1, stopIndex)),
+                startIndex,
+                stopIndex,
+            ];
+        });
+
+        const emitEvents = () => {
+            const { isScrolling, scrollTop, updateRequested, yAxisScrollDir } =
+                unref(states);
+            if (
+                updateRequested &&
+                isScrolling &&
+                yAxisScrollDir === 'forward' &&
+                scrollTop > 0
+            ) {
+                const t = scrollTop - _scrollTop.value;
+                if (t > cardHeight.value * 2) {
+                    _scrollTop.value = scrollTop;
+                    emit('reachBottom', scrollTop);
                 }
             }
         };
@@ -201,35 +217,41 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
 
             nextTick(() => resetIsScrolling());
 
-        const getTopPosition = (index) => index * ((cardHeight.value + columnSpan) as number)
+            onUpdated();
+            emitEvents();
+        };
 
-        const getLeftPosition = (index) => index * ((cardWidth.value + rowSpan) as number)
+        const getTopPosition = (index) =>
+            index * ((cardHeight.value + columnSpan) as number);
+
+        const getLeftPosition = (index) =>
+            index * ((cardWidth.value + rowSpan) as number);
 
         const getItemStyle = (
             rowIndex: number,
-            columnIndex: number
-          ): CSSProperties => {
-            const itemStyleCache = getItemStyleCache.value
+            columnIndex: number,
+        ): CSSProperties => {
+            const itemStyleCache = getItemStyleCache.value;
             // since there was no need to introduce an nested array into cache object
             // we use row,column to construct the key for indexing the map.
-            const key = `${rowIndex},${columnIndex}`
-    
+            const key = `${rowIndex},${columnIndex}`;
+
             if (itemStyleCache.hasOwnProperty(key)) {
-              return itemStyleCache[key]
+                return itemStyleCache[key];
             } else {
-              const left = getLeftPosition(rowIndex)
-    
-              const top = getTopPosition(columnIndex)
-    
-              itemStyleCache[key] = {
-                position: 'absolute',
-                left: `${left}px`,
-                top: `${top}px`,
-                height: `${cardHeight.value}px`,
-                width: `${cardWidth.value}px`,
-              }
-    
-              return itemStyleCache[key]
+                const left = getLeftPosition(rowIndex);
+
+                const top = getTopPosition(columnIndex);
+
+                itemStyleCache[key] = {
+                    position: 'absolute',
+                    left: `${left}px`,
+                    top: `${top}px`,
+                    height: `${cardHeight.value}px`,
+                    width: `${cardWidth.value}px`,
+                };
+
+                return itemStyleCache[key];
             }
         };
 
@@ -241,8 +263,10 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             if (totalRow.value > 0 && totalColumn.value > 0) {
                 for (let column = columnStart; column <= columnEnd; column++) {
                     for (let row = 0; row < totalRow.value; row++) {
-                        const _index = slots.prev ? totalRow.value*column + row - 1  : totalRow.value*column + row
-                        
+                        const _index = slots.prev
+                            ? totalRow.value * column + row - 1
+                            : totalRow.value * column + row;
+
                         children.push(
                             <div
                                 key={`${row}:${column}`}
@@ -260,12 +284,12 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
                         );
                     }
                 }
-            } else if(slots.prev){
+            } else if (slots.prev) {
                 children.push(
-                  <div key={`${0}:${0}`} style={{...getItemStyle(0, 0)}}>
-                      {slots.prev && slots.prev()}
-                  </div>
-                )
+                    <div key={`${0}:${0}`} style={{ ...getItemStyle(0, 0) }}>
+                        {slots.prev && slots.prev()}
+                    </div>,
+                );
             }
             return children;
         };
@@ -284,9 +308,9 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
         });
 
         return () => (
-            <div class={styles['wrapper']} style={props.bodyStyle}>
+            <div class={'wrapper'} style={props.bodyStyle}>
                 <div
-                    class={styles['window']}
+                    class={'window'}
                     style={{
                         position: 'relative',
                         overflowY: 'scroll',
