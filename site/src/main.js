@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 // import '../../components/style';
 // import 'docsearch.js/dist/cdn/docsearch.css';
+import '../../components/style'
 import './index.less';
 import { createApp, Transition, TransitionGroup, version as vueVersion } from 'vue';
 import router from './router';
