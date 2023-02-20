@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'vue'
+import type { CSSProperties , PropType } from 'vue'
 import type { ThumbProps } from '../Scrollbar/thumbUtil'
 export { isBoolean, isNumber } from '@vueuse/core'
 import { isBoolean, isNumber } from '@vueuse/core'
@@ -12,7 +12,7 @@ import {
     isPromise,
     isSymbol,
 } from '@vue/shared'
-import type { PropType } from 'vue'
+
 export {
     isArray,
     isFunction,

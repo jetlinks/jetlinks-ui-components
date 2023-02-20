@@ -1,14 +1,23 @@
 <template>
-    <div class="costom-table-card" :style="{width}">
+    <div class="costom-table-card" :style="{ width }">
         <div class="table-card-title">
             <span>{{ name }}</span>
         </div>
         <div
-            class="table-card-status"
-            :style="{ backgroundColor: getRgb(status?.color, 0.3) }"
             v-if="status"
+            class="table-card-status"
+            :style="{
+                backgroundColor: status.color
+                    ? getRgb(status.color, 0.3)
+                    : getRgb(StatusType[status.value], 0.3),
+            }"
         >
-            <Badge :color="status?.color" :text="status?.text" />
+            <Badge
+                :color="
+                    status?.color ? status?.color : StatusType[status.value]
+                "
+                :text="status?.text"
+            />
         </div>
         <div class="table-card-content">
             <slot name="content"></slot>
@@ -20,12 +29,12 @@
                 class="card-btn"
                 @click="handleClick(item)"
             >
-                <Button type="link" :disabled="item.disabled">
+                <JButton type="link" :disabled="item.disabled">
                     {{ item.name }}
                     <template #icon>
-                        <JLAIcon :type="item.icon"></JLAIcon>
+                        <JLAIcon v-if="item.icon" :type="item.icon"></JLAIcon>
                     </template>
-                </Button>
+                </JButton>
             </div>
             <div v-if="moreActions?.length" class="card-btn-more">
                 <Popover
@@ -34,7 +43,7 @@
                     placement="bottomRight"
                     overlay-class-name="card-popover"
                 >
-                    <Button type="link">...</Button>
+                    <JButton type="link">...</JButton>
                     <template #content>
                         <div
                             v-for="item in moreActions"
@@ -42,7 +51,10 @@
                             class="card-popover-item"
                             @click="handleClick(item)"
                         >
-                            <JLAIcon :type="item.icon"></JLAIcon>
+                            <JLAIcon
+                                v-if="item.icon"
+                                :type="item.icon"
+                            ></JLAIcon>
                             <span>{{ item.name }}</span>
                         </div>
                     </template>
@@ -54,18 +66,12 @@
 
 <script lang="ts" setup>
 import './style/index.less';
-import { Badge, Button, Popover } from 'ant-design-vue';
+import { Badge, Popover } from 'ant-design-vue';
+import JButton from '../Button';
 import { ref } from 'vue';
 import type { PropType } from 'vue';
-import type { ActionType } from './tablecardType';
+import { ActionType, StatusType } from './tablecardType';
 import JLAIcon from '../AIcon';
-const getRgb = (str: string, opacity: number): string => {
-    var arr = str.split('');
-    var myred = arr[1] + arr[2];
-    var mygreen = arr[3] + arr[4];
-    var myblue = arr[5] + arr[6];
-    return `rgba(${parseInt(myred, 16)}, ${parseInt(mygreen, 16)}, ${parseInt(myblue, 16)}, ${opacity})`
-};
 
 const props = defineProps({
     /**
@@ -73,14 +79,13 @@ const props = defineProps({
      */
     width: {
         type: String,
-        default: '400px'
+        default: '400px',
     },
     /**
      * 卡片数据，用于按钮操作传递数据
      */
     cardData: {
         type: Object,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         default: () => {},
     },
     /**
@@ -95,7 +100,6 @@ const props = defineProps({
      */
     status: {
         type: Object,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         default: () => {},
     },
     /**
@@ -110,6 +114,20 @@ const props = defineProps({
         default: () => [],
     },
 });
+
+const getRgb = (str: string, opacity: number): string => {
+    if (!str) {
+        return;
+    }
+    var arr = str.split('');
+    var myred = arr[1] + arr[2];
+    var mygreen = arr[3] + arr[4];
+    var myblue = arr[5] + arr[6];
+    return `rgba(${parseInt(myred, 16)}, ${parseInt(mygreen, 16)}, ${parseInt(
+        myblue,
+        16,
+    )}, ${opacity})`;
+};
 
 const visible = ref(false);
 const handleClick = (item: ActionType) => {
