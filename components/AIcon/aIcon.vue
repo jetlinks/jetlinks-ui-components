@@ -1,5 +1,5 @@
 <template>
-    <j-aIcon class="icon" :type="props.type" :scriptUrl="props.scriptUrl" />
+    <j-aIcon class="icon" :type="props.type" :script-url="props.scriptUrl" />
 </template>
 
 <script lang="ts" setup>
@@ -16,9 +16,3 @@ const props = defineProps({
     },
 });
 </script>
-
-<style scoped lang="less">
-.icon {
-    font-size: 16px;
-}
-</style>

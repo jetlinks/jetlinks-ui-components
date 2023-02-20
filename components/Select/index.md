@@ -15,6 +15,11 @@ cover: https://gw.alipayobjects.com/zos/alicdn/_0XzgOis7/Select.svg
 
 ## API
 
+```html
+<j-select>
+  <j-select-option value="lucy">lucy</j-select-option>
+</j-select>
+```
 ### Select props
 
 | 参数                     | 说明                                                                                                                                                                                                                                                                      | 类型                                                   | 默认值                                                 | 版本  |
