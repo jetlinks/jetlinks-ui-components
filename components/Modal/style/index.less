@@ -1,1 +1,28 @@
 @import '../../style/variable.less';
+
+.modal {
+    .ant-modal-header {
+        border-top-left-radius: @border-radius-base;
+        border-top-right-radius: @border-radius-base;
+        padding: 22px 20px;
+    }
+    .ant-modal-content {
+        border-radius: @border-radius-base;
+    }
+    .ant-modal-body,
+    .ant-modal-footer {
+        padding: 16px 20px;
+    }
+}
+.modalRef {
+    .modal;
+}
+.modalRef-message {
+    .modal;
+    .ant-modal-content {
+        padding-top: 24px;
+    }
+    .ant-modal-body {
+        margin: 0 20px 20px;
+    }
+}
