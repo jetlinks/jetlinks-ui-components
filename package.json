@@ -14,8 +14,7 @@
     "prettier": "prettier --write",
     "prepare": "husky install",
     "routes": "node site/scripts/genrateRoutes.js",
-    "site": "npm run routes && node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build site",
-    "docker": "yarn build && build.sh"
+    "site": "npm run routes && node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build site"
   },
   "dependencies": {
     "@vueuse/core": "^9.12.0",
