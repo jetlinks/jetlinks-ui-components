@@ -178,7 +178,8 @@ module.exports = {
                         _content += compiled.content
                     }
                     cloneFile.contents = Buffer.from(_content)
-                    cloneFile.path = cloneFile.path.replace(/\.vue$/, '.js')
+                    const lang = scriptSetup?.lang || script?.lang || 'js'
+                    cloneFile.path = cloneFile.path.replace(/\.vue$/, `.${lang}`)
                     return cloneFile
                 }
 
