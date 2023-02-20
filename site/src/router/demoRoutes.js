@@ -7,9 +7,6 @@ export default [
     component: () => import('../../../components/AIcon/demo/index.vue'),
   },
   {
-    path: 'Empty',
-    meta: {"category":"Components","type":"数据展示","title":"Empty","subtitle":"空状态","cover":"https://gw.alipayobjects.com/zos/alicdn/MNbKfLBVb/Empty.svg"},
-    component: () => import('../../../components/Empty/demo/index.vue'),
     path: 'AutoComplete',
     meta: {"category":"Components","subtitle":"自动完成","type":"数据录入","cols":2,"title":"AutoComplete","cover":"https://gw.alipayobjects.com/zos/alicdn/qtJm4yt45/AutoComplete.svg"},
     component: () => import('../../../components/AutoComplete/demo/index.vue'),
@@ -40,14 +37,14 @@ export default [
     component: () => import('../../../components/Divider/demo/index.vue'),
   },
   {
-    path: 'Empty',
-    meta: {"category":"Components","type":"数据展示","title":"Empty","subtitle":"空状态","cover":"https://gw.alipayobjects.com/zos/alicdn/MNbKfLBVb/Empty.svg"},
-    component: () => import('../../../components/Empty/demo/index.vue'),
-  },
-  {
     path: 'Ellipsis',
     meta: {"category":"Components","title":"Ellipsis","subtitle":"文本省略","cover":"https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original","cols":2,"type":"布局","order":3},
     component: () => import('../../../components/Ellipsis/demo/index.vue'),
+  },
+  {
+    path: 'Empty',
+    meta: {"category":"Components","type":"数据展示","title":"Empty","subtitle":"空状态","cover":"https://gw.alipayobjects.com/zos/alicdn/MNbKfLBVb/Empty.svg"},
+    component: () => import('../../../components/Empty/demo/index.vue'),
   },
   {
     path: 'Input',
@@ -55,14 +52,14 @@ export default [
     component: () => import('../../../components/Input/demo/index.vue'),
   },
   {
-    path: 'Message',
-    meta: {"category":"Components","subtitle":"全局提示","cols":1,"type":"反馈","title":"Message","cover":"https://gw.alipayobjects.com/zos/alicdn/hAkKTIW0K/Message.svg"},
-    component: () => import('../../../components/Message/demo/index.vue'),
-  },
-  {
     path: 'Modal',
     meta: {"category":"Components","type":"反馈","title":"Modal","subtitle":"对话框","cover":"https://gw.alipayobjects.com/zos/alicdn/3StSdUlSH/Modal.svg"},
     component: () => import('../../../components/Modal/demo/index.vue'),
+  },
+  {
+    path: 'Message',
+    meta: {"category":"Components","subtitle":"全局提示","cols":1,"type":"反馈","title":"Message","cover":"https://gw.alipayobjects.com/zos/alicdn/hAkKTIW0K/Message.svg"},
+    component: () => import('../../../components/Message/demo/index.vue'),
   },
   {
     path: 'MonacoEditor',
