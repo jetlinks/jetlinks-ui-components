@@ -34,7 +34,7 @@ const className = computed(() => {
 </script>
 
 <style lang="less" scoped>
-@import 'ant-design-vue/es/style/themes/default.less';
+@import '../style/variable.less';
 @btn-denger: #e50012;
 .custom-button {
     .stroke-btn {
