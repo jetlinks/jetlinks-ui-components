@@ -4,7 +4,14 @@
   </template>
   <section v-else :id="sectionId" class="code-box">
     <section class="code-box-demo">
-      <slot />
+      <template v-if="iframeDemo[iframeDemoKey]">
+        <div class="browser-mockup with-url">
+          <iframe :src="iframeDemo[iframeDemoKey]" :height="iframeHeight" />
+        </div>
+      </template>
+      <template v-else>
+        <slot />
+      </template>
     </section>
     <section class="code-box-meta markdown">
       <div class="code-box-title">
@@ -126,9 +133,7 @@ export default defineComponent({
     const iframeDemoKey = computed(() => {
       return (
         props.jsfiddle &&
-        props.jsfiddle.title &&
-        props.jsfiddle?.title['en-US'] &&
-        String(props.jsfiddle?.title['en-US']).split(' ').join('-').toLowerCase()
+        props.jsfiddle.title && props.jsfiddle.iframeName
       );
     });
     console.log('iframeDemoKey', iframeDemoKey.value)

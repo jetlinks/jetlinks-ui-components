@@ -60,9 +60,3 @@ onMounted(() => {
     });
 });
 </script>
-
-<style lang="less" scoped>
-.editor {
-    min-height: 300px;
-}
-</style>

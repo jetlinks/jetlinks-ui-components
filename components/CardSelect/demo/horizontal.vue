@@ -1,13 +1,13 @@
 <docs>
 ---
-order: 3
-title: 某个禁用
+order: 4
+title: 水平布局
 ---
 
 </docs>
 
 <template>
-  <j-card v-model:value="value" :options="options"/>
+  <j-card-select v-model:value="value" :options="options" type="horizontal" float="right"/>
 </template>
 
 <script lang="ts" setup>
@@ -26,8 +26,8 @@ const state = reactive({
   }, {
     value: '3',
     label: '延展性',
-    iconUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-    disabled: true, //禁用标志
+    subLabel: '延伸成细丝或展开成薄片而不破裂的性质',
+    iconUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
   }]
 });
 

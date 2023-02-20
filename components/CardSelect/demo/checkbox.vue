@@ -7,7 +7,7 @@ title: 多选
 </docs>
 
 <template>
-  <j-card  v-model:value="value" :options="options" multiple/>
+  <j-card-select  v-model:value="value" :options="options" multiple/>
 </template>
 
 <script lang="ts" setup>
