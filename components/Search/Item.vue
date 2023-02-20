@@ -356,32 +356,5 @@ watch(
 </script>
 
 <style scoped lang="less">
-.JSearch-item {
-    display: flex;
-    gap: 16px;
-    align-items: center;
 
-    .JSearch-item--type {
-        min-width: 80px;
-        > span {
-            line-height: 34px;
-            font-weight: bold;
-        }
-    }
-
-    .JSearch-item--column {
-        min-width: 100px;
-    }
-
-    .JSearch-item--termType {
-        min-width: 100px;
-    }
-    .JSearch-item--label {
-        min-width: 40px;
-    }
-
-    .JSearch-item--value {
-        flex: 1 1 auto;
-    }
-}
 </style>
