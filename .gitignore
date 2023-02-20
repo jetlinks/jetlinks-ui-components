@@ -11,8 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+lib
+es
 
 .history
+site/src/router/demoRoutes.js
 
 # Editor directories and files
 .vscode/*

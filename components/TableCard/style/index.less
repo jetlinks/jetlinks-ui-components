@@ -1,3 +1,4 @@
+@import '../../style/variable.less';
 .costom-table-card {
     border: 1px solid #e6e6e6;
     width: 398px;
@@ -12,7 +13,7 @@
         height: 80px;
         top: -69px;
         left: 20px;
-        z-index: -1;
+        z-index: 0;
         background: rgba(47, 84, 235, 0.55);
         transform: perspective(0.5em) rotateX(177deg);
     }
@@ -76,8 +77,12 @@
             border: 1px solid #e6e6e6;
             color: #000000;
             &:hover {
-                background: #315efb;
+                background-color: @primary-color;
                 color: #ffffff;
+            }
+            &:disabled {
+                color: @btn-disable-color;
+                background-color: @btn-disable-bg;
             }
         }
     }

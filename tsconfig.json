@@ -16,7 +16,10 @@
     "baseUrl": "./",
     "types": ["ant-design-vue/typings/global", "vite/client"],
     "suppressImplicitAnyIndexErrors": true,
-    "importsNotUsedAsValues": "preserve"
+    "importsNotUsedAsValues": "preserve",
+    "paths": {
+      "JUI": ["components/components"],
+    }
   },
-  "exclude": ["node_modules", "lib", "es"]
+  "exclude": ["node_modules", "lib", "es", "dist"]
 }

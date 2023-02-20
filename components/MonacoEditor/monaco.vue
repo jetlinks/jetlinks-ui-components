@@ -14,7 +14,7 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 
 self.MonacoEnvironment = {
-    getWorker(workerId, label) {
+    getWorker(_: string, label: string) {
         if (label === 'json') {
             return new jsonWorker();
         }
@@ -24,7 +24,7 @@ self.MonacoEnvironment = {
         if (label === 'html') {
             return new htmlWorker();
         }
-        if (label === 'ts') {
+        if (['typescript', 'javascript'].includes(label)) {
             return new tsWorker();
         }
         return new editorWorker();
@@ -60,9 +60,3 @@ onMounted(() => {
     });
 });
 </script>
-
-<style lang="less" scoped>
-.editor {
-    min-height: 300px;
-}
-</style>
