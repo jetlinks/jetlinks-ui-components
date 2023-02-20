@@ -263,6 +263,14 @@ function compile(modules) {
                 nextFile.forEach((f) => this.push(f));
                 next();
             }),
+        ).pipe(
+            ts(tsConfig, {
+                error(e) {
+                    tsDefaultReporter.error(e);
+                    error = 1;
+                },
+                finish: tsDefaultReporter.finish,
+            }),
         ).pipe(gulp.dest(modules === false ? esDir : libDir))
     }
 

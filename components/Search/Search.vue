@@ -99,5 +99,3 @@ const reset = () => {
 
 handleItems();
 </script>
-
-<style scoped></style>
