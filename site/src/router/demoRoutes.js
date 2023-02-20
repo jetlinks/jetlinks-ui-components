@@ -17,9 +17,9 @@ export default [
     component: () => import('../../../components/Button/demo/index.vue'),
   },
   {
-    path: 'Card',
+    path: 'CardSelect',
     meta: {"category":"Components","title":"Card","subtitle":"卡片选择框","cols":2,"type":"数据录入","order":2},
-    component: () => import('../../../components/Card/demo/index.vue'),
+    component: () => import('../../../components/CardSelect/demo/index.vue'),
   },
   {
     path: 'ColorPicker',
@@ -52,14 +52,14 @@ export default [
     component: () => import('../../../components/Input/demo/index.vue'),
   },
   {
-    path: 'Modal',
-    meta: {"category":"Components","type":"反馈","title":"Modal","subtitle":"对话框","cover":"https://gw.alipayobjects.com/zos/alicdn/3StSdUlSH/Modal.svg"},
-    component: () => import('../../../components/Modal/demo/index.vue'),
-  },
-  {
     path: 'Message',
     meta: {"category":"Components","subtitle":"全局提示","cols":1,"type":"反馈","title":"Message","cover":"https://gw.alipayobjects.com/zos/alicdn/hAkKTIW0K/Message.svg"},
     component: () => import('../../../components/Message/demo/index.vue'),
+  },
+  {
+    path: 'Modal',
+    meta: {"category":"Components","type":"反馈","title":"Modal","subtitle":"对话框","cover":"https://gw.alipayobjects.com/zos/alicdn/3StSdUlSH/Modal.svg"},
+    component: () => import('../../../components/Modal/demo/index.vue'),
   },
   {
     path: 'MonacoEditor',
