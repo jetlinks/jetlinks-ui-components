@@ -16,11 +16,3 @@ const props = defineProps({
     ...descriptionsProps(),
 });
 </script>
-
-<style scoped lang="less">
-:deep(.ant-descriptions-view) {
-    table {
-        table-layout: fixed !important;
-    }
-}
-</style>
