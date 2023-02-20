@@ -112,7 +112,7 @@ const deleteHistory = async (id: string) => {
 </script>
 
 <style scoped lang="less">
-@import 'ant-design-vue/es/style/themes/default.less';
+@import '../../style/variable.less';
 .history-empty {
     width: 200px;
     background-color: #fff;

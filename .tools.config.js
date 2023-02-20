@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const compactVars = require('./scripts/compact-vars');
-const vueCompiler = require('vue/compiler-sfc');
+const vueCompiler = require('@vue/compiler-sfc');
 
 function generateThemeFileContent(theme) {
     return `const { ${theme}ThemeSingle } = require('./theme');\nconst defaultTheme = require('./default-theme');\n
@@ -128,7 +128,7 @@ module.exports = {
 }
 
 function isComponentStyleEntry(file) {
-    return file.path.match(/style(\/|\\)index\.tsx/);
+    return file.path.match(/style(\/|\\)index\.ts/);
 }
 
 function needTransformStyle(content) {
@@ -144,7 +144,6 @@ module.exports = {
         transformTSFile(file) {
             if (isComponentStyleEntry(file)) {
                 let content = file.contents.toString();
-
                 if (needTransformStyle(content)) {
                     const cloneFile = file.clone();
 
@@ -157,9 +156,34 @@ module.exports = {
 
                     return cloneFile;
                 }
+            } else {
+                let content = file.contents.toString();
+                const cloneFile = file.clone();
+                content = content.replace('.vue', '.js')
+                cloneFile.contents = Buffer.from(content);
+                return cloneFile
             }
         },
-        transformVue(file) {},
+        transformVue(file) {
+            if(file.path.endsWith('.vue')) {
+                const cloneFile = file.clone()
+                const content = fs.readFileSync(file.path, 'utf-8')
+                const sfc = vueCompiler.parse(content)
+                const { script, scriptSetup } = sfc.descriptor
+                if ( script || scriptSetup) {
+                    let _content = script?.content || ""
+
+                    if (scriptSetup) {
+                        const compiled = vueCompiler.compileScript(sfc.descriptor, { id: 'xxx' })
+                        _content += compiled.content
+                    }
+                    cloneFile.contents = Buffer.from(_content)
+                    cloneFile.path = cloneFile.path.replace(/\.vue$/, '.js')
+                    return cloneFile
+                }
+
+            }
+        },
         transformFile(file) {
             if (isComponentStyleEntry(file)) {
                 const indexLessFilePath = file.path.replace(
