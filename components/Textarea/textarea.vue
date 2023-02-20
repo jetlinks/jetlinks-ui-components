@@ -12,25 +12,3 @@ const props = defineProps({
     ...textAreaProps(),
 });
 </script>
-
-<style scoped lang="less">
-@import '../style/variable.less';
-.custom-input {
-    :deep(.ant-input) {
-        border-radius: 6px;
-        border: 1px solid #e6e6e6;
-        color: #999999;
-        &:hover {
-            border-color: #cecece;
-        }
-        &:focus {
-            border-color: @primary-color;
-            color: #333333;
-            box-shadow: none;
-        }
-        &[disabled] {
-            background-color: #fafafa;
-        }
-    }
-}
-</style>

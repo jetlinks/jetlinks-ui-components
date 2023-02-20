@@ -39,9 +39,3 @@ onMounted(() => {
     });
 });
 </script>
-
-<style scoped lang="less">
-.center-extra-coontent {
-    overflow: hidden;
-}
-</style>
