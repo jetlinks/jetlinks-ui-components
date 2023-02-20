@@ -162,6 +162,8 @@ const props = defineProps({
     },
 });
 
+type optionItemType = { label: string; value: any };
+
 const emit = defineEmits<Emit>();
 
 const termsModel = reactive<SearchItemData>({
@@ -176,7 +178,7 @@ const cProps = ref({});
 
 const options = ref<any[]>([]);
 
-const columnOptions = ref<{ label: string; value: string }[]>([]);
+const columnOptions = ref<optionItemType[]>([]);
 const columnOptionMap = new Map();
 
 const termTypeOptions = reactive({ option: termType });
@@ -354,32 +356,5 @@ watch(
 </script>
 
 <style scoped lang="less">
-.JSearch-item {
-    display: flex;
-    gap: 16px;
-    align-items: center;
 
-    .JSearch-item--type {
-        min-width: 80px;
-        > span {
-            line-height: 34px;
-            font-weight: bold;
-        }
-    }
-
-    .JSearch-item--column {
-        min-width: 100px;
-    }
-
-    .JSearch-item--termType {
-        min-width: 100px;
-    }
-    .JSearch-item--label {
-        min-width: 40px;
-    }
-
-    .JSearch-item--value {
-        flex: 1 1 auto;
-    }
-}
 </style>
