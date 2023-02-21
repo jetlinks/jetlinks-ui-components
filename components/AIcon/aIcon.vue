@@ -16,9 +16,3 @@ const props = defineProps({
     },
 });
 </script>
-
-<style scoped lang="less">
-.icon {
-    font-size: 16px;
-}
-</style>
