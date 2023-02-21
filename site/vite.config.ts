@@ -5,7 +5,6 @@ import docs from '../plugin/docs';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { additionalData } from './themeConfig';
 
-
 const prefix = `monaco-editor/esm/vs`;
 
 /**
@@ -15,7 +14,7 @@ export default {
     resolve: {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
-            'JUI': path.resolve(__dirname, '../components'),
+            'jetlinks-ui-components': path.resolve(__dirname, '../components'),
         },
     },
     server: {
@@ -34,10 +33,7 @@ export default {
         }),
     ],
     optimizeDeps: {
-        include: [
-            'vue',
-            'vue-router',
-        ],
+        include: ['vue', 'vue-router'],
     },
     css: {
         preprocessorOptions: {
@@ -64,5 +60,4 @@ export default {
             },
         },
     },
-
 };
