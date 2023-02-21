@@ -318,7 +318,7 @@ const JProTable = defineComponent<JProTableProps>({
 
         return () => (
             <Spin spinning={loading.value}>
-                <div>
+                <div class="j-pro-table-box">
                     {props.type !== 'SCROLL' ? (
                         <JTable
                             {...props}
