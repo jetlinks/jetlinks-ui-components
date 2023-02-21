@@ -16,7 +16,7 @@ title: 树形控件
 import { Input } from 'ant-design-vue';
 import type { TreeProps } from 'ant-design-vue';
 import { ref } from 'vue';
-import { treeFilter } from 'JUI/Tree';
+import { treeFilter } from 'jetlinks-ui-components/Tree';
 
 const data: TreeProps['treeData'] = [
     {

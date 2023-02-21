@@ -18,7 +18,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "importsNotUsedAsValues": "preserve",
     "paths": {
-      "JUI": ["components/components"],
+      "jetlinks-ui-components": ["components/components"],
     }
   },
   "exclude": ["node_modules", "lib", "es", "dist"]
