@@ -9,8 +9,13 @@ cover: https://gw.alipayobjects.com/zos/alicdn/rrwbSt3FQ/Icon.svg
 
 ## API
 
+其中我们提供了三种主题的图标，不同主题的 Icon 组件名为图标名加主题做为后缀。
+更多 antd 官方图标参考 https://www.antdv.com/components/icon-cn
+
 ```html
-<j-aicon type="ZoomOutOutlined" />
+<j-aIcon type="UpCircleOutlined" />
+<j-aIcon type="UpCircleFilled" />
+<j-aIcon type="UpCircleTwoTone" />
 ```
 
 ### 通用图标
@@ -21,8 +26,6 @@ cover: https://gw.alipayobjects.com/zos/alicdn/rrwbSt3FQ/Icon.svg
 | scriptUrl | 自定义图标地址 | string | //at.alicdn.com/t/font_8d5l8fzk5b87iudi.js |      |
 
 > 支持 antd 官方全部图标，官网图标使用大驼峰命名，自定义图标使用小写短横线写法
-
-其中我们提供了三种主题的图标，不同主题的 Icon 组件名为图标名加主题做为后缀。
 
 ### 自定义图标
 
