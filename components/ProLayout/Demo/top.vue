@@ -1,18 +1,17 @@
 <docs>
 ---
-order: 1
+order: 2
 iframe: 600
-iframePath: Basic
-title: 基本使用
+iframePath: Top
+title: 固定顶部
 ---
 
-基本使用
+一般用于固定顶部导航，方便页面切换
 
 </docs>
 <template>
     <div class="content">
         <j-pro-layout
-            :splitMenus="true"
             v-model:collapsed="baseState.collapsed"
             v-model:selectedKeys="baseState.selectedKeys"
             v-model:openKeys="baseState.openKeys"
@@ -44,7 +43,7 @@ title: 基本使用
 import { reactive, defineComponent } from 'vue';
 import Menus from './menuData';
 export default defineComponent({
-    name: 'Basic',
+    name: 'Top',
     setup() {
         const baseState = reactive({
             selectedKeys: ['/admin', '/admin/sub-page1'],
@@ -55,7 +54,7 @@ export default defineComponent({
 
         const state = reactive({
             menuData: Menus,
-            layout: 'mix',
+            layout: 'top',
         });
 
         const pageState = reactive({
