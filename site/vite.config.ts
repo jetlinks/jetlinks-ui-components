@@ -4,6 +4,7 @@ import md from '../plugin/md';
 import docs from '../plugin/docs';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { additionalData } from './themeConfig';
+import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 
 const prefix = `monaco-editor/esm/vs`;
 
@@ -21,6 +22,7 @@ export default {
         host: true,
     },
     plugins: [
+        monacoEditorPlugin({}),
         vueJsx({
             // options are passed on to @vue/babel-plugin-jsx
             mergeProps: false,
