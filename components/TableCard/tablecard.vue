@@ -65,7 +65,6 @@
 </template>
 
 <script lang="ts" setup>
-import './style/index.less';
 import { Badge, Popover } from 'ant-design-vue';
 import JButton from '../Button';
 import { ref } from 'vue';
