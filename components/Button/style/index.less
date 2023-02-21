@@ -1,4 +1,3 @@
-
 @import '../../style/variable.less';
 @btn-denger: #e50012;
 .custom-button {
@@ -8,10 +7,12 @@
 
         &:hover {
             color: #ffffff;
+            border-color: @primary-color;
             background-color: @primary-color;
         }
         &:disabled {
             color: @btn-disable-color;
+            border-color: @btn-disable-color;
             background-color: @btn-disable-bg;
         }
     }
@@ -29,13 +30,6 @@
         &:disabled {
             color: @btn-disable-color;
             background-color: @btn-disable-bg;
-        }
-    }
-
-    :deep(.ant-btn-text) {
-        &:hover {
-            color: @primary-color !important;
-            background-color: transparent;
         }
     }
 }

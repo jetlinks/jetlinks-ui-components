@@ -7,7 +7,7 @@ title: 全部禁用
 </docs>
 
 <template>
-  <j-card v-model:value="value" :options="options" disabled/>
+  <j-card-select v-model:value="value" :options="options" disabled/>
 </template>
 
 <script lang="ts" setup>

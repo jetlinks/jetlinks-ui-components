@@ -1,7 +1,8 @@
 {
   "name": "jetlinks-ui-components",
-  "private": true,
   "version": "1.0.0",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "scripts": {
     "predev": "node node_modules/esbuild/install.js",
     "dev": "yarn predev && yarn routes && vite serve site",
@@ -14,9 +15,12 @@
     "prettier": "prettier --write",
     "prepare": "husky install",
     "routes": "node site/scripts/genrateRoutes.js",
-    "site": "npm run routes && node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build site",
-    "docker": "yarn build && build.sh"
+    "site": "npm run routes && node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build site"
   },
+  "files": [
+    "lib",
+    "es"
+  ],
   "dependencies": {
     "@vueuse/core": "^9.12.0",
     "ant-design-vue": "^3.2.15",

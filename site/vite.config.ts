@@ -4,47 +4,65 @@ import md from '../plugin/md';
 import docs from '../plugin/docs';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { additionalData } from './themeConfig';
+
+
+const prefix = `monaco-editor/esm/vs`;
+
 /**
  * @type {import('vite').UserConfig}
  */
 export default {
-  resolve: {
-    alias: {
-      vue: 'vue/dist/vue.esm-bundler.js',
-      'JUI': path.resolve(__dirname, '../components'),
-    },
-  },
-  server: {
-    host: true,
-  },
-  plugins: [
-    vueJsx({
-      // options are passed on to @vue/babel-plugin-jsx
-      mergeProps: false,
-      enableObjectSlots: false,
-    }),
-    docs(),
-    md(),
-    vue({
-      include: [/\.vue$/, /\.md$/],
-    }),
-  ],
-  optimizeDeps: {
-    include: [
-      'vue',
-      'vue-router',
-    ],
-  },
-  css: {
-    preprocessorOptions: {
-      less: {
-        modifyVars: {
-          'root-entry-name': 'variable',
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler.js',
+            'JUI': path.resolve(__dirname, '../components'),
         },
-        javascriptEnabled: true,
-        // includePaths: ["node_modules/"],
-        additionalData,
-      },
     },
-  },
+    server: {
+        host: true,
+    },
+    plugins: [
+        vueJsx({
+            // options are passed on to @vue/babel-plugin-jsx
+            mergeProps: false,
+            enableObjectSlots: false,
+        }),
+        docs(),
+        md(),
+        vue({
+            include: [/\.vue$/, /\.md$/],
+        }),
+    ],
+    optimizeDeps: {
+        include: [
+            'vue',
+            'vue-router',
+        ],
+    },
+    css: {
+        preprocessorOptions: {
+            less: {
+                modifyVars: {
+                    'root-entry-name': 'variable',
+                },
+                javascriptEnabled: true,
+                // includePaths: ["node_modules/"],
+                additionalData,
+            },
+        },
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    jsonWorker: [`${prefix}/language/json/json.worker`],
+                    cssWorker: [`${prefix}/language/css/css.worker`],
+                    htmlWorker: [`${prefix}/language/html/html.worker`],
+                    tsWorker: [`${prefix}/language/typescript/ts.worker`],
+                    editorWorker: [`${prefix}/editor/editor.worker`],
+                },
+            },
+        },
+    },
+
 };

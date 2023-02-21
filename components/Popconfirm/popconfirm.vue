@@ -59,16 +59,3 @@ const visibleChange = (value: boolean) => {
     visible.value = value;
 };
 </script>
-
-<style scoped lang="less">
-// .popconfirm-title {
-//     min-width: 120px !important;
-//     max-width: 200px !important;
-//     word-break: break-all !important;
-//     word-wrap: break-word !important;
-// }
-.popconfirm-button {
-    border-radius: 6px;
-    min-width: 70px;
-}
-</style>

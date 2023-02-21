@@ -177,6 +177,7 @@ module.exports = {
                         const compiled = vueCompiler.compileScript(sfc.descriptor, { id: 'xxx' })
                         _content += compiled.content
                     }
+                    _content = _content.replace('.vue', '.js')
                     cloneFile.contents = Buffer.from(_content)
                     const lang = scriptSetup?.lang || script?.lang || 'js'
                     cloneFile.path = cloneFile.path.replace(/\.vue$/, `.${lang}`)
