@@ -15,24 +15,28 @@ message.config({
 </docs>
 
 <template>
-    <a-space>
-        <Button @click="openMessage(configs[0])">open</Button>
-        <Button type="primary" @click="openMessage(configs[1])">success</Button>
-        <Button type="primary" danger @click="openMessage(configs[2])"
-            >error</Button
-        >
-        <Button type="dashed" @click="openMessage(configs[3])">info</Button>
-        <Button type="dashed" danger @click="openMessage(configs[4])"
-            >warning</Button
-        >
-        <Button type="primary" @click="openMessage(configs[5])">loading</Button>
-    </a-space>
+    <Button @click="openMessage(configs[0])">open</Button>
+    <p></p>
+    <Button type="primary" @click="openMessage(configs[1])">success</Button>
+    <p></p>
+    <Button type="primary" danger @click="openMessage(configs[2])"
+        >error</Button
+    >
+    <p></p>
+    <Button type="dashed" @click="openMessage(configs[3])">info</Button>
+    <p></p>
+    <Button type="dashed" danger @click="openMessage(configs[4])"
+        >warning</Button
+    >
+    <p></p>
+    <Button type="primary" @click="openMessage(configs[5])">loading</Button>
+    <p></p>
 </template>
 
 <script lang="ts" setup>
 import { Button } from 'ant-design-vue';
 import type { MessageArgsProps } from 'ant-design-vue';
-import { JMessage } from 'JUI/Message';
+import { Message as JMessage } from 'JUI';
 
 const configs: MessageArgsProps = [
     {
