@@ -16,7 +16,7 @@ title: 大数据
 import { Input } from 'ant-design-vue';
 import type { TreeProps } from 'ant-design-vue';
 import { ref } from 'vue';
-import { treeFilter } from 'JUI/Tree';
+import { treeFilter } from 'jetlinks-ui-components/Tree';
 
 function dig(path = '0', level = 3) {
     const list: TreeProps['treeData'] = [];
