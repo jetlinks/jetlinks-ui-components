@@ -28,4 +28,3 @@ const className = computed(() => {
     };
 });
 </script>
-

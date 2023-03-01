@@ -9,7 +9,7 @@ import {
     unref,
     getCurrentInstance,
 } from 'vue';
-import '../../style/index.ts';
+// import '../../style/index.ts';
 import { memoize } from 'lodash';
 import JLEmpty from '../../../Empty';
 import type { VNodeChild, CSSProperties } from 'vue';

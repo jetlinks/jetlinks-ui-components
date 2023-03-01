@@ -8,21 +8,30 @@ import type {
     CollapsedButtonRender,
     MenuExtraRender,
     SubMenuItemRender,
-    MenuContentRender, MenuItemRender, MenuHeaderRender
-} from "../typings";
-import SiderMenu, {siderMenuProps} from "../SiderMenu/SiderMenu";
-import type {CSSProperties, ExtractPropTypes, PropType} from "vue";
-import {computed, defineComponent, provide, reactive, watchEffect, toRefs} from "vue";
-import {defaultSettingProps} from "../defaultSettings";
-import { baseHeaderProps } from "../TopHeader";
-import Header, { headerViewProps } from './Header'
-import type { VueNode } from 'ant-design-vue/es/_util/type'
+    MenuContentRender,
+    MenuItemRender,
+    MenuHeaderRender,
+} from '../typings';
+import SiderMenu, { siderMenuProps } from '../SiderMenu/SiderMenu';
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
+import {
+    computed,
+    defineComponent,
+    provide,
+    reactive,
+    watchEffect,
+    toRefs,
+} from 'vue';
+import { defaultSettingProps } from '../defaultSettings';
+import { baseHeaderProps } from '../TopHeader';
+import Header, { headerViewProps } from './Header';
+import type { VueNode } from 'ant-design-vue/es/_util/type';
 import useConfigInject from 'ant-design-vue/es/_util/hooks/useConfigInject';
-import type {BreadcrumbProps, RouteContextProps} from '../RouteContext';
-import {pick} from "lodash-es";
-import {defaultRouteContext, routeContextInjectKey} from "../RouteContext";
-import {getMenuFirstChildren, getSlot} from "../util";
-import {Layout} from "ant-design-vue";
+import type { BreadcrumbProps, RouteContextProps } from '../RouteContext';
+import { pick } from 'lodash-es';
+import { defaultRouteContext, routeContextInjectKey } from '../RouteContext';
+import { getMenuFirstChildren, getSlot } from '../util';
+import { Layout } from 'ant-design-vue';
 
 export const basicLayoutProps = {
     ...defaultSettingProps,
@@ -71,7 +80,9 @@ export const basicLayoutProps = {
         default: () => null,
     },
     collapsedButtonRender: {
-        type: [Function, Object, Boolean] as PropType<WithFalse<(collapsed?: boolean) => VueNode>>,
+        type: [Function, Object, Boolean] as PropType<
+            WithFalse<(collapsed?: boolean) => VueNode>
+        >,
         default: () => undefined,
     },
     breadcrumbRender: {
@@ -90,7 +101,9 @@ export const basicLayoutProps = {
     },
 };
 
-export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>>;
+export type BasicLayoutProps = Partial<
+    ExtractPropTypes<typeof basicLayoutProps>
+>;
 
 export default defineComponent({
     name: 'JProLayout',
@@ -109,12 +122,18 @@ export default defineComponent({
     setup(props, { emit, attrs, slots }) {
         const { prefixCls } = useConfigInject('layout', {});
         const isTop = computed(() => props.layout === 'top');
-        const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false);
-        const hasSplitMenu = computed(() => props.layout === 'mix' && props.splitMenus);
+        const hasSide = computed(
+            () => props.layout === 'mix' || props.layout === 'side' || false,
+        );
+        const hasSplitMenu = computed(
+            () => props.layout === 'mix' && props.splitMenus,
+        );
         const hasFlatMenu = computed(() => {
             return hasSide.value && hasSplitMenu.value;
         });
-        const siderWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
+        const siderWidth = computed(() =>
+            props.collapsed ? props.collapsedWidth : props.siderWidth,
+        );
 
         const onCollapse = (collapsed: boolean) => {
             emit('update:collapsed', collapsed);
@@ -152,7 +171,10 @@ export default defineComponent({
         });
 
         watchEffect(() => {
-            if (props.isChildrenLayout || (props.contentStyle && props.contentStyle.minHeight)) {
+            if (
+                props.isChildrenLayout ||
+                (props.contentStyle && props.contentStyle.minHeight)
+            ) {
                 genLayoutStyle.minHeight = 0;
             }
         });
@@ -163,7 +185,7 @@ export default defineComponent({
                 headerRender: HeaderRender;
                 rightContentRender: RightContentRender;
             },
-            matchMenuKeys?: string[]
+            matchMenuKeys?: string[],
         ): VueNode | null => {
             if (p.headerRender === false || p.pure) {
                 return null;
@@ -173,12 +195,22 @@ export default defineComponent({
 
         const breadcrumb = computed<BreadcrumbProps>(() => ({
             ...props.breadcrumb,
-            itemRender: getSlot<BreadcrumbRender>(slots, props, 'breadcrumbRender') as BreadcrumbRender,
+            itemRender: getSlot<BreadcrumbRender>(
+                slots,
+                props,
+                'breadcrumbRender',
+            ) as BreadcrumbRender,
         }));
 
         const flatMenuData = computed(
             () =>
-                (hasFlatMenu.value && props.selectedKeys && getMenuFirstChildren(props.menuData, props.selectedKeys[0])) || []
+                (hasFlatMenu.value &&
+                    props.selectedKeys &&
+                    getMenuFirstChildren(
+                        props.menuData,
+                        props.selectedKeys[0],
+                    )) ||
+                [],
         );
 
         const routeContext = reactive<RouteContextProps>({
@@ -213,17 +245,53 @@ export default defineComponent({
                 ...restProps
             } = props;
 
-            const collapsedButtonRender = getSlot<CollapsedButtonRender>(slots, props, 'collapsedButtonRender');
-            const headerContentRender = getSlot<HeaderContentRender>(slots, props, 'headerContentRender');
-            const rightContentRender = getSlot<RightContentRender>(slots, props, 'rightContentRender');
-            const customHeaderRender = getSlot<HeaderRender>(slots, props, 'headerRender');
+            const collapsedButtonRender = getSlot<CollapsedButtonRender>(
+                slots,
+                props,
+                'collapsedButtonRender',
+            );
+            const headerContentRender = getSlot<HeaderContentRender>(
+                slots,
+                props,
+                'headerContentRender',
+            );
+            const rightContentRender = getSlot<RightContentRender>(
+                slots,
+                props,
+                'rightContentRender',
+            );
+            const customHeaderRender = getSlot<HeaderRender>(
+                slots,
+                props,
+                'headerRender',
+            );
 
             // menu
-            const menuHeaderRender = getSlot<MenuHeaderRender>(slots, props, 'menuHeaderRender');
-            const menuExtraRender = getSlot<MenuExtraRender>(slots, props, 'menuExtraRender');
-            const menuContentRender = getSlot<MenuContentRender>(slots, props, 'menuContentRender');
-            const menuItemRender = getSlot<MenuItemRender>(slots, props, 'menuItemRender');
-            const subMenuItemRender = getSlot<SubMenuItemRender>(slots, props, 'subMenuItemRender');
+            const menuHeaderRender = getSlot<MenuHeaderRender>(
+                slots,
+                props,
+                'menuHeaderRender',
+            );
+            const menuExtraRender = getSlot<MenuExtraRender>(
+                slots,
+                props,
+                'menuExtraRender',
+            );
+            const menuContentRender = getSlot<MenuContentRender>(
+                slots,
+                props,
+                'menuContentRender',
+            );
+            const menuItemRender = getSlot<MenuItemRender>(
+                slots,
+                props,
+                'menuItemRender',
+            );
+            const subMenuItemRender = getSlot<SubMenuItemRender>(
+                slots,
+                props,
+                'subMenuItemRender',
+            );
 
             const headerDom = computed(() =>
                 headerRender(
@@ -244,10 +312,14 @@ export default defineComponent({
                         menuContentRender,
                         headerContentRender,
                         headerRender: customHeaderRender,
-                        theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
+                        theme: (props.theme || 'dark')
+                            .toLocaleLowerCase()
+                            .includes('dark')
+                            ? 'dark'
+                            : 'light',
                     },
-                    props.matchMenuKeys
-                )
+                    props.matchMenuKeys,
+                ),
             );
             routeContext.hasHeader = !!headerDom.value;
 
@@ -255,51 +327,54 @@ export default defineComponent({
                 return {
                     [`${baseClassName.value}-content`]: true,
                     [`${baseClassName.value}-has-header`]: headerDom,
-                    [`${baseClassName.value}-content-disable-margin`]: props.disableContentMargin,
+                    [`${baseClassName.value}-content-disable-margin`]:
+                        props.disableContentMargin,
                 };
             });
-            console.log('isTop.value', isTop.value)
 
             return (
                 <>
-                    {
-                        pure ?
-                            slots.default?.() :
-                            (
-                                <div class={className.value}>
-                                    <Layout
-                                        style={{
-                                            minHeight: '100%',
-                                            ...((attrs.style as CSSProperties) || {}),
-                                        }}
-                                    >
-                                        {(!isTop.value) && (
-                                            <SiderMenu
-                                                {...restProps}
-                                                menuHeaderRender={menuHeaderRender}
-                                                menuExtraRender={menuExtraRender}
-                                                menuContentRender={menuContentRender}
-                                                menuItemRender={menuItemRender}
-                                                subMenuItemRender={subMenuItemRender}
-                                                collapsedButtonRender={collapsedButtonRender}
-                                                onCollapse={onCollapse}
-                                                onSelect={onSelect}
-                                                onOpenKeys={onOpenKeys}
-                                                onMenuClick={onMenuClick}
-                                            />
-                                        )}
-                                        <div style={genLayoutStyle} class={prefixCls.value}>
-                                            {headerDom.value}
-                                            <Layout.Content>
-                                                {slots.default?.()}
-                                            </Layout.Content>
-                                        </div>
-                                    </Layout>
+                    {pure ? (
+                        slots.default?.()
+                    ) : (
+                        <div class={className.value}>
+                            <Layout
+                                style={{
+                                    minHeight: '100vh',
+                                    ...((attrs.style as CSSProperties) || {}),
+                                }}
+                            >
+                                {!isTop.value && (
+                                    <SiderMenu
+                                        {...restProps}
+                                        menuHeaderRender={menuHeaderRender}
+                                        menuExtraRender={menuExtraRender}
+                                        menuContentRender={menuContentRender}
+                                        menuItemRender={menuItemRender}
+                                        subMenuItemRender={subMenuItemRender}
+                                        collapsedButtonRender={
+                                            collapsedButtonRender
+                                        }
+                                        onCollapse={onCollapse}
+                                        onSelect={onSelect}
+                                        onOpenKeys={onOpenKeys}
+                                        onMenuClick={onMenuClick}
+                                    />
+                                )}
+                                <div
+                                    style={genLayoutStyle}
+                                    class={prefixCls.value}
+                                >
+                                    {headerDom.value}
+                                    <Layout.Content>
+                                        {slots.default?.()}
+                                    </Layout.Content>
                                 </div>
-                            )
-                    }
+                            </Layout>
+                        </div>
+                    )}
                 </>
-            )
-        }
-    }
-})
+            );
+        };
+    },
+});
