@@ -19,16 +19,18 @@ export enum ModelEnum {
     CARD = 'CARD',
 }
 
-export type RequestData = {
-    code: string;
-    result: {
-        data: Record<string, any>[] | undefined;
-        pageIndex: number;
-        pageSize: number;
-        total: number;
-    };
-    status: number;
-} | Record<string, any>;
+export type RequestData =
+    | {
+          code: string;
+          result: {
+              data: Record<string, any>[] | undefined;
+              pageIndex: number;
+              pageSize: number;
+              total: number;
+          };
+          status: number;
+      }
+    | Record<string, any>;
 
 export type ActionsType = {
     key: string;
@@ -40,10 +42,11 @@ export type ActionsType = {
     tooltip?: TooltipProps;
     popConfirm?: PopconfirmProps;
     icon?: string;
-}
+};
 
 export interface JColumnProps extends ColumnProps {
     scopedSlots?: boolean; // 是否为插槽 true: 是 false: 否
+    hideInTable?: boolean; //
 }
 
 export interface CommonProps extends TableProps {

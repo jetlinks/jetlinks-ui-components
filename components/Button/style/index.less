@@ -1,0 +1,35 @@
+@import '../../style/variable.less';
+@btn-denger: #e50012;
+.custom-button {
+    .stroke-btn {
+        color: @primary-color;
+        background-color: #f6f6f6;
+
+        &:hover {
+            color: #ffffff;
+            border-color: @primary-color;
+            background-color: @primary-color;
+        }
+        &:disabled {
+            color: @btn-disable-color;
+            border-color: @btn-disable-color;
+            background-color: @btn-disable-bg;
+        }
+    }
+
+    .icon-danger {
+        color: @btn-denger;
+        border: none;
+        background-color: #f1f1f1;
+
+        &:hover {
+            color: #ffffff;
+            background-color: @btn-denger;
+        }
+
+        &:disabled {
+            color: @btn-disable-color;
+            background-color: @btn-disable-bg;
+        }
+    }
+}

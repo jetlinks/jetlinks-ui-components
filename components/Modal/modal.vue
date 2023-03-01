@@ -109,33 +109,3 @@ const transformStyle = computed<CSSProperties>(() => {
     };
 });
 </script>
-
-<style lang="less">
-@radius: 6px;
-.modal {
-    .ant-modal-header {
-        border-top-left-radius: @radius;
-        border-top-right-radius: @radius;
-        padding: 22px 20px;
-    }
-    .ant-modal-content {
-        border-radius: @radius;
-    }
-    .ant-modal-body,
-    .ant-modal-footer {
-        padding: 16px 20px;
-    }
-}
-.modalRef {
-    .modal;
-}
-.modalRef-message {
-    .modal;
-    .ant-modal-content {
-        padding-top: 24px;
-    }
-    .ant-modal-body {
-        margin: 0 20px 20px;
-    }
-}
-</style>

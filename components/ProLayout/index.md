@@ -1,9 +1,8 @@
 ---
 category: Components
 subtitle: 布局
-cols: 1
 type: 高阶组件
-iframeName: ProLayout
+cols: 1
 title: ProLayout
 cover:
 ---
@@ -13,7 +12,6 @@ cover:
 ```html
 <j-pro-layout></j-pro-layout>
 ```
-
 
 ### ProLayout
 

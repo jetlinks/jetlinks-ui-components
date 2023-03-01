@@ -18,5 +18,3 @@ const btnStyle = ref({
     large: { width: '50px', height: '50px' },
 });
 </script>
-
-<style scoped lang="less"></style>

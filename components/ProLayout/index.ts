@@ -1,13 +1,11 @@
 import { withInstall } from '../util/type';
-import ProLayout from './Basic/BasicLayout'
-import PageContainer from './PageContainer'
+import ProLayout from './Basic/BasicLayout';
+import PageContainer from './PageContainer';
 
-import './style.less'
+import './style';
 
-export {
-    PageContainer
-}
+export { PageContainer };
 
-export const JProLayout = withInstall(ProLayout, 'JProLayout')
+export const JProLayout = withInstall(ProLayout, 'JProLayout');
 
-export default JProLayout
+export default JProLayout;

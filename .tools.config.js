@@ -159,29 +159,36 @@ module.exports = {
             } else {
                 let content = file.contents.toString();
                 const cloneFile = file.clone();
-                content = content.replace('.vue', '.js')
+                content = content.replace('.vue', '.js');
                 cloneFile.contents = Buffer.from(content);
-                return cloneFile
+                return cloneFile;
             }
         },
         transformVue(file) {
-            if(file.path.endsWith('.vue')) {
-                const cloneFile = file.clone()
-                const content = fs.readFileSync(file.path, 'utf-8')
-                const sfc = vueCompiler.parse(content)
-                const { script, scriptSetup } = sfc.descriptor
-                if ( script || scriptSetup) {
-                    let _content = script?.content || ""
+            if (file.path.endsWith('.vue')) {
+                const cloneFile = file.clone();
+                const content = fs.readFileSync(file.path, 'utf-8');
+                const sfc = vueCompiler.parse(content);
+                const { script, scriptSetup } = sfc.descriptor;
+                if (script || scriptSetup) {
+                    let _content = script?.content || '';
 
                     if (scriptSetup) {
-                        const compiled = vueCompiler.compileScript(sfc.descriptor, { id: 'xxx' })
-                        _content += compiled.content
+                        const compiled = vueCompiler.compileScript(
+                            sfc.descriptor,
+                            { id: 'xxx' },
+                        );
+                        _content += compiled.content;
                     }
-                    cloneFile.contents = Buffer.from(_content)
-                    cloneFile.path = cloneFile.path.replace(/\.vue$/, '.js')
-                    return cloneFile
+                    _content = _content.replace('.vue', '.js');
+                    cloneFile.contents = Buffer.from(_content);
+                    const lang = scriptSetup?.lang || script?.lang || 'js';
+                    cloneFile.path = cloneFile.path.replace(
+                        /\.vue$/,
+                        `.${lang}`,
+                    );
+                    return cloneFile;
                 }
-
             }
         },
         transformFile(file) {

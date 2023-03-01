@@ -4,6 +4,9 @@ import md from '../plugin/md';
 import docs from '../plugin/docs';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { additionalData } from './themeConfig';
+
+const prefix = `monaco-editor/esm/vs`;
+
 /**
  * @type {import('vite').UserConfig}
  */
@@ -11,7 +14,7 @@ export default {
     resolve: {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
-            JUI: path.resolve(__dirname, '../components'),
+            'jetlinks-ui-components': path.resolve(__dirname, '../components'),
         },
     },
     server: {
@@ -36,11 +39,24 @@ export default {
         preprocessorOptions: {
             less: {
                 modifyVars: {
-                    hack: `true; @border-radius-base: 6px;@base-primary: #315EFB;@ant-prefix:jetlinks;`,
+                    'root-entry-name': 'variable',
                 },
                 javascriptEnabled: true,
                 // includePaths: ["node_modules/"],
                 additionalData,
+            },
+        },
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    jsonWorker: [`${prefix}/language/json/json.worker`],
+                    cssWorker: [`${prefix}/language/css/css.worker`],
+                    htmlWorker: [`${prefix}/language/html/html.worker`],
+                    tsWorker: [`${prefix}/language/typescript/ts.worker`],
+                    editorWorker: [`${prefix}/editor/editor.worker`],
+                },
             },
         },
     },

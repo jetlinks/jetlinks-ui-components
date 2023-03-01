@@ -151,19 +151,3 @@ function syncTriggerClass(
     }
 }
 </script>
-
-<style scoped lang="less">
-.j-ellipsis {
-    overflow: hidden;
-    vertical-align: bottom;
-}
-
-.j-ellipsis-cursor {
-    cursor: pointer;
-}
-
-.j-ellipsis-line-clamp {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-}
-</style>

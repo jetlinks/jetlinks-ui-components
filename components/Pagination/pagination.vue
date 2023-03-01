@@ -28,13 +28,3 @@ const className = computed(() => {
     };
 });
 </script>
-
-<style scoped lang="less">
-@import '../style/variable.less';
-
-.show-content {
-    :deep(.ant-pagination-item) {
-        display: none;
-    }
-}
-</style>
