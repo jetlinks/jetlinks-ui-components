@@ -20,6 +20,7 @@ export default {
     },
     server: {
         host: true,
+        port: 8082,
     },
     plugins: [
         monacoEditorPlugin({}),

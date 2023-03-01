@@ -331,7 +331,6 @@ export default defineComponent({
                         props.disableContentMargin,
                 };
             });
-            console.log('isTop.value', isTop.value);
 
             return (
                 <>
@@ -341,7 +340,7 @@ export default defineComponent({
                         <div class={className.value}>
                             <Layout
                                 style={{
-                                    minHeight: '100%',
+                                    minHeight: '100vh',
                                     ...((attrs.style as CSSProperties) || {}),
                                 }}
                             >

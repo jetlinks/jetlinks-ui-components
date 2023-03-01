@@ -49,7 +49,7 @@ export default defineComponent({
             hasSiderMenu,
             headerHeight,
             layout,
-            navTheme,
+            theme,
             onCollapse,
         } = toRefs(props);
         const context = useRouteContext();
@@ -81,6 +81,7 @@ export default defineComponent({
             console.log('renderContent', clearMenuData.value);
             const defaultDom = (
                 <TopNavHeader
+                    theme={theme.value}
                     mode="horizontal"
                     {...props}
                     onCollapse={onCollapse.value}
