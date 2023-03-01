@@ -19,7 +19,6 @@ export default (options: Options = {}): Plugin => {
                     code: (await markdownToVue(code, id)).vueSrc,
                     map: null,
                 };
-                console.log(result);
                 // transform .md files into vueSrc so plugin-vue can handle it
                 return result;
             }

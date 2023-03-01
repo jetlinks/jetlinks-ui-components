@@ -33,7 +33,7 @@ function dist(done) {
     const webpackConfig = require(getProjectPath('webpack.build.conf.js'));
     webpack(webpackConfig, (err, stats) => {
         if (err) {
-            console.error(err.stack || err);
+            console.error('webpack-error', err.stack || err);
             if (err.details) {
                 console.error(err.details);
             }

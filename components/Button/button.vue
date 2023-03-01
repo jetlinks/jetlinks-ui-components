@@ -1,7 +1,7 @@
 <template>
     <div class="custom-button">
         <Button v-bind="props" :class="className">
-            <j-aIcon v-if="props.myIcon" :type="props.myIcon" />
+            <AIcon v-if="props.myIcon" :type="props.myIcon" />
             <slot name="icon"></slot>
             <slot name="default"></slot>
         </Button>
@@ -10,8 +10,9 @@
 
 <script lang="ts" setup>
 import { Button } from 'ant-design-vue';
+import { AIcon } from '../components';
 import { buttonProps } from 'ant-design-vue/lib/button/buttonTypes';
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
     ...buttonProps(),

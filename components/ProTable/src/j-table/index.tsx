@@ -1,5 +1,5 @@
 import { UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons-vue';
-import '../../style/index.ts';
+// import '../../style/index.ts'
 import { Table, Alert } from 'ant-design-vue';
 import type { TableProps } from 'ant-design-vue/es/table';
 import {
