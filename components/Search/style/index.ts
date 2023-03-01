@@ -1,2 +1,2 @@
-import './Search.less'
-import './Item.less'
+import './Search.less';
+import './Item.less';

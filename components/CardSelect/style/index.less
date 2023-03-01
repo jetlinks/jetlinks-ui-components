@@ -1,10 +1,10 @@
-@import 'ant-design-vue/es/style/themes/index.less';
 @import '../../style/variable.less';
 
 @card-border: #f0f0f0;
 .j-card-panel {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
 
     .j-card-item {
         padding: 20px;
@@ -16,12 +16,10 @@
     }
 
     .vertical {
-        width: 130px;
         height: 130px;
     }
 
     .horizontal {
-        width: 186px;
         height: 100px;
     }
 
@@ -72,10 +70,4 @@
         display: flex;
         justify-content: space-around;
     }
-}
-
-.j-card-lg {
-}
-
-.j-card-sm {
 }

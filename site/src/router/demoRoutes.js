@@ -12,6 +12,17 @@ export default [
         component: () => import('../../../components/AIcon/demo/index.vue'),
     },
     {
+        path: 'Button',
+        meta: {
+            category: 'Components',
+            type: '通用',
+            title: 'Button',
+            subtitle: '按钮',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg',
+        },
+        component: () => import('../../../components/Button/demo/index.vue'),
+    },
+    {
         path: 'AutoComplete',
         meta: {
             category: 'Components',
@@ -25,28 +36,18 @@ export default [
             import('../../../components/AutoComplete/demo/index.vue'),
     },
     {
-        path: 'Button',
+        path: 'Descriptions',
         meta: {
             category: 'Components',
-            type: '通用',
-            title: 'Button',
-            subtitle: '按钮',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg',
-        },
-        component: () => import('../../../components/Button/demo/index.vue'),
-    },
-    {
-        path: 'CardSelect',
-        meta: {
-            category: 'Components',
-            title: 'CardSelect',
-            subtitle: '卡片选择器',
+            type: '数据展示',
+            title: 'Descriptions',
+            subtitle: '描述列表',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/MjtG9_FOI/Descriptions.svg',
             cols: 2,
-            type: '数据录入',
-            order: 2,
+            order: 3,
         },
         component: () =>
-            import('../../../components/CardSelect/demo/index.vue'),
+            import('../../../components/Descriptions/demo/index.vue'),
     },
     {
         path: 'ColorPicker',
@@ -62,18 +63,17 @@ export default [
             import('../../../components/ColorPicker/demo/index.vue'),
     },
     {
-        path: 'Descriptions',
+        path: 'CardSelect',
         meta: {
             category: 'Components',
-            type: '数据展示',
-            title: 'Descriptions',
-            subtitle: '描述列表',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/MjtG9_FOI/Descriptions.svg',
+            title: 'CardSelect',
+            subtitle: '卡片选择器',
             cols: 2,
-            order: 3,
+            type: '数据录入',
+            order: 2,
         },
         component: () =>
-            import('../../../components/Descriptions/demo/index.vue'),
+            import('../../../components/CardSelect/demo/index.vue'),
     },
     {
         path: 'Divider',
@@ -113,18 +113,6 @@ export default [
         component: () => import('../../../components/Empty/demo/index.vue'),
     },
     {
-        path: 'Input',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'Input',
-            subtitle: '输入框',
-            cols: 1,
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
-        },
-        component: () => import('../../../components/Input/demo/index.vue'),
-    },
-    {
         path: 'Message',
         meta: {
             category: 'Components',
@@ -135,6 +123,18 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/hAkKTIW0K/Message.svg',
         },
         component: () => import('../../../components/Message/demo/index.vue'),
+    },
+    {
+        path: 'Input',
+        meta: {
+            category: 'Components',
+            type: '数据录入',
+            title: 'Input',
+            subtitle: '输入框',
+            cols: 1,
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
+        },
+        component: () => import('../../../components/Input/demo/index.vue'),
     },
     {
         path: 'Modal',
