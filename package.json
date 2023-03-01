@@ -1,6 +1,6 @@
 {
   "name": "jetlinks-ui-components",
-  "version": "1.0.7",
+  "version": "1.0.0",
   "main": "lib/index.js",
   "module": "es/index.js",
   "scripts": {
@@ -126,6 +126,7 @@
     "slash": "^3.0.0",
     "string-replace-loader": "^3.1.0",
     "style-loader": "^3.3.1",
+    "sucrase": "^3.29.0",
     "terser-webpack-plugin": "^5.1.1",
     "through2": "^4.0.2",
     "ts-loader": "^9.1.0",
