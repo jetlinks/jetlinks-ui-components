@@ -193,9 +193,39 @@ module.exports = {
                             2,
                         )} */`;
                     }
-                    _content = _content.replace('.vue', '.js');
-                    cloneFile.contents = Buffer.from(_content);
-                    const lang = scriptSetup?.lang || script?.lang || 'js';
+
+                    code +=
+                        `\n` +
+                        vueCompiler.rewriteDefault(
+                            scriptCompiler.content,
+                            '__sfc_main__',
+                            ['typescript'],
+                        );
+
+                    if (lang) {
+                        code = transform(code, {
+                            transforms: ['typescript'],
+                        }).code;
+                    }
+
+                    code += `\nexport default __sfc_main__`;
+
+                    code = code.replace(/\.vue/g, '.js');
+
+                    // codeList.push(vueCompiler.rewriteDefault(script.content, `__sfc_main__`, ['typescript']))
+                    // codeList.push(`__sfc_main__.__scopeId='${scopeId}'`)
+                    //
+                    // const template = vueCompiler.compileTemplate({
+                    //     source: descriptor.template.content,
+                    //     filename: `main.vue`,
+                    //     id: scopeId,
+                    // })
+                    //
+                    // codeList.push(template.code);
+                    // codeList.push(`__sfc_main__.render=render`);
+                    // codeList.push(`export default __sfc_main__`);
+                    cloneFile.contents = Buffer.from(code);
+
                     cloneFile.path = cloneFile.path.replace(
                         /\.vue$/,
                         `.${lang}`,
