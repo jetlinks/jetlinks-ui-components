@@ -63,3 +63,6 @@ import './TimePicker/style';
 import './Tooltip/style';
 import './Transfer/style';
 import './TreeSelect/style';
+import './Select/style';
+import './Divider/style';
+import './Card/style';
