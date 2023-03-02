@@ -46,7 +46,7 @@ export default {
                 },
                 javascriptEnabled: true,
                 // includePaths: ["node_modules/"],
-                additionalData,
+                // additionalData,
             },
         },
     },
