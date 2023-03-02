@@ -20,14 +20,14 @@
             </div>
             <div class="JSearch-footer">
                 <div class="JSearch-footer--btns">
-                    <a-button type="primary" @click="searchSubmit">
+                    <j-button type="primary" @click="searchSubmit">
                         <template #icon><SearchOutlined /></template>
                         搜索
-                    </a-button>
-                    <a-button @click="reset">
+                    </j-button>
+                    <j-button @click="reset">
                         <template #icon><RedoOutlined /></template>
                         重置
-                    </a-button>
+                    </j-button>
                 </div>
             </div>
         </div>
@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import { JColumnsProps, SearchItemData, SearchProps, Terms } from './typing';
+import { Button as JButton } from '../components';
 import { set } from 'lodash-es';
 import { reactive, ref } from 'vue';
 import type { PropType } from 'vue';
