@@ -1,11 +1,9 @@
 <template>
-    <div class="custom-button">
-        <Button v-bind="props" :class="className">
-            <AIcon v-if="props.myIcon" :type="props.myIcon" />
-            <slot name="icon"></slot>
-            <slot name="default"></slot>
-        </Button>
-    </div>
+    <Button v-bind="props" :class="className">
+        <AIcon v-if="props.myIcon" :type="props.myIcon" />
+        <slot name="icon"></slot>
+        <slot name="default"></slot>
+    </Button>
 </template>
 
 <script lang="ts" setup>
