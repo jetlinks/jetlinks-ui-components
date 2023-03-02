@@ -1,6 +1,6 @@
 <docs>
 ---
-order: 3
+order: 0
 title: 滚动表格
 ---
 
@@ -9,11 +9,10 @@ title: 滚动表格
 </docs>
 <template>
     <div class="box">
-        <j-pro-table
-            type="SCROLL"
+        <j-scroll-table
             :request="query"
             :params="searchParams"
-            :windowHeight="600"
+            :windowHeight="700"
         >
             <template #prev>
                 <div class="card">
@@ -27,7 +26,7 @@ title: 滚动表格
                     </div>
                 </div>
             </template>
-        </j-pro-table>
+        </j-scroll-table>
     </div>
 </template>
 
