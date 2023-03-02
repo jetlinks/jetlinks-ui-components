@@ -2,32 +2,28 @@
     <div ref="searchRef" class="JSearch-warp">
         <div class="JSearch-content simple no-flex">
             <div class="JSearch-items">
-                <div
+                <SearchItem
                     v-for="(item, index) in searchItems"
                     :key="index + '_' + item.column"
-                    class="JSearch-item"
-                >
-                    <SearchItem
-                        :only-value="true"
-                        :expand="false"
-                        :index="index + 1"
-                        :columns="[item]"
-                        :component-props="item.componentProps"
-                        :terms-item="terms"
-                        @change="(v) => itemValueChange(v, index)"
-                    />
-                </div>
+                    :only-value="true"
+                    :expand="false"
+                    :index="index + 1"
+                    :columns="[item]"
+                    :component-props="item.componentProps"
+                    :terms-item="terms"
+                    @change="(v) => itemValueChange(v, index)"
+                />
             </div>
             <div class="JSearch-footer">
                 <div class="JSearch-footer--btns">
-                    <a-button type="primary" @click="searchSubmit">
+                    <j-button type="primary" @click="searchSubmit">
                         <template #icon><SearchOutlined /></template>
                         搜索
-                    </a-button>
-                    <a-button @click="reset">
+                    </j-button>
+                    <j-button @click="reset">
                         <template #icon><RedoOutlined /></template>
                         重置
-                    </a-button>
+                    </j-button>
                 </div>
             </div>
         </div>
@@ -36,6 +32,7 @@
 
 <script setup lang="ts">
 import { JColumnsProps, SearchItemData, SearchProps, Terms } from './typing';
+import { Button as JButton } from '../components';
 import { set } from 'lodash-es';
 import { reactive, ref } from 'vue';
 import type { PropType } from 'vue';

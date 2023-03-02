@@ -1,5 +1,5 @@
 <template>
-    <Tooltip ref="tooltipRef" placement="top" v-bind="props.tooltip">
+    <j-tooltip ref="tooltipRef" placement="top" v-bind="props.tooltip">
         <template v-if="props.tooltip" #title>
             <slot></slot>
             <slot name="tooltip"></slot>
@@ -18,11 +18,11 @@
         >
             <slot></slot>
         </span>
-    </Tooltip>
+    </j-tooltip>
 </template>
 
 <script lang="ts" setup>
-import { Tooltip, TooltipProps } from 'ant-design-vue';
+import { Tooltip as JTooltip, TooltipProps } from '../components';
 
 import { computed, mergeProps, PropType, ref, useAttrs } from 'vue';
 

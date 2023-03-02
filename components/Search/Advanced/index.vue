@@ -38,7 +38,7 @@
                     />
                 </div>
                 <div v-if="expand" class="center">
-                    <a-select
+                    <j-select
                         v-model:value="termType"
                         class="center-select"
                         :options="typeOptions"
@@ -76,17 +76,20 @@
                         @itemClick="historyItemClick"
                     />
                     <SaveHistory :terms="terms" :target="target" />
-                    <a-button @click="reset">
-                        <template #icon><RedoOutlined /></template>
+                    <j-button @click="reset">
+                        <template #icon>
+                            <AIcon type="RedoOutlined" />
+                        </template>
                         重置
-                    </a-button>
+                    </j-button>
                 </div>
-                <a-button type="link" class="more-btn" @click="expandChange">
+                <j-button type="link" class="more-btn" @click="expandChange">
                     更多筛选
-                    <DownOutlined
+                    <AIcon
+                        type="DownOutlined"
                         :class="['more-icon', expand ? 'more-up' : 'more-down']"
                     />
-                </a-button>
+                </j-button>
             </div>
         </div>
         <!--  简单模式  -->
@@ -104,14 +107,18 @@
             </div>
             <div class="JSearch-footer">
                 <div class="JSearch-footer--btns">
-                    <a-button type="primary" @click="searchSubmit">
-                        <template #icon><SearchOutlined /></template>
+                    <j-button type="primary" @click="searchSubmit">
+                        <template #icon>
+                            <AIcon type="SearchOutlined" />
+                        </template>
                         搜索
-                    </a-button>
-                    <a-button @click="reset">
-                        <template #icon><RedoOutlined /></template>
+                    </j-button>
+                    <j-button @click="reset">
+                        <template #icon>
+                            <AIcon type="RedoOutlined" />
+                        </template>
                         重置
-                    </a-button>
+                    </j-button>
                 </div>
             </div>
         </div>
@@ -123,11 +130,6 @@ import SearchItem from '../Item.vue';
 import { typeOptions } from '../setting';
 import { useElementSize, useUrlSearchParams } from '@vueuse/core';
 import { set } from 'lodash-es';
-import {
-    SearchOutlined,
-    DownOutlined,
-    RedoOutlined,
-} from '@ant-design/icons-vue';
 import { PropType, ref, reactive, watch, nextTick } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
@@ -138,6 +140,7 @@ import type {
     JColumnsProps,
 } from '../typing';
 import { termsParamsFormat } from '../util';
+import { Select as JSelect, Button as JButton, AIcon } from '../../components';
 
 type UrlParam = {
     q: string | null;
