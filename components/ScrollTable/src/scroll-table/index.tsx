@@ -7,9 +7,7 @@ import {
     onMounted,
     onUnmounted,
 } from 'vue';
-import JTable from './j-table/index';
 import Scroll from './scroll';
-import { debounce } from 'lodash-es';
 import { Empty, Spin } from '../../../components';
 
 type RequestData =
