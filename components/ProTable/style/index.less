@@ -1,80 +1,71 @@
 @import 'ant-design-vue/es/style/themes/index.less';
 @import '../../style/variable.less';
 
-.j-pro-table-box {
-    .jtable-body {
-        width: 100%;
-        padding: 16px 24px 24px;
-        background-color: white;
+.jtable-body {
+    width: 100%;
+    padding: 16px 24px 24px;
+    background-color: white;
+    box-sizing: border-box;
 
-        .jtable-body-header {
-            padding-bottom: 16px;
+    .jtable-body-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .jtable-body-header-right {
             display: flex;
-            justify-content: space-between;
+            gap: 8px;
             align-items: center;
 
-            .jtable-body-header-right {
+            .jtable-body-header-right-button {
                 display: flex;
+                margin-left: 10px;
                 gap: 8px;
-                align-items: center;
 
-                .jtable-body-header-right-button {
-                    display: flex;
-                    margin-left: 10px;
-                    gap: 8px;
+                .jtable-setting-item {
+                    color: rgba(0, 0, 0, 0.75);
+                    font-size: 16px;
+                    cursor: pointer;
 
-                    .jtable-setting-item {
-                        color: rgba(0, 0, 0, 0.75);
-                        font-size: 16px;
-                        cursor: pointer;
-
-                        &:hover {
-                            color: @primary-color-hover;
-                        }
-
-                        &.active {
-                            color: @primary-color-active;
-                        }
+                    &:hover {
+                        color: @primary-color-hover;
                     }
-                }
-            }
-        }
 
-        .jtable-content {
-            .jtable-alert {
-                margin-bottom: 16px;
-            }
-
-            .jtable-card {
-                .jtable-card-items {
-                    display: grid;
-                    grid-gap: 26px;
-
-                    .jtable-card-item {
-                        display: flex;
+                    &.active {
+                        color: @primary-color-active;
                     }
-                }
-            }
-        }
-
-        .jtable-pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-end;
-
-            :global {
-                .ant-pagination-item {
-                    display: none !important;
                 }
             }
         }
     }
 
-    .wrapper {
-        position: relative;
-
-        .window {
-            scrollbar-width: none;
+    .jtable-content {
+        padding: 16px 0;
+        .jtable-alert {
+            margin-bottom: 16px;
         }
+
+        .jtable-card {
+            .jtable-card-items {
+                display: grid;
+                grid-gap: 26px;
+
+                .jtable-card-item {
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    .jtable-pagination {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .j-table-empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10% 0;
     }
 }

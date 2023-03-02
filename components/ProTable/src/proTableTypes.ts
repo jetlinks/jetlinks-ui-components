@@ -6,12 +6,9 @@ import type { TooltipProps } from 'ant-design-vue/es/tooltip';
 import type { PopconfirmProps } from 'ant-design-vue/es/popconfirm';
 import { CSSProperties } from 'vue';
 
-export type ModelType = 'TABLE' | 'CARD';
-
 export enum TypeEnum {
     TREE = 'TREE',
     PAGE = 'PAGE',
-    SCROLL = 'SCROLL',
 }
 
 export enum ModelEnum {

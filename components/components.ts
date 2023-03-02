@@ -28,6 +28,7 @@ export { default as Result } from './Result';
 export { default as ProLayout, PageContainer } from './ProLayout';
 export { default as CardSelect } from './CardSelect';
 export { default as JProTable } from './ProTable';
+export { default as JScrollTable } from './ScrollTable';
 export { default as Search, AdvancedSearch } from './Search';
 export { default as ColorPicker } from './ColorPicker';
 

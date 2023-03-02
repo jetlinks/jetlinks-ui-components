@@ -4,13 +4,13 @@ subtitle: 表格
 cols: 1
 type: 高阶组件
 title: ProTable
-cover: https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg
+# cover: https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg
 ---
 
 ## API
 
 ```html
-<j-pro-table type="" />
+<j-pro-table />
 ```
 
 ### Table
@@ -20,9 +20,10 @@ cover: https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg
 | 参数             | 说明                                                                                                                                        | 类型                        | 默认值 | 版本 |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------ | ---- |
 | request          | 请求数据的 api                                                                                                                              | promise                     | -      |      |
+| loading          | 控制loading                                                                                                                           | boolean                     | undefined     |      |
 | columns          | 表格列的配置描述                                                                                                                            | array                       | -      |      |
 | params           | 搜索参数                                                                                                                                    | object                      | {}     |      |
-| type             | 表格的类型                                                                                                                                  | `TREE`\| `PAGE` \| `SCROLL` | 'PAGE' |      |
+| type             | 表格的类型                                                                                                                                  | `TREE`\| `PAGE` | 'PAGE' |      |
 | noPagination     | 是否显示分页                                                                                                                                | boolean                     | trues  |      |
 | rowSelection     | 列表项是否可选择                                                                                                                            | object                      | -      |      |
 | dataSource       | 数据数组                                                                                                                                    | object\[]                   |        |      |
@@ -31,9 +32,7 @@ cover: https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg
 | alertRender      | 是否展示上方选择提示框                                                                                                                      | boolean                     | true   |      |
 | defaultParams    | 默认参数                                                                                                                                    | object                      | {}     |      |
 | bodyStyle        | 内容区域自定义样式                                                                                                                          | object                      | -      |      |
-| windowHeight     | 可视范围的高度                                                                                                                              | number                      | 500    |      |
 | card             | 卡片插槽                                                                                                                                    | slot                        | -      |      |
-| pre              | 滑动表格的第一个卡片插槽                                                                                                                    | slot                        | -      |      |
 | headerTitle      | type 为`PAGE`和`TREE`时顶部左边插槽                                                                                                         | slot                        | -      |      |
 | rightExtraRender | type 为`PAGE`和`TREE`时顶部右边插槽                                                                                                         | slot                        | -      |      |
 | paginationRender | 分页插槽                                                                                                                                    | slot                        | -      |      |

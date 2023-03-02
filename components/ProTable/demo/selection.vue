@@ -19,8 +19,8 @@ title: 可选择
     @cancelSelect="cancelSelect"
   >
     <template #card="slotProps">
-      <div style="width: 100%" :style="{border: `1px solid ${selectedKeys.includes(slotProps.key) ? 'red' : 'lightgray'}`}">
-        <a-card hoverable @click="handleClick(slotProps)" style="width: 100%">{{slotProps?.name + slotProps.key}}</a-card>
+      <div style="width: 100%; padding: 20px" :style="{border: `1px solid ${selectedKeys.includes(slotProps.key) ? 'red' : 'lightgray'}`}">
+        <div @click="handleClick(slotProps)" style="width: 100%">{{slotProps?.name + slotProps.key}}</div>
       </div>
     </template>
   </j-pro-table>

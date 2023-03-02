@@ -3,31 +3,27 @@ import {
     nextTick,
     onMounted,
     ref,
-    watch,
-    watchEffect,
     computed,
     unref,
     getCurrentInstance,
 } from 'vue';
-// import '../../style/index.ts';
 import { memoize } from 'lodash';
-import JLEmpty from '../../../Empty';
+import { Empty } from '../../../components';
 import type { VNodeChild, CSSProperties } from 'vue';
 
 interface ScrollTableProps {
     dataSource: Record<string, any>[];
     total: number;
     cardHeight: number;
-    // cardWidth: number;
     windowHeight: number;
-    // windowWidth: number;
     columnSpan: number;
     rowSpan: number;
     bodyStyle?: Record<string, any>;
     column: number;
 }
 
-const ScrollTableProps = defineComponent<ScrollTableProps>({
+const Scroll = defineComponent<ScrollTableProps>({
+    name: 'Scroll',
     props: {
         dataSource: {
             type: Array,
@@ -51,6 +47,9 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
             default: 4,
         },
     } as any,
+    slots: [
+        'prev',
+    ],
     emits: ['reachBottom'],
     setup(props: ScrollTableProps, { slots, emit }) {
         const windowRef = ref<HTMLElement>();
@@ -344,7 +343,7 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
                             {renderItems()}
                         </div>
                     ) : (
-                        <JLEmpty />
+                        <Empty />
                     )}
                 </div>
             </div>
@@ -352,4 +351,4 @@ const ScrollTableProps = defineComponent<ScrollTableProps>({
     },
 });
 
-export default ScrollTableProps;
+export default Scroll;
