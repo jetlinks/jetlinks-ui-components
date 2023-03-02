@@ -3,15 +3,12 @@ import {
     nextTick,
     onMounted,
     ref,
-    watch,
-    watchEffect,
     computed,
     unref,
     getCurrentInstance,
 } from 'vue';
-// import '../../style/index.ts';
 import { memoize } from 'lodash';
-import JEmpty from '../../../Empty';
+import { Empty } from '../../../components';
 import type { VNodeChild, CSSProperties } from 'vue';
 
 interface ScrollTableProps {
@@ -346,7 +343,7 @@ const Scroll = defineComponent<ScrollTableProps>({
                             {renderItems()}
                         </div>
                     ) : (
-                        <JEmpty />
+                        <Empty />
                     )}
                 </div>
             </div>

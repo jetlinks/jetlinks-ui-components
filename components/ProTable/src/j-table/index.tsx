@@ -6,10 +6,9 @@ import {
     onUnmounted,
     PropType,
     ref,
-    watchEffect,
     watch
 } from 'vue';
-import { JColumnProps, ModelEnum, TypeEnum } from '../proTableTypes';
+import { JColumnProps, ModelEnum, TypeEnum, RequestData } from '../proTableTypes';
 
 export interface JTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -19,6 +18,7 @@ export interface JTableProps extends TableProps {
     noPagination?: boolean;
     rowSelection?: TableProps['rowSelection'];
     dataSource?: Record<string, any>[];
+    params?: Record<string, any>;
     gridColumn?: number;
     gridColumns?: number[];
     alertRender?: boolean;
@@ -81,6 +81,10 @@ const tableProps = () => {
             type: Boolean,
             default: true,
         },
+        params: {
+            type: Object,
+            default: () => {}
+        },
         type: {
             type: String,
             default: 'PAGE',
@@ -133,7 +137,7 @@ const ProTable = defineComponent<JTableProps>({
         }
 
         const handleSearch = async (_params?: Record<string, any>) => {
-            _loading.value = props.loading !== undefined ? props.loading : true
+            _loading.value = props.loading !== undefined ? props.loading as boolean : true
             if (props.request) {
                 const resp = await props.request({
                     pageIndex: 0,
@@ -169,7 +173,7 @@ const ProTable = defineComponent<JTableProps>({
             } else {
                 _dataSource.value = props?.dataSource || []
             }
-            _loading.value = props.loading !== undefined ? props.loading : false
+            _loading.value = props.loading !== undefined ? props.loading as boolean : false
 
         }
 
@@ -201,8 +205,7 @@ const ProTable = defineComponent<JTableProps>({
                     ..._params,
                     pageSize: 12,
                     pageIndex: 0,
-                },
-                true,
+                }
             );
         };
 
