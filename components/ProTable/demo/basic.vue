@@ -8,25 +8,23 @@ title: 基本
 
 </docs>
 <template>
-  <j-pro-table 
-    :columns="columns" 
-    :data-source="data" 
-    :noPagination="true"
-  >
-    <template #headerTitle><a-button type="primary">新增</a-button></template>
-    <template #rightExtraRender><a-button>批量操作</a-button></template>
-    <template #card="slotProps">
-      <div style="width: 100%">
-        <a-card style="width: 100%">
-          <h4>名称： {{slotProps?.name}}</h4>
-          <p>年龄： {{slotProps?.age}}</p>
-        </a-card>
-      </div>
-    </template>
-    <template #address="slotProps">
-      <a>{{slotProps?.address}}</a>
-    </template>
-  </j-pro-table>
+    <j-pro-table :columns="columns" :data-source="data" :noPagination="true" :gridColumn="3">
+        <template #headerTitle
+            ><j-button type="primary">新增</j-button></template
+        >
+        <template #rightExtraRender><j-button>批量操作</j-button></template>
+        <template #card="slotProps">
+            <div
+                style="width: 100%; border: 1px solid lightgray; padding: 20px"
+            >
+                <h4>名称： {{ slotProps?.name }}</h4>
+                <p>年龄： {{ slotProps?.age }}</p>
+            </div>
+        </template>
+        <template #address="slotProps">
+            <a>{{ slotProps?.address }}</a>
+        </template>
+    </j-pro-table>
 </template>
 
 
@@ -34,40 +32,42 @@ title: 基本
 import { random } from 'lodash';
 import { defineComponent } from 'vue';
 const columns = [
-  {
-    title: '名称',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: '地址',
-    dataIndex: 'address',
-    key: 'address',
-    scopedSlots: true
-  }
+    {
+        title: '名称',
+        dataIndex: 'name',
+        key: 'name',
+    },
+    {
+        title: '年龄',
+        dataIndex: 'age',
+        key: 'age',
+    },
+    {
+        title: '地址',
+        dataIndex: 'address',
+        key: 'address',
+        scopedSlots: true,
+    },
 ];
 
-const data = Array(10).fill(1).map((item, index) => {
-  return {
-    key: index + item,
-    name: 'John Brown',
-    age: random(100),
-    address: 'New York No. 1 Lake Park',
-  }
-})
+const data = Array(10)
+    .fill(1)
+    .map((item, index) => {
+        return {
+            key: index + item,
+            name: 'John Brown',
+            age: random(100),
+            address: 'New York No. 1 Lake Park',
+        };
+    });
 
 export default defineComponent({
-  setup() {
-    return {
-      data,
-      columns,
-    };
-  },
+    setup() {
+        return {
+            data,
+            columns,
+        };
+    },
 });
 </script>
 
