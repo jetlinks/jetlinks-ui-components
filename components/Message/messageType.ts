@@ -1,4 +1,4 @@
-import { MessageArgsProps } from 'ant-design-vue/es/message';
+import { MessageArgsProps } from 'ant-design-vue/lib/message';
 import { message } from 'ant-design-vue';
 
 message.config({

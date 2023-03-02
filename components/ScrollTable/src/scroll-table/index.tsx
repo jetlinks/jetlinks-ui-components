@@ -1,9 +1,5 @@
-import type { TableProps } from 'ant-design-vue/es/table';
-import {
-    defineComponent,
-    ref,
-    watch,
-} from 'vue';
+import type { TableProps } from 'ant-design-vue/lib/table';
+import { defineComponent, ref, watch } from 'vue';
 import Scroll from './scroll';
 import { Empty, Spin } from '../../../components';
 
@@ -66,9 +62,7 @@ const tableProps = () => {
 
 const JScrollTable = defineComponent<JProTableProps>({
     name: 'JScrollTable',
-    slots: [
-        'prev',
-    ],
+    slots: ['prev'],
     props: tableProps() as any,
     setup(props: JProTableProps, { slots, emit, expose }) {
         const _dataSource = ref<Record<string, any>[]>([]);
@@ -81,7 +75,8 @@ const JScrollTable = defineComponent<JProTableProps>({
             _params?: Record<string, any>,
             isRest?: boolean,
         ) => {
-            _loading.value = props.loading !== undefined ? props.loading as boolean : true;
+            _loading.value =
+                props.loading !== undefined ? (props.loading as boolean) : true;
             if (!props.request) {
                 _dataSource.value = props?.dataSource || [];
             } else {
@@ -98,29 +93,32 @@ const JScrollTable = defineComponent<JProTableProps>({
                 });
                 if (resp.status === 200) {
                     const obj = Array.isArray(resp.result)
-                            ? resp.result[0]
-                            : resp.result;
-                        if (obj) {
-                            if (isRest) {
-                                _dataSource.value = [...obj.data];
-                                pageIndex.value = resp.result?.pageIndex || 0;
-                                pageSize.value = resp.result?.pageSize || 6;
-                                total.value = resp.result?.total || 0;
-                            } else {
-                                _dataSource.value = [
-                                    ..._dataSource.value,
-                                    ...obj.data,
-                                ];
-                                pageIndex.value = resp.result?.pageIndex || 0;
-                                pageSize.value = resp.result?.pageSize || 6;
-                                total.value = resp.result?.total || 0;
-                            }
+                        ? resp.result[0]
+                        : resp.result;
+                    if (obj) {
+                        if (isRest) {
+                            _dataSource.value = [...obj.data];
+                            pageIndex.value = resp.result?.pageIndex || 0;
+                            pageSize.value = resp.result?.pageSize || 6;
+                            total.value = resp.result?.total || 0;
+                        } else {
+                            _dataSource.value = [
+                                ..._dataSource.value,
+                                ...obj.data,
+                            ];
+                            pageIndex.value = resp.result?.pageIndex || 0;
+                            pageSize.value = resp.result?.pageSize || 6;
+                            total.value = resp.result?.total || 0;
                         }
+                    }
                 } else {
                     _dataSource.value = [];
                 }
             }
-            _loading.value = props.loading !== undefined ? props.loading as boolean: false;
+            _loading.value =
+                props.loading !== undefined
+                    ? (props.loading as boolean)
+                    : false;
         };
 
         watch(

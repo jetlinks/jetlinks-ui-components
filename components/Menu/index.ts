@@ -19,6 +19,6 @@ export type {
     MenuItemProps,
     MenuMode,
     MenuDividerProps,
-} from 'ant-design-vue/es/menu/index';
+} from 'ant-design-vue/lib/menu/index';
 
 export default JMenu;

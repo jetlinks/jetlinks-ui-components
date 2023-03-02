@@ -16,7 +16,10 @@ export {
 } from './Input';
 export { default as Textarea } from './Textarea';
 export { default as MonacoEditor } from './MonacoEditor';
-export { default as Tabs, JTabPane } from './Tabs';
+
+export type { TabsProps, TabPaneProps } from './Tabs';
+export { default as Tabs } from './Tabs';
+
 export { default as Ellipsis } from './Ellipsis';
 export { default as Popconfirm } from './Popconfirm';
 export { default as Divider } from './Divider';
@@ -103,6 +106,15 @@ export { default as Form, JFormItem } from './Form';
 
 export type { InputNumberProps } from './InputNumber';
 export { default as InputNumber } from './InputNumber';
+
+export type { LayoutProps, SiderProps } from './Layout';
+export {
+    default as Layout,
+    JLayoutContent,
+    JLayoutFooter,
+    JLayoutHeader,
+    JLayoutSider,
+} from './Layout';
 
 export type { MentionsProps } from './Mentions';
 export { default as Mentions, JMentionsOption } from './Mentions';

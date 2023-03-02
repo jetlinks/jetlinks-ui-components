@@ -66,6 +66,7 @@ import './TreeSelect/style';
 import './Select/style';
 import './Divider/style';
 import './Card/style';
+import './Layout/style';
 import './AutoComplete/style';
 import './Message/style';
 import './Tree/style';

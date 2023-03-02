@@ -40,7 +40,7 @@ import {
     computed,
     CSSProperties,
 } from 'vue';
-import ModalProps from 'ant-design-vue/es/modal/Modal';
+import ModalProps from 'ant-design-vue/lib/modal/Modal';
 import { useDraggable } from '@vueuse/core';
 
 const slots = useSlots();
