@@ -5,4 +5,4 @@ export type { DrawerProps } from 'ant-design-vue/lib/drawer/index';
 
 export const JDrawer = withInstall(Drawer, 'JDrawer');
 
-export default JDrawer
+export default JDrawer;

@@ -5,11 +5,11 @@ import MenuItemGroup from "ant-design-vue/lib/menu/src/ItemGroup";
 import SubMenu from "ant-design-vue/lib/menu/src/SubMenu";
 import MenuDivider from "ant-design-vue/lib/menu/src/Divider";
 
-export const JMenu = withInstall(Menu, 'JMenu')
-export const JMenuItem = withInstall(MenuItem, 'JMenuItem')
-export const JMenuItemGroup = withInstall(MenuItemGroup, 'JMenuItemGroup')
-export const JSubMenu = withInstall(SubMenu, 'JSubMenu')
-export const JMenuDivider = withInstall(MenuDivider, 'JMenuDivider')
+export const JMenu = withInstall(Menu, 'JMenu');
+export const JMenuItem = withInstall(MenuItem, 'JMenuItem');
+export const JMenuItemGroup = withInstall(MenuItemGroup, 'JMenuItemGroup');
+export const JSubMenu = withInstall(SubMenu, 'JSubMenu');
+export const JMenuDivider = withInstall(MenuDivider, 'JMenuDivider');
 
 export type {
     MenuProps,
@@ -20,4 +20,4 @@ export type {
     MenuDividerProps,
 } from 'ant-design-vue/es/menu/index';
   
-export default JMenu
+export default JMenu;

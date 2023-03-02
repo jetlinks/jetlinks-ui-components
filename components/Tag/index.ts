@@ -7,4 +7,4 @@ export type { TagProps } from 'ant-design-vue/es/tag/index';
 export const JTag = withInstall(Tag, 'JTag');
 export const JCheckableTag = withInstall(CheckableTag, 'JCheckableTag');
 
-export default JTag
+export default JTag;
