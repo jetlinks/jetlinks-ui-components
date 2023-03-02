@@ -1,4 +1,4 @@
-import { withInstall } from "../util/type";
+import { withInstall } from '../util/type';
 import Avatar from 'ant-design-vue/lib/avatar/Avatar';
 import AvatarGroup from 'ant-design-vue/lib/avatar/Group';
 

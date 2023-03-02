@@ -1,5 +1,7 @@
-import { withInstall } from "../util/type";
-import TreeSelect, { TreeSelectNode } from 'ant-design-vue/lib/tree-select/index';
+import { withInstall } from '../util/type';
+import TreeSelect, {
+    TreeSelectNode,
+} from 'ant-design-vue/lib/tree-select/index';
 
 export type { TreeSelectProps } from 'ant-design-vue/lib/tree-select/index';
 

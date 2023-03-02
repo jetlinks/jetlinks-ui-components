@@ -1,4 +1,4 @@
-import { withInstall } from "../util/type";
+import { withInstall } from '../util/type';
 import Badge from 'ant-design-vue/lib/badge/Badge';
 import BadgeRibbon from 'ant-design-vue/lib/badge/Ribbon';
 

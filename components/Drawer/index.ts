@@ -1,4 +1,4 @@
-import { withInstall } from "../util/type";
+import { withInstall } from '../util/type';
 import Drawer from 'ant-design-vue/lib/drawer/index';
 
 export type { DrawerProps } from 'ant-design-vue/lib/drawer/index';

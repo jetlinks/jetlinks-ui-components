@@ -1,5 +1,5 @@
-import { withInstall } from "../util/type";
-import Cascader from "ant-design-vue/lib/cascader/index";
+import { withInstall } from '../util/type';
+import Cascader from 'ant-design-vue/lib/cascader/index';
 
 export const JCascader = withInstall(Cascader, 'JCascader');
 

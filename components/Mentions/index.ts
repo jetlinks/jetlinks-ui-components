@@ -1,5 +1,5 @@
-import { withInstall } from "../util/type";
-import Mentions, {MentionsOption} from 'ant-design-vue/lib/mentions/index';
+import { withInstall } from '../util/type';
+import Mentions, { MentionsOption } from 'ant-design-vue/lib/mentions/index';
 
 export type { MentionsProps } from 'ant-design-vue/lib/mentions/index';
 

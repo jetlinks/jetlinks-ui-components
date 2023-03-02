@@ -1,4 +1,4 @@
-import { withInstall } from "../util/type";
+import { withInstall } from '../util/type';
 import Tag from 'ant-design-vue/es/tag/index';
 import CheckableTag from 'ant-design-vue/es/tag/CheckableTag';
 

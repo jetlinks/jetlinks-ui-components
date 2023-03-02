@@ -1,6 +1,6 @@
-import { withInstall } from "../util/type";
-import Dropdown from "ant-design-vue/lib/dropdown/dropdown";
-import DropdownButton from "ant-design-vue/lib/dropdown/dropdown-button";
+import { withInstall } from '../util/type';
+import Dropdown from 'ant-design-vue/lib/dropdown/dropdown';
+import DropdownButton from 'ant-design-vue/lib/dropdown/dropdown-button';
 
 export const JDropdown = withInstall(Dropdown, 'JDropdown');
 export const JDropdownButton = withInstall(DropdownButton, 'JDropdownButton');
