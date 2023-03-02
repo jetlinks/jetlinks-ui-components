@@ -7,11 +7,9 @@ export interface ActionType {
 }
 
 export enum StatusType {
-    "error" = "#F76F5D",
-    "success" = "#24B276",
-    "warn" = "#E7AD56",
-    "default" = "#E0E0E0",
-    "processing" = "#4293FF"
+    'error' = '#F76F5D',
+    'success' = '#24B276',
+    'warn' = '#E7AD56',
+    'default' = '#E0E0E0',
+    'processing' = '#4293FF',
 }
-
-

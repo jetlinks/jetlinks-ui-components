@@ -15,13 +15,11 @@ title: 远程加载数据
     :defaultParams="{}"
     ref="instanceRef"
   >
-    <template #headerTitle><a-button type="primary" @click="refresh">刷新页面</a-button></template>
+    <template #headerTitle><j-button type="primary" @click="refresh">刷新页面</j-button></template>
     <template #card="slotProps">
-      <div style="width: 100%">
-        <a-card style="width: 100%" :title="slotProps?.name + slotProps?.key" hoverable>
-          <p>年龄： {{slotProps?.age}}</p>
-          <p>{{slotProps?.address}}</p>
-        </a-card>
+      <div style="width: 100%; border: 1px solid lightgray; padding: 20px">
+        <p>年龄： {{slotProps?.age}}</p>
+        <p>{{slotProps?.address}}</p>
       </div>
     </template>
   </j-pro-table>
@@ -74,7 +72,7 @@ const query = (params: Record<string, any>) => new Promise((resolve) => {
       status: 200
       
     })
-  }, 1000)
+  }, 2000)
 })
 
 const refresh = () =>  {

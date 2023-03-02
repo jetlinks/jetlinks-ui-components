@@ -27,7 +27,7 @@
                     <Avatar
                         class="icon box-shadow"
                         :src="item.iconUrl"
-                        :size="56"
+                        :size="iconSize"
                     />
                 </template>
                 <template v-else>
@@ -35,7 +35,7 @@
                         class="icon"
                         :class="{ 'box-shadow': type === 'horizontal' }"
                         :src="item.iconUrl"
-                        :size="56"
+                        :size="iconSize"
                     />
                     <div
                         class="desc"
@@ -84,6 +84,10 @@ const props = defineProps({
         type: Array as PropType<Array<CardOption>>,
         default: () => [],
     },
+    iconSize: {
+        type: Number,
+        default: 56,
+    },
     disabled: {
         type: Boolean,
         default: false,
@@ -92,8 +96,12 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    colGap: {
+        type: Number,
+        default: 6,
+    },
 });
-const { options, multiple, type, disabled, float } = toRefs(props);
+const { multiple, type, disabled, float, iconSize } = toRefs(props);
 
 const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined };
 const emits = defineEmits(['update:value']);
@@ -119,10 +127,6 @@ const handleSelect = (i) => {
 
 function getItemSelected(i) {
     return selectedItem.value?.findIndex((e) => e === i);
-}
-
-function handleChange(value: any) {
-    emits('update:value', value);
 }
 </script>
 

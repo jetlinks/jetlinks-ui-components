@@ -6,12 +6,9 @@ import type { TooltipProps } from 'ant-design-vue/es/tooltip';
 import type { PopconfirmProps } from 'ant-design-vue/es/popconfirm';
 import { CSSProperties } from 'vue';
 
-export type ModelType = 'TABLE' | 'CARD';
-
 export enum TypeEnum {
     TREE = 'TREE',
     PAGE = 'PAGE',
-    SCROLL = 'SCROLL',
 }
 
 export enum ModelEnum {
@@ -19,16 +16,18 @@ export enum ModelEnum {
     CARD = 'CARD',
 }
 
-export type RequestData = {
-    code: string;
-    result: {
-        data: Record<string, any>[] | undefined;
-        pageIndex: number;
-        pageSize: number;
-        total: number;
-    };
-    status: number;
-} | Record<string, any>;
+export type RequestData =
+    | {
+          code: string;
+          result: {
+              data: Record<string, any>[] | undefined;
+              pageIndex: number;
+              pageSize: number;
+              total: number;
+          };
+          status: number;
+      }
+    | Record<string, any>;
 
 export type ActionsType = {
     key: string;
@@ -40,11 +39,11 @@ export type ActionsType = {
     tooltip?: TooltipProps;
     popConfirm?: PopconfirmProps;
     icon?: string;
-}
+};
 
 export interface JColumnProps extends ColumnProps {
     scopedSlots?: boolean; // 是否为插槽 true: 是 false: 否
-    hideInTable?: boolean; // 
+    hideInTable?: boolean; //
 }
 
 export interface CommonProps extends TableProps {

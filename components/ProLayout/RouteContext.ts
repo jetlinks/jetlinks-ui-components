@@ -15,17 +15,27 @@ export interface BreadcrumbProps {
     routes?: Route[];
     params?: any;
     separator?: VNodeChild;
-    itemRender?: (opts: { route: Route; params: any; routes: Array<Route>; paths: Array<string> }) => VNodeChild;
+    itemRender?: (opts: {
+        route: Route;
+        params: any;
+        routes: Array<Route>;
+        paths: Array<string>;
+    }) => VNodeChild;
 }
 
-export type BreadcrumbListReturn = Pick<BreadcrumbProps, Extract<keyof BreadcrumbProps, 'routes' | 'itemRender'>>;
+export type BreadcrumbListReturn = Pick<
+    BreadcrumbProps,
+    Extract<keyof BreadcrumbProps, 'routes' | 'itemRender'>
+>;
 
 export interface MenuState {
     selectedKeys: string[];
     openKeys: string[];
 }
 
-export interface RouteContextProps extends Partial<DefaultSettingProps>, MenuState {
+export interface RouteContextProps
+    extends Partial<DefaultSettingProps>,
+        MenuState {
     menuData: MenuDataItem[];
     flatMenuData?: MenuDataItem[];
 
@@ -45,7 +55,10 @@ export interface RouteContextProps extends Partial<DefaultSettingProps>, MenuSta
 
 export const defaultPrefixCls = 'ant-pro';
 
-export const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
+export const getPrefixCls = (
+    suffixCls?: string,
+    customizePrefixCls?: string,
+) => {
     if (customizePrefixCls) return customizePrefixCls;
     return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
 };
@@ -57,12 +70,18 @@ export const defaultRouteContext = reactive({
     hasFooterToolbar: false,
 });
 
-export const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-context');
+export const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol(
+    'jetlinks-route-context',
+);
 
-export const provideRouteContext = (value: RouteContextProps | Ref<RouteContextProps>) => {
+export const provideRouteContext = (
+    value: RouteContextProps | Ref<RouteContextProps>,
+) => {
     provide(routeContextInjectKey, value);
 };
 
 export const useRouteContext = () =>
-    useContext<Required<RouteContextProps>>(routeContextInjectKey, defaultRouteContext);
-
+    useContext<Required<RouteContextProps>>(
+        routeContextInjectKey,
+        defaultRouteContext,
+    );

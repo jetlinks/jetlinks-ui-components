@@ -15,10 +15,10 @@ import demoSort from './components/demoSort.jsx';
 import clipboard from './directives/clipboard';
 import App from './App.vue';
 import i18n from './i18n';
-import 'ant-design-vue/dist/antd.css';
+// import 'ant-design-vue/dist/antd.css';
 import antd from 'ant-design-vue';
-import '../../components/style';
 import JUI from '../../components/index';
+import '../../components/style.ts';
 const app = createApp(App);
 
 app.use(antd);
