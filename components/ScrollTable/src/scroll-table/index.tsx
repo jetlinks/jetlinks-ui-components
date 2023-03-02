@@ -1,11 +1,8 @@
 import type { TableProps } from 'ant-design-vue/es/table';
 import {
     defineComponent,
-    PropType,
     ref,
     watch,
-    onMounted,
-    onUnmounted,
 } from 'vue';
 import Scroll from './scroll';
 import { Empty, Spin } from '../../../components';
@@ -79,13 +76,12 @@ const JScrollTable = defineComponent<JProTableProps>({
         const pageSize = ref<number>(6);
         const total = ref<number>(0);
         const _loading = ref<boolean>(true);
-        const column = ref<number>(props.gridColumn || 4);
 
         const handleSearch = async (
             _params?: Record<string, any>,
             isRest?: boolean,
         ) => {
-            _loading.value = props.loading !== undefined ? props.loading : true;
+            _loading.value = props.loading !== undefined ? props.loading as boolean : true;
             if (!props.request) {
                 _dataSource.value = props?.dataSource || [];
             } else {
@@ -124,7 +120,7 @@ const JScrollTable = defineComponent<JProTableProps>({
                     _dataSource.value = [];
                 }
             }
-            _loading.value = props.loading !== undefined ? props.loading : false;
+            _loading.value = props.loading !== undefined ? props.loading as boolean: false;
         };
 
         watch(
