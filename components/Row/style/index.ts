@@ -1,1 +1,1 @@
-import '../../Grid/style'
+import '../../Grid/style';

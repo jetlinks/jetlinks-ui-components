@@ -22,4 +22,4 @@ export const JSkeletonInput = withInstall(SkeletonInput, 'JSkeletonInput');
 export const JSkeletonImage = withInstall(SkeletonImage, 'JSkeletonImage');
 export const JSkeletonTitle = withInstall(SkeletonTitle, 'JSkeletonTitle');
 
-export default JSkeleton
+export default JSkeleton;

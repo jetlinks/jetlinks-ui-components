@@ -7,4 +7,4 @@ export type { TimelineProps, TimelineItemProps } from 'ant-design-vue/lib/timeli
 export const JTimeline = withInstall(Timeline, 'JTimeline');
 export const JTimelineItem = withInstall(TimelineItem, 'JTimelineItem');
 
-export default JTimeline
+export default JTimeline;

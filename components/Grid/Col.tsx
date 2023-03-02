@@ -3,7 +3,8 @@ import { defineComponent } from "vue";
 import { colProps } from "ant-design-vue/lib/grid/Col";
 export const baseProps = {
   ...colProps()
-}
+};
+
 export default defineComponent({
   name: 'JSpace',
   props: baseProps,
@@ -16,4 +17,4 @@ export default defineComponent({
       </Col>
     )
   }
-})
+});
