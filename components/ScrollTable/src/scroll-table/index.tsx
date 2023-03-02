@@ -5,7 +5,7 @@ import {
     watch,
 } from 'vue';
 import Scroll from './scroll';
-import { Spin } from '../../../components';
+import { Empty, Spin } from '../../../components';
 
 type RequestData =
     | {
