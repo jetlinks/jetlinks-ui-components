@@ -1,15 +1,13 @@
 <template>
-    <span class="custom-select">
-        <Select
-            v-bind="props"
-            :show-search="props.filterable"
-            :filter-option="filterOption"
-            :style="{ width: props.width }"
-        >
-            <slot name="default" />
-            <slot name="dropdownRender" />
-        </Select>
-    </span>
+    <Select
+        v-bind="props"
+        :show-search="props.filterable"
+        :filter-option="filterOption"
+        :style="{ width: props.width }"
+    >
+        <slot name="default" />
+        <slot name="dropdownRender" />
+    </Select>
 </template>
 
 <script lang="ts" setup>
