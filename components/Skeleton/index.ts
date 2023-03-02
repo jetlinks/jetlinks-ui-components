@@ -1,4 +1,4 @@
-import { withInstall } from "../util/type";
+import { withInstall } from '../util/type';
 import Skeleton from 'ant-design-vue/lib/skeleton/Skeleton';
 import SkeletonButton from 'ant-design-vue/lib/skeleton/Button';
 import SkeletonAvatar from 'ant-design-vue/lib/skeleton/Avatar';
@@ -22,4 +22,4 @@ export const JSkeletonInput = withInstall(SkeletonInput, 'JSkeletonInput');
 export const JSkeletonImage = withInstall(SkeletonImage, 'JSkeletonImage');
 export const JSkeletonTitle = withInstall(SkeletonTitle, 'JSkeletonTitle');
 
-export default JSkeleton
+export default JSkeleton;
