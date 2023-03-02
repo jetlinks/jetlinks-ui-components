@@ -1,5 +1,5 @@
 import { UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons-vue';
-import '../../style/index.ts'
+// import '../../style/index.ts'
 import { Table, Alert } from 'ant-design-vue';
 import type { TableProps } from 'ant-design-vue/es/table';
 import {
@@ -158,9 +158,7 @@ const JTable = defineComponent<JTableProps>({
                         {/* 顶部右边插槽 */}
                         {slots.rightExtraRender && slots.rightExtraRender()}
                         {!props.model && (
-                            <div
-                                class={'jtable-body-header-right-button'}
-                            >
+                            <div class={'jtable-body-header-right-button'}>
                                 <div
                                     class={[
                                         'jtable-setting-item',
@@ -247,7 +245,9 @@ const JTable = defineComponent<JTableProps>({
                         <div>
                             <Table
                                 dataSource={props.dataSource}
-                                columns={props.columns.filter(i => !(i?.hideInTable))}
+                                columns={props.columns.filter(
+                                    (i) => !i?.hideInTable,
+                                )}
                                 pagination={false}
                                 rowKey="id"
                                 rowSelection={props.rowSelection}

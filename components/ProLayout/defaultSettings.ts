@@ -8,7 +8,7 @@ export interface RenderSetting {
 }
 
 export interface DefaultSettingProps {
-    theme?: Theme ;
+    theme?: Theme;
     /**
      * 自定义页眉高度
      */
@@ -57,7 +57,7 @@ export const defaultSettings = {
 };
 
 export const defaultSettingProps = {
-    navTheme: {
+    theme: {
         type: String as PropType<DefaultSettingProps['theme']>,
         default: defaultSettings.theme,
     },
@@ -100,7 +100,7 @@ export const defaultSettingProps = {
     primaryColor: {
         type: String as PropType<DefaultSettingProps['primaryColor']>,
         default: () => defaultSettings.primaryColor,
-    }
+    },
 };
 
 export type ProSettingsProps = ExtractPropTypes<typeof defaultSettingProps>;

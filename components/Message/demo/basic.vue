@@ -32,7 +32,7 @@ message.config({
 <script lang="ts" setup>
 import { Button } from 'ant-design-vue';
 import type { MessageArgsProps } from 'ant-design-vue';
-import { Message as JMessage } from 'JUI';
+import { Message as JMessage } from 'jetlinks-ui-components';
 
 const configs: MessageArgsProps = [
     {

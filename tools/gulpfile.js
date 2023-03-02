@@ -27,14 +27,13 @@ const esDir = getProjectPath('es');
 
 const tsConfig = getTSCommonConfig();
 
-
 function dist(done) {
     rimraf.sync(path.join(cwd, 'dist'));
     process.env.RUN_ENV = 'PRODUCTION';
     const webpackConfig = require(getProjectPath('webpack.build.conf.js'));
     webpack(webpackConfig, (err, stats) => {
         if (err) {
-            console.error(err.stack || err);
+            console.error('webpack-error', err.stack || err);
             if (err.details) {
                 console.error(err.details);
             }
@@ -148,7 +147,12 @@ function babelify(js, modules) {
 
 function compile(modules) {
     const {
-        compile: { transformTSFile, transformFile, transformVue, includeLessFile = [] } = {},
+        compile: {
+            transformTSFile,
+            transformFile,
+            transformVue,
+            includeLessFile = [],
+        } = {},
     } = getConfig();
     rimraf.sync(modules !== false ? libDir : esDir);
 
@@ -228,13 +232,11 @@ function compile(modules) {
         'typings/**/*.d.ts',
     ];
 
-    const vueSource = [
-        'components/**/*.vue', '!components/**/demo/*'
-    ]
+    const vueSource = ['components/**/*.vue', '!components/**/demo/*'];
 
     // Strip content if needed
     let sourceStream = gulp.src(source);
-    let sourceVueStream = gulp.src(vueSource)
+    let sourceVueStream = gulp.src(vueSource);
     if (modules === false) {
         sourceStream = sourceStream.pipe(
             stripCode({
@@ -256,22 +258,25 @@ function compile(modules) {
     }
 
     if (transformVue) {
-        sourceVueStream = sourceVueStream.pipe(
-            through2.obj(function (file, encoding, next) {
-                let nextFile = transformVue(file) || file;
-                nextFile = Array.isArray(nextFile) ? nextFile : [nextFile];
-                nextFile.forEach((f) => this.push(f));
-                next();
-            }),
-        ).pipe(
-            ts(tsConfig, {
-                error(e) {
-                    tsDefaultReporter.error(e);
-                    error = 1;
-                },
-                finish: tsDefaultReporter.finish,
-            }),
-        ).pipe(gulp.dest(modules === false ? esDir : libDir))
+        sourceVueStream = sourceVueStream
+            .pipe(
+                through2.obj(function (file, encoding, next) {
+                    let nextFile = transformVue(file) || file;
+                    nextFile = Array.isArray(nextFile) ? nextFile : [nextFile];
+                    nextFile.forEach((f) => this.push(f));
+                    next();
+                }),
+            )
+            .pipe(
+                ts(tsConfig, {
+                    error(e) {
+                        tsDefaultReporter.error(e);
+                        error = 1;
+                    },
+                    finish: tsDefaultReporter.finish,
+                }),
+            )
+            .pipe(gulp.dest(modules === false ? esDir : libDir));
     }
 
     const tsResult = sourceStream.pipe(
@@ -298,9 +303,14 @@ function compile(modules) {
         gulp.dest(modules === false ? esDir : libDir),
     );
     return merge2(
-        [less, tsFilesStream, tsd, assets, sourceVueStream, transformFileStream].filter(
-            (s) => s,
-        ),
+        [
+            less,
+            tsFilesStream,
+            tsd,
+            assets,
+            sourceVueStream,
+            transformFileStream,
+        ].filter((s) => s),
     );
 }
 
@@ -376,16 +386,18 @@ gulp.task('compile-finalize', (done) => {
     done();
 });
 
-
 gulp.task(
     'compile',
-    gulp.series(gulp.parallel('compile-with-es', 'compile-with-lib'), 'compile-finalize', done => {
-        console.log('end compile at ', new Date());
-        console.log('compile time ', (new Date() - startTime) / 1000, 's');
-        done();
-    }),
+    gulp.series(
+        gulp.parallel('compile-with-es', 'compile-with-lib'),
+        'compile-finalize',
+        (done) => {
+            console.log('end compile at ', new Date());
+            console.log('compile time ', (new Date() - startTime) / 1000, 's');
+            done();
+        },
+    ),
 );
-
 
 gulp.task(
     'dist',
