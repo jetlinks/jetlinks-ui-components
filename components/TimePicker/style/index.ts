@@ -1,3 +1,3 @@
 import './index.less';
 
-import '../../DatePicker/style/index';
+import '../../DatePicker/style';
