@@ -1,12 +1,12 @@
 import './index.less';
 
-import '../../Button/style/index';
-import '../../Empty/style/index';
-import '../../Radio/style/index';
-import '../../Checkbox/style/index';
-import '../../Dropdown/style/index';
-import '../../Spin/style/index';
-import '../../Pagination/style/index';
-import '../../Tooltip/style/index';
-import '../../Input/style/index';
-import '../../Tree/style/index';
+import '../../Button/style';
+import '../../Empty/style';
+import '../../Radio/style';
+import '../../Checkbox/style';
+import '../../Dropdown/style';
+import '../../Spin/style';
+import '../../Pagination/style';
+import '../../Tooltip/style';
+import '../../Input/style';
+import '../../Tree/style';

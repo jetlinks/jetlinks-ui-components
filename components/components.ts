@@ -80,7 +80,7 @@ export {
 export type { PageHeaderProps } from './PageHeader';
 export { default as PageHeader } from './PageHeader';
 
-export { default as Steps } from './Steps';
+export { default as Steps, JStep } from './Steps';
 export type { StepProps, StepsProps } from './Steps';
 
 export type {
