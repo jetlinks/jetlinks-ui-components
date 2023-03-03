@@ -5,10 +5,10 @@ import InputPassword from 'ant-design-vue/lib/input/Password';
 import InputSearch from 'ant-design-vue/lib/input/Search';
 import Textarea from 'ant-design-vue/lib/input/TextArea';
 
-export const JLInput = withInstall(Input, 'JInput');
+export const JInput = withInstall(Input, 'JInput');
 export const JInputGroup = withInstall(InputGroup, 'JInputGroup');
 export const JInputPassword = withInstall(InputPassword, 'JInputPassword');
 export const JInputSearch = withInstall(InputSearch, 'JInputSearch');
 export const JInputTextarea = withInstall(Textarea, 'JInputTextarea');
 
-export default JLInput;
+export default JInput;
