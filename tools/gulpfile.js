@@ -163,13 +163,16 @@ function compile(modules) {
             through2.obj(function (file, encoding, next) {
                 // Replace content
                 const cloneFile = file.clone();
-                const content = file.contents.toString().replace(/^\uFEFF/, '');
+
+                const content = file.contents
+                    .toString()
+                    .replace(/^\uFEFF/, '')
+                    .replace(/\/lib\//g, modules === false ? '/es/' : '/lib/');
 
                 cloneFile.contents = Buffer.from(content);
 
                 // Clone for css here since `this.push` will modify file.path
                 const cloneCssFile = cloneFile.clone();
-
                 this.push(cloneFile);
 
                 // Transform less file
@@ -194,7 +197,11 @@ function compile(modules) {
                             next();
                         })
                         .catch((e) => {
-                            console.error(e);
+                            console.error(
+                                cloneCssFile.path,
+                                e,
+                                cloneCssFile.contents.toString(),
+                            );
                         });
                 } else {
                     next();
@@ -202,9 +209,11 @@ function compile(modules) {
             }),
         )
         .pipe(gulp.dest(modules === false ? esDir : libDir));
+
     const assets = gulp
         .src(['components/**/*.@(png|svg)'])
         .pipe(gulp.dest(modules === false ? esDir : libDir));
+
     let error = 0;
 
     // =============================== FILE ===============================
@@ -214,7 +223,7 @@ function compile(modules) {
             .src(['components/**/*.tsx'])
             .pipe(
                 through2.obj(function (file, encoding, next) {
-                    let nextFile = transformFile(file) || file;
+                    let nextFile = transformFile(file, modules) || file;
                     nextFile = Array.isArray(nextFile) ? nextFile : [nextFile];
                     nextFile.forEach((f) => this.push(f));
                     next();

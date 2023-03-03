@@ -60,7 +60,7 @@
 
 <script lang="ts" setup>
 import { computed, PropType, ref, toRefs } from 'vue';
-import { Avatar } from 'ant-design-vue';
+import { Avatar } from '../components';
 import Ellipsis from '../Ellipsis/ellipsis.vue';
 
 interface CardOption {

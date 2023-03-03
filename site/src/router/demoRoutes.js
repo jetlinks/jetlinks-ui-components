@@ -511,17 +511,6 @@ export default [
         component: () => import('../../../components/ProLayout/demo/index.vue'),
     },
     {
-        path: 'ProTable',
-        meta: {
-            category: 'Components',
-            subtitle: '表格',
-            cols: 1,
-            type: '高阶组件',
-            title: 'ProTable',
-        },
-        component: () => import('../../../components/ProTable/demo/index.vue'),
-    },
-    {
         path: 'Radio',
         meta: {
             category: 'Components',
@@ -531,6 +520,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/8cYb5seNB/Radio.svg',
         },
         component: () => import('../../../components/Radio/demo/index.vue'),
+    },
+    {
+        path: 'ProTable',
+        meta: {
+            category: 'Components',
+            subtitle: '表格',
+            cols: 1,
+            type: '高阶组件',
+            title: 'ProTable',
+        },
+        component: () => import('../../../components/ProTable/demo/index.vue'),
     },
     {
         path: 'Rate',
@@ -670,17 +670,6 @@ export default [
         component: () => import('../../../components/Steps/demo/index.vue'),
     },
     {
-        path: 'Switch',
-        meta: {
-            category: 'Components',
-            subtitle: '开关',
-            type: '数据录入',
-            title: 'Switch',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/zNdJQMhfm/Switch.svg',
-        },
-        component: () => import('../../../components/Switch/demo/index.vue'),
-    },
-    {
         path: 'Table',
         meta: {
             category: 'Components',
@@ -693,16 +682,15 @@ export default [
         component: () => import('../../../components/Table/demo/index.vue'),
     },
     {
-        path: 'TableCard',
+        path: 'Switch',
         meta: {
             category: 'Components',
-            subtitle: '表格卡片',
-            cols: 2,
-            type: '导航',
-            title: 'TableCard',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg',
+            subtitle: '开关',
+            type: '数据录入',
+            title: 'Switch',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/zNdJQMhfm/Switch.svg',
         },
-        component: () => import('../../../components/TableCard/demo/index.vue'),
+        component: () => import('../../../components/Switch/demo/index.vue'),
     },
     {
         path: 'Tabs',
@@ -714,6 +702,18 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/antfincdn/lkI2hNEDr2V/Tabs.svg',
         },
         component: () => import('../../../components/Tabs/demo/index.vue'),
+    },
+    {
+        path: 'TableCard',
+        meta: {
+            category: 'Components',
+            subtitle: '表格卡片',
+            cols: 2,
+            type: '导航',
+            title: 'TableCard',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg',
+        },
+        component: () => import('../../../components/TableCard/demo/index.vue'),
     },
     {
         path: 'Tag',
@@ -750,17 +750,6 @@ export default [
             import('../../../components/TimePicker/demo/index.vue'),
     },
     {
-        path: 'Tooltip',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'Tooltip',
-            subtitle: '文字提示',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/Vyyeu8jq2/Tooltp.svg',
-        },
-        component: () => import('../../../components/Tooltip/demo/index.vue'),
-    },
-    {
         path: 'Transfer',
         meta: {
             category: 'Components',
@@ -770,6 +759,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/QAXskNI4G/Transfer.svg',
         },
         component: () => import('../../../components/Transfer/demo/index.vue'),
+    },
+    {
+        path: 'Tooltip',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'Tooltip',
+            subtitle: '文字提示',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/Vyyeu8jq2/Tooltp.svg',
+        },
+        component: () => import('../../../components/Tooltip/demo/index.vue'),
     },
     {
         path: 'Tree',
