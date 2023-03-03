@@ -1,3 +1,2 @@
-import './index.less'
-
-import '../../Select/style'
+import './index.less';
+import '../../Select/style';

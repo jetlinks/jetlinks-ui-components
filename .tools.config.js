@@ -153,6 +153,7 @@ module.exports = {
                         '../../style/index.less',
                         '../../style/default.less',
                     );
+
                     cloneFile.contents = Buffer.from(content);
 
                     return cloneFile;
@@ -234,7 +235,7 @@ module.exports = {
                 }
             }
         },
-        transformFile(file) {
+        transformFile(file, module) {
             if (isComponentStyleEntry(file)) {
                 const indexLessFilePath = file.path.replace(
                     'index.tsx',
@@ -269,6 +270,17 @@ module.exports = {
 
                     return [indexLessFile, pureFile];
                 }
+            } else if (file.path.includes('index.ts')) {
+                let content = file.contents.toString();
+                const replacePath =
+                    module === false
+                        ? 'ant-design-vue/es/'
+                        : 'ant-design-vue/lib/';
+                content = content.replace(
+                    /ant-design-vue\/lib\//g,
+                    replacePath,
+                );
+                // console.log('transformFile',content)
             }
 
             return [];

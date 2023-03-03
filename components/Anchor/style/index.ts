@@ -1,3 +1,3 @@
 import './index.less';
 
-import '../../Affix/style'
+import '../../Affix/style';
