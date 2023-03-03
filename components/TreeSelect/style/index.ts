@@ -1,4 +1,4 @@
 import './index.less';
 
-import '../../Select/style/index';
-import '../../Empty/style/index';
+import '../../Select/style';
+import '../../Empty/style';
