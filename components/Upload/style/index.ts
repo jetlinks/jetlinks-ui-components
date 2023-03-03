@@ -1,5 +1,5 @@
 import './index.less';
 
-import '../../Button/style/index';
-import '../../Progress/style/index';
-import '../../Tooltip/style/index';
+import '../../Button/style';
+import '../../Progress/style';
+import '../../Tooltip/style';
