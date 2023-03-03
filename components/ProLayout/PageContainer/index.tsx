@@ -1,5 +1,5 @@
 import { withInstall } from '../../util/type';
-import { TabPaneProps, Affix, Spin, PageHeader, Tabs } from 'ant-design-vue';
+import { TabPaneProps, Affix, Spin, PageHeader, Tabs } from '../../components';
 import type {
     ExtractPropTypes,
     FunctionalComponent,
@@ -7,14 +7,13 @@ import type {
     VNodeChild,
 } from 'vue';
 import { defineComponent, unref, toRefs, computed } from 'vue';
-import { pageHeaderProps } from 'ant-design-vue/es/page-header';
+import { pageHeaderProps } from 'ant-design-vue/lib/page-header';
 import type { DefaultPropRender, PageHeaderRender } from '../typings';
 import type { AffixProps, TabBarExtraContent } from './typings';
 import { useRouteContext } from '../RouteContext';
 import { getSlotVNode } from '../util';
-
+import { VueNode } from 'ant-design-vue/lib/_util/type';
 import './index.less';
-import { VueNode } from 'ant-design-vue/es/_util/type';
 
 export const pageHeaderTabConfig = {
     /**

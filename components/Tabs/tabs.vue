@@ -26,6 +26,7 @@ const renderArr = Object.keys(slots).filter(
     (item) => !['centerExtra'].includes(item),
 );
 const props = defineProps(tabsProps);
+console.log(props);
 const jetTabs = ref();
 const content = ref();
 const centerExtraWidth = ref();

@@ -18,67 +18,72 @@ Search and select options directly.
 
 </docs>
 <template>
-  <a-cascader
-    v-model:value="value"
-    :options="options"
-    :show-search="{ filter }"
-    placeholder="Please select"
-  />
+    <a-cascader
+        v-model:value="value"
+        :options="options"
+        :show-search="{ filter }"
+        placeholder="Please select"
+    />
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import type { CascaderProps } from 'ant-design-vue';
-import type { ShowSearchType } from 'ant-design-vue/es/cascader';
+import type { ShowSearchType } from 'ant-design-vue/lib/cascader';
 const options: CascaderProps['options'] = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
+    {
+        value: 'zhejiang',
+        label: 'Zhejiang',
         children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-          {
-            value: 'xiasha',
-            label: 'Xia Sha',
-            disabled: true,
-          },
+            {
+                value: 'hangzhou',
+                label: 'Hangzhou',
+                children: [
+                    {
+                        value: 'xihu',
+                        label: 'West Lake',
+                    },
+                    {
+                        value: 'xiasha',
+                        label: 'Xia Sha',
+                        disabled: true,
+                    },
+                ],
+            },
         ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
+    },
+    {
+        value: 'jiangsu',
+        label: 'Jiangsu',
         children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua men',
-          },
+            {
+                value: 'nanjing',
+                label: 'Nanjing',
+                children: [
+                    {
+                        value: 'zhonghuamen',
+                        label: 'Zhong Hua men',
+                    },
+                ],
+            },
         ],
-      },
-    ],
-  },
+    },
 ];
 export default defineComponent({
-  setup() {
-    const filter: ShowSearchType['filter'] = (inputValue, path) => {
-      return path.some(option => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
-    };
+    setup() {
+        const filter: ShowSearchType['filter'] = (inputValue, path) => {
+            return path.some(
+                (option) =>
+                    option.label
+                        .toLowerCase()
+                        .indexOf(inputValue.toLowerCase()) > -1,
+            );
+        };
 
-    return {
-      value: ref<string[]>([]),
-      options,
-      filter,
-    };
-  },
+        return {
+            value: ref<string[]>([]),
+            options,
+            filter,
+        };
+    },
 });
 </script>

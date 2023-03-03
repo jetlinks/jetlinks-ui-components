@@ -25,13 +25,13 @@ import {
 import { defaultSettingProps } from '../defaultSettings';
 import { baseHeaderProps } from '../TopHeader';
 import Header, { headerViewProps } from './Header';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import useConfigInject from 'ant-design-vue/es/_util/hooks/useConfigInject';
+import type { VueNode } from 'ant-design-vue/lib/_util/type';
+import useConfigInject from 'ant-design-vue/lib/_util/hooks/useConfigInject';
 import type { BreadcrumbProps, RouteContextProps } from '../RouteContext';
 import { pick } from 'lodash-es';
 import { defaultRouteContext, routeContextInjectKey } from '../RouteContext';
 import { getMenuFirstChildren, getSlot } from '../util';
-import { Layout } from 'ant-design-vue';
+import { Layout, JLayoutContent } from '../../components';
 
 export const basicLayoutProps = {
     ...defaultSettingProps,
@@ -366,9 +366,9 @@ export default defineComponent({
                                     class={prefixCls.value}
                                 >
                                     {headerDom.value}
-                                    <Layout.Content>
+                                    <JLayoutContent>
                                         {slots.default?.()}
-                                    </Layout.Content>
+                                    </JLayoutContent>
                                 </div>
                             </Layout>
                         </div>

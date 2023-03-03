@@ -1,14 +1,27 @@
-import { Table, Empty, Pagination, AIcon, Button, Alert, Spin } from '../../../components';
-import type { TableProps } from 'ant-design-vue/es/table';
+import {
+    Table,
+    Empty,
+    Pagination,
+    AIcon,
+    Button,
+    Alert,
+    Spin,
+} from '../../../components';
+import type { TableProps } from 'ant-design-vue/lib/table';
 import {
     defineComponent,
     onMounted,
     onUnmounted,
     PropType,
     ref,
-    watch
+    watch,
 } from 'vue';
-import { JColumnProps, ModelEnum, TypeEnum, RequestData } from '../proTableTypes';
+import {
+    JColumnProps,
+    ModelEnum,
+    TypeEnum,
+    RequestData,
+} from '../proTableTypes';
 
 export interface JTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -83,7 +96,7 @@ const tableProps = () => {
         },
         params: {
             type: Object,
-            default: () => {}
+            default: () => {},
         },
         type: {
             type: String,
@@ -91,7 +104,9 @@ const tableProps = () => {
         },
         scroll: {
             type: Object,
-            default: () => { x: 1366 }
+            default: () => {
+                x: 1366;
+            },
         },
     };
 };
@@ -125,19 +140,35 @@ const ProTable = defineComponent<JTableProps>({
          */
         const windowChange = () => {
             if (window.innerWidth <= 1440) {
-                const _column = props.gridColumn && props.gridColumn < 2 ? props.gridColumn : 2;
-                column.value = props.gridColumns?.[0] ? props.gridColumns[0] : _column
+                const _column =
+                    props.gridColumn && props.gridColumn < 2
+                        ? props.gridColumn
+                        : 2;
+                column.value = props.gridColumns?.[0]
+                    ? props.gridColumns[0]
+                    : _column;
             } else if (window.innerWidth > 1440 && window.innerWidth <= 1600) {
-                const _column = props.gridColumn && props.gridColumn < 3 ? props.gridColumn : 3;
-                column.value = props.gridColumns?.[1] ? props.gridColumns[1] : _column
+                const _column =
+                    props.gridColumn && props.gridColumn < 3
+                        ? props.gridColumn
+                        : 3;
+                column.value = props.gridColumns?.[1]
+                    ? props.gridColumns[1]
+                    : _column;
             } else if (window.innerWidth > 1600) {
-                const _column = props.gridColumn && props.gridColumn < 4 ? props.gridColumn : 4;
-                column.value = props.gridColumns?.[2] ? props.gridColumns[2] : _column
+                const _column =
+                    props.gridColumn && props.gridColumn < 4
+                        ? props.gridColumn
+                        : 4;
+                column.value = props.gridColumns?.[2]
+                    ? props.gridColumns[2]
+                    : _column;
             }
-        }
+        };
 
         const handleSearch = async (_params?: Record<string, any>) => {
-            _loading.value = props.loading !== undefined ? props.loading as boolean : true
+            _loading.value =
+                props.loading !== undefined ? (props.loading as boolean) : true;
             if (props.request) {
                 const resp = await props.request({
                     pageIndex: 0,
@@ -146,36 +177,46 @@ const ProTable = defineComponent<JTableProps>({
                     ..._params,
                     terms: [
                         ...(props.defaultParams?.terms || []),
-                        ...(_params?.terms || [])
-                    ]
-                })
+                        ...(_params?.terms || []),
+                    ],
+                });
                 if (resp.status === 200) {
                     if (props.type === 'PAGE') {
                         // 判断如果是最后一页且最后一页为空，就跳转到前一页
-                        if (resp.result.total && resp.result.pageSize && resp.result.pageIndex && resp.result?.data?.length === 0) {
+                        if (
+                            resp.result.total &&
+                            resp.result.pageSize &&
+                            resp.result.pageIndex &&
+                            resp.result?.data?.length === 0
+                        ) {
                             handleSearch({
                                 ..._params,
                                 pageSize: pageSize.value,
-                                pageIndex: pageIndex.value > 0 ? pageIndex.value - 1 : 0,
-                            })
+                                pageIndex:
+                                    pageIndex.value > 0
+                                        ? pageIndex.value - 1
+                                        : 0,
+                            });
                         } else {
-                            _dataSource.value = resp.result?.data || []
-                            pageIndex.value = resp.result?.pageIndex || 0
-                            pageSize.value = resp.result?.pageSize || 6
-                            total.value = resp.result?.total || 0
+                            _dataSource.value = resp.result?.data || [];
+                            pageIndex.value = resp.result?.pageIndex || 0;
+                            pageSize.value = resp.result?.pageSize || 6;
+                            total.value = resp.result?.total || 0;
                         }
                     } else {
-                        _dataSource.value = resp?.result || []
+                        _dataSource.value = resp?.result || [];
                     }
                 } else {
-                    _dataSource.value = []
+                    _dataSource.value = [];
                 }
             } else {
-                _dataSource.value = props?.dataSource || []
+                _dataSource.value = props?.dataSource || [];
             }
-            _loading.value = props.loading !== undefined ? props.loading as boolean : false
-
-        }
+            _loading.value =
+                props.loading !== undefined
+                    ? (props.loading as boolean)
+                    : false;
+        };
 
         watch(
             () => props.params,
@@ -200,25 +241,23 @@ const ProTable = defineComponent<JTableProps>({
          * @param _params
          */
         const reload = (_params?: Record<string, any>) => {
-            handleSearch(
-                {
-                    ..._params,
-                    pageSize: 12,
-                    pageIndex: 0,
-                }
-            );
+            handleSearch({
+                ..._params,
+                pageSize: 12,
+                pageIndex: 0,
+            });
         };
 
         onMounted(() => {
-            windowChange() // 初始化
+            windowChange(); // 初始化
             window.onresize = () => {
-                windowChange()
-            }
-        })
+                windowChange();
+            };
+        });
 
         onUnmounted(() => {
-            window.onresize = null
-        })
+            window.onresize = null;
+        });
 
         /**
          * 导出方法
@@ -315,7 +354,9 @@ const ProTable = defineComponent<JTableProps>({
                                         )}
                                     </div>
                                 ) : (
-                                    <div class="j-table-empty"><Empty /></div>
+                                    <div class="j-table-empty">
+                                        <Empty />
+                                    </div>
                                 )}
                             </div>
                         ) : (
@@ -330,12 +371,16 @@ const ProTable = defineComponent<JTableProps>({
                                     rowSelection={props.rowSelection}
                                     scroll={props.scroll}
                                     v-slots={{
-                                        headerCell: (dt: Record<string, any>) => {
+                                        headerCell: (
+                                            dt: Record<string, any>,
+                                        ) => {
                                             const { column, title } = dt;
                                             if (column?.headerCell) {
-                                                return slots?.[column?.headerCell]!(column.title)
+                                                return slots?.[
+                                                    column?.headerCell
+                                                ]!(column.title);
                                             } else {
-                                                return title || ''
+                                                return title || '';
                                             }
                                         },
                                         bodyCell: (dt: Record<string, any>) => {
@@ -353,8 +398,9 @@ const ProTable = defineComponent<JTableProps>({
                                                 return slots?.[_key]!(record);
                                             } else {
                                                 return (
-                                                    record?.[column?.dataIndex] ||
-                                                    ''
+                                                    record?.[
+                                                        column?.dataIndex
+                                                    ] || ''
                                                 );
                                             }
                                         },
@@ -379,18 +425,36 @@ const ProTable = defineComponent<JTableProps>({
                                         showSizeChanger={true}
                                         current={pageIndex.value + 1}
                                         pageSize={pageSize.value}
-                                        pageSizeOptions={['12', '24', '48', '60', '100']}
+                                        pageSizeOptions={[
+                                            '12',
+                                            '24',
+                                            '48',
+                                            '60',
+                                            '100',
+                                        ]}
                                         showTotal={(num) => {
-                                            const minSize = pageIndex.value * pageSize.value + 1;
-                                            const MaxSize = (pageIndex.value + 1) * pageSize.value;
-                                            return `第 ${minSize} - ${MaxSize > num ? num : MaxSize} 条/总共 ${num} 条`;
+                                            const minSize =
+                                                pageIndex.value *
+                                                    pageSize.value +
+                                                1;
+                                            const MaxSize =
+                                                (pageIndex.value + 1) *
+                                                pageSize.value;
+                                            return `第 ${minSize} - ${
+                                                MaxSize > num ? num : MaxSize
+                                            } 条/总共 ${num} 条`;
                                         }}
                                         onChange={(page, size) => {
                                             handleSearch({
                                                 ...props.params,
                                                 pageSize: size,
-                                                pageIndex: pageSize.value === size ? (page ? page - 1 : 0) : 0
-                                            })
+                                                pageIndex:
+                                                    pageSize.value === size
+                                                        ? page
+                                                            ? page - 1
+                                                            : 0
+                                                        : 0,
+                                            });
                                         }}
                                     />
                                 )}

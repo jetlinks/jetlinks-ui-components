@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { Popconfirm, Button } from 'ant-design-vue';
-import { popconfirmProps } from 'ant-design-vue/es/popconfirm';
+import { popconfirmProps } from 'ant-design-vue/lib/popconfirm';
 import { ref } from 'vue';
 
 const props = defineProps({

@@ -1,5 +1,12 @@
-import {defaultSettingProps} from "../defaultSettings";
-import {defineComponent, getCurrentInstance, isVNode, resolveComponent, watchEffect, withCtx} from 'vue'
+import { defaultSettingProps } from '../defaultSettings';
+import {
+    defineComponent,
+    getCurrentInstance,
+    isVNode,
+    resolveComponent,
+    watchEffect,
+    withCtx,
+} from 'vue';
 import type {
     ExtractPropTypes,
     FunctionalComponent,
@@ -7,14 +14,14 @@ import type {
     VNodeChild,
     ComponentInternalInstance,
     ConcreteComponent,
-    VNode
-} from 'vue'
+    VNode,
+} from 'vue';
 import type {
     SelectEventHandler,
     MenuClickEventHandler,
     SelectInfo,
     MenuInfo,
-} from 'ant-design-vue/es/menu/src/interface';
+} from 'ant-design-vue/lib/menu/src/interface';
 import type {
     FormatMessage,
     MenuDataItem,
@@ -22,14 +29,14 @@ import type {
     Theme,
     MenuItemRender,
     SubMenuItemRender,
-} from "../typings";
-import type {MenuMode} from "ant-design-vue";
-import type {Key} from 'ant-design-vue/es/_util/type';
-import {defaultPrefixCls} from '../RouteContext'
-import IconFont from '../../AIcon'
-import {isImg, isUrl} from "../../util/regular";
-import {Menu} from "ant-design-vue";
-import {createFromIconfontCN} from '@ant-design/icons-vue';
+} from '../typings';
+import type { MenuMode } from 'ant-design-vue';
+import type { Key } from 'ant-design-vue/lib/_util/type';
+import { defaultPrefixCls } from '../RouteContext';
+import IconFont from '../../AIcon';
+import { isImg, isUrl } from '../../util/regular';
+import { Menu } from '../../components';
+import { createFromIconfontCN } from '@ant-design/icons-vue';
 
 export const baseMenuProps = {
     ...defaultSettingProps,
@@ -79,34 +86,43 @@ export const baseMenuProps = {
     },
 
     onClick: [Function, Object] as PropType<(...args: any) => void>,
-}
+};
 
 export type BaseMenuProps = ExtractPropTypes<typeof baseMenuProps>;
 
 type IconFontProps = {
     icon: VNodeChild | string;
-    iconUrl: string
+    iconUrl: string;
     prefixCls?: string;
-}
-
+};
 
 let AntdIconFont = createFromIconfontCN({
     scriptUrl: '',
 });
 
 const LazyIcon: FunctionalComponent<IconFontProps> = (props) => {
-    const {icon, iconUrl, prefixCls = defaultPrefixCls} = props;
-    if (!icon) return null
+    const { icon, iconUrl, prefixCls = defaultPrefixCls } = props;
+    if (!icon) return null;
     if (isVNode(icon)) {
         return icon;
     }
     if (typeof icon === 'string' && icon !== '') {
         if (isUrl(icon) || isImg(icon)) {
-            return <img src={icon} alt="icon" class={`${prefixCls}-sider-menu-icon`}/>;
+            return (
+                <img
+                    src={icon}
+                    alt="icon"
+                    class={`${prefixCls}-sider-menu-icon`}
+                />
+            );
         }
-        return iconUrl ? <AntdIconFont type={icon}/> : <IconFont type={icon}/>;
+        return iconUrl ? (
+            <AntdIconFont type={icon} />
+        ) : (
+            <IconFont type={icon} />
+        );
     }
-}
+};
 
 class MenuUtil {
     props: BaseMenuProps;
@@ -122,7 +138,9 @@ class MenuUtil {
     }
 
     getNavMenuItems = (menusData: MenuDataItem[] = []) => {
-        return menusData.map((item) => this.getSubMenuOrItem(item)).filter((item) => item);
+        return menusData
+            .map((item) => this.getSubMenuOrItem(item))
+            .filter((item) => item);
     };
 
     getSubMenuOrItem = (item: MenuDataItem): VNode => {
@@ -133,17 +151,23 @@ class MenuUtil {
             !item?.meta?.hideChildrenInMenu
         ) {
             if (this.props.subMenuItemRender) {
-                const subMenuItemRender = withCtx(this.props.subMenuItemRender, this.ctx);
+                const subMenuItemRender = withCtx(
+                    this.props.subMenuItemRender,
+                    this.ctx,
+                );
                 return subMenuItemRender({
                     item,
                     children: this.getNavMenuItems(item.children),
                 }) as VNode;
             }
-            const {prefixCls, locale} = this.props;
-            const menuTitle = (locale && locale(item.meta?.title)) || item.meta?.title;
+            const { prefixCls, locale } = this.props;
+            const menuTitle =
+                (locale && locale(item.meta?.title)) || item.meta?.title;
             const defaultTitle = item.meta?.icon ? (
                 <span class={`${prefixCls}-menu-item`}>
-                  <span class={`${prefixCls}-menu-item-title`}>{menuTitle}</span>
+                    <span class={`${prefixCls}-menu-item-title`}>
+                        {menuTitle}
+                    </span>
                 </span>
             ) : (
                 <span class={`${prefixCls}-menu-item`}>{menuTitle}</span>
@@ -154,38 +178,58 @@ class MenuUtil {
                     title={defaultTitle}
                     key={item.path}
                     popupClassName={`${prefixCls}-menu-popup`}
-                    icon={<LazyIcon iconUrl={this.props.iconfontUrl} icon={item.meta?.icon}/>}
+                    icon={
+                        <LazyIcon
+                            iconUrl={this.props.iconfontUrl}
+                            icon={item.meta?.icon}
+                        />
+                    }
                 >
                     {this.getNavMenuItems(item.children)}
                 </Menu.SubMenu>
-            )
+            );
         }
 
-        const menuItemRender = this.props.menuItemRender && withCtx(this.props.menuItemRender, this.ctx);
+        const menuItemRender =
+            this.props.menuItemRender &&
+            withCtx(this.props.menuItemRender, this.ctx);
 
         const [title, icon] = this.getMenuItem(item);
 
         return (
-            (menuItemRender && (menuItemRender({item, title, icon}) as VNode)) || (
-                <Menu.Item disabled={item.meta?.disabled} danger={item.meta?.danger} key={item.path}>
+            (menuItemRender &&
+                (menuItemRender({ item, title, icon }) as VNode)) || (
+                <Menu.Item
+                    disabled={item.meta?.disabled}
+                    danger={item.meta?.danger}
+                    key={item.path}
+                >
                     {title}
                 </Menu.Item>
             )
         );
-    }
+    };
 
     getMenuItem = (item: MenuDataItem) => {
-        const meta = {...item.meta};
+        const meta = { ...item.meta };
         const target = (meta.target || null) as string | null;
         const hasUrl = isUrl(item.path);
         const CustomTag: any = (target && 'a') || this.RouterLink;
-        const props = {to: {name: item.name, ...item.meta}};
-        const attrs = hasUrl || target ? {...item.meta, href: item.path, target} : {};
+        const props = { to: { name: item.name, ...item.meta } };
+        const attrs =
+            hasUrl || target ? { ...item.meta, href: item.path, target } : {};
 
-        const {prefixCls, locale} = this.props;
-        const icon = (item.meta?.icon &&
-            <LazyIcon iconUrl={this.props.iconfontUrl} icon={item.meta?.icon}/>) || undefined;
-        const menuTitle = (locale && locale(item.meta?.title)) || item.meta?.title;
+        const { prefixCls, locale } = this.props;
+        const icon =
+            (item.meta?.icon && (
+                <LazyIcon
+                    iconUrl={this.props.iconfontUrl}
+                    icon={item.meta?.icon}
+                />
+            )) ||
+            undefined;
+        const menuTitle =
+            (locale && locale(item.meta?.title)) || item.meta?.title;
 
         const defaultTitle = item.meta?.icon ? (
             <CustomTag {...attrs} {...props} class={`${prefixCls}-menu-item`}>
@@ -199,14 +243,14 @@ class MenuUtil {
         );
 
         return [defaultTitle, icon];
-    }
+    };
 }
 
 export default defineComponent({
     name: 'BaseMenu',
     props: baseMenuProps,
     emits: ['update:openKeys', 'update:selectedKeys', 'click'],
-    setup(props, {emit}) {
+    setup(props, { emit }) {
         const ctx = getCurrentInstance();
         const menuUtil = new MenuUtil(props, ctx);
 
@@ -247,6 +291,6 @@ export default defineComponent({
             >
                 {menuUtil.getNavMenuItems(props.menuData)}
             </Menu>
-        )
-    }
-})
+        );
+    },
+});

@@ -11,6 +11,6 @@ export type {
     FormItemProps,
     FormInstance,
     FormItemInstance,
-} from 'ant-design-vue/es/form/index';
+} from 'ant-design-vue/lib/form/index';
 
 export default JForm;

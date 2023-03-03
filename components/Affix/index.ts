@@ -3,6 +3,6 @@ import Affix from 'ant-design-vue/lib/affix/index';
 
 export const JAffix = withInstall(Affix, 'JAffix');
 
-export type { AffixProps } from 'ant-design-vue/es/affix/index';
+export type { AffixProps } from 'ant-design-vue/lib/affix/index';
 
 export default JAffix;

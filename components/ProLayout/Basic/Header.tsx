@@ -1,9 +1,9 @@
 import { baseHeaderProps, TopNavHeader } from '../TopHeader';
 import type { BaseHeaderPropsType } from '../TopHeader';
-import PropTypes from 'ant-design-vue/es/_util/vue-types';
+import PropTypes from 'ant-design-vue/lib/_util/vue-types';
 import type { ExtractPropTypes, PropType } from 'vue';
 import type { WithFalse } from '../typings';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
+import type { VueNode } from 'ant-design-vue/lib/_util/type';
 import { defineComponent, computed, toRefs } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 import { useRouteContext } from '../RouteContext';
