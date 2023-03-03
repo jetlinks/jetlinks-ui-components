@@ -1,5 +1,5 @@
 import { withInstall } from "../util/type";
-import Radio from 'ant-design-vue/lib/radio/Radio'
+import Radio from 'ant-design-vue/lib/radio/index'
 import RadioButton from 'ant-design-vue/lib/radio/RadioButton'
 import RadioGroup from 'ant-design-vue/lib/radio/Group'
 

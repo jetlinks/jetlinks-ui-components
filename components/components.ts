@@ -94,7 +94,7 @@ export type { CascaderProps } from './Cascader';
 export { default as Cascader } from './Cascader';
 
 export type { DatePickerProps } from './DatePicker';
-export { default as DatePicker } from './DatePicker';
+export { default as DatePicker, JMonthPicker, JQuarterPicker, JRangePicker, JWeekPicker } from './DatePicker';
 
 export type {
     FormProps,
@@ -233,3 +233,6 @@ export { default as Badge, JBadgeRibbon } from './badge';
 
 export type { CardProps } from './Card';
 export { default as Card, JCardGrid, JCardMeta } from './Card';
+
+export type { CollapseProps, CollapsePanelProps } from './Collapse';
+export { default as Collapse, JCollapsePanel } from './Collapse';
