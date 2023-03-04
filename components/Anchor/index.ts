@@ -1,4 +1,4 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Anchor from 'ant-design-vue/lib/anchor/Anchor';
 import AnchorLink from 'ant-design-vue/lib/anchor/AnchorLink';
 
@@ -7,7 +7,15 @@ export type {
     AnchorLinkProps,
 } from 'ant-design-vue/lib/anchor/index';
 
-export const JAnchor = withInstall(Anchor, 'JAnchor');
-export const JAnchorLink = withInstall(AnchorLink, 'JAnchorLink');
+Anchor.name = 'JAnchor';
+AnchorLink.name = 'JAnchorLink';
 
-export default JAnchor;
+Anchor.install = function (app: App) {
+    app.component(Anchor.name, Anchor);
+    app.component(AnchorLink.name, AnchorLink);
+    return app;
+};
+
+export default Anchor;
+
+export { AnchorLink };

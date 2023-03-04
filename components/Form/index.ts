@@ -1,6 +1,6 @@
 import type { App } from 'vue';
-import JForm from 'ant-design-vue/lib/form/Form';
-import JFormItem from 'ant-design-vue/lib/form/FormItem';
+import Form from 'ant-design-vue/lib/form/Form';
+import FormItem from 'ant-design-vue/lib/form/FormItem';
 import FormItemRest from 'ant-design-vue/lib/form/FormItemContext';
 
 export type {
@@ -10,14 +10,16 @@ export type {
     FormItemInstance,
 } from 'ant-design-vue/lib/form/index';
 
-JForm.name = 'JForm';
-JForm.install = function (app: App) {
-    app.component('JForm', JForm);
-    app.component('JFormItem', JFormItem);
+Form.name = 'JForm';
+FormItem.name = 'JFormItem';
+FormItemRest.name = 'JFormItemRest';
+Form.install = function (app: App) {
+    app.component('JForm', Form);
+    app.component('JFormItem', FormItem);
     app.component('FormItemRest', FormItemRest);
     return app;
 };
 
-export default JForm;
+export default Form;
 
-export { JFormItem };
+export { FormItem, FormItemRest };

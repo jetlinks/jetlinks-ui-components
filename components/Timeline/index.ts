@@ -1,4 +1,4 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Timeline from 'ant-design-vue/lib/timeline/Timeline';
 import TimelineItem from 'ant-design-vue/lib/timeline/TimelineItem';
 
@@ -7,7 +7,15 @@ export type {
     TimelineItemProps,
 } from 'ant-design-vue/lib/timeline/index';
 
-export const JTimeline = withInstall(Timeline, 'JTimeline');
-export const JTimelineItem = withInstall(TimelineItem, 'JTimelineItem');
+Timeline.name = 'JTimeline';
+TimelineItem.name = 'JTimelineItem';
 
-export default JTimeline;
+Timeline.install = function (app: App) {
+    app.component(Timeline.name, Timeline);
+    app.component(TimelineItem.name, TimelineItem);
+    return app;
+};
+
+export default Timeline;
+
+export { TimelineItem };

@@ -7,7 +7,7 @@ import type {
     WithFalse,
 } from '../typings';
 import type { SiderProps } from './typings';
-import { JLayoutSider as Sider, Menu } from '../../components';
+import { LayoutSider as Sider, Menu } from '../../components';
 import BaseMenu, { baseMenuProps } from './BaseMenu';
 import { defaultSettingProps } from '../defaultSettings';
 import PropTypes from 'ant-design-vue/lib/_util/vue-types';

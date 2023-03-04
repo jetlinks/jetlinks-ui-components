@@ -45,7 +45,7 @@ import { ref, reactive } from 'vue';
 import {
     Form as JForm,
     Button as JButton,
-    JFormItem,
+    FormItem as JFormItem,
     AIcon,
 } from '../../components';
 import { isFunction } from 'lodash-es';

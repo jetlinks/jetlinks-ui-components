@@ -1,8 +1,16 @@
-import { withInstall } from "../util/type";
+import type { App } from 'vue';
 import Descriptions from './descriptions.vue';
-import { DescriptionsItem } from "ant-design-vue";
+import { DescriptionsItem } from 'ant-design-vue/lib/descriptions';
 
-export const JLDescriptions = withInstall(Descriptions, 'JDescriptions')
-export const JDescriptionsItem = withInstall(DescriptionsItem, 'JDescriptionsItem')
+Descriptions.name = 'JDescriptions';
+DescriptionsItem.name = 'JDescriptionsItem';
 
-export default JLDescriptions
+Descriptions.install = function (app: App) {
+    app.component('JDescriptions', Descriptions);
+    app.component('JDescriptionsItem', DescriptionsItem);
+    return app;
+};
+
+export default Descriptions;
+
+export { DescriptionsItem };

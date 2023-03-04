@@ -1,4 +1,4 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Layout, {
     LayoutHeader,
     LayoutSider,
@@ -6,12 +6,23 @@ import Layout, {
     LayoutContent,
 } from 'ant-design-vue/lib/layout';
 
-const JLayout = withInstall(Layout, 'JLayout');
-export const JLayoutHeader = withInstall(LayoutHeader, 'JLayoutHeader');
-export const JLayoutSider = withInstall(LayoutSider, 'JLayoutSider');
-export const JLayoutFooter = withInstall(LayoutFooter, 'JLayoutFooter');
-export const JLayoutContent = withInstall(LayoutContent, 'JLayoutContent');
-
 export type { LayoutProps, SiderProps } from 'ant-design-vue/lib/layout';
 
-export default JLayout;
+Layout.name = 'JLayout';
+LayoutHeader.name = 'JLayoutHeader';
+LayoutSider.name = 'JLayoutSider';
+LayoutFooter.name = 'JLayoutFooter';
+LayoutContent.name = 'JLayoutContent';
+
+Layout.install = function (app: App) {
+    app.component(Layout.name, Layout);
+    app.component(LayoutHeader.name, LayoutHeader);
+    app.component(LayoutSider.name, LayoutSider);
+    app.component(LayoutFooter.name, LayoutFooter);
+    app.component(LayoutContent.name, LayoutContent);
+    return app;
+};
+
+export default Layout;
+
+export { LayoutContent, LayoutFooter, LayoutHeader, LayoutSider };
