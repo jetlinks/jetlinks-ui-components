@@ -2,33 +2,35 @@ export { default as Pagination } from './Pagination';
 export { default as TableCard } from './TableCard';
 export { default as Scrollbar } from './Scrollbar';
 export { default as AIcon } from './AIcon';
-export { default as Select } from './Select';
+export { default as Select, SelectOption, SelectOptGroup } from './Select';
 export { default as Empty } from './Empty';
 export { default as Tree } from './Tree';
 export { default as AutoComplete } from './AutoComplete';
-export { default as Message } from './Message';
+export { default as message } from './Message';
 export {
     default as Input,
-    JInputPassword,
-    JInputGroup,
-    JInputSearch,
-    JInputTextarea,
+    InputPassword,
+    InputGroup,
+    InputSearch,
+    Textarea,
 } from './Input';
-export { default as Textarea } from './Textarea';
 export { default as MonacoEditor } from './MonacoEditor';
-export { default as Tabs, JTabPane } from './Tabs';
+
+export type { TabsProps, TabPaneProps } from './Tabs';
+export { default as Tabs } from './Tabs';
+
 export { default as Ellipsis } from './Ellipsis';
 export { default as Popconfirm } from './Popconfirm';
 export { default as Divider } from './Divider';
 export { default as Modal } from './Modal';
 export { default as Upload } from './Upload';
-export { default as Descriptions, JDescriptionsItem } from './Descriptions';
+export { default as Descriptions, DescriptionsItem } from './Descriptions';
 export { default as Button } from './Button';
 export { default as Result } from './Result';
 export { default as ProLayout, PageContainer } from './ProLayout';
 export { default as CardSelect } from './CardSelect';
-export { default as JProTable } from './ProTable';
-export { default as JScrollTable } from './ScrollTable';
+export { default as ProTable } from './ProTable';
+export { default as ScrollTable } from './ScrollTable';
 export { default as Search, AdvancedSearch } from './Search';
 export { default as ColorPicker } from './ColorPicker';
 
@@ -51,12 +53,12 @@ export type {
 } from './Breadcrumb';
 export {
     default as Breadcrumb,
-    JBreadcrumbItem,
-    JBreadcrumbSeparator,
+    BreadcrumbItem,
+    BreadcrumbSeparator,
 } from './Breadcrumb';
 
 export type { DropdownProps } from './Dropdown';
-export { default as JDropdown, JDropdownButton } from './Dropdown';
+export { default as Dropdown, DropdownButton } from './Dropdown';
 
 export type {
     MenuProps,
@@ -68,16 +70,16 @@ export type {
 } from './Menu';
 export {
     default as Menu,
-    JMenuItem,
-    JMenuItemGroup,
-    JSubMenu,
-    JMenuDivider,
+    MenuItem,
+    MenuItemGroup,
+    SubMenu,
+    MenuDivider,
 } from './Menu';
 
 export type { PageHeaderProps } from './PageHeader';
 export { default as PageHeader } from './PageHeader';
 
-export { default as Steps } from './Steps';
+export { default as Steps, Step } from './Steps';
 export type { StepProps, StepsProps } from './Steps';
 
 export type {
@@ -85,7 +87,7 @@ export type {
     CheckboxGroupProps,
     CheckboxOptionType,
 } from './Checkbox';
-export { default as Checkbox, JCheckboxGroup } from './Checkbox';
+export { default as Checkbox, CheckboxGroup } from './Checkbox';
 
 export type { CascaderProps } from './Cascader';
 export { default as Cascader } from './Cascader';
@@ -99,16 +101,25 @@ export type {
     FormInstance,
     FormItemInstance,
 } from './Form';
-export { default as Form, JFormItem } from './Form';
+export { default as Form, FormItem, FormItemRest } from './Form';
 
 export type { InputNumberProps } from './InputNumber';
 export { default as InputNumber } from './InputNumber';
 
+export type { LayoutProps, SiderProps } from './Layout';
+export {
+    default as Layout,
+    LayoutContent,
+    LayoutFooter,
+    LayoutHeader,
+    LayoutSider,
+} from './Layout';
+
 export type { MentionsProps } from './Mentions';
-export { default as Mentions, JMentionsOption } from './Mentions';
+export { default as Mentions, MentionsOption } from './Mentions';
 
 export type { RadioProps, RadioChangeEvent, RadioGroupProps } from './Radio';
-export { default as Radio, JRadioButton, JRadioGroup } from './Radio';
+export { default as Radio, RadioButton, RadioGroup } from './Radio';
 
 export type { RateProps } from './Rate';
 export { default as Rate } from './Rate';
@@ -120,16 +131,16 @@ export type { SwitchProps } from './switch';
 export { default as Switch } from './switch';
 
 export type { TimePickerProps, TimeRangePickerProps } from './TimePicker';
-export { default as TimePicker, JTimeRangePicker } from './TimePicker';
+export { default as TimePicker, TimeRangePicker } from './TimePicker';
 
 export type { TransferProps } from './Transfer';
 export { default as Transfer } from './Transfer';
 
 export type { TreeSelectProps } from './TreeSelect';
-export { default as TreeSelect, JTreeSelectNode } from './TreeSelect';
+export { default as TreeSelect, TreeSelectNode } from './TreeSelect';
 
 export type { AvatarProps } from './Avatar';
-export { default as Avatar, JAvatarGroup } from './Avatar';
+export { default as Avatar, AvatarGroup } from './Avatar';
 
 export type { CalendarProps } from './Calendar';
 export { default as Calendar } from './Calendar';
@@ -141,22 +152,22 @@ export type { CommentProps } from './Comment';
 export { default as Comment } from './Comment';
 
 export type { ImageProps } from './image';
-export { default as Image, JImagePreviewGroup } from './image';
+export { default as Image, ImagePreviewGroup } from './image';
 
 export type { ListProps, ListItemProps, ListItemMetaProps } from './List';
-export { default as List, JListItem, JListItemMeta } from './List';
+export { default as List, ListItem, ListItemMeta } from './List';
 
 export type { PopoverProps } from './Popover';
 export { default as Popover } from './Popover';
 
 export type { StatisticProps } from './Statistic';
-export { default as Statistic, JStatisticCountdown } from './Statistic';
+export { default as Statistic, StatisticCountdown } from './Statistic';
 
 export type { TagProps } from './Tag';
-export { default as Tag, JCheckableTag } from './Tag';
+export { default as Tag, CheckableTag } from './Tag';
 
 export type { TimelineProps, TimelineItemProps } from './Timeline';
-export { default as Timeline, JTimelineItem } from './Timeline';
+export { default as Timeline, TimelineItem } from './Timeline';
 
 export type { AlertProps } from './Alert';
 export { default as Alert } from './Alert';
@@ -180,18 +191,18 @@ export type {
 } from './skeleton';
 export {
     default as Skeleton,
-    JSkeletonButton,
-    JSkeletonAvatar,
-    JSkeletonInput,
-    JSkeletonImage,
-    JSkeletonTitle,
+    SkeletonButton,
+    SkeletonAvatar,
+    SkeletonInput,
+    SkeletonImage,
+    SkeletonTitle,
 } from './skeleton';
 
 export type { SpinProps } from './Spin';
 export { default as Spin } from './Spin';
 
 export type { AnchorProps, AnchorLinkProps } from './Anchor';
-export { default as Anchor, JAnchorLink } from './Anchor';
+export { default as Anchor, AnchorLink } from './Anchor';
 
 export type { BackTopProps } from './BackTop';
 export { default as BackTop } from './BackTop';
@@ -209,15 +220,15 @@ export type {
 } from './Table';
 export {
     default as Table,
-    JTableColumn,
-    JTableColumnGroup,
-    JTableSummary,
-    JTableSummaryRow,
-    JTableSummaryCell,
+    TableColumn,
+    TableColumnGroup,
+    TableSummary,
+    TableSummaryRow,
+    TableSummaryCell,
 } from './Table';
 
 export type { BadgeProps } from './badge';
-export { default as Badge, JBadgeRibbon } from './badge';
+export { default as Badge, BadgeRibbon } from './badge';
 
 export type { CardProps } from './Card';
-export { default as Card, JCardGrid, JCardMeta } from './Card';
+export { default as Card, CardGrid, CardMeta } from './Card';

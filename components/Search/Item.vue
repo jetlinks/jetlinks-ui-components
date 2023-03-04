@@ -2,7 +2,7 @@
     <div class="JSearch-item">
         <template v-if="!onlyValue">
             <div v-if="expand" class="JSearch-item--type">
-                <a-select
+                <j-select
                     v-if="index !== 1 && index !== 4"
                     v-model:value="termsModel.type"
                     :options="typeOptions"
@@ -13,13 +13,13 @@
                     {{ index === 1 ? '第一组' : '第二组' }}
                 </span>
             </div>
-            <a-select
+            <j-select
                 v-model:value="termsModel.column"
                 class="JSearch-item--column"
                 :options="columnOptions"
                 @change="columnChange"
             />
-            <a-select
+            <j-select
                 v-model:value="termsModel.termType"
                 class="JSearch-item--termType"
                 :options="termTypeOptions.option"
@@ -32,14 +32,14 @@
             </div>
         </template>
         <div class="JSearch-item--value">
-            <a-input
+            <j-input
                 v-if="component === componentType.input"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
                 style="width: 100%"
                 @change="valueChange"
             />
-            <a-select
+            <j-select
                 v-else-if="component === componentType.select"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
@@ -52,35 +52,35 @@
                 "
                 @change="valueChange"
             />
-            <a-input-number
+            <j-input-number
                 v-else-if="component === componentType.inputNumber"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
                 style="width: 100%"
                 @change="valueChange"
             />
-            <a-input-password
+            <j-input-password
                 v-else-if="component === componentType.password"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
                 style="width: 100%"
                 @change="valueChange"
             />
-            <a-switch
+            <j-switch
                 v-else-if="component === componentType.switch"
                 v-bind="cProps"
                 v-model:checked="termsModel.value"
                 style="width: 100%"
                 @change="valueChange"
             />
-            <a-radio-group
+            <j-radio-group
                 v-else-if="component === componentType.radio"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
                 style="width: 100%"
                 @change="valueChange"
             />
-            <a-checkbox-group
+            <j-checkbox-group
                 v-else-if="component === componentType.checkbox"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
@@ -88,7 +88,7 @@
                 :options="options"
                 @change="valueChange"
             />
-            <a-time-picker
+            <j-time-picker
                 v-else-if="component === componentType.time"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
@@ -96,7 +96,7 @@
                 style="width: 100%"
                 @change="valueChange"
             />
-            <a-date-picker
+            <j-date-picker
                 v-else-if="component === componentType.date"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
@@ -105,7 +105,7 @@
                 style="width: 100%"
                 @change="valueChange"
             />
-            <a-tree-select
+            <j-tree-select
                 v-else-if="component === componentType.treeSelect"
                 v-model:value="termsModel.value"
                 show-search
@@ -127,6 +127,18 @@ import { watch, ref, reactive, onBeforeMount } from 'vue';
 import type { SearchItemData, SearchProps, Terms } from './typing';
 import { cloneDeep, get, isArray, isFunction } from 'lodash-es';
 import { filterTreeSelectNode, filterSelectNode } from './util';
+import {
+    TreeSelect as JTreeSelect,
+    Select as JSelect,
+    Input as JInput,
+    InputNumber as JInputNumber,
+    DatePicker as JDatePicker,
+    TimePicker as JTimePicker,
+    InputPassword as JInputPassword,
+    Switch as JSwitch,
+    RadioGroup as JRadioGroup,
+    CheckboxGroup as JCheckboxGroup,
+} from '../components';
 
 type ItemType = SearchProps['type'];
 

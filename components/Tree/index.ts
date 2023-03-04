@@ -1,7 +1,8 @@
 import { withInstall } from '../util/type';
-import Tree from './tree.vue';
-export { treeFilter } from '../util/filterNodeMethod'
+import Tree from 'ant-design-vue/lib/tree';
+export { treeFilter } from '../util/filterNodeMethod';
 
+Tree.name = 'JTree';
 export const JLTree = withInstall(Tree, 'JTree');
 
 export default JLTree;

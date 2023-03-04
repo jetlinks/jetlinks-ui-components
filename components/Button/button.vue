@@ -26,6 +26,7 @@ const props = defineProps({
 
 const className = computed(() => {
     return {
+        'custom-button': true,
         'stroke-btn': String(props.type) === 'stroke',
         'icon-danger': String(props.type) === 'icon-danger',
     };

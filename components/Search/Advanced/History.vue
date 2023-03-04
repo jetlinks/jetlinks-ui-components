@@ -1,5 +1,5 @@
 <template>
-    <a-dropdown-button
+    <DropdownButton
         type="primary"
         placement="bottomLeft"
         :visible="historyVisible"
@@ -8,14 +8,14 @@
     >
         搜索
         <template #overlay>
-            <a-menu>
+            <j-menu>
                 <template v-if="!showEmpty">
-                    <a-menu-item v-for="item in historyList" :key="item.id">
+                    <j-menu-item v-for="item in historyList" :key="item.id">
                         <div class="history-item">
                             <span @click.stop="itemClick(item.content)">{{
                                 item.name
                             }}</span>
-                            <a-popconfirm
+                            <j-popconfirm
                                 title="确认删除吗？"
                                 placement="top"
                                 :ok-button-props="{
@@ -24,31 +24,37 @@
                                 @confirm.stop="deleteHistory(item.id)"
                             >
                                 <span class="delete">
-                                    <DeleteOutlined />
+                                    <AIcon type="DeleteOutlined" />
                                 </span>
-                            </a-popconfirm>
+                            </j-popconfirm>
                         </div>
-                    </a-menu-item>
+                    </j-menu-item>
                 </template>
                 <template v-else>
                     <div class="history-empty">
-                        <a-empty />
+                        <j-empty />
                     </div>
                 </template>
-            </a-menu>
+            </j-menu>
         </template>
         <template #icon>
-            <SearchOutlined />
+            <AIcon type="SearchOutlined" />
         </template>
-    </a-dropdown-button>
+    </DropdownButton>
 </template>
 
 <script setup lang="ts" name="SearchHistory">
-import { SearchOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 import type { SearchHistoryList } from '../typing';
 import { ref } from 'vue';
-import type { PropType } from 'vue';
 import { isFunction } from 'lodash-es';
+import {
+    Menu as JMenu,
+    Menu as JMenuItem,
+    AIcon,
+    Empty as JEmpty,
+    Popconfirm as JPopconfirm,
+    DropdownButton,
+} from '../../components';
 
 type Emit = {
     (event: 'click'): void;
@@ -113,6 +119,7 @@ const deleteHistory = async (id: string) => {
 
 <style scoped lang="less">
 @import '../../style/variable.less';
+
 .history-empty {
     width: 200px;
     background-color: #fff;

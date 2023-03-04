@@ -1,4 +1,4 @@
-import type { ColumnType } from 'ant-design-vue/es/table';
+import type { ColumnType } from 'ant-design-vue/lib/table';
 
 export interface SearchBaseProps {
     rename?: string;

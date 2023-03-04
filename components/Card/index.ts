@@ -1,10 +1,19 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Card, { CardGrid, CardMeta } from 'ant-design-vue/lib/card/index';
 
 export type { CardProps } from 'ant-design-vue/lib/card/index';
 
-export const JCard = withInstall(Card, 'JCard');
-export const JCardGrid = withInstall(CardGrid, 'JCardGrid');
-export const JCardMeta = withInstall(CardMeta, 'JCardMeta');
+Card.name = 'JCard';
+CardGrid.name = 'JCardGrid';
+CardMeta.name = 'JCardMeta';
 
-export default JCard;
+Card.install = function (app: App) {
+    app.component('JCard', Card);
+    app.component('JCardGrid', CardGrid);
+    app.component('JCardMeta', CardMeta);
+    return app;
+};
+
+export default Card;
+
+export { CardGrid, CardMeta };

@@ -1,9 +1,14 @@
-import { withInstall } from '../util/type';
-import type { App, Plugin } from 'vue';
+import type { App } from 'vue';
 import Tabs from './tabs.vue';
-import { TabPane } from 'ant-design-vue';
+import { TabPane } from 'ant-design-vue/lib/tabs';
+export type { TabsProps, TabPaneProps } from 'ant-design-vue/lib/tabs';
 
-export const JLTabs = withInstall(Tabs, 'JTabs');
-export const JTabPane = withInstall(TabPane, 'JTabPane');
+Tabs.TabPane = TabPane;
 
-export default JLTabs;
+Tabs.install = function (app: App) {
+    app.component('JTabs', Tabs);
+    app.component('JTabPane', TabPane);
+    return app;
+};
+
+export default Tabs;

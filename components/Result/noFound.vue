@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import ResultProps from 'ant-design-vue/es/result';
+import ResultProps from 'ant-design-vue/lib/result';
 
 const props = defineProps({
     ...ResultProps.props,

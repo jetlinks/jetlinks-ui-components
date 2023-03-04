@@ -263,7 +263,7 @@ import { defineProps, useSlots } from 'vue';
 import {
     uploadProps,
     uploadListProps,
-} from 'ant-design-vue/es/upload/interface';
+} from 'ant-design-vue/lib/upload/interface';
 const props = defineProps({
     ...uploadProps(),
     ...uploadListProps(),

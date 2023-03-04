@@ -19,6 +19,7 @@ Search组件基本使用
 
 <script>
 import { ref } from 'vue';
+
 export default {
     name: 'Basic',
     setup() {
@@ -53,11 +54,14 @@ export default {
                         { label: '类型1', value: 1 },
                         { label: '类型2', value: 2 },
                     ],
-                    componentProps: {
-                        style: {
-                            width: '120px',
-                        },
-                    },
+                    componentProps: {},
+                },
+            },
+            {
+                title: '地址',
+                dataIndex: 'address',
+                search: {
+                    type: 'string',
                 },
             },
         ];

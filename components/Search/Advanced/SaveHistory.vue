@@ -7,34 +7,34 @@
     >
         <template #content>
             <div style="width: 240px">
-                <a-form ref="formRef" :model="modelRef">
-                    <a-form-item
+                <j-form ref="formRef" :model="modelRef">
+                    <j-form-item
                         name="name"
                         :rules="[{ required: true, message: '请输入名称' }]"
                     >
-                        <a-textarea
+                        <j-textarea
                             v-model:value="modelRef.name"
                             :rows="3"
                             :maxlength="200"
                         />
-                    </a-form-item>
-                </a-form>
-                <a-button
+                    </j-form-item>
+                </j-form>
+                <j-button
                     :loading="saveHistoryLoading"
                     type="primary"
                     class="save-btn"
                     @click="saveHistory"
                 >
                     保存
-                </a-button>
+                </j-button>
             </div>
         </template>
-        <a-button>
+        <j-button>
             <template #icon>
-                <SaveOutlined />
+                <AIcon type="SaveOutlined" />
             </template>
             保存
-        </a-button>
+        </j-button>
     </a-popover>
 </template>
 
@@ -42,7 +42,12 @@
 import type { Terms } from '../typing';
 import type { PropType } from 'vue';
 import { ref, reactive } from 'vue';
-import { SaveOutlined } from '@ant-design/icons-vue';
+import {
+    Form as JForm,
+    Button as JButton,
+    FormItem as JFormItem,
+    AIcon,
+} from '../../components';
 import { isFunction } from 'lodash-es';
 
 const props = defineProps({

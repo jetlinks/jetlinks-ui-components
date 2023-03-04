@@ -29,12 +29,10 @@ message.config({
     </a-space>
 </template>
 
-<script lang="ts" setup>
-import { Button } from 'ant-design-vue';
-import type { MessageArgsProps } from 'ant-design-vue';
-import { Message as JMessage } from 'jetlinks-ui-components';
+<script setup>
+import { message, Button } from 'jetlinks-ui-components';
 
-const configs: MessageArgsProps = [
+const configs = [
     {
         type: 'open',
         content: 'open测试',
@@ -64,7 +62,7 @@ const configs: MessageArgsProps = [
     },
 ];
 
-const openMessage = (config: MessageArgsProps) => {
-    JMessage(config);
+const openMessage = (config) => {
+    message.success(config.content);
 };
 </script>

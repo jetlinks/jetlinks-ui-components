@@ -1,13 +1,18 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Statistic from 'ant-design-vue/lib/statistic/Statistic';
 import StatisticCountdown from 'ant-design-vue/lib/statistic/Countdown';
 
 export type { StatisticProps } from 'ant-design-vue/lib/statistic/index';
 
-export const JStatistic = withInstall(Statistic, 'JStatistic');
-export const JStatisticCountdown = withInstall(
-    StatisticCountdown,
-    'JStatisticCountdown',
-);
+Statistic.name = 'JStatistic';
+StatisticCountdown.name = 'JStatisticCountdown';
 
-export default JStatisticCountdown;
+Statistic.install = function (app: App) {
+    app.component(Statistic.name, Statistic);
+    app.component(StatisticCountdown.name, StatisticCountdown);
+    return app;
+};
+
+export default StatisticCountdown;
+
+export { StatisticCountdown };

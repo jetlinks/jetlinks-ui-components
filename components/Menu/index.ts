@@ -1,16 +1,10 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Menu, {
     MenuItem,
     MenuItemGroup,
     SubMenu,
     MenuDivider,
 } from 'ant-design-vue/lib/menu/index';
-
-export const JMenu = withInstall(Menu, 'JMenu');
-export const JMenuItem = withInstall(MenuItem, 'JMenuItem');
-export const JMenuItemGroup = withInstall(MenuItemGroup, 'JMenuItemGroup');
-export const JSubMenu = withInstall(SubMenu, 'JSubMenu');
-export const JMenuDivider = withInstall(MenuDivider, 'JMenuDivider');
 
 export type {
     MenuProps,
@@ -19,6 +13,23 @@ export type {
     MenuItemProps,
     MenuMode,
     MenuDividerProps,
-} from 'ant-design-vue/es/menu/index';
+} from 'ant-design-vue/lib/menu/index';
 
-export default JMenu;
+Menu.name = 'JMenu';
+MenuItem.name = 'JMenuItem';
+MenuItemGroup.name = 'JMenuItemGroup';
+SubMenu.name = 'JSubMenu';
+MenuDivider.name = 'JMenuDivider';
+
+Menu.install = function (app: App) {
+    app.component(Menu.name, Menu);
+    app.component(MenuItem.name, MenuItem);
+    app.component(MenuItemGroup.name, MenuItemGroup);
+    app.component(SubMenu.name, SubMenu);
+    app.component(MenuDivider.name, MenuDivider);
+    return app;
+};
+
+export default Menu;
+
+export { MenuItem, MenuItemGroup, SubMenu, MenuDivider };

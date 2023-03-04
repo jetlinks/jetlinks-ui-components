@@ -153,6 +153,7 @@ module.exports = {
                         '../../style/index.less',
                         '../../style/default.less',
                     );
+
                     cloneFile.contents = Buffer.from(content);
 
                     return cloneFile;
@@ -234,7 +235,7 @@ module.exports = {
                 }
             }
         },
-        transformFile(file) {
+        transformFile(file, module) {
             if (isComponentStyleEntry(file)) {
                 const indexLessFilePath = file.path.replace(
                     'index.tsx',

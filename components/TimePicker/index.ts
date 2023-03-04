@@ -1,17 +1,22 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import TimePicker, {
     TimeRangePicker,
-} from 'ant-design-vue/lib/time-picker/index';
+} from 'ant-design-vue/lib/time-picker/dayjs';
 
 export type {
     TimePickerProps,
     TimeRangePickerProps,
 } from 'ant-design-vue/lib/time-picker/index';
 
-export const JTimePicker = withInstall(TimePicker, 'JTimePicker');
-export const JTimeRangePicker = withInstall(
-    TimeRangePicker,
-    'JTimeRangePicker',
-);
+TimePicker.name = 'JTimePicker';
+TimeRangePicker.name = 'JTimeRangePicker';
 
-export default JTimePicker;
+TimePicker.install = function (app: App) {
+    app.component('JTimePicker', TimePicker);
+    app.component('JTimeRangePicker', TimeRangePicker);
+    return app;
+};
+
+export default TimePicker;
+
+export { TimeRangePicker };

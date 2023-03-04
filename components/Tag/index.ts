@@ -1,10 +1,18 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Tag from 'ant-design-vue/lib/tag/index';
 import CheckableTag from 'ant-design-vue/lib/tag/CheckableTag';
 
 export type { TagProps } from 'ant-design-vue/lib/tag/index';
 
-export const JTag = withInstall(Tag, 'JTag');
-export const JCheckableTag = withInstall(CheckableTag, 'JCheckableTag');
+Tag.name = 'JTag';
+CheckableTag.name = 'JCheckableTag';
 
-export default JTag;
+Tag.install = function (app: App) {
+    app.component(Tag.name, Tag);
+    app.component(CheckableTag.name, CheckableTag);
+    return app;
+};
+
+export default Tag;
+
+export { CheckableTag };

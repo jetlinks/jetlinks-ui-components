@@ -1,7 +1,10 @@
 import type { VNodeChild, CSSProperties, HTMLAttributes } from 'vue';
-import type { Theme } from "../typings";
+import type { Theme } from '../typings';
 
-export type { MenuMode, MenuTheme } from 'ant-design-vue/es/menu/src/interface';
+export type {
+    MenuMode,
+    MenuTheme,
+} from 'ant-design-vue/lib/menu/src/interface';
 
 export interface MenuInfo {
     key: string | number;
@@ -18,11 +21,11 @@ export type OpenEventHandler = (
     keys:
         | string[]
         | {
-        key: string;
-        item: VNodeChild;
-        trigger: string;
-        open: boolean;
-    }
+              key: string;
+              item: VNodeChild;
+              trigger: string;
+              open: boolean;
+          },
 ) => void;
 
 export type SiderTheme = Theme;

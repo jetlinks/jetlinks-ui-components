@@ -1,4 +1,4 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Table from 'ant-design-vue/lib/table/Table';
 import TableColumn from 'ant-design-vue/lib/table/Column';
 import TableColumnGroup from 'ant-design-vue/lib/table/ColumnGroup';
@@ -17,20 +17,29 @@ export type {
     ColumnsType,
 } from 'ant-design-vue/lib/table/index';
 
-export const JTable = withInstall(Table, 'JTable');
-export const JTableColumn = withInstall(TableColumn, 'JTableColumn');
-export const JTableColumnGroup = withInstall(
-    TableColumnGroup,
-    'JTableColumnGroup',
-);
-export const JTableSummary = withInstall(TableSummary, 'JTableSummary');
-export const JTableSummaryRow = withInstall(
-    TableSummaryRow,
-    'JTableSummaryRow',
-);
-export const JTableSummaryCell = withInstall(
-    TableSummaryCell,
-    'JTableSummaryCell',
-);
+Table.name = 'JTable';
+TableColumn.name = 'JTableColumn';
+TableColumnGroup.name = 'JTableColumnGroup';
+TableSummary.name = 'JTableSummary';
+TableSummaryRow.name = 'JTableSummaryRow';
+TableSummaryCell.name = 'JTableSummaryCell';
 
-export default JTable;
+Table.install = function (app: App) {
+    app.component(Table.name, Table);
+    app.component(TableColumn.name, TableColumn);
+    app.component(TableColumnGroup.name, TableColumnGroup);
+    app.component(TableSummary.name, TableSummary);
+    app.component(TableSummaryRow.name, TableSummaryRow);
+    app.component(TableSummaryCell.name, TableSummaryCell);
+    return app;
+};
+
+export default Table;
+
+export {
+    TableColumn,
+    TableColumnGroup,
+    TableSummary,
+    TableSummaryRow,
+    TableSummaryCell,
+};

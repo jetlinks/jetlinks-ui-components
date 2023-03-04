@@ -1,9 +1,9 @@
 /**
  * 公共类型数据
  */
-import type { TableProps, ColumnProps } from 'ant-design-vue/es/table';
-import type { TooltipProps } from 'ant-design-vue/es/tooltip';
-import type { PopconfirmProps } from 'ant-design-vue/es/popconfirm';
+import type { TableProps, ColumnProps } from 'ant-design-vue/lib/table';
+import type { TooltipProps } from 'ant-design-vue/lib/tooltip';
+import type { PopconfirmProps } from 'ant-design-vue/lib/popconfirm';
 import { CSSProperties } from 'vue';
 
 export enum TypeEnum {
@@ -15,6 +15,8 @@ export enum ModelEnum {
     TABLE = 'TABLE',
     CARD = 'CARD',
 }
+
+export type ModelType = keyof typeof ModelEnum;
 
 export type RequestData =
     | {

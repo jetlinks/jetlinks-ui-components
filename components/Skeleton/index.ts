@@ -1,4 +1,4 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Skeleton from 'ant-design-vue/lib/skeleton/Skeleton';
 import SkeletonButton from 'ant-design-vue/lib/skeleton/Button';
 import SkeletonAvatar from 'ant-design-vue/lib/skeleton/Avatar';
@@ -15,11 +15,29 @@ export type {
     SkeletonTitleProps,
 } from 'ant-design-vue/lib/skeleton/index';
 
-export const JSkeleton = withInstall(Skeleton, 'JSkeleton');
-export const JSkeletonButton = withInstall(SkeletonButton, 'JSkeletonButton');
-export const JSkeletonAvatar = withInstall(SkeletonAvatar, 'JSkeletonAvatar');
-export const JSkeletonInput = withInstall(SkeletonInput, 'JSkeletonInput');
-export const JSkeletonImage = withInstall(SkeletonImage, 'JSkeletonImage');
-export const JSkeletonTitle = withInstall(SkeletonTitle, 'JSkeletonTitle');
+Skeleton.name = 'JSkeleton';
+SkeletonButton.name = 'JSkeletonButton';
+SkeletonAvatar.name = 'JSkeletonAvatar';
+SkeletonInput.name = 'JSkeletonInput';
+SkeletonImage.name = 'JSkeletonImage';
+SkeletonTitle.name = 'JSkeletonTitle';
 
-export default JSkeleton;
+Skeleton.install = function (app: App) {
+    app.component(Skeleton.name, Skeleton);
+    app.component(SkeletonButton.name, SkeletonButton);
+    app.component(SkeletonAvatar.name, SkeletonAvatar);
+    app.component(SkeletonInput.name, SkeletonInput);
+    app.component(SkeletonImage.name, SkeletonImage);
+    app.component(SkeletonTitle.name, SkeletonTitle);
+    return app;
+};
+
+export default Skeleton;
+
+export {
+    SkeletonButton,
+    SkeletonAvatar,
+    SkeletonInput,
+    SkeletonImage,
+    SkeletonTitle,
+};

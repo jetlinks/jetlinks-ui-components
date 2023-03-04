@@ -5,7 +5,7 @@
 <script lang="ts" setup name="JPagination">
 import { Pagination } from 'ant-design-vue';
 import { computed, defineProps, reactive } from 'vue';
-import { paginationProps } from 'ant-design-vue/es/pagination';
+import { paginationProps } from 'ant-design-vue/lib/pagination';
 import { omit } from 'lodash';
 
 const props = defineProps({

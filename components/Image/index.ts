@@ -1,12 +1,18 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Image from 'ant-design-vue/lib/image/index';
 import ImagePreviewGroup from 'ant-design-vue/lib/image/PreviewGroup';
 
 export type { ImageProps } from 'ant-design-vue/lib/image/index';
-export const JImage = withInstall(Image, 'JImage');
-export const JImagePreviewGroup = withInstall(
-    ImagePreviewGroup,
-    'JImagePreviewGroup',
-);
 
-export default JImage;
+Image.name = 'JBadge';
+ImagePreviewGroup.name = 'JBadgeRibbon';
+
+Image.install = function (app: App) {
+    app.component(Image.name, Image);
+    app.component(ImagePreviewGroup.name, ImagePreviewGroup);
+    return app;
+};
+
+export default Image;
+
+export { ImagePreviewGroup };

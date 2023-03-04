@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { Result } from 'ant-design-vue';
 import { useSlots } from 'vue';
-import { resultProps } from 'ant-design-vue/es/result';
+import { resultProps } from 'ant-design-vue/lib/result';
 import NoFound from './noFound.vue';
 
 const slots = useSlots();
