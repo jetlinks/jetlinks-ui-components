@@ -1,9 +1,6 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Checkbox from 'ant-design-vue/lib/checkbox/Checkbox';
 import CheckboxGroup from 'ant-design-vue/lib/checkbox/Group';
-
-export const JCheckbox = withInstall(Checkbox, 'JCheckbox');
-export const JCheckboxGroup = withInstall(CheckboxGroup, 'JCheckboxGroup');
 
 export type {
     CheckboxProps,
@@ -11,4 +8,15 @@ export type {
     CheckboxOptionType,
 } from 'ant-design-vue/lib/checkbox/interface';
 
-export default JCheckbox;
+CheckboxGroup.name = 'JCheckboxGroup';
+
+Checkbox.name = 'JCheckbox';
+Checkbox.install = function (app: App) {
+    app.component('JCheckbox', Checkbox);
+    app.component('JCheckboxGroup', CheckboxGroup);
+    return app;
+};
+
+export default Checkbox;
+
+export { CheckboxGroup };

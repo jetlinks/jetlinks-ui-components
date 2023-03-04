@@ -137,7 +137,7 @@ import {
     JInputPassword,
     Switch as JSwitch,
     JRadioGroup,
-    JCheckboxGroup,
+    CheckboxGroup,
 } from '../components';
 
 type ItemType = SearchProps['type'];

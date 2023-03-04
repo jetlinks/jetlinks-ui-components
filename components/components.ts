@@ -6,7 +6,7 @@ export { default as Select } from './Select';
 export { default as Empty } from './Empty';
 export { default as Tree } from './Tree';
 export { default as AutoComplete } from './AutoComplete';
-export { default as Message } from './Message';
+export { default as message } from './Message';
 export {
     default as Input,
     JInputPassword,
@@ -88,7 +88,7 @@ export type {
     CheckboxGroupProps,
     CheckboxOptionType,
 } from './Checkbox';
-export { default as Checkbox, JCheckboxGroup } from './Checkbox';
+export { default as Checkbox, CheckboxGroup } from './Checkbox';
 
 export type { CascaderProps } from './Cascader';
 export { default as Cascader } from './Cascader';

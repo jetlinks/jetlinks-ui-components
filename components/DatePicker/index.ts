@@ -1,21 +1,30 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import type { Dayjs } from 'dayjs';
 import DatePicker, {
     MonthPicker,
     WeekPicker,
     RangePicker,
     QuarterPicker,
-} from 'ant-design-vue/lib/date-picker/index';
+} from 'ant-design-vue/lib/date-picker/dayjs';
 
 import type { PickerProps } from 'ant-design-vue/lib/date-picker/generatePicker';
 import type { ExtraDatePickerProps } from 'ant-design-vue/lib/date-picker/generatePicker/props';
 
-export const JDatePicker = withInstall(DatePicker, 'JDatePicker');
-export const JMonthPicker = withInstall(MonthPicker, 'JDatePicker');
-export const JWeekPicker = withInstall(WeekPicker, 'JWeekPicker');
-export const JRangePicker = withInstall(RangePicker, 'JRangePicker');
-export const JQuarterPicker = withInstall(QuarterPicker, 'JQuarterPicker');
-
 export type DatePickerProps = PickerProps<Dayjs> & ExtraDatePickerProps<Dayjs>;
 
-export default JDatePicker;
+DatePicker.name = 'JDatePicker';
+RangePicker.name = 'JRangePicker';
+MonthPicker.name = 'JMonthPicker';
+WeekPicker.name = 'JWeekPicker';
+QuarterPicker.name = 'JQuarterPicker';
+
+DatePicker.install = function (app: App) {
+    app.component('JDatePicker', DatePicker);
+    app.component('JRangePicker', RangePicker);
+    app.component('JMonthPicker', MonthPicker);
+    app.component('JWeekPicker', WeekPicker);
+    app.component('JQuarterPicker', QuarterPicker);
+    return app;
+};
+
+export default DatePicker;
