@@ -12,9 +12,8 @@ export {
     InputPassword,
     InputGroup,
     InputSearch,
-    InputTextarea,
+    Textarea,
 } from './Input';
-export { default as Textarea } from './Textarea';
 export { default as MonacoEditor } from './MonacoEditor';
 
 export type { TabsProps, TabPaneProps } from './Tabs';

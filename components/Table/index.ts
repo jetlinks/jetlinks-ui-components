@@ -7,7 +7,6 @@ import {
     TableSummaryRow,
     TableSummaryCell,
 } from 'ant-design-vue/lib/table/index';
-import Badge from 'ant-design-vue/lib/badge/Badge';
 
 export type {
     TableProps,
