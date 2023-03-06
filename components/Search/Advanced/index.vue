@@ -1,5 +1,5 @@
 <template>
-    <div ref="searchRef" class="JSearch-warp">
+    <div ref="searchRef" :class="['JSearch-warp', props.class]">
         <!--  高级模式  -->
         <div
             v-if="props.type === 'advanced'"
@@ -18,6 +18,7 @@
                         :index="1"
                         :columns="searchItems"
                         :terms-item="terms"
+                        :reset="resetNumber"
                         @change="(v) => itemValueChange(v, 1)"
                     />
                     <SearchItem
@@ -26,6 +27,7 @@
                         :index="2"
                         :columns="searchItems"
                         :terms-item="terms"
+                        :reset="resetNumber"
                         @change="(v) => itemValueChange(v, 2)"
                     />
                     <SearchItem
@@ -34,6 +36,7 @@
                         :index="3"
                         :columns="searchItems"
                         :terms-item="terms"
+                        :reset="resetNumber"
                         @change="(v) => itemValueChange(v, 3)"
                     />
                 </div>
@@ -50,6 +53,7 @@
                         :index="4"
                         :columns="searchItems"
                         :terms-item="terms"
+                        :reset="resetNumber"
                         @change="(v) => itemValueChange(v, 4)"
                     />
                     <SearchItem
@@ -57,6 +61,7 @@
                         :index="5"
                         :columns="searchItems"
                         :terms-item="terms"
+                        :reset="resetNumber"
                         @change="(v) => itemValueChange(v, 5)"
                     />
                     <SearchItem
@@ -64,6 +69,7 @@
                         :index="6"
                         :columns="searchItems"
                         :terms-item="terms"
+                        :reset="resetNumber"
                         @change="(v) => itemValueChange(v, 6)"
                     />
                 </div>
@@ -101,6 +107,7 @@
                         :index="1"
                         :columns="searchItems"
                         :terms-item="terms"
+                        :reset="resetNumber"
                         @change="(v) => itemValueChange(v, 1)"
                     />
                 </div>
@@ -166,6 +173,10 @@ const props = defineProps({
         default: '',
         required: true,
     },
+    class: {
+        type: String,
+        default: '',
+    },
 });
 
 const searchRef = ref(null);
@@ -185,6 +196,7 @@ const historyList = ref([]);
 const layout = ref('horizontal');
 // 当前组件宽度 true 大于1000
 const screenSize = ref(true);
+const resetNumber = ref(1);
 
 const searchItems = ref<SearchProps[]>([]); // 当前查询条件
 const terms = reactive<Terms>({ terms: [] });
@@ -248,11 +260,12 @@ const searchSubmit = () => {
 const reset = () => {
     terms.terms = [];
     expand.value = false;
-    emit('search', terms);
     if (props.type === 'advanced') {
         urlParams.q = null;
         urlParams.target = null;
     }
+    resetNumber.value += 1;
+    emit('search', { terms: [] });
 };
 
 watch(width, (value) => {
