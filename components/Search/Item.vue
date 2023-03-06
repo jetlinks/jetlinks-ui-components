@@ -123,7 +123,7 @@
 <script setup lang="ts" name="SearchItem">
 import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
-import { watch, ref, reactive, onBeforeMount } from 'vue';
+import { watch, ref, reactive, onBeforeMount, nextTick } from 'vue';
 import type { SearchItemData, SearchProps, Terms } from './typing';
 import { cloneDeep, get, isArray, isFunction } from 'lodash-es';
 import { filterTreeSelectNode, filterSelectNode } from './util';
@@ -139,8 +139,14 @@ import {
     RadioGroup as JRadioGroup,
     CheckboxGroup as JCheckboxGroup,
 } from '../components';
+import { useUrlSearchParams } from '@vueuse/core';
 
 type ItemType = SearchProps['type'];
+
+type UrlParam = {
+    q: string | null;
+    target: string | null;
+};
 
 interface Emit {
     (e: 'change', data: SearchItemData): void;
@@ -172,7 +178,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    reset: {
+        type: Number,
+        default: 1,
+    },
 });
+
+const urlParams = useUrlSearchParams<UrlParam>('hash');
 
 type optionItemType = { label: string; value: any };
 
@@ -266,7 +278,7 @@ const handleItemOptions = (option?: any[] | Function) => {
 
 const columnChange = (value: string, isChange: boolean) => {
     const item = columnOptionMap.get(value);
-    console.log(value, columnOptionMap, item);
+
     cProps.value = item.componentProps;
     optionLoading.value = false;
     // 设置value为undefined
@@ -329,24 +341,13 @@ const valueChange = () => {
     });
 };
 
-handleItem();
-
-onBeforeMount(() => {
-    cProps.value = props.componentProps;
-});
-
-watch(
-    props.termsItem,
-    (newValue) => {
-        let path =
+const handleQuery = (_params: UrlParam) => {
+    if (_params.q) {
+        const path =
             props.index < 4
                 ? [0, 'terms', props.index - 1]
                 : [1, 'terms', props.index - 4];
-
-        if (props.onlyValue) {
-            path = [props.index - 1];
-        }
-        const itemData: SearchItemData = get(newValue.terms, path);
+        const itemData: SearchItemData = get(props.termsItem.terms, path);
         if (itemData) {
             termsModel.type = itemData.type;
             termsModel.column = itemData.column;
@@ -359,11 +360,25 @@ watch(
             if ('options' in item) {
                 handleItemOptions(item.options);
             }
-        } else {
-            handleItem();
         }
+    }
+};
+
+handleItem();
+
+onBeforeMount(() => {
+    cProps.value = props.componentProps;
+});
+
+nextTick(() => {
+    handleQuery(urlParams);
+});
+
+watch(
+    () => props.reset,
+    () => {
+        handleItem();
     },
-    { immediate: true, deep: true },
 );
 </script>
 
