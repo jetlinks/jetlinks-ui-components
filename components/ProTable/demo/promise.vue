@@ -12,7 +12,7 @@ title: 远程加载数据
     :columns="columns" 
     :request="query"
     :params="{}"
-    :defaultParams="{}"
+    :defaultParams="{ sorts: [{ name: 'createTime', order: 'desc' }] }"
     ref="instanceRef"
   >
     <template #headerTitle><j-button type="primary" @click="refresh">刷新页面</j-button></template>

@@ -16,11 +16,10 @@ title: 可选择
         onChange: onSelectChange,
     }"
     :noPagination="true"
-    @cancelSelect="cancelSelect"
   >
     <template #card="slotProps">
-      <div style="width: 100%; padding: 20px" :style="{border: `1px solid ${selectedKeys.includes(slotProps.key) ? 'red' : 'lightgray'}`}">
-        <div @click="handleClick(slotProps)" style="width: 100%">{{slotProps?.name + slotProps.key}}</div>
+      <div style="width: 100%; padding: 20px" :style="{border: `1px solid ${selectedKeys.includes(slotProps.key) ? 'red' : 'lightgray'}`}" @click="handleClick(slotProps)">
+        <div style="width: 100%">{{slotProps?.name + slotProps.key}}</div>
       </div>
     </template>
   </j-pro-table>
@@ -64,10 +63,6 @@ const onSelectChange = (keys: string[]) => {
     selectedKeys.value = [...keys];
 };
 
-const cancelSelect = () => {
-    selectedKeys.value = [];
-};
-
 const handleClick = (dt: any) => {
     if (selectedKeys.value.includes(dt.key)) {
         const _index = selectedKeys.value.findIndex((i) => i === dt.key);
@@ -84,7 +79,6 @@ export default defineComponent({
       columns,
       selectedKeys,
       onSelectChange,
-      cancelSelect,
       handleClick
     };
   },

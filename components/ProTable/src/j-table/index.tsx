@@ -123,9 +123,9 @@ const ProTable = defineComponent<JTableProps>({
         'rightExtraRender',
         'paginationRender', // 分页
     ],
-    emits: [
-        'selectCancel', // 取消选择
-    ],
+    // emits: [
+    //     'selectCancel', // 取消选择
+    // ],
     props: tableProps() as any,
     setup(props: JTableProps, { slots, emit, expose }) {
         const _model = ref<keyof typeof ModelEnum>(
@@ -171,7 +171,6 @@ const ProTable = defineComponent<JTableProps>({
         };
 
         const handleSearch = async (_params?: Record<string, any>) => {
-            console.log(props.defaultParams)
             _loading.value =
                 props.loading !== undefined ? (props.loading as boolean) : true;
             if (props.request) {
@@ -328,7 +327,10 @@ const ProTable = defineComponent<JTableProps>({
                                     }
                                     type="info"
                                     onClose={() => {
-                                        emit('selectCancel');
+                                        // emit('selectCancel');
+                                        if(props.rowSelection?.onChange){
+                                            props.rowSelection.onChange([], [])
+                                        }
                                     }}
                                     closeText={
                                         <Button type="link">取消选择</Button>
