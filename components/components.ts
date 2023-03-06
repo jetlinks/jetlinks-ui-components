@@ -93,7 +93,13 @@ export type { CascaderProps } from './Cascader';
 export { default as Cascader } from './Cascader';
 
 export type { DatePickerProps } from './DatePicker';
-export { default as DatePicker } from './DatePicker';
+export {
+    default as DatePicker,
+    RangePicker,
+    MonthPicker,
+    WeekPicker,
+    QuarterPicker,
+} from './DatePicker';
 
 export type {
     FormProps,

@@ -259,6 +259,7 @@ function compile(modules) {
         sourceStream = sourceStream.pipe(
             through2.obj(function (file, encoding, next) {
                 let nextFile = transformTSFile(file) || file;
+                console.log(file.path);
                 nextFile = Array.isArray(nextFile) ? nextFile : [nextFile];
                 nextFile.forEach((f) => this.push(f));
                 next();
