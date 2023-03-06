@@ -1,6 +1,5 @@
-import { withInstall } from "../util/type";
-import Button from "./button.vue";
+import { withInstall } from '../util/type';
+import Button from './button.vue';
 
-export const JLButton = withInstall(Button, 'JButton')
-
-export default JLButton
+export const JLButton = withInstall(Button, 'JButton');
+export default JLButton;

@@ -32,3 +32,9 @@ const className = computed(() => {
     };
 });
 </script>
+
+<script lang="ts">
+export default {
+    __ANT_BUTTON: true,
+};
+</script>

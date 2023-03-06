@@ -1,12 +1,37 @@
 <template>
-    <demo-sort :cols="1">
-    </demo-sort>
+  <demo-sort>
+    <basic />
+    <fallback />
+    <placeholder />
+    <preview-group />
+    <previewGroupVisibleVue />
+    <previewSrc />
+    <controlled-preview />
+  </demo-sort>
 </template>
+
 <script lang="ts">
-import CN from '../index.md'
-export default {
-    CN,
-    components: {
-    }
-}
+import Basic from './basic.vue';
+import Fallback from './fallback.vue';
+import Placeholder from './placeholder.vue';
+import previewSrc from './preview-src.vue';
+import PreviewGroup from './preview-group.vue';
+import ControlledPreview from './controlled-preview.vue';
+import previewGroupVisibleVue from './preview-group-visible.vue';
+
+import CN from '../index.md';
+import { defineComponent } from 'vue';
+export default defineComponent({
+  CN,
+  components: {
+    Basic,
+    Fallback,
+    previewSrc,
+    Placeholder,
+    PreviewGroup,
+    ControlledPreview,
+    previewGroupVisibleVue,
+  },
+});
 </script>
+<style></style>

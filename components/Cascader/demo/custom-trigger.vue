@@ -1,31 +1,26 @@
 <docs>
 ---
 order: 2
-title:
-  zh-CN: 可以自定义显示
-  en-US: Custom trigger
+title: 可以自定义显示
 ---
 
 ## zh-CN
 
 切换按钮和结果分开。
 
-## en-US
-
-Separate trigger button and result.
 
 </docs>
 <template>
   <span>
     {{ text }} &nbsp;
-    <a-cascader
+    <j-cascader
       v-model:value="value"
       placeholder="Please select"
       :options="options"
       @change="onChange"
     >
       <a href="#">Change city</a>
-    </a-cascader>
+    </j-cascader>
   </span>
 </template>
 <script lang="ts">

@@ -1,28 +1,22 @@
 <docs>
 ---
 order: 6
-title:
-  zh-CN: 大小
-  en-US: Size
+title: 大小
 ---
 
 ## zh-CN
 
 不同大小的级联选择器。
 
-## en-US
-
-Cascade selection box of different sizes.
-
 </docs>
 <template>
-  <a-cascader v-model:value="value" placeholder="Please select" size="large" :options="options" />
+  <j-cascader v-model:value="value" placeholder="Please select" size="large" :options="options" />
   <br />
   <br />
-  <a-cascader v-model:value="value" placeholder="Please select" :options="options" />
+  <j-cascader v-model:value="value" placeholder="Please select" :options="options" />
   <br />
   <br />
-  <a-cascader v-model:value="value" placeholder="Please select" size="small" :options="options" />
+  <j-cascader v-model:value="value" placeholder="Please select" size="small" :options="options" />
   <br />
   <br />
 </template>

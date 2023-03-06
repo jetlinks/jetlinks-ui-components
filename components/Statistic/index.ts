@@ -13,6 +13,6 @@ Statistic.install = function (app: App) {
     return app;
 };
 
-export default StatisticCountdown;
+export default Statistic;
 
 export { StatisticCountdown };

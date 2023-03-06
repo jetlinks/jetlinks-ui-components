@@ -2,28 +2,23 @@
 ---
 order: 5.1
 version: 3.0.0
-title:
-  zh-CN: 多选
-  en-US: Multiple
+title: 多选
 ---
 
 ## zh-CN
 
 一次性选择多个选项。
 
-## en-US
-
-Select multiple options
 </docs>
 <template>
-  <a-cascader
+  <j-cascader
     v-model:value="value"
     style="width: 100%"
     multiple
     max-tag-count="responsive"
     :options="options"
     placeholder="Please select"
-  ></a-cascader>
+  ></j-cascader>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';

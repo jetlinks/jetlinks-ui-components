@@ -1,5 +1,5 @@
 import { withInstall } from '../util/type';
-import Collapse from 'ant-design-vue/lib/collapse/Collapse';
+import Collapse from 'ant-design-vue/lib/collapse/index';
 import CollapsePanel from 'ant-design-vue/lib/collapse/CollapsePanel';
 
 export type {
