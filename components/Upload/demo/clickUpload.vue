@@ -21,22 +21,25 @@ title: 点击上传
         </j-button>
     </j-upload>
 </template>
-<script lang="ts">
-import { message } from 'ant-design-vue';
+<script>
 import { UploadOutlined } from '@ant-design/icons-vue';
 import { defineComponent, ref } from 'vue';
-import type { UploadChangeParam } from 'ant-design-vue';
+import { AIcon, message } from 'jetlinks-ui-components';
 
 export default defineComponent({
     components: {
         UploadOutlined,
     },
     setup() {
-        const handleChange = (info: UploadChangeParam) => {
+        const handleChange = (info) => {
             if (info.file.status !== 'uploading') {
                 console.log(info.file, info.fileList);
             }
             if (info.file.status === 'done') {
+                message({
+                    type: 'success',
+                    content: `${info.file.name} file uploaded successfully`,
+                });
                 message.success(`${info.file.name} file uploaded successfully`);
             } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);

@@ -1,5 +1,5 @@
 <template>
-    <j-dropdown-button
+    <DropdownButton
         type="primary"
         placement="bottomLeft"
         :visible="historyVisible"
@@ -40,7 +40,7 @@
         <template #icon>
             <AIcon type="SearchOutlined" />
         </template>
-    </j-dropdown-button>
+    </DropdownButton>
 </template>
 
 <script setup lang="ts" name="SearchHistory">
@@ -49,12 +49,11 @@ import { ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import {
     Menu as JMenu,
-    Button as JButton,
-    JMenuItem,
+    Menu as JMenuItem,
     AIcon,
     Empty as JEmpty,
     Popconfirm as JPopconfirm,
-    JDropdownButton,
+    DropdownButton,
 } from '../../components';
 
 type Emit = {

@@ -1,4 +1,4 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import List from 'ant-design-vue/lib/list/index';
 import ListItem from 'ant-design-vue/lib/list/Item';
 import ListItemMeta from 'ant-design-vue/lib/list/ItemMeta';
@@ -9,8 +9,17 @@ export type {
     ListItemMetaProps,
 } from 'ant-design-vue/lib/list/index';
 
-export const JList = withInstall(List, 'JList');
-export const JListItem = withInstall(ListItem, 'JListItem');
-export const JListItemMeta = withInstall(ListItemMeta, 'JListItemMeta');
+List.name = 'JList';
+ListItem.name = 'JListItem';
+ListItemMeta.name = 'JListItemMeta';
 
-export default JList;
+List.install = function (app: App) {
+    app.component(List.name, List);
+    app.component(ListItem.name, ListItem);
+    app.component(ListItemMeta.name, ListItemMeta);
+    return app;
+};
+
+export default List;
+
+export { ListItem, ListItemMeta };

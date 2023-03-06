@@ -1,10 +1,18 @@
-import { withInstall } from '../util/type';
+import type { App } from 'vue';
 import Dropdown from 'ant-design-vue/lib/dropdown/index';
 import DropdownButton from 'ant-design-vue/lib/dropdown/dropdown-button';
 
-export const JDropdown = withInstall(Dropdown, 'JDropdown');
-export const JDropdownButton = withInstall(DropdownButton, 'JDropdownButton');
+Dropdown.name = 'JDropdown';
+DropdownButton.name = 'JDropdownButton';
 
 export type { DropdownProps } from 'ant-design-vue/lib/dropdown/index';
 
-export default JDropdown;
+Dropdown.install = function (app: App) {
+    app.component(Dropdown.name, Dropdown);
+    app.component(DropdownButton.name, DropdownButton);
+    return app;
+};
+
+export default Dropdown;
+
+export { DropdownButton };

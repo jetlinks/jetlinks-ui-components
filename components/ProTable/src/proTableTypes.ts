@@ -16,6 +16,8 @@ export enum ModelEnum {
     CARD = 'CARD',
 }
 
+export type ModelType = keyof typeof ModelEnum;
+
 export type RequestData =
     | {
           code: string;

@@ -134,10 +134,10 @@ import {
     InputNumber as JInputNumber,
     DatePicker as JDatePicker,
     TimePicker as JTimePicker,
-    JInputPassword,
+    InputPassword as JInputPassword,
     Switch as JSwitch,
-    JRadioGroup,
-    JCheckboxGroup,
+    RadioGroup as JRadioGroup,
+    CheckboxGroup as JCheckboxGroup,
 } from '../components';
 
 type ItemType = SearchProps['type'];

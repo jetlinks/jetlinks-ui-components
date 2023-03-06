@@ -31,7 +31,7 @@ import type { BreadcrumbProps, RouteContextProps } from '../RouteContext';
 import { pick } from 'lodash-es';
 import { defaultRouteContext, routeContextInjectKey } from '../RouteContext';
 import { getMenuFirstChildren, getSlot } from '../util';
-import { Layout, JLayoutContent } from '../../components';
+import { Layout, LayoutContent } from '../../components';
 
 export const basicLayoutProps = {
     ...defaultSettingProps,
@@ -366,9 +366,9 @@ export default defineComponent({
                                     class={prefixCls.value}
                                 >
                                     {headerDom.value}
-                                    <JLayoutContent>
+                                    <LayoutContent>
                                         {slots.default?.()}
-                                    </JLayoutContent>
+                                    </LayoutContent>
                                 </div>
                             </Layout>
                         </div>

@@ -1,5 +1,4 @@
-import { withInstall } from '../util/type';
-import type { App, Plugin } from 'vue';
+import type { App } from 'vue';
 import Tabs from './tabs.vue';
 import { TabPane } from 'ant-design-vue/lib/tabs';
 export type { TabsProps, TabPaneProps } from 'ant-design-vue/lib/tabs';

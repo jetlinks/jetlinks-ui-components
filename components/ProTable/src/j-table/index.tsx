@@ -108,6 +108,10 @@ const tableProps = () => {
                 x: 1366;
             },
         },
+        defaultParams: {
+            type: Object,
+            default: () => {},
+        }
     };
 };
 
@@ -167,6 +171,7 @@ const ProTable = defineComponent<JTableProps>({
         };
 
         const handleSearch = async (_params?: Record<string, any>) => {
+            console.log(props.defaultParams)
             _loading.value =
                 props.loading !== undefined ? (props.loading as boolean) : true;
             if (props.request) {

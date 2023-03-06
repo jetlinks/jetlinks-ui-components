@@ -270,17 +270,6 @@ module.exports = {
 
                     return [indexLessFile, pureFile];
                 }
-            } else if (file.path.includes('index.ts')) {
-                let content = file.contents.toString();
-                const replacePath =
-                    module === false
-                        ? 'ant-design-vue/es/'
-                        : 'ant-design-vue/lib/';
-                content = content.replace(
-                    /ant-design-vue\/lib\//g,
-                    replacePath,
-                );
-                // console.log('transformFile',content)
             }
 
             return [];

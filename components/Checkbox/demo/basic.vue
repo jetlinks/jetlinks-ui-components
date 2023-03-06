@@ -11,15 +11,16 @@ title: 基本用法
 </docs>
 
 <template>
-  <j-checkbox v-model:checked="checked">Checkbox</j-checkbox>
+    <j-checkbox v-model:checked="checked">Checkbox</j-checkbox>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
-  setup() {
+    setup() {
     return {
-      checked: ref(false),
+        checked: ref(false),
     };
-  },
+    },
 });
 </script>
+    

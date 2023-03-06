@@ -241,7 +241,7 @@ function compile(modules) {
         'typings/**/*.d.ts',
     ];
 
-    const vueSource = ['components/**/*.vue', '!components/**/demo/*'];
+    const vueSource = ['components/**/*.vue', '!components/**/demo/*.vue'];
 
     // Strip content if needed
     let sourceStream = gulp.src(source);
