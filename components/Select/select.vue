@@ -1,9 +1,5 @@
 <template>
-    <Select
-        v-bind="props"
-        :show-search="props.filterable"
-        :filter-option="filterOption"
-    >
+    <Select v-bind="props" :filter-option="filterOption">
         <slot name="default" />
         <slot name="dropdownRender" />
     </Select>
