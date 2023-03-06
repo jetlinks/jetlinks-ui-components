@@ -25,6 +25,8 @@ export const componentType = {
     checkbox: 'checkbox',
     time: 'time',
     date: 'date',
+    timeRange: 'timeRange',
+    dateRange: 'dateRange',
     treeSelect: 'treeSelect',
     upload: 'upload',
     tree: 'tree',

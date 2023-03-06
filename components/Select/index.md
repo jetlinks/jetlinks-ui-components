@@ -17,15 +17,15 @@ cover: https://gw.alipayobjects.com/zos/alicdn/_0XzgOis7/Select.svg
 
 ```html
 <j-select>
-  <j-select-option value="lucy">lucy</j-select-option>
+    <j-select-option value="lucy">lucy</j-select-option>
 </j-select>
 ```
+
 ### Select props
 
 | 参数                     | 说明                                                                                                                                                                                                                                                                      | 类型                                                   | 默认值                                                 | 版本  |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------ | ----- |
 | width                    | 宽度                                                                                                                                                                                                                                                                      | string                                                 | 200px                                                  |       |
-| filterable               | 支持筛选                                                                                                                                                                                                                                                                  | boolean                                                | false                                                  |       |
 | allowClear               | 支持清除                                                                                                                                                                                                                                                                  | boolean                                                | false                                                  |       |
 | autoClearSearchValue     | 是否在选中项后清空搜索框，只在 `mode` 为 `multiple` 或 `tags` 时有效。                                                                                                                                                                                                    | boolean                                                | true                                                   |       |
 | autofocus                | 默认获取焦点                                                                                                                                                                                                                                                              | boolean                                                | false                                                  |       |
