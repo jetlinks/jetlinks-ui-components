@@ -17,7 +17,7 @@ export {
 export { default as MonacoEditor } from './MonacoEditor';
 
 export type { TabsProps, TabPaneProps } from './Tabs';
-export { default as Tabs } from './Tabs';
+export { default as Tabs, TabPane } from './Tabs';
 
 export { default as Ellipsis } from './Ellipsis';
 export { default as Popconfirm } from './Popconfirm';
