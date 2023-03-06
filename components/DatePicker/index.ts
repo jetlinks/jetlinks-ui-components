@@ -28,3 +28,5 @@ DatePicker.install = function (app: App) {
 };
 
 export default DatePicker;
+
+export { RangePicker, MonthPicker, WeekPicker, QuarterPicker }

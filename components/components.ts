@@ -93,7 +93,7 @@ export type { CascaderProps } from './Cascader';
 export { default as Cascader } from './Cascader';
 
 export type { DatePickerProps } from './DatePicker';
-export { default as DatePicker, JMonthPicker, JQuarterPicker, JRangePicker, JWeekPicker } from './DatePicker';
+export { default as DatePicker, MonthPicker, QuarterPicker, RangePicker, WeekPicker } from './DatePicker';
 
 export type {
     FormProps,
