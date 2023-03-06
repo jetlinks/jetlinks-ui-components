@@ -1,8 +1,9 @@
 import type { App } from 'vue';
 import Tabs from './tabs.vue';
-import { TabPane } from 'ant-design-vue/lib/tabs';
+import TabPane from 'ant-design-vue/lib/tabs/src/TabPanelList/TabPane';
 export type { TabsProps, TabPaneProps } from 'ant-design-vue/lib/tabs';
 
+TabPane.name = 'JTabPane';
 Tabs.TabPane = TabPane;
 
 Tabs.install = function (app: App) {
@@ -12,3 +13,5 @@ Tabs.install = function (app: App) {
 };
 
 export default Tabs;
+
+export { TabPane };
