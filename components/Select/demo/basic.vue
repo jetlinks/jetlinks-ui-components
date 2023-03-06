@@ -8,7 +8,12 @@ title: 选择器
   
 </docs>
 <template>
-    <j-select width="200px" v-model:value="value" filterable :options="options" />
+    <j-select
+        width="200px"
+        v-model:value="value"
+        showSearch
+        :options="options"
+    />
 </template>
 
 <script lang="ts">
@@ -21,7 +26,7 @@ interface Option {
 
 export default defineComponent({
     setup() {
-        const value = ref('Jack')
+        const value = ref('Jack');
         return {
             value,
             options: ref<Option[]>([
