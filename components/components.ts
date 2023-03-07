@@ -240,4 +240,4 @@ export type { CardProps } from './Card';
 export { default as Card, CardGrid, CardMeta } from './Card';
 
 export type { CollapseProps, CollapsePanelProps } from './Collapse';
-export { default as Collapse, JCollapsePanel } from './Collapse';
+export { default as Collapse, CollapsePanel } from './Collapse';
