@@ -12,6 +12,7 @@ CollapsePanel.name = 'JCollapse';
 Collapse.install = function (app: App) {
     app.component('JCollapse', Collapse);
     app.component('JCollapsePanel', CollapsePanel);
+    return app;
 };
 
 export { CollapsePanel };
