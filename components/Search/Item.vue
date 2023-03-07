@@ -341,6 +341,9 @@ const valueChange = () => {
     });
 };
 
+const reset = () => {
+    termsModel.value = undefined;
+};
 const handleQuery = (_params: UrlParam) => {
     if (_params.q) {
         const path =
@@ -380,6 +383,10 @@ watch(
         handleItem();
     },
 );
+
+defineExpose({
+    reset,
+});
 </script>
 
 <style scoped lang="less"></style>
