@@ -111,7 +111,7 @@ const tableProps = () => {
         defaultParams: {
             type: Object,
             default: () => {},
-        }
+        },
     };
 };
 
@@ -328,8 +328,8 @@ const ProTable = defineComponent<JTableProps>({
                                     type="info"
                                     onClose={() => {
                                         // emit('selectCancel');
-                                        if(props.rowSelection?.onChange){
-                                            props.rowSelection.onChange([], [])
+                                        if (props.rowSelection?.onChange) {
+                                            props.rowSelection.onChange([], []);
                                         }
                                     }}
                                     closeText={
