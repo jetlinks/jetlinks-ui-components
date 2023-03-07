@@ -5,9 +5,13 @@
     <template v-else-if="iframeName === 'Top'">
         <Top />
     </template>
+    <template v-else-if="iframeName === 'Side'">
+        <Side />
+    </template>
     <demo-sort v-else :cols="1">
         <Basic />
         <Top />
+        <Side />
     </demo-sort>
 </template>
 
@@ -15,6 +19,7 @@
 import CN from '../index.md';
 import Basic from './basic.vue';
 import Top from './top.vue';
+import Side from './side.vue';
 import { defineComponent, provide } from 'vue';
 
 export default defineComponent({
@@ -22,6 +27,7 @@ export default defineComponent({
     components: {
         Basic,
         Top,
+        Side,
     },
     props: {
         iframeName: String,
@@ -34,6 +40,7 @@ export default defineComponent({
                 ? {
                       Basic: '/iframe/layout/#Basic',
                       Top: '/iframe/layout/#Top',
+                      Side: '/iframe/layout/#Side',
                   }
                 : {},
         );

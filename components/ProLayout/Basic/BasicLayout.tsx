@@ -182,6 +182,7 @@ export default defineComponent({
         const headerRender = (
             p: BasicLayoutProps & {
                 hasSiderMenu: boolean;
+                hasTopMenu: boolean;
                 headerRender: HeaderRender;
                 rightContentRender: RightContentRender;
             },
@@ -299,6 +300,7 @@ export default defineComponent({
                         ...props,
                         menuItemRender,
                         subMenuItemRender,
+                        hasTopMenu: isTop.value,
                         hasSiderMenu: !isTop.value,
                         menuData: props.menuData,
                         onCollapse,
