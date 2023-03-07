@@ -1,6 +1,7 @@
 import type { App } from 'vue';
-import Descriptions from './descriptions.vue';
-import { DescriptionsItem } from 'ant-design-vue/lib/descriptions';
+import Descriptions, {
+    DescriptionsItem,
+} from 'ant-design-vue/lib/descriptions';
 
 Descriptions.name = 'JDescriptions';
 DescriptionsItem.name = 'JDescriptionsItem';
