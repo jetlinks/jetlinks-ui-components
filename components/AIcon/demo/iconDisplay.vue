@@ -10,7 +10,7 @@
                 class="icon-display-item"
             >
                 <div class="icon-display-item-icon">
-                    <j-aIcon :type="direction + 'Outlined'" />
+                    <aIcon :type="direction + 'Outlined'" />
                 </div>
                 <div class="icon-display-item-title">
                     {{ direction + 'Outlined' }}
@@ -28,7 +28,7 @@
                 class="icon-display-item"
             >
                 <div class="icon-display-item-icon">
-                    <j-aIcon :type="suggestion + 'Outlined'" />
+                    <aIcon :type="suggestion + 'Outlined'" />
                 </div>
                 <div class="icon-display-item-title">
                     {{ suggestion + 'Outlined' }}
@@ -46,7 +46,7 @@
                 class="icon-display-item"
             >
                 <div class="icon-display-item-icon">
-                    <j-aIcon :type="editor + 'Outlined'" />
+                    <aIcon :type="editor + 'Outlined'" />
                 </div>
                 <div class="icon-display-item-title">
                     {{ editor + 'Outlined' }}
@@ -64,7 +64,7 @@
                 class="icon-display-item"
             >
                 <div class="icon-display-item-icon">
-                    <j-aIcon :type="data + 'Outlined'" />
+                    <aIcon :type="data + 'Outlined'" />
                 </div>
                 <div class="icon-display-item-title">
                     {{ data + 'Outlined' }}
@@ -82,7 +82,7 @@
                 class="icon-display-item"
             >
                 <div class="icon-display-item-icon">
-                    <j-aIcon :type="other + 'Outlined'" />
+                    <aIcon :type="other + 'Outlined'" />
                 </div>
                 <div class="icon-display-item-title">
                     {{ other + 'Outlined' }}
@@ -96,19 +96,19 @@
         <a-row class="icon-display">
             <a-col class="icon-display-item">
                 <div class="icon-display-item-icon">
-                    <j-aIcon type="UpCircleOutlined" />
+                    <aIcon type="UpCircleOutlined" />
                 </div>
                 <div class="icon-display-item-title">UpCircleOutlined</div>
             </a-col>
             <a-col class="icon-display-item">
                 <div class="icon-display-item-icon">
-                    <j-aIcon type="UpCircleFilled" />
+                    <aIcon type="UpCircleFilled" />
                 </div>
                 <div class="icon-display-item-title">UpCircleFilled</div>
             </a-col>
             <a-col class="icon-display-item">
                 <div class="icon-display-item-icon">
-                    <j-aIcon type="UpCircleTwoTone" />
+                    <aIcon type="UpCircleTwoTone" />
                 </div>
                 <div class="icon-display-item-title">UpCircleTwoTone</div>
             </a-col>

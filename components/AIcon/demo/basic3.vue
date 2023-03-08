@@ -7,5 +7,5 @@ title: 双色风格
 UpCircleTwoTone
 </docs>
 <template>
-    <j-aIcon type="UpCircleTwoTone" />
+    <aIcon type="UpCircleTwoTone" />
 </template>
