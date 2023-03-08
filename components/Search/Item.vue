@@ -82,44 +82,44 @@
             />
             <j-checkbox-group
                 v-else-if="component === componentType.checkbox"
-                v-bind="cProps"
                 v-model:value="termsModel.value"
                 style="width: 100%"
+                v-bind="cProps"
                 :options="options"
                 @change="valueChange"
             />
             <j-time-picker
                 v-else-if="component === componentType.time"
-                v-bind="cProps"
                 v-model:value="termsModel.value"
                 value-format="HH:mm:ss"
                 style="width: 100%"
+                v-bind="cProps"
                 @change="valueChange"
             />
             <j-time-range-picker
                 v-else-if="component === componentType.timeRange"
-                v-bind="cProps"
                 v-model:value="termsModel.value"
                 value-format="HH:mm:ss"
                 style="width: 100%"
+                v-bind="cProps"
                 @change="valueChange"
             />
             <j-date-picker
                 v-else-if="component === componentType.date"
-                v-bind="cProps"
                 v-model:value="termsModel.value"
                 show-time
                 value-format="YYYY-MM-DD HH:mm:ss"
                 style="width: 100%"
+                v-bind="cProps"
                 @change="valueChange"
             />
             <j-range-picker
                 v-else-if="component === componentType.rangePicker"
-                v-bind="cProps"
                 v-model:value="termsModel.value"
                 show-time
                 value-format="YYYY-MM-DD HH:mm:ss"
                 style="width: 100%"
+                v-bind="cProps"
                 @change="valueChange"
             />
             <j-tree-select
