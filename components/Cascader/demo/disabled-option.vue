@@ -1,22 +1,16 @@
 <docs>
 ---
 order: 4
-title:
-  zh-CN: 禁用选项
-  en-US: Disabled option
+title: 禁用选项
 ---
 
 ## zh-CN
 
 通过指定 options 里的 `disabled` 字段。
 
-## en-US
-
-Disable option by specifying the `disabled` property in `options`.
-
 </docs>
 <template>
-  <a-cascader v-model:value="value" placeholder="Please select" :options="options" />
+  <j-cascader v-model:value="value" placeholder="Please select" :options="options" />
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';

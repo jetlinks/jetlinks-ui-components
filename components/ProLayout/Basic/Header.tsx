@@ -54,10 +54,7 @@ export default defineComponent({
         } = toRefs(props);
         const context = useRouteContext();
         const needFixedHeader = computed(
-            () =>
-                fixedHeader.value ||
-                context.fixedHeader ||
-                layout.value === 'mix',
+            () => fixedHeader.value || context.fixedHeader,
         );
         const isMix = computed(() => layout.value === 'mix');
         const isTop = computed(() => layout.value === 'top');
@@ -117,8 +114,8 @@ export default defineComponent({
                         padding: 0,
                         height: `${headerHeight.value}px`,
                         lineHeight: `${headerHeight.value}px`,
-                        width: width.value,
-                        zIndex: layout.value === 'mix' ? 100 : 19,
+                        width: '100%',
+                        zIndex: 100,
                         right: right.value,
                     }}
                     class={className.value}

@@ -1,9 +1,7 @@
 <docs>
 ---
 order: 0
-title:
-  zh-CN: 基本用法
-  en-US: Basic
+title: 基本用法
 ---
 
 ## zh-CN
@@ -16,7 +14,7 @@ Cascade selection box for selecting province/city/district.
 
 </docs>
 <template>
-  <a-cascader v-model:value="value" :options="options" placeholder="Please select" />
+  <j-cascader v-model:value="value" :options="options" placeholder="Please select" />
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';

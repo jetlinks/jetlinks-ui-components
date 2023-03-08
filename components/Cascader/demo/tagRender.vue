@@ -1,15 +1,13 @@
 <docs>
 ---
 order: 10
-title:
-  zh-CN: 自定义 tag 内容
-  en-US: The custom tag
+title: 自定义 tag 内容
 ---
 
 </docs>
 
 <template>
-  <a-cascader
+  <j-cascader
     v-model:value="value"
     multiple
     :options="options"
@@ -17,9 +15,9 @@ title:
     suffix-icon="Shopping Around"
   >
     <template #tagRender="data">
-      <a-tag :key="data.value" color="blue">{{ data.label }}</a-tag>
+      <j-tag :key="data.value" color="blue">{{ data.label }}</j-tag>
     </template>
-  </a-cascader>
+  </j-cascader>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';

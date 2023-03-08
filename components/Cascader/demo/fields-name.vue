@@ -1,22 +1,16 @@
 <docs>
 ---
 order: 10
-title:
-  zh-CN: 自定义字段名
-  en-US: Custom Field Names
+title: 自定义字段名
 ---
 
 ## zh-CN
 
 自定义字段名。
 
-## en-US
-
-Custom Field Names
-
 </docs>
 <template>
-  <a-cascader
+  <j-cascader
     v-model:value="value"
     :field-names="{ label: 'name', value: 'code', children: 'items' }"
     :options="options"

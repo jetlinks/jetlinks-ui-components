@@ -93,7 +93,13 @@ export type { CascaderProps } from './Cascader';
 export { default as Cascader } from './Cascader';
 
 export type { DatePickerProps } from './DatePicker';
-export { default as DatePicker } from './DatePicker';
+export {
+    default as DatePicker,
+    RangePicker,
+    MonthPicker,
+    WeekPicker,
+    QuarterPicker,
+} from './DatePicker';
 
 export type {
     FormProps,
@@ -232,3 +238,6 @@ export { default as Badge, BadgeRibbon } from './badge';
 
 export type { CardProps } from './Card';
 export { default as Card, CardGrid, CardMeta } from './Card';
+
+export type { CollapseProps, CollapsePanelProps } from './Collapse';
+export { default as Collapse, CollapsePanel } from './Collapse';

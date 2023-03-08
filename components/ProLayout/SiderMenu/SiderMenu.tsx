@@ -249,10 +249,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (
                 collapsedWidth={collapsedWidth}
                 style={{
                     overflow: 'hidden',
-                    paddingTop:
-                        props.layout === 'mix'
-                            ? `${props.headerHeight}px`
-                            : undefined,
+                    paddingTop: `${props.headerHeight}px`,
                 }}
                 width={siderWidth}
                 theme={theme}

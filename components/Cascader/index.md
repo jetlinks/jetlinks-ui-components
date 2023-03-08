@@ -17,7 +17,7 @@ cover: https://gw.alipayobjects.com/zos/alicdn/UdS8y8xyZ/Cascader.svg
 ## API
 
 ```html
-<a-cascader :options="options" v-model:value="value" />
+<j-cascader :options="options" v-model:value="value" />
 ```
 
 | 参数 | 说明 | 类型 | 默认值 | Version |

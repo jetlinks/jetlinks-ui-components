@@ -44,26 +44,35 @@ export const termsParamsFormat = (
     terms,
     columnOptionMap,
     type: string = 'adv',
+    searchType: string,
 ) => {
     // 过滤掉terms中value无效的item
     const cloneParams = cloneDeep(terms);
-    if (type === 'adv') {
-        return {
-            terms: cloneParams.terms.map((item) => {
-                if (item.terms) {
-                    item.terms = item.terms
-                        .filter((iItem) => iItem && iItem.value)
-                        .map((iItem) =>
-                            handleItemValue(iItem, columnOptionMap),
-                        );
-                }
-                return item;
-            }),
-        };
-    } else {
-        return cloneParams
-            .filter((iItem) => iItem && iItem.value)
-            .map((iItem) => handleItemValue(iItem, columnOptionMap));
+    if (searchType == 'terms') {
+        if (type === 'adv') {
+            return {
+                terms: cloneParams.terms.map((item) => {
+                    if (item.terms) {
+                        item.terms = item.terms
+                            .filter((iItem) => iItem && iItem.value)
+                            .map((iItem) =>
+                                handleItemValue(iItem, columnOptionMap),
+                            );
+                    }
+                    return item;
+                }),
+            };
+        } else {
+            return cloneParams
+                .filter((iItem) => iItem && iItem.value)
+                .map((iItem) => handleItemValue(iItem, columnOptionMap));
+        }
+    } else if (searchType == 'object') {
+        let result = {};
+        cloneParams.forEach((item) => {
+            Object.assign(result, { [item.column]: item.value });
+        });
+        return result;
     }
 };
 

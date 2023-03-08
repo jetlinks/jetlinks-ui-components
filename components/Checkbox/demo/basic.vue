@@ -1,11 +1,26 @@
-<template>
-    <j-checkbox-group
-        :options="[
-            { label: '123', value: '321' },
-            { label: '121', value: '121' },
-        ]"
-    ></j-checkbox-group>
-</template>
-<script setup></script>
+<docs>
+---
+order: 0
+title: 基本用法
+---
 
-<style scoped></style>
+## zh-CN
+
+简单的 checkbox
+
+</docs>
+
+<template>
+    <j-checkbox v-model:checked="checked">Checkbox</j-checkbox>
+</template>
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+export default defineComponent({
+    setup() {
+    return {
+        checked: ref(false),
+    };
+    },
+});
+</script>
+    
