@@ -11,6 +11,7 @@
                     :columns="[item]"
                     :component-props="item.componentProps"
                     :terms-item="terms"
+                    :reset="resetNumber"
                     @change="(v) => itemValueChange(v, index)"
                 />
             </div>
@@ -40,13 +41,20 @@ import { termsParamsFormat } from './util';
 import SearchItem from './Item.vue';
 
 interface Emit {
-    (e: 'search', data: Terms[]): void;
+    (e: 'search', data: Terms[] | {}): void;
 }
+
+type SearchType = 'terms' | 'object';
 
 const props = defineProps({
     columns: {
         type: Array as PropType<JColumnsProps[]>,
         default: () => [],
+        required: true,
+    },
+    type: {
+        type: String as PropType<SearchType>,
+        default: 'terms',
         required: true,
     },
 });
@@ -83,15 +91,24 @@ const handleItems = () => {
  * 提交
  */
 const searchSubmit = () => {
-    emit('search', termsParamsFormat(terms.terms, columnOptionMap, 'low'));
+    emit(
+        'search',
+        termsParamsFormat(terms.terms, columnOptionMap, 'low', props.type),
+    );
 };
 
 /**
  * 重置查询
  */
+const resetNumber = ref(1);
 const reset = () => {
+    resetNumber.value += 1;
     terms.terms = [];
-    emit('search', []);
+    if (props.type == 'object') {
+        emit('search', {});
+    } else if (props.type == 'terms') {
+        emit('search', []);
+    }
 };
 
 handleItems();

@@ -9,7 +9,11 @@ Search组件基本使用
 </docs>
 
 <template>
-    <j-search :columns="columns" @search="onSearch" />
+    <j-radio-group v-model:value="value">
+        <j-radio-button value="object">object</j-radio-button>
+        <j-radio-button value="terms">terms</j-radio-button>
+    </j-radio-group>
+    <j-search :columns="columns" @search="onSearch" :type="value" />
     <div>
         查询结果:
         <br />
@@ -24,6 +28,7 @@ export default {
     name: 'Basic',
     setup() {
         const paramsStr = ref();
+        const value = ref('terms');
         const columns = [
             {
                 title: '名称',
@@ -81,6 +86,7 @@ export default {
             columns,
             paramsStr,
             onSearch,
+            value,
         };
     },
 };

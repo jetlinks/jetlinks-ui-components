@@ -45,16 +45,16 @@
         padding-left: 40px;
         font-size: 14px;
         line-height: 0;
-        :deep(.ant-progress-bg) {
+        :deep(@{ant-prefix}-progress-bg) {
             background-color: @primary-color;
         }
-        :deep(.ant-progress-inner) {
+        :deep(@{ant-prefix}-progress-inner) {
             background-color: rgba(49, 94, 251, 0.1);
         }
     }
 }
 //上传文件
-.ant-upload-list-text-container {
+@{ant-prefix}-upload-list-text-container {
     width: 423px;
     height: 60px;
     background: #ffffff;
@@ -75,7 +75,7 @@
         }
     }
 
-    .ant-upload-list-item {
+    @{ant-prefix}-upload-list-item {
         position: relative;
         height: 100%;
         font-size: 14px;
@@ -83,30 +83,30 @@
         align-items: center;
         margin-top: 0;
 
-        &:hover .ant-upload-list-item-info {
+        &:hover @{ant-prefix}-upload-list-item-info {
             background: #ffffff;
         }
 
-        .ant-upload-list-item-progress {
+        @{ant-prefix}-upload-list-item-progress {
             position: absolute;
             bottom: 0px;
             padding-left: 26px;
             font-size: 14px;
             line-height: 0;
 
-            .ant-progress-bg {
+            @{ant-prefix}-progress-bg {
                 height: 6px !important;
                 background-color: @primary-color;
             }
 
-            .ant-progress-inner {
+            @{ant-prefix}-progress-inner {
                 background-color: rgba(49, 94, 251, 0.1);
             }
         }
     }
 }
 //上传图片
-.ant-upload-list-picture-container {
+@{ant-prefix}-upload-list-picture-container {
     width: 423px;
     height: 60px;
     background: #ffffff;
@@ -127,7 +127,7 @@
         }
     }
 
-    .ant-upload-list-item {
+    @{ant-prefix}-upload-list-item {
         position: relative;
         height: 100%;
         font-size: 14px;
@@ -135,36 +135,36 @@
         align-items: center;
         margin-top: 0;
 
-        &:hover .ant-upload-list-item-info {
+        &:hover @{ant-prefix}-upload-list-item-info {
             background: #ffffff;
         }
 
-        .ant-upload-list-item-progress {
+        @{ant-prefix}-upload-list-item-progress {
             position: absolute;
             bottom: 0px;
             padding-left: 26px;
             font-size: 14px;
             line-height: 0;
 
-            .ant-progress-bg {
+            @{ant-prefix}-progress-bg {
                 height: 6px !important;
                 background-color: @primary-color;
             }
 
-            .ant-progress-inner {
+            @{ant-prefix}-progress-inner {
                 background-color: rgba(49, 94, 251, 0.1);
             }
         }
     }
 }
 //上传照片墙
-.ant-upload-list-picture-card .ant-upload-list-item {
+@{ant-prefix}-upload-list-picture-card @{ant-prefix}-upload-list-item {
     border: 1px solid #d9d9d9;
     border-radius: 6px !important;
-    .ant-upload-list-item-info {
+    @{ant-prefix}-upload-list-item-info {
         border-radius: 6px !important;
     }
-    .ant-progress-status-success .ant-progress-bg {
+    @{ant-prefix}-progress-status-success @{ant-prefix}-progress-bg {
         background-color: @primary-color;
     }
 }
@@ -177,13 +177,13 @@
     border: 1px dashed #e6e6e6;
 }
 //拖拽上传
-.ant-upload.ant-upload-drag {
+@{ant-prefix}-upload@{ant-prefix}-upload-drag {
     background-color: #ffffff;
     border: 2px dashed #eaedf0;
     border-radius: 2px;
 }
 .drag-container {
-    :deep(.ant-upload-list-text-container) {
+    :deep(@{ant-prefix}-upload-list-text-container) {
         width: 100% !important;
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <Pagination v-bind="baseProps" :class="className" />
+    <Pagination v-bind="props" :class="className" />
 </template>
 
 <script lang="ts" setup name="JPagination">
