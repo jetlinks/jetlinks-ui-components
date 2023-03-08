@@ -64,6 +64,13 @@ export default {
                     type: 'string',
                 },
             },
+            {
+                title: '时间',
+                dataIndex: 'time',
+                search: {
+                    type: 'timeRange',
+                },
+            },
         ];
 
         const onSearch = (e) => {

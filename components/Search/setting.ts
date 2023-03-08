@@ -26,7 +26,7 @@ export const componentType = {
     time: 'time',
     date: 'date',
     timeRange: 'timeRange',
-    dateRange: 'dateRange',
+    rangePicker: 'rangePicker',
     treeSelect: 'treeSelect',
     upload: 'upload',
     tree: 'tree',

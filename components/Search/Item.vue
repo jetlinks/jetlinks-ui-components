@@ -96,8 +96,25 @@
                 style="width: 100%"
                 @change="valueChange"
             />
+            <j-time-range-picker
+                v-else-if="component === componentType.timeRange"
+                v-bind="cProps"
+                v-model:value="termsModel.value"
+                value-format="HH:mm:ss"
+                style="width: 100%"
+                @change="valueChange"
+            />
             <j-date-picker
                 v-else-if="component === componentType.date"
+                v-bind="cProps"
+                v-model:value="termsModel.value"
+                show-time
+                value-format="YYYY-MM-DD HH:mm:ss"
+                style="width: 100%"
+                @change="valueChange"
+            />
+            <j-range-picker
+                v-else-if="component === componentType.rangePicker"
                 v-bind="cProps"
                 v-model:value="termsModel.value"
                 show-time
@@ -222,6 +239,8 @@ const getTermType = (type?: ItemType) => {
             return 'eq';
         case 'date':
         case 'time':
+        case 'timeRange':
+        case 'rangePicker':
             // 时间只有大于或小于两个值
             termTypeOptions.option = termType.filter((item) =>
                 ['gt', 'lt'].includes(item.value),
@@ -252,6 +271,12 @@ const getComponent = (type?: ItemType) => {
             break;
         case 'number':
             component.value = componentType.inputNumber;
+            break;
+        case 'timeRange':
+            component.value = componentType.timeRange;
+            break;
+        case 'rangePicker':
+            component.value = componentType.rangePicker;
             break;
         default:
             component.value = componentType.input;
