@@ -69,9 +69,11 @@ export const termsParamsFormat = (
         }
     } else if (searchType == 'object') {
         let result = {};
-        cloneParams.forEach((item) => {
-            Object.assign(result, { [item.column]: item.value });
-        });
+        cloneParams
+            .filter((item) => item && item.value)
+            .forEach((item) => {
+                Object.assign(result, { [item.column]: item.value });
+            });
         return result;
     }
 };

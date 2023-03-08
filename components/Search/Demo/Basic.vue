@@ -59,11 +59,13 @@ export default {
                         { label: '类型1', value: 1 },
                         { label: '类型2', value: 2 },
                     ],
-                    componentProps: {},
+                    componentProps: {
+                        placeholder: '请选择类型',
+                    },
                 },
             },
             {
-                title: '地址',
+                title: '测试地址长度',
                 dataIndex: 'address',
                 search: {
                     type: 'string',

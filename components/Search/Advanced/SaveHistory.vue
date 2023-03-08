@@ -10,9 +10,12 @@
                 <j-form ref="formRef" :model="modelRef">
                     <j-form-item
                         name="name"
-                        :rules="[{ required: true, message: '请输入名称' }]"
+                        :rules="[
+                            { required: true, message: '请输入名称' },
+                            { max: 64, message: '最多64个字符' },
+                        ]"
                     >
-                        <j-textarea
+                        <j-input-textarea
                             v-model:value="modelRef.name"
                             :rows="3"
                             :maxlength="200"

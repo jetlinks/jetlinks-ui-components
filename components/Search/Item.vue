@@ -239,13 +239,17 @@ const getTermType = (type?: ItemType) => {
             return 'eq';
         case 'date':
         case 'time':
-        case 'timeRange':
-        case 'rangePicker':
             // 时间只有大于或小于两个值
             termTypeOptions.option = termType.filter((item) =>
                 ['gt', 'lt'].includes(item.value),
             );
             return 'gt';
+        case 'timeRange':
+        case 'rangePicker':
+            termTypeOptions.option = termType.filter((item) =>
+                ['btw', 'nbtw'].includes(item.value),
+            );
+            return 'btw';
         default:
             return 'like';
     }
