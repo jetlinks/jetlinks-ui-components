@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { JColumnsProps, SearchItemData, SearchProps, Terms } from './typing';
-import { Button as JButton } from '../components';
+import { Button as JButton, Row as JRow, Col as JCol } from '../components';
 import { set } from 'lodash-es';
 import { reactive, ref } from 'vue';
 import type { PropType } from 'vue';
