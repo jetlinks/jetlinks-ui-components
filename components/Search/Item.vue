@@ -82,27 +82,44 @@
             />
             <j-checkbox-group
                 v-else-if="component === componentType.checkbox"
-                v-bind="cProps"
                 v-model:value="termsModel.value"
                 style="width: 100%"
+                v-bind="cProps"
                 :options="options"
                 @change="valueChange"
             />
             <j-time-picker
                 v-else-if="component === componentType.time"
-                v-bind="cProps"
                 v-model:value="termsModel.value"
                 value-format="HH:mm:ss"
                 style="width: 100%"
+                v-bind="cProps"
+                @change="valueChange"
+            />
+            <j-time-range-picker
+                v-else-if="component === componentType.timeRange"
+                v-model:value="termsModel.value"
+                value-format="HH:mm:ss"
+                style="width: 100%"
+                v-bind="cProps"
                 @change="valueChange"
             />
             <j-date-picker
                 v-else-if="component === componentType.date"
-                v-bind="cProps"
                 v-model:value="termsModel.value"
                 show-time
                 value-format="YYYY-MM-DD HH:mm:ss"
                 style="width: 100%"
+                v-bind="cProps"
+                @change="valueChange"
+            />
+            <j-range-picker
+                v-else-if="component === componentType.rangePicker"
+                v-model:value="termsModel.value"
+                show-time
+                value-format="YYYY-MM-DD HH:mm:ss"
+                style="width: 100%"
+                v-bind="cProps"
                 @change="valueChange"
             />
             <j-tree-select
@@ -138,6 +155,8 @@ import {
     Switch as JSwitch,
     RadioGroup as JRadioGroup,
     CheckboxGroup as JCheckboxGroup,
+    RangePicker as JRangePicker,
+    TimeRangePicker as JTimeRangePicker,
 } from '../components';
 import { useUrlSearchParams } from '@vueuse/core';
 
@@ -227,6 +246,12 @@ const getTermType = (type?: ItemType) => {
                 ['gt', 'lt'].includes(item.value),
             );
             return 'gt';
+        case 'timeRange':
+        case 'rangePicker':
+            termTypeOptions.option = termType.filter((item) =>
+                ['btw', 'nbtw'].includes(item.value),
+            );
+            return 'btw';
         default:
             return 'like';
     }
@@ -252,6 +277,12 @@ const getComponent = (type?: ItemType) => {
             break;
         case 'number':
             component.value = componentType.inputNumber;
+            break;
+        case 'timeRange':
+            component.value = componentType.timeRange;
+            break;
+        case 'rangePicker':
+            component.value = componentType.rangePicker;
             break;
         default:
             component.value = componentType.input;

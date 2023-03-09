@@ -2,18 +2,24 @@
     <div ref="searchRef" class="JSearch-warp">
         <div class="JSearch-content simple no-flex">
             <div class="JSearch-items">
-                <SearchItem
-                    v-for="(item, index) in searchItems"
-                    :key="index + '_' + item.column"
-                    :only-value="true"
-                    :expand="false"
-                    :index="index + 1"
-                    :columns="[item]"
-                    :component-props="item.componentProps"
-                    :terms-item="terms"
-                    :reset="resetNumber"
-                    @change="(v) => itemValueChange(v, index)"
-                />
+                <j-row :gutter="[16, 16]">
+                    <j-col
+                        v-for="(item, index) in searchItems"
+                        :key="index + '_' + item.column"
+                        :span="item.span || 24 / column"
+                    >
+                        <SearchItem
+                            :only-value="true"
+                            :expand="false"
+                            :index="index + 1"
+                            :columns="[item]"
+                            :component-props="item.componentProps"
+                            :terms-item="terms"
+                            :reset="resetNumber"
+                            @change="(v) => itemValueChange(v, index)"
+                        />
+                    </j-col>
+                </j-row>
             </div>
             <div class="JSearch-footer">
                 <div class="JSearch-footer--btns">
@@ -33,7 +39,7 @@
 
 <script setup lang="ts">
 import { JColumnsProps, SearchItemData, SearchProps, Terms } from './typing';
-import { Button as JButton } from '../components';
+import { Button as JButton, Row as JRow, Col as JCol } from '../components';
 import { set } from 'lodash-es';
 import { reactive, ref } from 'vue';
 import type { PropType } from 'vue';
@@ -56,6 +62,10 @@ const props = defineProps({
         type: String as PropType<SearchType>,
         default: 'terms',
         required: true,
+    },
+    column: {
+        type: Number,
+        default: 4,
     },
 });
 

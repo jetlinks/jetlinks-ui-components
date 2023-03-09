@@ -14,7 +14,7 @@ import Basic from './basic.vue';
 import Basic2 from './basic2.vue';
 import Basic3 from './basic3.vue';
 import Basic4 from './basic4.vue';
-import IconDisplay from '../iconDisplay.vue';
+import IconDisplay from './iconDisplay.vue';
 import CN from '../index.md';
 export default {
     CN,

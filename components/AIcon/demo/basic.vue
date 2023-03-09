@@ -7,5 +7,6 @@ title: 线框风格
 ZoomOutOutlined
 </docs>
 <template>
-    <j-aIcon type="ZoomOutOutlined" />
+    <AIcon type="ZoomOutOutlined" />
+    <AIcon type="icon-yingyongguanli1" />
 </template>

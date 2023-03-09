@@ -4,7 +4,10 @@
         <Checkbox />
         <Disabled />
         <SingleDisabled />
-        <Horizontal />
+        <vertical />
+    </demo-sort>
+    <demo-sort :cols="1">
+        <CustomStyle />
     </demo-sort>
 </template>
 
@@ -14,11 +17,18 @@ import Checkbox from './checkbox.vue';
 import CN from '../index.md';
 import Disabled from './disabled.vue';
 import SingleDisabled from './single-disabled.vue';
-import Horizontal from './horizontal.vue';
-
+import vertical from './vertical.vue';
+import CustomStyle from './customStyle.vue';
 export default {
     CN,
-    components: { Horizontal, SingleDisabled, Disabled, Checkbox, Radio },
+    components: {
+        vertical,
+        SingleDisabled,
+        Disabled,
+        Checkbox,
+        Radio,
+        CustomStyle,
+    },
 };
 </script>
 
