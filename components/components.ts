@@ -28,7 +28,7 @@ export { default as Descriptions, DescriptionsItem } from './Descriptions';
 export { default as Button } from './Button';
 export { default as Result } from './Result';
 export { default as ProLayout, PageContainer } from './ProLayout';
-export { default as CardSelect } from './CardSelect';
+export { default as CardSelect, CardSelectOption } from './CardSelect';
 export { default as ProTable } from './ProTable';
 export { default as ScrollTable } from './ScrollTable';
 export { default as Search, AdvancedSearch } from './Search';

@@ -5,7 +5,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-
+    align-items: center;
+    &.flex-column {
+        flex-direction: column;
+    }
     .j-card-item {
         padding: 20px;
         border: 1px solid @card-border;
@@ -15,13 +18,13 @@
         color: @black;
     }
 
-    .vertical {
-        height: 130px;
-    }
+    // .vertical {
+    //     height: 130px;
+    // }
 
-    .horizontal {
-        height: 100px;
-    }
+    // .horizontal {
+    //     height: 100px;
+    // }
 
     .active {
         border: 1px solid @primary-color !important;

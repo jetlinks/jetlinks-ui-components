@@ -1,13 +1,13 @@
 <docs>
 ---
 order: 2
-title: 全部禁用
+title: 垂直布局
 ---
 
 </docs>
 
 <template>
-    <j-card-select v-model:value="value" :options="options" disabled multiple>
+    <j-card-select v-model:value="value" multiple type="vertical">
         <j-card-select-option
             v-for="item in options"
             :key="item.value"
