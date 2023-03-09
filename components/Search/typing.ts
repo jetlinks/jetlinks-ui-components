@@ -2,7 +2,15 @@ import type { ColumnType } from 'ant-design-vue/lib/table';
 
 export interface SearchBaseProps {
     rename?: string;
-    type?: 'select' | 'number' | 'string' | 'treeSelect' | 'date' | 'time';
+    type?:
+        | 'select'
+        | 'number'
+        | 'string'
+        | 'treeSelect'
+        | 'date'
+        | 'time'
+        | 'rangePicker'
+        | 'timeRange';
     format?: string;
     options?: any[] | Function;
     first?: boolean;
