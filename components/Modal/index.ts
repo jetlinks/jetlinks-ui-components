@@ -1,6 +1,12 @@
 import { withInstall } from '../util/type';
-import Modal from './modal.vue';
+import JModal from './modal.vue';
+import { Modal } from 'ant-design-vue';
 
-export const JLModal = withInstall(Modal, 'JModal');
+JModal.info = Modal.info;
+JModal.success = Modal.success;
+JModal.error = Modal.error;
+JModal.warning = Modal.warning;
+JModal.confirm = Modal.confirm;
+export const JLModal = withInstall(JModal, 'JModal');
 
 export default JLModal;
