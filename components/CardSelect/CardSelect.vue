@@ -1,6 +1,7 @@
 <template>
-    <div class="j-card-panel">
-        <div
+    <div class="j-card-panel" :class="{ 'flex-column': type == 'vertical' }">
+        <slot></slot>
+        <!-- <div
             v-for="(item, i) in itemOptions"
             :key="i"
             class="j-card-item vertical"
@@ -26,7 +27,7 @@
                     </div>
                     <Avatar
                         class="icon box-shadow"
-                        :src="item.iconUrl"
+                        :src="item.image"
                         :size="iconSize"
                     />
                 </template>
@@ -34,7 +35,7 @@
                     <Avatar
                         class="icon"
                         :class="{ 'box-shadow': type === 'horizontal' }"
-                        :src="item.iconUrl"
+                        :src="item.image"
                         :size="iconSize"
                     />
                     <div
@@ -54,82 +55,50 @@
                     </div>
                 </template>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, PropType, ref, toRefs } from 'vue';
-import { Avatar } from '../components';
-import Ellipsis from '../Ellipsis/ellipsis.vue';
-
-interface CardOption {
-    value: string | number;
-    label: string;
-    subLabel?: string;
-    iconUrl: string;
-    disabled?: boolean;
-}
+import { PropType, ref, provide } from 'vue';
 
 const props = defineProps({
     type: {
         type: String as PropType<'vertical' | 'horizontal'>,
-        default: 'vertical',
-    },
-    float: {
-        type: String as PropType<'left' | 'right'>,
-        default: 'left',
-    },
-    options: {
-        type: Array as PropType<Array<CardOption>>,
-        default: () => [],
-    },
-    iconSize: {
-        type: Number,
-        default: 56,
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
+        default: 'horizontal',
     },
     multiple: {
         type: Boolean,
         default: false,
     },
-    colGap: {
-        type: Number,
-        default: 6,
+    value: {
+        type: Array as PropType<string[]>,
+        default: () => [],
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
     },
 });
-const { multiple, type, disabled, float, iconSize } = toRefs(props);
 
-const sizeClassNameMap = { large: 'lg', small: 'sm', middle: undefined };
 const emits = defineEmits(['update:value']);
-const selectedItem = ref<any[]>([]);
-const itemOptions = computed(() => props.options);
 
-const handleSelect = (i) => {
-    if (disabled.value || itemOptions.value[i].disabled) return;
-    if (multiple.value) {
-        const index = getItemSelected(i);
-        index === -1
-            ? selectedItem.value?.push(i)
-            : selectedItem.value?.splice(index, 1);
-        emits(
-            'update:value',
-            selectedItem.value?.map((i) => itemOptions.value[i]?.value),
-        );
+const selectedItem = ref<any[]>([]);
+const setValue = (val: string) => {
+    if (props.multiple) {
+        if (selectedItem.value.findIndex((item) => item == val) == -1) {
+            selectedItem.value.push(val);
+        } else {
+            selectedItem.value.splice(
+                selectedItem.value.findIndex((item) => item == val),
+                1,
+            );
+        }
+        emits('update:value', selectedItem.value);
     } else {
-        selectedItem.value = [i];
-        emits('update:value', itemOptions.value[i]?.value);
+        selectedItem.value = [val];
+        emits('update:value', val);
     }
 };
-
-function getItemSelected(i) {
-    return selectedItem.value?.findIndex((e) => e === i);
-}
+provide('CardSelect', { props, setValue });
 </script>
-
-<style lang="less" scoped>
-@import './style/index.less';
-</style>
