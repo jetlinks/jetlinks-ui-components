@@ -32,7 +32,7 @@
                 <JButton type="link" :disabled="item.disabled">
                     {{ item.name }}
                     <template #icon>
-                        <JLAIcon v-if="item.icon" :type="item.icon"></JLAIcon>
+                        <AIcon v-if="item.icon" :type="item.icon"></AIcon>
                     </template>
                 </JButton>
             </div>
@@ -51,10 +51,7 @@
                             class="card-popover-item"
                             @click="handleClick(item)"
                         >
-                            <JLAIcon
-                                v-if="item.icon"
-                                :type="item.icon"
-                            ></JLAIcon>
+                            <AIcon v-if="item.icon" :type="item.icon"></AIcon>
                             <span>{{ item.name }}</span>
                         </div>
                     </template>
@@ -70,7 +67,7 @@ import JButton from '../Button';
 import { ref } from 'vue';
 import type { PropType } from 'vue';
 import { ActionType, StatusType } from './tablecardType';
-import JLAIcon from '../AIcon';
+import { AIcon } from '../components';
 
 const props = defineProps({
     /**

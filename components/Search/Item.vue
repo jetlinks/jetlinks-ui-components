@@ -48,7 +48,7 @@
                 :loading="optionLoading"
                 :options="options"
                 :filter-option="
-                    (v, option) => filterTreeSelectNode(v, option, 'label')
+                    (v, option) => filterSelectNode(v, option, 'label')
                 "
                 @change="valueChange"
             />
@@ -127,10 +127,13 @@
                 v-model:value="termsModel.value"
                 show-search
                 style="width: 100%"
+                :height="350"
                 :field-names="{ label: 'name', value: 'id' }"
                 v-bind="cProps"
                 :tree-data="options"
-                :filter-tree-node="(v, option) => filterSelectNode(v, option)"
+                :filter-tree-node="
+                    (v, option) => filterTreeSelectNode(v, option)
+                "
                 @change="valueChange"
             />
         </div>
@@ -142,7 +145,7 @@ import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
 import { watch, ref, reactive, onBeforeMount, nextTick } from 'vue';
 import type { SearchItemData, SearchProps, Terms } from './typing';
-import { cloneDeep, get, isArray, isFunction } from 'lodash-es';
+import { cloneDeep, get, isArray, isFunction, omit } from 'lodash-es';
 import { filterTreeSelectNode, filterSelectNode } from './util';
 import {
     TreeSelect as JTreeSelect,
@@ -290,6 +293,15 @@ const getComponent = (type?: ItemType) => {
     }
 };
 
+const removeOptionByKey = (options: any[]): any[] => {
+    return options.map((item) => {
+        if (item.children) {
+            item.children = removeOptionByKey(item.children);
+        }
+        return omit(item, ['key']);
+    });
+};
+
 const handleItemOptions = (option?: any[] | Function) => {
     options.value = [];
     if (isArray(option)) {
@@ -299,7 +311,7 @@ const handleItemOptions = (option?: any[] | Function) => {
         option()
             .then((res: any[]) => {
                 optionLoading.value = false;
-                options.value = res;
+                options.value = removeOptionByKey(res);
             })
             .catch((_: any) => {
                 optionLoading.value = false;
