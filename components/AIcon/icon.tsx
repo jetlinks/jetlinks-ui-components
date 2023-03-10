@@ -20,7 +20,8 @@ const Icon = (props) =>
 export default defineComponent({
     // 传入组件配置
     props: ['type', 'scriptUrl'],
-    setup(props) {
+    emits: ['click'],
+    setup(props, { emit }) {
         watchEffect(() => {
             if (props.scriptUrl) {
                 MyIcon = createFromIconfontCN({
@@ -29,10 +30,13 @@ export default defineComponent({
             }
         });
 
+        const click = () => {
+            emit('click');
+        };
         const render = () => {
             return (
                 <>
-                    <Icon {...props} />
+                    <Icon {...props} onClick={click} />
                 </>
             );
         };
