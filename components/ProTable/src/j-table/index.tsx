@@ -22,6 +22,7 @@ import {
     TypeEnum,
     RequestData,
 } from '../proTableTypes';
+import { get } from 'lodash-es';
 
 export interface JTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -115,6 +116,17 @@ const tableProps = () => {
         rowKey: {
             type: [String, Function],
             default: 'id'
+        },
+        pagination: {
+            type: Object, // Boolean, 
+            default: () => {
+                return {
+                    showSizeChanger: true,
+                    showQuickJumper: false,
+                    size: 'size',
+                    pageSizeOptions: ['12', '24', '48', '96']
+                }
+            }
         }
     };
 };
@@ -329,6 +341,7 @@ const ProTable = defineComponent<JTableProps>({
                                     type="info"
                                     onClose={() => {
                                         if (props.rowSelection?.onChange) {
+                                            // 取消选择清空被选数据
                                             props.rowSelection.onChange([], []);
                                         }
                                     }}
@@ -404,11 +417,13 @@ const ProTable = defineComponent<JTableProps>({
                                                     column?.dataIndex;
                                                 return slots?.[_key]!(record);
                                             } else {
-                                                return (
-                                                    record?.[
-                                                    column?.dataIndex
-                                                    ] || ''
-                                                );
+                                                // return (
+                                                //     record?.[
+                                                //     column?.dataIndex
+                                                //     ] || ''
+                                                // );
+                                                // 获取数据
+                                                return get(record, column?.dataIndex.split('.')) || ""
                                             }
                                         },
                                         emptyText: () => <Empty />,
@@ -426,19 +441,10 @@ const ProTable = defineComponent<JTableProps>({
                                     slots.paginationRender()
                                 ) : (
                                     <Pagination
-                                        size="small"
+                                        {...props.pagination}
                                         total={total.value}
-                                        showQuickJumper={false}
-                                        showSizeChanger={true}
                                         current={pageIndex.value + 1}
                                         pageSize={pageSize.value}
-                                        pageSizeOptions={[
-                                            '12',
-                                            '24',
-                                            '48',
-                                            '60',
-                                            '100',
-                                        ]}
                                         showTotal={(num) => {
                                             const minSize =
                                                 pageIndex.value *

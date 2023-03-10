@@ -48,6 +48,11 @@ const columns = [
         key: 'address',
         scopedSlots: true,
     },
+    {
+        title: '状态',
+        dataIndex: 'status.text',
+        key: 'status.text'
+    },
 ];
 
 const data = Array(10)
@@ -58,6 +63,9 @@ const data = Array(10)
             name: 'John Brown',
             age: random(100),
             address: 'New York No. 1 Lake Park',
+            status: {
+                text: "123"
+            }
         };
     });
 
