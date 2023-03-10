@@ -14,6 +14,9 @@ title: 远程加载数据
         :params="{}"
         :defaultParams="{ sorts: [{ name: 'createTime', order: 'desc' }] }"
         ref="instanceRef"
+        :pagination="{
+          pageSizeOptions: ['10','20']
+        }"
     >
         <template #headerTitle
             ><j-button type="primary" @click="refresh"
@@ -74,7 +77,7 @@ const query = (params: Record<string, any>) =>
                 result: {
                     data: data.slice(_from, _to),
                     pageIndex: params.pageIndex || 0,
-                    pageSize: params.pageSize || 12,
+                    pageSize: params.pageSize || 10,
                     total: data.length,
                 },
                 status: 200,
