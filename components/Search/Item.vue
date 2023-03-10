@@ -155,6 +155,8 @@ import {
     Switch as JSwitch,
     RadioGroup as JRadioGroup,
     CheckboxGroup as JCheckboxGroup,
+    RangePicker as JRangePicker,
+    TimeRangePicker as JTimeRangePicker,
 } from '../components';
 import { useUrlSearchParams } from '@vueuse/core';
 

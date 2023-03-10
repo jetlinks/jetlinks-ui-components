@@ -1,62 +1,30 @@
 <template>
-    <div class="j-card-panel">
-        <div
-            class="j-card-item vertical"
-            :class="{
-                active: isActive,
-                disabled: disabled || parent.props.disabled,
-                // horizontal: type === 'horizontal',
-            }"
-            @click="handleSelect"
-        >
-            <div
-                class="j-card-content grid-item"
-                :class="{ 'flex-item': type === 'horizontal' }"
-            >
-                <slot></slot>
-            </div>
-            <div
-                v-if="!slots.includes('default')"
-                class="j-card-content grid-item"
-                :class="{ 'flex-item': type === 'horizontal' }"
-            >
-                <!-- <template v-if="type === 'horizontal' && float === 'right'">
-                    <div class="desc" :style="{ paddingRight: '10px' }">
-                        <span class="title">{{ item.label }}</span>
-                        <span class="sub-title">{{ item.subLabel }}</span>
-                    </div>
-                    <Avatar
-                        class="icon box-shadow"
-                        :src="image"
-                    />
-                </template> -->
-                <Avatar
-                    v-if="image.length && !slots.includes('image')"
-                    class="icon"
-                    :class="{ 'box-shadow': type === 'horizontal' }"
-                    :src="image"
-                />
-                <slot name="image"></slot>
-                <div
-                    class="desc"
-                    :style="[
-                        type === 'vertical'
-                            ? { paddingTop: '10px' }
-                            : { paddingLeft: '10px' },
-                    ]"
-                >
-                    <slot name="label"></slot>
-                    <span v-if="!slots.includes('label')" class="title">{{
-                        label
-                    }}</span>
-                    <slot name="subLabel"></slot>
-                    <span
-                        v-if="!slots.includes('subLable')"
-                        class="sub-title"
-                        >{{ subLabel }}</span
-                    >
-                </div>
-            </div>
+    <div
+        :class="{
+            'j-card-item': true,
+            active: active,
+            disabled: disabled,
+            horizontal: type === 'horizontal',
+            vertical: type !== 'horizontal',
+            right: float === 'right',
+            left: float === 'left',
+        }"
+        @click="click"
+    >
+        <div class="j-card-title-warp">
+            <slot name="title" :title="item.title">
+                <div class="title">{{ item.label }}</div>
+            </slot>
+            <template v-if="item.subLabel && showImage">
+                <slot name="subLabel" :sub-label="item.subLabel">
+                    <div class="sub-title">{{ item.subLabel }}</div>
+                </slot>
+            </template>
+        </div>
+        <div v-if="showImage" class="j-card-image">
+            <slot name="image" :image="item.iconUrl">
+                <Avatar class="icon box-shadow" :src="item.iconUrl" />
+            </slot>
         </div>
     </div>
 </template>
@@ -65,58 +33,32 @@
 import { inject, PropType, ref, toRefs, watchEffect, useSlots } from 'vue';
 import { Avatar } from '../components';
 
-const slots = Object.keys(useSlots());
-const isActive = ref(false);
+interface CardOption {
+    value: string | number;
+    label: string;
+    subLabel?: string;
+    iconUrl: string;
+    disabled?: boolean;
+}
+
 const props = defineProps({
-    type: {
-        type: String as PropType<'vertical' | 'horizontal'>,
-        default: 'vertical',
-    },
-    image: {
-        type: String,
-        default: '',
+    active: {
+        type: Boolean,
+        default: false,
     },
     disabled: {
         type: Boolean,
         default: false,
     },
-    value: {
-        type: String,
-        default: '',
-    },
-    subLabel: {
-        type: String,
-        default: '',
-    },
-    label: {
-        type: String,
-        default: '',
-    },
-    colGap: {
-        type: Number,
-        default: 6,
+    item: {
+        type: Object as PropType<CardOption>,
+        default: () => ({}),
     },
 });
-const { type, value, disabled, image, label, subLabel } = toRefs(props);
 
-const parent = inject('CardSelect') as any;
-const handleSelect = () => {
-    if (props.disabled || parent.props.disabled) return;
-    parent.setValue(value.value);
+const emit = defineEmits(['click']);
+
+const click = () => {
+    emit('click', props.item.value, props.item);
 };
-
-watchEffect(() => {
-    if (parent.props && parent.props.value.includes(props.value)) {
-        isActive.value = true;
-    } else {
-        isActive.value = false;
-    }
-});
-// watch(() => parent.props.value, () => {
-//     if(parent.props && parent.props.value.includes(props.value)) {
-//         isActive.value = true
-//     } else {
-//         isActive.value = false
-//     }
-// }, {immediate: true, deep: true})
 </script>

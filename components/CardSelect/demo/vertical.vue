@@ -1,22 +1,18 @@
 <docs>
 ---
-order: 2
+order: 0
 title: 垂直布局
 ---
 
 </docs>
 
 <template>
-    <j-card-select v-model:value="value" multiple type="vertical">
-        <j-card-select-option
-            v-for="item in options"
-            :key="item.value"
-            :value="item.value"
-            :image="item.image"
-            :label="item.label"
-        >
-        </j-card-select-option>
-    </j-card-select>
+    <j-card-select
+        v-model:value="value"
+        :options="options"
+        multiple
+        type="vertical"
+    />
 </template>
 
 <script lang="ts" setup>

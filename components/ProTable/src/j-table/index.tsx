@@ -96,7 +96,7 @@ const tableProps = () => {
         },
         params: {
             type: Object,
-            default: () => {},
+            default: () => { },
         },
         type: {
             type: String,
@@ -110,8 +110,12 @@ const tableProps = () => {
         },
         defaultParams: {
             type: Object,
-            default: () => {},
+            default: () => { },
         },
+        rowKey: {
+            type: [String, Function],
+            default: 'id'
+        }
     };
 };
 
@@ -123,11 +127,8 @@ const ProTable = defineComponent<JTableProps>({
         'rightExtraRender',
         'paginationRender', // 分页
     ],
-    // emits: [
-    //     'selectCancel', // 取消选择
-    // ],
     props: tableProps() as any,
-    setup(props: JTableProps, { slots, emit, expose }) {
+    setup(props: JTableProps, { slots, expose }) {
         const _model = ref<keyof typeof ModelEnum>(
             props.model ? props.model : ModelEnum.CARD,
         ); // 模式切换
@@ -314,9 +315,9 @@ const ProTable = defineComponent<JTableProps>({
                     {/* content */}
                     <div class={'jtable-content'}>
                         {props.alertRender &&
-                        props?.rowSelection &&
-                        props?.rowSelection?.selectedRowKeys &&
-                        props.rowSelection.selectedRowKeys?.length ? (
+                            props?.rowSelection &&
+                            props?.rowSelection?.selectedRowKeys &&
+                            props.rowSelection.selectedRowKeys?.length ? (
                             <div class={'jtable-alert'}>
                                 <Alert
                                     message={
@@ -327,7 +328,6 @@ const ProTable = defineComponent<JTableProps>({
                                     }
                                     type="info"
                                     onClose={() => {
-                                        // emit('selectCancel');
                                         if (props.rowSelection?.onChange) {
                                             props.rowSelection.onChange([], []);
                                         }
@@ -369,12 +369,12 @@ const ProTable = defineComponent<JTableProps>({
                         ) : (
                             <div>
                                 <Table
+                                    {...props}
                                     dataSource={_dataSource.value}
                                     columns={props.columns.filter(
                                         (i) => !i?.hideInTable,
                                     )}
                                     pagination={false}
-                                    rowKey="id"
                                     rowSelection={props.rowSelection}
                                     scroll={props.scroll}
                                     v-slots={{
@@ -406,7 +406,7 @@ const ProTable = defineComponent<JTableProps>({
                                             } else {
                                                 return (
                                                     record?.[
-                                                        column?.dataIndex
+                                                    column?.dataIndex
                                                     ] || ''
                                                 );
                                             }
@@ -442,14 +442,13 @@ const ProTable = defineComponent<JTableProps>({
                                         showTotal={(num) => {
                                             const minSize =
                                                 pageIndex.value *
-                                                    pageSize.value +
+                                                pageSize.value +
                                                 1;
                                             const MaxSize =
                                                 (pageIndex.value + 1) *
                                                 pageSize.value;
-                                            return `第 ${minSize} - ${
-                                                MaxSize > num ? num : MaxSize
-                                            } 条/总共 ${num} 条`;
+                                            return `第 ${minSize} - ${MaxSize > num ? num : MaxSize
+                                                } 条/总共 ${num} 条`;
                                         }}
                                         onChange={(page, size) => {
                                             handleSearch({

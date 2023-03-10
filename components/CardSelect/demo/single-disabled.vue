@@ -1,6 +1,6 @@
 <docs>
 ---
-order: 2
+order: 1
 title: 某个禁用
 ---
 

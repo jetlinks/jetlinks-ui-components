@@ -5,6 +5,7 @@
         <Disabled />
         <SingleDisabled />
         <vertical />
+        <NoColumn />
     </demo-sort>
     <demo-sort :cols="1">
         <CustomStyle />
@@ -19,6 +20,7 @@ import Disabled from './disabled.vue';
 import SingleDisabled from './single-disabled.vue';
 import vertical from './vertical.vue';
 import CustomStyle from './customStyle.vue';
+import NoColumn from './noColumn.vue';
 export default {
     CN,
     components: {
@@ -28,6 +30,7 @@ export default {
         Checkbox,
         Radio,
         CustomStyle,
+        NoColumn,
     },
 };
 </script>

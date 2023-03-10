@@ -9,6 +9,5 @@ title: 自定义图标
 
 </docs>
 <template>
-    <AIcon type="icon-xiazai" scriptUrl="/public/iconfont.js" />
-    <AIcon type="icon-dianzan" />
+    <aIcon type="icon-dianzan" />
 </template>
