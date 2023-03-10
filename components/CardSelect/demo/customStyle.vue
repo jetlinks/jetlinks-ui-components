@@ -8,31 +8,13 @@ title: 自定义内容
 
 <template>
     <div class="select">
-        <j-card-select v-model:value="value" multiple>
-            <j-card-select-option
-                v-for="item in options"
-                :key="item.value"
-                :value="item.value"
-                :image="item.image"
-                :label="item.label"
-            >
-                <template #label>
-                    {{ item.label }}
-                </template>
-                <template #image>
-                    <img :src="item.image" style="width: 100px" />
-                </template>
-            </j-card-select-option>
-        </j-card-select>
-
-        <j-card-select v-model:value="value1">
-            <j-card-select-option
-                v-for="item in options"
-                :key="item.value"
-                :value="item.value"
-            >
-                <span>{{ item.label }}</span>
-            </j-card-select-option>
+        <j-card-select v-model:value="value" multiple :options="options">
+            <template #title="{ title }">
+                <span class="custom-title">{{ title }}</span>
+            </template>
+            <template #subLabel="{ subLabel }">
+                <span class="custom-sub-label">{{ subLabel }}</span>
+            </template>
         </j-card-select>
     </div>
 </template>
@@ -40,18 +22,20 @@ title: 自定义内容
 <script lang="ts" setup>
 import { reactive, ref, toRefs } from 'vue';
 
-const value = ref<any>();
+const value = ref<any>('1');
 const value1 = ref<any>();
 const state = reactive({
     options: [
         {
             value: '1',
             label: '识别性',
+            subLabel: '特殊的label',
             image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         },
         {
             value: '2',
             label: '独特性',
+            subLabel: '特殊的label',
             image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         },
     ],
@@ -62,7 +46,10 @@ const { options } = toRefs(state);
 
 <style>
 .select {
-    display: flex;
-    justify-content: space-around;
+    width: 50%;
+}
+.custom-title {
+    font-size: 16px;
+    color: red;
 }
 </style>

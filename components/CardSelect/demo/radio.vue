@@ -1,6 +1,6 @@
 <docs>
 ---
-order: 0
+order: 4
 title: 单选
 ---
 
@@ -28,11 +28,13 @@ const state = reactive({
         {
             value: '1',
             label: '识别性',
+            subLabel: 'subLabel',
             image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         },
         {
             value: '2',
             label: '独特性',
+            subLabel: 'subLabel',
             image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         },
     ],

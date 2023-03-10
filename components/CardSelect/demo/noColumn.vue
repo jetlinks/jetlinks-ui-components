@@ -1,14 +1,19 @@
 <docs>
 ---
-order: 2
-title: 全部禁用
+order: 4
+title: 垂直布局-不平分
 ---
 
 </docs>
 
 <template>
-    <j-card-select v-model:value="value" :options="options" disabled multiple>
-    </j-card-select>
+    <j-card-select
+        v-model:value="value"
+        :options="options"
+        multiple
+        type="vertical"
+        no-column
+    />
 </template>
 
 <script lang="ts" setup>
