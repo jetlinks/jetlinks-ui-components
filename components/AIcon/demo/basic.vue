@@ -7,11 +7,7 @@ title: 线框风格
 ZoomOutOutlined
 </docs>
 <template>
-    <AIcon type="ZoomOutOutlined" @click="item" />
+    <AIcon type="ZoomOutOutlined" />
 </template>
 
-<script setup>
-const item = () => {
-    console.log('11111111111111');
-};
-</script>
+<script setup></script>
