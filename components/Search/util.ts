@@ -44,7 +44,7 @@ export const termsParamsFormat = (
     terms,
     columnOptionMap,
     type: string = 'adv',
-    searchType: string,
+    searchType: string = 'terms',
 ) => {
     // 过滤掉terms中value无效的item
     const cloneParams = cloneDeep(terms);

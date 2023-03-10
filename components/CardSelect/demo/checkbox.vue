@@ -1,21 +1,13 @@
 <docs>
 ---
-order: 0
+order: 3
 title: 多选
 ---
 
 </docs>
 
 <template>
-    <j-card-select v-model:value="value" multiple>
-        <j-card-select-option
-            v-for="item in options"
-            :key="item.value"
-            :value="item.value"
-            :image="item.image"
-            :label="item.label"
-        >
-        </j-card-select-option>
+    <j-card-select v-model:value="value" multiple :options="options">
     </j-card-select>
 </template>
 

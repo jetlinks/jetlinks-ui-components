@@ -36,6 +36,10 @@ const matchComponents: IMatcher[] = [
         styleDir: 'Checkbox',
     },
     {
+        pattern: /^CardSelect/,
+        styleDir: 'CardSelect',
+    },
+    {
         pattern: /^Card/,
         styleDir: 'Card',
     },
@@ -96,7 +100,7 @@ const matchComponents: IMatcher[] = [
     },
     {
         pattern: /^TimePicker|^TimeRangePicker/,
-        styleDir: 'TimeTicker',
+        styleDir: 'TimePicker',
     },
     {
         pattern: /^Radio/,
@@ -191,10 +195,7 @@ const matchComponents: IMatcher[] = [
         pattern: /^AIcon/,
         styleDir: 'AIcon',
     },
-    {
-        pattern: /^CardSelect/,
-        styleDir: 'CardSelect',
-    },
+
     {
         pattern: /^Tooltip/,
         styleDir: 'Tooltip',
@@ -461,7 +462,6 @@ function isJetlinks(compName: string): boolean {
 function isAntdv(compName: string): boolean {
     return antdvNames.has(compName);
 }
-
 function JetlinksVueResolver(options: JetlinksVueResolverOptions = {}): any {
     return {
         type: 'component',
@@ -487,11 +487,14 @@ function JetlinksVueResolver(options: JetlinksVueResolverOptions = {}): any {
                 const path = `${options.packageName}/${
                     options.cjs ? 'lib' : 'es'
                 }`;
-
+                const stylePath = getSideEffects(importName, options, _isAntd);
+                if (_isJetlinks) {
+                    console.log(name, importName, stylePath);
+                }
                 return {
                     name: importName,
                     from: path,
-                    sideEffects: getSideEffects(importName, options, _isAntd),
+                    sideEffects: stylePath,
                 };
             }
         },
