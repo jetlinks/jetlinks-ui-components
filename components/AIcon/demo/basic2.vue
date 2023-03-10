@@ -7,5 +7,5 @@ title: 实底风格
 StepBackwardFilled
 </docs>
 <template>
-    <j-aIcon type="StepBackwardFilled" />
+    <AIcon type="StepBackwardFilled" />
 </template>
