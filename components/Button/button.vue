@@ -1,5 +1,5 @@
 <template>
-    <Button v-bind="props" :class="className">
+    <Button v-bind="props" :class="[className]">
         <AIcon v-if="props.myIcon" :type="props.myIcon" />
         <slot name="icon"></slot>
         <slot name="default"></slot>

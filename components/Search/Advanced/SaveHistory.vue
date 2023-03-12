@@ -1,5 +1,5 @@
 <template>
-    <a-popover
+    <Popover
         v-model:visible="visible"
         title="搜索名称"
         trigger="click"
@@ -32,13 +32,8 @@
                 </j-button>
             </div>
         </template>
-        <j-button>
-            <template #icon>
-                <AIcon type="SaveOutlined" />
-            </template>
-            保存
-        </j-button>
-    </a-popover>
+        <j-button ghost type="primary"> 保存 </j-button>
+    </Popover>
 </template>
 
 <script setup lang="ts">
@@ -50,6 +45,7 @@ import {
     Button as JButton,
     FormItem as JFormItem,
     AIcon,
+    Popover,
 } from '../../components';
 import { isFunction } from 'lodash-es';
 

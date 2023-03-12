@@ -21,13 +21,19 @@
                     </j-col>
                     <j-col :span="24 / column">
                         <div class="JSearch-footer--btns">
-                            <j-button type="primary" @click="searchSubmit">
-                                <template #icon><SearchOutlined /></template>
-                                搜索
-                            </j-button>
-                            <j-button @click="reset">
-                                <template #icon><RedoOutlined /></template>
+                            <j-button
+                                type="stroke"
+                                class="no-radius"
+                                @click="reset"
+                            >
                                 重置
+                            </j-button>
+                            <j-button
+                                type="primary"
+                                ghost
+                                @click="searchSubmit"
+                            >
+                                搜索
                             </j-button>
                         </div>
                     </j-col>
