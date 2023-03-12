@@ -28,7 +28,7 @@ import Header, { headerViewProps } from './Header';
 import type { VueNode } from 'ant-design-vue/lib/_util/type';
 import useConfigInject from 'ant-design-vue/lib/_util/hooks/useConfigInject';
 import type { BreadcrumbProps, RouteContextProps } from '../RouteContext';
-import { pick } from 'lodash-es';
+import { cloneDeep, pick } from 'lodash-es';
 import { defaultRouteContext, routeContextInjectKey } from '../RouteContext';
 import { getMenuFirstChildren, getSlot } from '../util';
 import { Layout, LayoutContent } from '../../components';
@@ -182,7 +182,6 @@ export default defineComponent({
         const headerRender = (
             p: BasicLayoutProps & {
                 hasSiderMenu: boolean;
-                hasTopMenu: boolean;
                 headerRender: HeaderRender;
                 rightContentRender: RightContentRender;
             },
@@ -300,7 +299,6 @@ export default defineComponent({
                         ...props,
                         menuItemRender,
                         subMenuItemRender,
-                        hasTopMenu: isTop.value,
                         hasSiderMenu: !isTop.value,
                         menuData: props.menuData,
                         onCollapse,
@@ -346,32 +344,38 @@ export default defineComponent({
                                     ...((attrs.style as CSSProperties) || {}),
                                 }}
                             >
-                                {!isTop.value && (
-                                    <SiderMenu
-                                        {...restProps}
-                                        menuHeaderRender={menuHeaderRender}
-                                        menuExtraRender={menuExtraRender}
-                                        menuContentRender={menuContentRender}
-                                        menuItemRender={menuItemRender}
-                                        subMenuItemRender={subMenuItemRender}
-                                        collapsedButtonRender={
-                                            collapsedButtonRender
-                                        }
-                                        onCollapse={onCollapse}
-                                        onSelect={onSelect}
-                                        onOpenKeys={onOpenKeys}
-                                        onMenuClick={onMenuClick}
-                                    />
-                                )}
-                                <div
+                                {headerDom.value}
+                                <Layout
                                     style={genLayoutStyle}
                                     class={prefixCls.value}
                                 >
-                                    {headerDom.value}
-                                    <LayoutContent>
-                                        {slots.default?.()}
-                                    </LayoutContent>
-                                </div>
+                                    {!isTop.value && (
+                                        <SiderMenu
+                                            {...restProps}
+                                            menuHeaderRender={menuHeaderRender}
+                                            menuExtraRender={menuExtraRender}
+                                            menuContentRender={
+                                                menuContentRender
+                                            }
+                                            menuItemRender={menuItemRender}
+                                            subMenuItemRender={
+                                                subMenuItemRender
+                                            }
+                                            collapsedButtonRender={
+                                                collapsedButtonRender
+                                            }
+                                            onCollapse={onCollapse}
+                                            onSelect={onSelect}
+                                            onOpenKeys={onOpenKeys}
+                                            onMenuClick={onMenuClick}
+                                        />
+                                    )}
+                                    <Layout>
+                                        <LayoutContent>
+                                            {slots.default?.()}
+                                        </LayoutContent>
+                                    </Layout>
+                                </Layout>
                             </Layout>
                         </div>
                     )}

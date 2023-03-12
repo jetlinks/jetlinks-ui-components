@@ -135,12 +135,13 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
         // layout !== 'side' ? 'headerTitleRender' : undefined,
         'headerTitleRender',
     );
-
-    let MenusData = menuData;
+    //
+    let MenusData = props.layout === 'side' ? [] : menuData;
     if (props.layout === 'mix' && props.splitMenus) {
         const noChildrenMenuData = (menuData || []).map((item) => ({
             ...item,
             children: undefined,
+            component: undefined,
         })) as RouteRecordRaw[];
         MenusData = clearMenuItem(noChildrenMenuData);
     }
@@ -175,30 +176,28 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
                     </div>
                 )}
                 <div style={{ flex: 1 }} class={`${prefixCls}-menu`}>
-                    {context.hasTopMenu && (
-                        <BaseMenu
-                            prefixCls={propPrefixCls}
-                            locale={props.locale || context.locale}
-                            theme={props.theme}
-                            mode={_mode.value}
-                            collapsed={props.collapsed}
-                            iconfontUrl={props.iconfontUrl}
-                            menuData={MenusData}
-                            menuItemRender={props.menuItemRender}
-                            subMenuItemRender={props.subMenuItemRender}
-                            openKeys={context.openKeys}
-                            selectedKeys={context.selectedKeys}
-                            class={{
-                                'top-nav-menu': props.mode === 'horizontal',
-                            }}
-                            {...{
-                                'onUpdate:openKeys': ($event: string[]) =>
-                                    onOpenKeys && onOpenKeys($event),
-                                'onUpdate:selectedKeys': ($event: string[]) =>
-                                    onSelect && onSelect($event),
-                            }}
-                        />
-                    )}
+                    <BaseMenu
+                        prefixCls={propPrefixCls}
+                        locale={props.locale || context.locale}
+                        theme={props.theme}
+                        mode={_mode.value}
+                        collapsed={props.collapsed}
+                        iconfontUrl={props.iconfontUrl}
+                        menuData={MenusData}
+                        menuItemRender={props.menuItemRender}
+                        subMenuItemRender={props.subMenuItemRender}
+                        openKeys={context.openKeys}
+                        selectedKeys={context.selectedKeys}
+                        class={{
+                            'top-nav-menu': props.mode === 'horizontal',
+                        }}
+                        {...{
+                            'onUpdate:openKeys': ($event: string[]) =>
+                                onOpenKeys && onOpenKeys($event),
+                            'onUpdate:selectedKeys': ($event: string[]) =>
+                                onSelect && onSelect($event),
+                        }}
+                    />
                 </div>
                 {rightContentRender && (
                     <RightContent

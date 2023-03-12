@@ -35,7 +35,7 @@ import type { Key } from 'ant-design-vue/lib/_util/type';
 import { defaultPrefixCls } from '../RouteContext';
 import IconFont from '../../AIcon';
 import { isImg, isUrl } from '../../util/regular';
-import { Menu } from '../../components';
+import Menu from '../../Menu';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 
 export const baseMenuProps = {
