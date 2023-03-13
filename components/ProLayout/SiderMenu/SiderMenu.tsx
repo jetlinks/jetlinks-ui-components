@@ -180,7 +180,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (
             [`${baseClassName}-layout-${props.layout}`]: props.layout,
         };
     });
-    console.log('context.fixSiderbar', context.fixSiderbar, classNames.value);
+
     const handleSelect = ($event: string[]) => {
         if (props.onSelect) {
             if (unref(hasSplitMenu)) {
@@ -197,7 +197,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (
     if (hasSplitMenu.value && unref(context.flatMenuData).length === 0) {
         return null;
     }
-    console.log('sider', context.menuData);
+    console.log('sider', context.flatMenuData);
     const defaultMenuDom = (
         <BaseMenu
             prefixCls={getPrefixCls()}

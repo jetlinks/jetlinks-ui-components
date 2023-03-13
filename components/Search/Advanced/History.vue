@@ -10,12 +10,15 @@
             <AIcon type="DownOutlined" @click.stop="historyVisible = true" />
         </Button>
         <template #overlay>
-            <j-menu v-if="!showEmpty">
+            <j-menu v-if="!showEmpty" class="search-history-items">
                 <j-menu-item v-for="item in historyList" :key="item.id">
-                    <div class="history-item">
-                        <span @click.stop="itemClick(item.content)">{{
-                            item.name
-                        }}</span>
+                    <div class="search-history-item">
+                        <div
+                            class="history-item--title"
+                            @click.stop="itemClick(item.content)"
+                        >
+                            <div class="">{{ item.name }}</div>
+                        </div>
                         <j-popconfirm
                             title="确认删除吗？"
                             placement="top"
@@ -118,30 +121,4 @@ const deleteHistory = async (id: string) => {
 };
 </script>
 
-<style scoped lang="less">
-@import '../../style/variable.less';
-
-.history-empty {
-    width: 200px;
-    background-color: #fff;
-    box-shadow: @box-shadow-base;
-    border-radius: 2px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 200px;
-}
-
-.history-item {
-    width: 200px;
-    display: flex;
-
-    > span {
-        flex: 1 1 auto;
-    }
-
-    .delete {
-        padding: 0 6px;
-        flex: 0 0 28px;
-    }
-}
-</style>
+<style scoped lang="less"></style>

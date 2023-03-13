@@ -46,8 +46,8 @@ export default defineComponent({
     name: 'Side',
     setup() {
         const baseState = reactive({
-            selectedKeys: ['/admin', '/admin/sub-page1'],
-            openKeys: ['/admin'],
+            selectedKeys: ['/list', '/list/sub-page'],
+            openKeys: ['/list'],
             // default
             collapsed: false,
         });
@@ -55,7 +55,8 @@ export default defineComponent({
         const state = reactive({
             menuData: Menus,
             title: 'jetlinks',
-            layout: 'side',
+            splitMenus: true,
+            // layout: 'side',
         });
 
         const pageState = reactive({

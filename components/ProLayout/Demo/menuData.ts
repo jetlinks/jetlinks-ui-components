@@ -1,4 +1,4 @@
-import WelCome from './Welcome.vue'
+import WelCome from './Welcome.vue';
 
 export default [
     {
@@ -7,7 +7,7 @@ export default [
         meta: {
             title: '欢迎',
             icon: 'SmileFilled',
-        }
+        },
     },
     {
         path: '/admin',
@@ -22,7 +22,6 @@ export default [
                 meta: {
                     title: '一级页面',
                     icon: 'CrownFilled',
-
                 },
                 component: WelCome,
             },
@@ -31,7 +30,6 @@ export default [
                 meta: {
                     title: '二级页面',
                     icon: 'CrownFilled',
-
                 },
                 component: WelCome,
             },
@@ -40,7 +38,6 @@ export default [
                 meta: {
                     title: '三级页面',
                     icon: 'CrownFilled',
-
                 },
                 component: WelCome,
             },
@@ -51,6 +48,7 @@ export default [
         meta: {
             title: '列表页',
             icon: 'TabletFilled',
+            hideInMenu: true,
         },
         component: WelCome,
         children: [
@@ -66,7 +64,6 @@ export default [
                         meta: {
                             title: '一一级列表页面',
                             icon: 'CrownFilled',
-
                         },
                         component: WelCome,
                     },
@@ -75,7 +72,6 @@ export default [
                         meta: {
                             title: '一二级列表页面',
                             icon: 'CrownFilled',
-
                         },
                         component: WelCome,
                     },
@@ -84,7 +80,6 @@ export default [
                         meta: {
                             title: '一三级列表页面',
                             icon: 'CrownFilled',
-
                         },
                         component: WelCome,
                     },
@@ -95,7 +90,6 @@ export default [
                 meta: {
                     title: '二级列表页面',
                     icon: 'CrownFilled',
-
                 },
                 component: WelCome,
             },
@@ -104,10 +98,9 @@ export default [
                 meta: {
                     title: '三级列表页面',
                     icon: 'CrownFilled',
-
                 },
                 component: WelCome,
             },
         ],
     },
-]
+];

@@ -123,7 +123,7 @@ import SearchItem from '../Item.vue';
 import { typeOptions } from '../setting';
 import { useElementSize, useUrlSearchParams } from '@vueuse/core';
 import { set } from 'lodash-es';
-import { PropType, ref, reactive, watch, nextTick, provide } from 'vue';
+import { PropType, ref, reactive, watch, nextTick, onMounted } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
 import type {
@@ -309,8 +309,10 @@ const handleUrlParams = (_params: UrlParam) => {
     }
 };
 
-nextTick(() => {
-    handleUrlParams(urlParams);
+onMounted(() => {
+    setTimeout(() => {
+        handleUrlParams(urlParams);
+    });
 });
 
 handleItems();
