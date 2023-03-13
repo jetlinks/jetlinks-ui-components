@@ -25,7 +25,7 @@
                         <SearchItem
                             v-if="expand"
                             :expand="expand"
-                            :index="1"
+                            :index="2"
                             :columns="searchItems"
                             :terms-item="terms"
                             :reset="resetNumber"
@@ -34,7 +34,7 @@
                         <SearchItem
                             v-if="expand"
                             :expand="expand"
-                            :index="1"
+                            :index="3"
                             :columns="searchItems"
                             :terms-item="terms"
                             :reset="resetNumber"
@@ -55,7 +55,7 @@
                             v-for="item in [4, 5, 6]"
                             :key="`search_item_${item}`"
                             :expand="expand"
-                            :index="4"
+                            :index="item"
                             :columns="searchItems"
                             :terms-item="terms"
                             :reset="resetNumber"
