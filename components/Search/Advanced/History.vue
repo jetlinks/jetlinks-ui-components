@@ -7,7 +7,7 @@
     >
         <Button ghost type="primary" @click.stop="click">
             搜索
-            <AIcon type="DownOutlined" @click="historyVisible = true" />
+            <AIcon type="DownOutlined" @click.stop="historyVisible = true" />
         </Button>
         <template #overlay>
             <j-menu v-if="!showEmpty">
@@ -31,7 +31,7 @@
                     </div>
                 </j-menu-item>
             </j-menu>
-            <div v-else class="history-empty">
+            <div v-else class="search-history-empty">
                 <j-empty />
             </div>
         </template>

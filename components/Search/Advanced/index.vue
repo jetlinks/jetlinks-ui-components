@@ -5,7 +5,7 @@
             v-if="props.type === 'advanced'"
             :class="[
                 'JSearch-content',
-                expand ? 'senior-expand' : '',
+                expand ? 'senior-expand' : 'pack-up',
                 screenSize ? 'big' : 'small',
             ]"
         >
@@ -91,7 +91,7 @@
             </div>
         </div>
         <!--  简单模式  -->
-        <div v-else class="JSearch-content single big">
+        <div v-else class="JSearch-content single big pack-up">
             <div class="JSearch-items">
                 <div class="left">
                     <SearchItem
@@ -284,7 +284,7 @@ const historyItemClick = (content: string) => {
         if (terms.terms.length === 2) {
             expand.value = true;
         }
-        addUrlParams();
+        searchSubmit();
     } catch (e) {
         console.warn(`Search组件中handleUrlParams处理JSON时异常：【${e}】`);
     }

@@ -4,11 +4,26 @@
     background-color: #fff;
     margin-bottom: 24px;
 
+    .pack-up {
+        .JSearch-items {
+            flex: 1 1 auto;
+
+            .left {
+                min-width: 380px;
+                max-width: 66.66%;
+            }
+        }
+
+        &.single {
+            .left {
+                max-width: 50%;
+            }
+        }
+    }
+
     &.senior {
         > .JSearch-content {
             display: flex;
-            justify-content: space-between;
-
             .JSearch-footer {
                 display: flex;
                 gap: 64px;
@@ -109,10 +124,8 @@
     }
 }
 
-.search-history-dropdown {
-    .history-empty {
-        padding-top: 12px;
-        background-color: #fff;
-        box-shadow: @box-shadow-base;
-    }
+.search-history-empty {
+    padding: 12px 12px 6px 12px;
+    background-color: #fff;
+    box-shadow: @box-shadow-base;
 }
