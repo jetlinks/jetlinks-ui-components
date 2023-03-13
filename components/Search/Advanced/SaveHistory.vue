@@ -15,7 +15,7 @@
                             { max: 64, message: '最多64个字符' },
                         ]"
                     >
-                        <j-input-textarea
+                        <Textarea
                             v-model:value="modelRef.name"
                             :rows="3"
                             :maxlength="200"
@@ -46,6 +46,7 @@ import {
     FormItem as JFormItem,
     AIcon,
     Popover,
+    Textarea,
 } from '../../components';
 import { isFunction } from 'lodash-es';
 
@@ -60,7 +61,7 @@ const props = defineProps({
         required: true,
     },
     request: {
-        type: Function,
+        type: Function as PropType<(data: any, target: string) => Promise<any>>,
         default: null,
     },
 });

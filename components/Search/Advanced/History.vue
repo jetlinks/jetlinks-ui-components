@@ -1,5 +1,6 @@
 <template>
     <Dropdown
+        class="search-history-dropdown"
         placement="bottomLeft"
         :visible="historyVisible"
         @visibleChange="visibleChange"
@@ -43,6 +44,7 @@
 <script setup lang="ts" name="SearchHistory">
 import type { SearchHistoryList } from '../typing';
 import { computed, ref } from 'vue';
+import type { PropType } from 'vue';
 import { isFunction } from 'lodash-es';
 import {
     Menu as JMenu,
@@ -67,7 +69,7 @@ const props = defineProps({
         required: true,
     },
     request: {
-        type: Function,
+        type: Function as PropType<(target: string) => Promise<any>>,
         default: null,
     },
     deleteRequest: {

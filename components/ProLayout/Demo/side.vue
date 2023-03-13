@@ -55,7 +55,7 @@ export default defineComponent({
         const state = reactive({
             menuData: Menus,
             title: 'jetlinks',
-            splitMenus: true,
+            layout: 'side',
         });
 
         const pageState = reactive({

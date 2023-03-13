@@ -69,9 +69,14 @@
                     <j-button type="stroke" class="no-radius" @click="reset">
                         重置
                     </j-button>
-                    <SaveHistory :terms="terms" :target="target" />
+                    <SaveHistory
+                        :terms="terms"
+                        :target="target"
+                        :request="request"
+                    />
                     <History
                         :target="target"
+                        :request="historyRequest"
                         @click="searchSubmit"
                         @itemClick="historyItemClick"
                     />
@@ -157,6 +162,14 @@ const props = defineProps({
     class: {
         type: String,
         default: '',
+    },
+    request: {
+        type: Function as PropType<(data: any, target: string) => Promise<any>>,
+        default: undefined,
+    },
+    historyRequest: {
+        type: Function as PropType<(target: string) => Promise<any>>,
+        default: undefined,
     },
 });
 
