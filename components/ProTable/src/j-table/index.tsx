@@ -423,7 +423,7 @@ const ProTable = defineComponent<JTableProps>({
                                                 //     ] || ''
                                                 // );
                                                 // 获取数据
-                                                return get(record, column?.dataIndex.split('.')) || ""
+                                                return get(record, column?.dataIndex) || ""
                                             }
                                         },
                                         emptyText: () => <Empty />,
