@@ -4,103 +4,115 @@
     background-color: #fff;
     margin-bottom: 24px;
 
-    .JSearch-content {
-        display: flex;
-        gap: 12px;
-
-        .JSearch-items,
-        & .JSearch-footer {
-            flex-grow: 1;
-        }
-
-        .JSearch-items {
+    &.senior {
+        > .JSearch-content {
             display: flex;
-            gap: 16px;
+            justify-content: space-between;
 
-            .left,
-            & .right {
+            .JSearch-footer {
                 display: flex;
-                gap: 12px;
-                flex-direction: column;
-                width: 0;
-                flex-grow: 1;
-                min-width: 0;
-            }
-
-            .center {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                min-width: 80px;
-            }
-
-            &.vertical {
-                flex-direction: column;
-                .left,
-                & .right,
-                & .center {
-                    width: 100%;
-                }
-                .center {
-                    flex-direction: row;
-                }
-                .center-select {
-                    width: 120px;
-                }
-            }
-        }
-        .JSearch-footer {
-            display: flex;
-            gap: 64px;
-            position: relative;
-
-            &.expand {
-                margin-top: 12px;
-                width: 100%;
-                justify-content: center;
+                gap: 64px;
+                position: relative;
 
                 .more-btn {
-                    position: absolute;
-                    right: 0;
+                    .more-text {
+                        padding-right: 24px;
+                    }
+                    .more-icon {
+                        transition: transform 0.3s;
+                        transform: rotateZ(90deg);
+                        font-size: 14px;
+
+                        &.more-up {
+                            transform: rotateZ(-90deg);
+                        }
+                    }
+                }
+
+                &.expand {
+                    margin-top: 16px;
+                    width: 100%;
+                    justify-content: space-between;
+                }
+
+                .JSearch-footer--btns {
+                    display: flex;
+                    gap: 12px;
                 }
             }
 
+            .items-expand {
+                display: flex;
+                gap: 16px;
+
+                .left,
+                & .right {
+                    min-width: 0;
+                    flex: 1 1 0;
+                }
+
+                .left-items,
+                & .right-items {
+                    display: flex;
+                    gap: 16px;
+                    flex-direction: column;
+                }
+
+                .center {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                &.vertical {
+                    flex-direction: column;
+                    .center {
+                        flex-direction: row;
+                        justify-content: center;
+                    }
+                }
+            }
+
+            &.senior-expand {
+                flex-direction: column;
+            }
+
+            &.small {
+                gap: 12px;
+                .JSearch-footer {
+                    gap: 4px;
+                }
+            }
+        }
+    }
+
+    .JSearch-content {
+        &.simple {
             .JSearch-footer--btns {
                 display: flex;
+                gap: 12px;
+            }
+
+            .JSearch-item {
                 gap: 8px;
+
+                .JSearch-item--label {
+                    text-align: right;
+                }
             }
         }
+    }
 
-        &.senior-expand {
-            display: block;
-        }
+    .no-radius {
+        border-radius: 0;
+        border-color: #f1f1f1;
+    }
+}
 
-        .more-up {
-            transform: rotate(-180deg);
-        }
-
-        &.big {
-            gap: 64px;
-        }
-
-        &.small {
-            flex-direction: column;
-        }
-
-        &.simple {
-            .JSearch-items {
-                flex-grow: 1;
-            }
-            .JSearch-footer {
-                flex-grow: 0;
-            }
-        }
-
-        &.no-flex {
-            flex-wrap: wrap;
-            .JSearch-items {
-                flex-grow: unset;
-            }
-        }
+.search-history-dropdown {
+    .history-empty {
+        padding-top: 12px;
+        background-color: #fff;
+        box-shadow: @box-shadow-base;
     }
 }

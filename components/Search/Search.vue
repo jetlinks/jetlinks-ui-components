@@ -1,6 +1,6 @@
 <template>
-    <div ref="searchRef" class="JSearch-warp">
-        <div class="JSearch-content simple no-flex">
+    <div class="JSearch-warp">
+        <div class="JSearch-content simple">
             <div class="JSearch-items">
                 <j-row :gutter="[16, 16]">
                     <j-col
@@ -19,19 +19,25 @@
                             @change="(v) => itemValueChange(v, index)"
                         />
                     </j-col>
+                    <j-col :span="24 / column">
+                        <div class="JSearch-footer--btns">
+                            <j-button
+                                type="stroke"
+                                class="no-radius"
+                                @click="reset"
+                            >
+                                重置
+                            </j-button>
+                            <j-button
+                                type="primary"
+                                ghost
+                                @click="searchSubmit"
+                            >
+                                搜索
+                            </j-button>
+                        </div>
+                    </j-col>
                 </j-row>
-            </div>
-            <div class="JSearch-footer">
-                <div class="JSearch-footer--btns">
-                    <j-button type="primary" @click="searchSubmit">
-                        <template #icon><SearchOutlined /></template>
-                        搜索
-                    </j-button>
-                    <j-button @click="reset">
-                        <template #icon><RedoOutlined /></template>
-                        重置
-                    </j-button>
-                </div>
             </div>
         </div>
     </div>

@@ -61,12 +61,7 @@ export default defineComponent({
         const needSettingWidth = computed(
             () => needFixedHeader.value && hasSiderMenu.value && !isTop.value,
         );
-        const clearMenuData = computed(
-            () =>
-                (context.menuData &&
-                    clearMenuItem(context.menuData as RouteRecordRaw[])) ||
-                [],
-        );
+
         const className = computed(() => {
             return {
                 [`${prefixCls.value}-fixed-header`]: needFixedHeader.value,
@@ -75,14 +70,13 @@ export default defineComponent({
         });
 
         const renderContent = () => {
-            console.log('renderContent', clearMenuData.value);
             const defaultDom = (
                 <TopNavHeader
                     theme={theme.value}
                     mode="horizontal"
                     {...props}
                     onCollapse={onCollapse.value}
-                    menuData={clearMenuData.value}
+                    menuData={context.menuData}
                 />
             );
             if (props.headerRender) {
@@ -91,11 +85,6 @@ export default defineComponent({
             return defaultDom;
         };
 
-        const width = computed(() => {
-            return layout.value !== 'mix' && needSettingWidth.value
-                ? `calc(100% - ${props.collapsed ? 48 : props.siderWidth}px)`
-                : '100%';
-        });
         const right = computed(() => (needFixedHeader.value ? 0 : undefined));
 
         return () => (

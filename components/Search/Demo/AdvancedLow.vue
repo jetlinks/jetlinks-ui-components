@@ -1,15 +1,15 @@
 <docs>
 ---
-order: 1
+order: 2
 title: AdvancedSearch组件
 ---
 
-AdvancedSearch组件组件基本使用
+AdvancedSearch组件 type为simple模式
 
 </docs>
 
 <template>
-    <j-advanced-search :columns="columns" @search="onSearch" />
+    <j-advanced-search :columns="columns" @search="onSearch" type="simple" />
     <div>
         查询结果:
         <br />
@@ -20,7 +20,7 @@ AdvancedSearch组件组件基本使用
 <script>
 import { ref } from 'vue';
 export default {
-    name: 'AdvancedSearch',
+    name: 'AdvancedSearchLow',
     setup() {
         const paramsStr = ref();
         const columns = [
