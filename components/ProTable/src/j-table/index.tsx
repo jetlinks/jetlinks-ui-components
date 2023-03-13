@@ -22,7 +22,7 @@ import {
     TypeEnum,
     RequestData,
 } from '../proTableTypes';
-import { get } from 'lodash-es';
+import { get, throttle } from 'lodash-es';
 
 export interface JTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -149,7 +149,7 @@ const ProTable = defineComponent<JTableProps>({
         const pageIndex = ref<number>(0);
         const pageSize = ref<number>(6);
         const total = ref<number>(0);
-        const _loading = ref<boolean>(true);
+        const _loading = ref<boolean>(false);
         const column = ref<number>(props.gridColumn || 4);
 
         /**
@@ -235,10 +235,12 @@ const ProTable = defineComponent<JTableProps>({
                     : false;
         };
 
+        const _throttleFn = throttle(handleSearch, 500)
+
         watch(
             () => props.params,
             (newValue) => {
-                handleSearch(newValue);
+                _throttleFn(newValue || {})
             },
             { deep: true, immediate: true },
         );
