@@ -296,7 +296,7 @@ const historyItemClick = (content: string) => {
  */
 const handleUrlParams = (_params: UrlParam) => {
     // URL中的target和props的一致，则还原查询参数
-    if (_params.target === props.target && _params.q) {
+    if (props.target && _params.target === props.target && _params.q) {
         try {
             terms.terms = JSON.parse(_params.q)?.terms || [];
             if (terms.terms.length === 2) {
