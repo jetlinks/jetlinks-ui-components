@@ -66,23 +66,20 @@
             </div>
             <div :class="['JSearch-footer', expand ? 'expand' : '']">
                 <div class="JSearch-footer--btns">
+                    <j-button type="stroke" class="no-radius" @click="reset">
+                        重置
+                    </j-button>
+                    <SaveHistory :terms="terms" :target="target" />
                     <History
                         :target="target"
                         @click="searchSubmit"
                         @itemClick="historyItemClick"
                     />
-                    <SaveHistory :terms="terms" :target="target" />
-                    <j-button @click="reset">
-                        <template #icon>
-                            <AIcon type="RedoOutlined" />
-                        </template>
-                        重置
-                    </j-button>
                 </div>
                 <j-button type="link" class="more-btn" @click="expandChange">
-                    更多筛选
+                    <span class="more-text"> 更多筛选 </span>
                     <AIcon
-                        type="DownOutlined"
+                        type="DoubleRightOutlined"
                         :class="['more-icon', expand ? 'more-up' : 'more-down']"
                     />
                 </j-button>
@@ -104,17 +101,11 @@
             </div>
             <div class="JSearch-footer">
                 <div class="JSearch-footer--btns">
-                    <j-button type="primary" @click="searchSubmit">
-                        <template #icon>
-                            <AIcon type="SearchOutlined" />
-                        </template>
-                        搜索
-                    </j-button>
-                    <j-button @click="reset">
-                        <template #icon>
-                            <AIcon type="RedoOutlined" />
-                        </template>
+                    <j-button type="stroke" class="no-radius" @click="reset">
                         重置
+                    </j-button>
+                    <j-button type="primary" ghost @click="searchSubmit">
+                        搜索
                     </j-button>
                 </div>
             </div>
@@ -127,7 +118,7 @@ import SearchItem from '../Item.vue';
 import { typeOptions } from '../setting';
 import { useElementSize, useUrlSearchParams } from '@vueuse/core';
 import { set } from 'lodash-es';
-import { PropType, ref, reactive, watch, nextTick } from 'vue';
+import { PropType, ref, reactive, watch, nextTick, provide } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
 import type {

@@ -1,51 +1,48 @@
 <template>
-    <DropdownButton
-        type="primary"
+    <Dropdown
         placement="bottomLeft"
         :visible="historyVisible"
-        @click="click"
         @visibleChange="visibleChange"
     >
-        搜索
+        <Button ghost type="primary" @click.stop="click">
+            搜索
+            <AIcon type="DownOutlined" @click="historyVisible = true" />
+        </Button>
         <template #overlay>
-            <j-menu>
-                <template v-if="!showEmpty">
-                    <j-menu-item v-for="item in historyList" :key="item.id">
-                        <div class="history-item">
-                            <span @click.stop="itemClick(item.content)">{{
-                                item.name
-                            }}</span>
-                            <j-popconfirm
-                                title="确认删除吗？"
-                                placement="top"
-                                :ok-button-props="{
-                                    loading: deleteLoading,
-                                }"
-                                @confirm.stop="deleteHistory(item.id)"
-                            >
-                                <span class="delete">
-                                    <AIcon type="DeleteOutlined" />
-                                </span>
-                            </j-popconfirm>
-                        </div>
-                    </j-menu-item>
-                </template>
-                <template v-else>
-                    <div class="history-empty">
-                        <j-empty />
+            <j-menu v-if="!showEmpty">
+                <j-menu-item v-for="item in historyList" :key="item.id">
+                    <div class="history-item">
+                        <span @click.stop="itemClick(item.content)">{{
+                            item.name
+                        }}</span>
+                        <j-popconfirm
+                            title="确认删除吗？"
+                            placement="top"
+                            :ok-button-props="{
+                                loading: deleteLoading,
+                            }"
+                            @confirm.stop="deleteHistory(item.id)"
+                        >
+                            <span class="delete">
+                                <AIcon type="DeleteOutlined" />
+                            </span>
+                        </j-popconfirm>
                     </div>
-                </template>
+                </j-menu-item>
             </j-menu>
+            <div v-else class="history-empty">
+                <j-empty />
+            </div>
         </template>
         <template #icon>
             <AIcon type="SearchOutlined" />
         </template>
-    </DropdownButton>
+    </Dropdown>
 </template>
 
 <script setup lang="ts" name="SearchHistory">
 import type { SearchHistoryList } from '../typing';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { isFunction } from 'lodash-es';
 import {
     Menu as JMenu,
@@ -53,7 +50,8 @@ import {
     AIcon,
     Empty as JEmpty,
     Popconfirm as JPopconfirm,
-    DropdownButton,
+    Dropdown,
+    Button,
 } from '../../components';
 
 type Emit = {
@@ -81,7 +79,9 @@ const props = defineProps({
 const historyList = ref<SearchHistoryList[]>([]);
 const historyVisible = ref(false);
 const deleteLoading = ref(false);
-const showEmpty = ref(false);
+const showEmpty = computed(() => {
+    return historyList.value.length === 0;
+});
 
 const visibleChange = async (visible: boolean) => {
     historyVisible.value = visible;
@@ -89,9 +89,8 @@ const visibleChange = async (visible: boolean) => {
         const resp = await props.request(props.target);
         if (resp.success && resp.result.length) {
             historyList.value = resp.result.filter((item) => item.content);
-            showEmpty.value = false;
         } else {
-            showEmpty.value = true;
+            historyList.value = [];
         }
     }
 };

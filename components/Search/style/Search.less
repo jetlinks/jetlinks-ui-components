@@ -14,20 +14,30 @@
                 gap: 64px;
                 position: relative;
 
+                .more-btn {
+                    .more-text {
+                        padding-right: 24px;
+                    }
+                    .more-icon {
+                        transition: transform 0.3s;
+                        transform: rotateZ(90deg);
+                        font-size: 14px;
+
+                        &.more-up {
+                            transform: rotateZ(-90deg);
+                        }
+                    }
+                }
+
                 &.expand {
                     margin-top: 16px;
                     width: 100%;
                     justify-content: space-between;
-
-                    .more-btn {
-                        position: absolute;
-                        right: 0;
-                    }
                 }
 
                 .JSearch-footer--btns {
                     display: flex;
-                    gap: 8px;
+                    gap: 12px;
                 }
             }
 
@@ -70,7 +80,7 @@
             &.small {
                 gap: 12px;
                 .JSearch-footer {
-                    gap: 2px;
+                    gap: 4px;
                 }
             }
         }
@@ -82,6 +92,19 @@
                 display: flex;
                 gap: 12px;
             }
+
+            .JSearch-item {
+                gap: 8px;
+
+                .JSearch-item--label {
+                    text-align: right;
+                }
+            }
         }
+    }
+
+    .no-radius {
+        border-radius: 0;
+        border-color: #f1f1f1;
     }
 }
