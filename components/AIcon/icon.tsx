@@ -36,11 +36,7 @@ export default defineComponent({
         };
 
         const render = () => {
-            return (
-                <>
-                    <Icon {...props} style={attrs.style} onClick={click} />
-                </>
-            );
+            return <Icon {...props} style={attrs.style} onClick={click} />;
         };
         return render;
     },
