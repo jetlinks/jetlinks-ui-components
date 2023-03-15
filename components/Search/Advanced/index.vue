@@ -171,6 +171,10 @@ const props = defineProps({
         type: Function as PropType<(target: string) => Promise<any>>,
         default: undefined,
     },
+    deleteRequest: {
+      type: Function as PropType<(target: string) => Promise<any>>,
+      default: null,
+    },
 });
 
 const searchRef = ref(null);

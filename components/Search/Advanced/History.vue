@@ -76,7 +76,7 @@ const props = defineProps({
         default: null,
     },
     deleteRequest: {
-        type: Function,
+        type: Function as PropType<(target: string) => Promise<any>>,
         default: null,
     },
 });
