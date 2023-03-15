@@ -40,7 +40,7 @@ const Scroll = defineComponent<ScrollTableProps>({
         },
         bodyStyle: {
             type: Object,
-            default: {},
+            default: () => ({}),
         },
         column: {
             type: Number,
