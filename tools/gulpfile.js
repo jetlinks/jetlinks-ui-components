@@ -89,6 +89,7 @@ function compileTs(stream) {
             through2.obj(function (file, encoding, next) {
                 // console.log(file.path, file.base);
                 file.path = file.path.replace(/\.[jt]sx$/, '.js');
+                console.log(file.path)
                 this.push(file);
                 next();
             }),

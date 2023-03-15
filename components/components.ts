@@ -241,3 +241,5 @@ export { default as Card, CardGrid, CardMeta } from './Card';
 
 export type { CollapseProps, CollapsePanelProps } from './Collapse';
 export { default as Collapse, CollapsePanel } from './Collapse';
+
+export { default as ConfigProvider } from './ConfigProvider'
