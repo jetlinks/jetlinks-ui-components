@@ -23,7 +23,7 @@ export { default as Ellipsis } from './Ellipsis';
 export { default as Popconfirm } from './Popconfirm';
 export { default as Divider } from './Divider';
 export { default as Modal } from './Modal';
-export { default as Upload } from './Upload';
+export { default as Upload, JUploadImage } from './Upload';
 export { default as Descriptions, DescriptionsItem } from './Descriptions';
 export { default as Button } from './Button';
 export { default as Result } from './Result';
@@ -241,3 +241,5 @@ export { default as Card, CardGrid, CardMeta } from './Card';
 
 export type { CollapseProps, CollapsePanelProps } from './Collapse';
 export { default as Collapse, CollapsePanel } from './Collapse';
+
+export { default as ConfigProvider } from './ConfigProvider'

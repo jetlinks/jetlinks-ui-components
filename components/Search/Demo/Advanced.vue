@@ -9,7 +9,7 @@ AdvancedSearch组件组件基本使用
 </docs>
 
 <template>
-    <j-advanced-search :columns="columns" @search="onSearch" />
+    <j-advanced-search :columns="columns" @search="onSearch" target="test" />
     <div>
         查询结果:
         <br />
