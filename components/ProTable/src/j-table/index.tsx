@@ -23,6 +23,7 @@ import {
     RequestData,
 } from '../proTableTypes';
 import { get, throttle } from 'lodash-es';
+import { tableProps as _tableProps } from 'ant-design-vue/lib/table';
 
 export interface JTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -47,6 +48,7 @@ export interface JTableProps extends TableProps {
 
 const tableProps = () => {
     return {
+        ..._tableProps(),
         loading: {
             type: Boolean,
             default: undefined,
