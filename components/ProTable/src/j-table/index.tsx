@@ -262,8 +262,8 @@ const ProTable = defineComponent<JTableProps>({
         const reload = (_params?: Record<string, any>) => {
             handleSearch({
                 ..._params,
-                pageSize: 12,
-                pageIndex: 0,
+                // pageSize: 12,
+                // pageIndex: 0,
             });
         };
 
