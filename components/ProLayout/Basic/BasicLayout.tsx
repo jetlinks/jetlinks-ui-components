@@ -212,10 +212,11 @@ export default defineComponent({
                     )) ||
                 [],
         );
-        console.log('sider', flatMenuData.value, props.menuData);
+
         const routeContext = reactive<RouteContextProps>({
             ...defaultRouteContext,
             ...(pick(toRefs(props), [
+                'pure',
                 'locale',
                 'menuData',
                 'openKeys',

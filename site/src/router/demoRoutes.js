@@ -218,6 +218,18 @@ export default [
         component: () => import('../../../components/Comment/demo/index.vue'),
     },
     {
+        path: 'DatePicker',
+        meta: {
+            category: 'Components',
+            type: '数据录入',
+            title: 'DatePicker',
+            subtitle: '日期选择框',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg',
+        },
+        component: () =>
+            import('../../../components/DatePicker/demo/index.vue'),
+    },
+    {
         path: 'Descriptions',
         meta: {
             category: 'Components',
@@ -243,18 +255,6 @@ export default [
             order: 2,
         },
         component: () => import('../../../components/Divider/demo/index.vue'),
-    },
-    {
-        path: 'DatePicker',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'DatePicker',
-            subtitle: '日期选择框',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg',
-        },
-        component: () =>
-            import('../../../components/DatePicker/demo/index.vue'),
     },
     {
         path: 'Drawer',

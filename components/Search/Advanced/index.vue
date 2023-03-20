@@ -109,7 +109,12 @@
                     <j-button type="stroke" class="no-radius" @click="reset">
                         重置
                     </j-button>
-                    <j-button type="primary" ghost @click="searchSubmit">
+                    <j-button
+                        type="primary"
+                        ghost
+                        @click="searchSubmit"
+                        @keyup.enter="searchSubmit"
+                    >
                         搜索
                     </j-button>
                 </div>
@@ -172,8 +177,8 @@ const props = defineProps({
         default: undefined,
     },
     deleteRequest: {
-      type: Function as PropType<(target: string) => Promise<any>>,
-      default: null,
+        type: Function as PropType<(target: string) => Promise<any>>,
+        default: null,
     },
 });
 

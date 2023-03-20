@@ -32,6 +32,7 @@
                                 type="primary"
                                 ghost
                                 @click="searchSubmit"
+                                @keyup.enter="searchSubmit"
                             >
                                 搜索
                             </j-button>
