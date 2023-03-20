@@ -6,6 +6,11 @@ import {
     Button,
     Alert,
     Spin,
+    RadioGroup,
+    RadioButton
+} from '../../../components';
+import type {
+    RadioChangeEvent
 } from '../../../components';
 import type { TableProps } from 'ant-design-vue/lib/table';
 import {
@@ -298,7 +303,7 @@ const ProTable = defineComponent<JTableProps>({
                             {slots.rightExtraRender && slots.rightExtraRender()}
                             {!props.model && (
                                 <div class={'jtable-body-header-right-button'}>
-                                    <div
+                                    {/* <div
                                         class={[
                                             'jtable-setting-item',
                                             ModelEnum.CARD === _model.value
@@ -323,7 +328,13 @@ const ProTable = defineComponent<JTableProps>({
                                         }}
                                     >
                                         <AIcon type="UnorderedListOutlined" />
-                                    </div>
+                                    </div> */}
+                                    <RadioGroup class="jtable-body-header-right-button" value={_model.value} onChange={(e: RadioChangeEvent) => {
+                                        _model.value = e.target.value
+                                    }}>
+                                        <RadioButton value={ModelEnum.TABLE}><AIcon type="UnorderedListOutlined" /></RadioButton>
+                                        <RadioButton value={ModelEnum.CARD}><AIcon type="AppstoreOutlined" /></RadioButton>
+                                    </RadioGroup>
                                 </div>
                             )}
                         </div>
