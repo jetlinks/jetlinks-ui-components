@@ -23,6 +23,7 @@ import {
     RequestData,
 } from '../proTableTypes';
 import { get, throttle } from 'lodash-es';
+import { tableProps as _tableProps } from 'ant-design-vue/lib/table';
 
 export interface JTableProps extends TableProps {
     request?: (params?: Record<string, any>) => Promise<Partial<RequestData>>;
@@ -47,6 +48,7 @@ export interface JTableProps extends TableProps {
 
 const tableProps = () => {
     return {
+        ..._tableProps(),
         loading: {
             type: Boolean,
             default: undefined,
@@ -201,10 +203,10 @@ const ProTable = defineComponent<JTableProps>({
                     if (props.type === 'PAGE') {
                         // 判断如果是最后一页且最后一页为空，就跳转到前一页
                         if (
-                            resp.result.total &&
-                            resp.result.pageSize &&
-                            resp.result.pageIndex &&
-                            resp.result?.data?.length === 0
+                            resp?.result?.total &&
+                            resp?.result?.pageSize &&
+                            resp?.result?.pageIndex &&
+                            resp?.result?.data?.length === 0
                         ) {
                             handleSearch({
                                 ..._params,
@@ -215,10 +217,10 @@ const ProTable = defineComponent<JTableProps>({
                                         : 0,
                             });
                         } else {
-                            _dataSource.value = resp.result?.data || [];
-                            pageIndex.value = resp.result?.pageIndex || 0;
-                            pageSize.value = resp.result?.pageSize || 6;
-                            total.value = resp.result?.total || 0;
+                            _dataSource.value = resp?.result?.data || [];
+                            pageIndex.value = resp?.result?.pageIndex || 0;
+                            pageSize.value = resp?.result?.pageSize || 6;
+                            total.value = resp?.result?.total || 0;
                         }
                     } else {
                         _dataSource.value = resp?.result || [];
@@ -262,8 +264,8 @@ const ProTable = defineComponent<JTableProps>({
         const reload = (_params?: Record<string, any>) => {
             handleSearch({
                 ..._params,
-                // pageSize: 12,
-                // pageIndex: 0,
+                pageSize: pageSize.value || 12, // 刷新页面不改变分页情况
+                pageIndex: pageIndex.value || 0
             });
         };
 
