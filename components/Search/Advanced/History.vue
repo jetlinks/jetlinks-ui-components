@@ -5,7 +5,7 @@
         :visible="historyVisible"
         @visibleChange="visibleChange"
     >
-        <Button ghost type="primary" @click.stop="click">
+        <Button ghost type="primary" @click.stop="click" @keyup.enter="click">
             搜索
             <AIcon type="DownOutlined" @click.stop="historyVisible = true" />
         </Button>

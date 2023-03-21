@@ -62,6 +62,7 @@ export default defineComponent({
             tabList: [
                 {
                     tab: 'tab1',
+                    class: 'test-tab1',
                     key: 'tab1',
                 },
                 {
