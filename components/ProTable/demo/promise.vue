@@ -8,14 +8,15 @@ title: 远程加载数据
 
 </docs>
 <template>
+    <!-- <j-button @click="onChange">改变params</j-button> -->
     <j-pro-table
         :columns="columns"
         :request="query"
-        :params="{}"
+        :params="params"
         :defaultParams="{ sorts: [{ name: 'createTime', order: 'desc' }] }"
         ref="instanceRef"
         :pagination="{
-          pageSizeOptions: ['10','20']
+            pageSizeOptions: ['10', '20'],
         }"
     >
         <template #headerTitle
@@ -57,10 +58,11 @@ const columns = [
 ];
 
 const instanceRef = ref<Record<string, any>>({});
+const params = ref<Record<string, any>>({});
 
-const query = (params: Record<string, any>) =>
+const query = (_params: Record<string, any>) =>
     new Promise((resolve) => {
-        const data = Array(100)
+        const data = Array(100000)
             .fill(1)
             .map((item, index) => {
                 return {
@@ -70,24 +72,35 @@ const query = (params: Record<string, any>) =>
                     address: 'New York No. 1 Lake Park',
                 };
             });
-        const _from = params.pageIndex * params.pageSize;
-        const _to = (params.pageIndex + 1) * params.pageSize;
+        const _from = _params.pageIndex * _params.pageSize;
+        const _to = (_params.pageIndex + 1) * _params.pageSize;
         setTimeout(() => {
             resolve({
                 result: {
                     data: data.slice(_from, _to),
-                    pageIndex: params.pageIndex || 0,
-                    pageSize: params.pageSize || 10,
+                    pageIndex: _params.pageIndex || 0,
+                    pageSize: _params.pageSize || 10,
                     total: data.length,
                 },
                 status: 200,
             });
-        }, 2000);
+        }, 500);
     });
 
 const refresh = () => {
     instanceRef.value?.reload();
 };
+
+// const onChange = () => {
+//     let index = 0
+//     setInterval(() => {
+//         index += 1
+//         params.value = {
+//             pageIndex: index,
+//             pageSize: 10
+//         }
+//     }, 200)
+// }
 
 export default defineComponent({
     setup() {
@@ -96,6 +109,8 @@ export default defineComponent({
             columns,
             refresh,
             instanceRef,
+            params,
+            // onChange
         };
     },
 });

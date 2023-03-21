@@ -40,7 +40,7 @@ const Scroll = defineComponent<ScrollTableProps>({
         },
         bodyStyle: {
             type: Object,
-            default: {},
+            default: () => ({}),
         },
         column: {
             type: Number,
@@ -93,7 +93,7 @@ const Scroll = defineComponent<ScrollTableProps>({
         const getItemStyleCache = useCache();
 
         /**
-         * 计算可是区域的列
+         * 计算可视区域的列
          */
         const getColumnsStartIndexForOffset = (scrollTop: number): number =>
             Math.max(

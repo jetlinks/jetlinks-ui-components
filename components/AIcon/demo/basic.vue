@@ -10,3 +10,5 @@ ZoomOutOutlined
     <AIcon type="ZoomOutOutlined" />
     <AIcon type="icon-yingyongguanli1" />
 </template>
+
+<script setup></script>

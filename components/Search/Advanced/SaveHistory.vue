@@ -3,6 +3,7 @@
         v-model:visible="visible"
         title="搜索名称"
         trigger="click"
+        placement="bottom"
         @visibleChange="visibleChange"
     >
         <template #content>

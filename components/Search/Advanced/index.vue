@@ -5,7 +5,7 @@
             v-if="props.type === 'advanced'"
             :class="[
                 'JSearch-content',
-                expand ? 'senior-expand' : '',
+                expand ? 'senior-expand' : 'pack-up',
                 screenSize ? 'big' : 'small',
             ]"
         >
@@ -25,7 +25,7 @@
                         <SearchItem
                             v-if="expand"
                             :expand="expand"
-                            :index="1"
+                            :index="2"
                             :columns="searchItems"
                             :terms-item="terms"
                             :reset="resetNumber"
@@ -34,7 +34,7 @@
                         <SearchItem
                             v-if="expand"
                             :expand="expand"
-                            :index="1"
+                            :index="3"
                             :columns="searchItems"
                             :terms-item="terms"
                             :reset="resetNumber"
@@ -55,7 +55,7 @@
                             v-for="item in [4, 5, 6]"
                             :key="`search_item_${item}`"
                             :expand="expand"
-                            :index="4"
+                            :index="item"
                             :columns="searchItems"
                             :terms-item="terms"
                             :reset="resetNumber"
@@ -91,7 +91,7 @@
             </div>
         </div>
         <!--  简单模式  -->
-        <div v-else class="JSearch-content single big">
+        <div v-else class="JSearch-content single big pack-up">
             <div class="JSearch-items">
                 <div class="left">
                     <SearchItem
@@ -123,7 +123,7 @@ import SearchItem from '../Item.vue';
 import { typeOptions } from '../setting';
 import { useElementSize, useUrlSearchParams } from '@vueuse/core';
 import { set } from 'lodash-es';
-import { PropType, ref, reactive, watch, nextTick, provide } from 'vue';
+import { PropType, ref, reactive, watch, nextTick, onMounted } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
 import type {
@@ -170,6 +170,10 @@ const props = defineProps({
     historyRequest: {
         type: Function as PropType<(target: string) => Promise<any>>,
         default: undefined,
+    },
+    deleteRequest: {
+      type: Function as PropType<(target: string) => Promise<any>>,
+      default: null,
     },
 });
 
@@ -284,7 +288,7 @@ const historyItemClick = (content: string) => {
         if (terms.terms.length === 2) {
             expand.value = true;
         }
-        addUrlParams();
+        searchSubmit();
     } catch (e) {
         console.warn(`Search组件中handleUrlParams处理JSON时异常：【${e}】`);
     }
@@ -296,7 +300,7 @@ const historyItemClick = (content: string) => {
  */
 const handleUrlParams = (_params: UrlParam) => {
     // URL中的target和props的一致，则还原查询参数
-    if (_params.target === props.target && _params.q) {
+    if (props.target && _params.target === props.target && _params.q) {
         try {
             terms.terms = JSON.parse(_params.q)?.terms || [];
             if (terms.terms.length === 2) {
@@ -309,8 +313,10 @@ const handleUrlParams = (_params: UrlParam) => {
     }
 };
 
-nextTick(() => {
-    handleUrlParams(urlParams);
+onMounted(() => {
+    setTimeout(() => {
+        handleUrlParams(urlParams);
+    });
 });
 
 handleItems();
