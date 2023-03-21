@@ -12,7 +12,7 @@
                         active: activeKeys.includes(item.value),
                         disabled: disabled || item.disabled,
                         horizontal: type === 'horizontal',
-                        vertical: type !== 'horizontal',
+                        vertical: type === 'vertical',
                         right: float === 'right',
                         left: float === 'left',
                     }"
@@ -53,7 +53,7 @@
                     active: activeKeys.includes(item.value),
                     disabled: disabled || item.disabled,
                     horizontal: type === 'horizontal',
-                    vertical: type !== 'horizontal',
+                    vertical: type === 'vertical',
                     right: float === 'right',
                     left: float === 'left',
                 }"
