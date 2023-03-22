@@ -1,45 +1,56 @@
 <template>
-    <Dropdown
-        v-model:visible="historyVisible"
-        class="search-history-dropdown"
-        placement="bottomLeft"
-        trigger="click"
-        @visibleChange="visibleChange"
-    >
-        <Button type="primary" @click.stop="click">
-            搜索
-            <AIcon type="DownOutlined" @click="historyVisible = true" />
-        </Button>
-        <template #overlay>
-            <j-menu v-if="!showEmpty" class="search-history-items">
-                <j-menu-item v-for="item in historyList" :key="item.id">
-                    <div class="search-history-item">
-                        <div
-                            class="history-item--title"
-                            @click="itemClick(item.content)"
-                        >
-                            <div class="">{{ item.name }}</div>
+    <div class="search-history-warp">
+        <FormItemRest no-style>
+            <Button
+                class="search-history-button"
+                type="primary"
+                html-type="submit"
+                @click.stop="click"
+            >
+                搜索
+            </Button>
+        </FormItemRest>
+        <Popover
+            placement="bottom"
+            trigger="click"
+            overlay-class-name="search-history-list-pop"
+            :visible="historyVisible"
+            @visibleChange="visibleChange"
+        >
+            <template #content>
+                <j-menu v-if="!showEmpty" class="search-history-items">
+                    <j-menu-item v-for="item in historyList" :key="item.id">
+                        <div class="search-history-item">
+                            <div
+                                class="history-item--title"
+                                @click="itemClick(item.content)"
+                            >
+                                <div class="">{{ item.name }}</div>
+                            </div>
+                            <j-popconfirm
+                                title="确认删除吗？"
+                                placement="top"
+                                @confirm="deleteHistory(item.id)"
+                            >
+                                <span class="delete">
+                                    <AIcon type="DeleteOutlined" />
+                                </span>
+                            </j-popconfirm>
                         </div>
-                        <j-popconfirm
-                            title="确认删除吗？"
-                            placement="top"
-                            @confirm="deleteHistory(item.id)"
-                        >
-                            <span class="delete">
-                                <AIcon type="DeleteOutlined" />
-                            </span>
-                        </j-popconfirm>
-                    </div>
-                </j-menu-item>
-            </j-menu>
-            <div v-else class="search-history-empty">
-                <j-empty />
+                    </j-menu-item>
+                </j-menu>
+                <div v-else class="search-history-empty">
+                    <j-empty />
+                </div>
+            </template>
+            <div
+                class="search-history-button-icon"
+                @click.stop="showHistoryList"
+            >
+                <AIcon type="DownOutlined" />
             </div>
-        </template>
-        <template #icon>
-            <AIcon type="SearchOutlined" />
-        </template>
-    </Dropdown>
+        </Popover>
+    </div>
 </template>
 
 <script setup lang="ts" name="SearchHistory">
@@ -56,8 +67,8 @@ import {
     Dropdown,
     Button,
     Input,
-    Form,
-    FormItem,
+    FormItemRest,
+    Popover,
 } from '../../components';
 
 type Emit = {
@@ -90,9 +101,8 @@ const showEmpty = computed(() => {
     return historyList.value.length === 0;
 });
 
-const visibleChange = async (visible: boolean) => {
-    historyVisible.value = visible;
-    if (visible && props.request) {
+const showHistoryList = async () => {
+    if (props.request) {
         const resp = await props.request(props.target);
         if (resp.success && resp.result.length) {
             historyList.value = resp.result.filter((item) => item.content);
@@ -100,6 +110,10 @@ const visibleChange = async (visible: boolean) => {
             historyList.value = [];
         }
     }
+};
+
+const visibleChange = async (v: boolean) => {
+    historyVisible.value = v;
 };
 
 const click = () => {

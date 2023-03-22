@@ -116,16 +116,38 @@
         border-radius: 0;
         border-color: #f1f1f1;
     }
+
+    .search-history-warp {
+        position: relative;
+
+        .search-history-button {
+            padding-right: 32px;
+        }
+
+        .search-history-button-icon {
+            position: absolute;
+            width: 24px;
+            height: 18px;
+            right: 6px;
+            top: 8px;
+            color: #fff;
+            line-height: 18px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+    }
 }
 
 .search-history-empty {
     padding: 12px 12px 6px 12px;
     background-color: #fff;
-    box-shadow: @box-shadow-base;
 }
 
 .search-history-items {
     width: 120px;
+    max-height: 300px;
+    overflow-y: auto;
     .search-history-item {
         display: flex;
         padding: 4px 0px 4px 4px;
@@ -158,5 +180,11 @@
             padding: 0 6px;
             flex: 0 0 28px;
         }
+    }
+}
+
+.search-history-list-pop {
+    .ant-popover-inner-content {
+        padding: 0;
     }
 }

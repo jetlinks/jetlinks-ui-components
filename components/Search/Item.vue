@@ -32,110 +32,112 @@
             </div>
         </template>
         <div class="JSearch-item--value">
-            <j-input
-                v-if="component === componentType.input"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-select
-                v-else-if="component === componentType.select"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%; min-width: 80px"
-                show-search
-                :loading="optionLoading"
-                :options="options"
-                :filter-option="
-                    (v, option) => filterSelectNode(v, option, 'label')
-                "
-                @change="valueChange"
-            />
-            <j-input-number
-                v-else-if="component === componentType.inputNumber"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-input-password
-                v-else-if="component === componentType.password"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-switch
-                v-else-if="component === componentType.switch"
-                v-bind="cProps"
-                v-model:checked="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-radio-group
-                v-else-if="component === componentType.radio"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-checkbox-group
-                v-else-if="component === componentType.checkbox"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                v-bind="cProps"
-                :options="options"
-                @change="valueChange"
-            />
-            <j-time-picker
-                v-else-if="component === componentType.time"
-                v-model:value="termsModel.value"
-                value-format="HH:mm:ss"
-                style="width: 100%"
-                v-bind="cProps"
-                @change="valueChange"
-            />
-            <j-time-range-picker
-                v-else-if="component === componentType.timeRange"
-                v-model:value="termsModel.value"
-                value-format="HH:mm:ss"
-                style="width: 100%"
-                v-bind="cProps"
-                @change="valueChange"
-            />
-            <j-date-picker
-                v-else-if="component === componentType.date"
-                v-model:value="termsModel.value"
-                show-time
-                value-format="YYYY-MM-DD HH:mm:ss"
-                style="width: 100%"
-                v-bind="cProps"
-                @change="valueChange"
-            />
-            <j-range-picker
-                v-else-if="component === componentType.rangePicker"
-                v-model:value="termsModel.value"
-                show-time
-                value-format="YYYY-MM-DD HH:mm:ss"
-                style="width: 100%"
-                v-bind="cProps"
-                @change="valueChange"
-            />
-            <j-tree-select
-                v-else-if="component === componentType.treeSelect"
-                v-model:value="termsModel.value"
-                show-search
-                style="width: 100%"
-                :height="350"
-                :field-names="{ label: 'name', value: 'id' }"
-                v-bind="cProps"
-                :tree-data="options"
-                :filter-tree-node="
-                    (v, option) => filterTreeSelectNode(v, option)
-                "
-                @change="valueChange"
-            />
+            <FormItem no-style>
+                <j-input
+                    v-if="component === componentType.input"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-select
+                    v-else-if="component === componentType.select"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%; min-width: 80px"
+                    show-search
+                    :loading="optionLoading"
+                    :options="options"
+                    :filter-option="
+                        (v, option) => filterSelectNode(v, option, 'label')
+                    "
+                    @change="valueChange"
+                />
+                <j-input-number
+                    v-else-if="component === componentType.inputNumber"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-input-password
+                    v-else-if="component === componentType.password"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-switch
+                    v-else-if="component === componentType.switch"
+                    v-bind="cProps"
+                    v-model:checked="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-radio-group
+                    v-else-if="component === componentType.radio"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-checkbox-group
+                    v-else-if="component === componentType.checkbox"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    :options="options"
+                    @change="valueChange"
+                />
+                <j-time-picker
+                    v-else-if="component === componentType.time"
+                    v-model:value="termsModel.value"
+                    value-format="HH:mm:ss"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
+                <j-time-range-picker
+                    v-else-if="component === componentType.timeRange"
+                    v-model:value="termsModel.value"
+                    value-format="HH:mm:ss"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
+                <j-date-picker
+                    v-else-if="component === componentType.date"
+                    v-model:value="termsModel.value"
+                    show-time
+                    value-format="YYYY-MM-DD HH:mm:ss"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
+                <j-range-picker
+                    v-else-if="component === componentType.rangePicker"
+                    v-model:value="termsModel.value"
+                    show-time
+                    value-format="YYYY-MM-DD HH:mm:ss"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
+                <j-tree-select
+                    v-else-if="component === componentType.treeSelect"
+                    v-model:value="termsModel.value"
+                    show-search
+                    style="width: 100%"
+                    :height="350"
+                    :field-names="{ label: 'name', value: 'id' }"
+                    v-bind="cProps"
+                    :tree-data="options"
+                    :filter-tree-node="
+                        (v, option) => filterTreeSelectNode(v, option)
+                    "
+                    @change="valueChange"
+                />
+            </FormItem>
         </div>
     </div>
 </template>
@@ -160,6 +162,7 @@ import {
     CheckboxGroup as JCheckboxGroup,
     RangePicker as JRangePicker,
     TimeRangePicker as JTimeRangePicker,
+    FormItem,
 } from '../components';
 import { useUrlSearchParams } from '@vueuse/core';
 

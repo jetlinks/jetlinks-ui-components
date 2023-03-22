@@ -1,126 +1,145 @@
 <template>
-    <div ref="searchRef" :class="['JSearch-warp', 'senior', props.class]">
-        <!--  高级模式  -->
-        <div
-            v-if="props.type === 'advanced'"
-            :class="[
-                'JSearch-content',
-                expand ? 'senior-expand' : 'pack-up',
-                screenSize ? 'big' : 'small',
-            ]"
-        >
+    <Form :model="terms" @finish="searchSubmit">
+        <div ref="searchRef" :class="['JSearch-warp', 'senior', props.class]">
+            <!--  高级模式  -->
             <div
-                :class="['JSearch-items', expand ? 'items-expand' : '', layout]"
+                v-if="props.type === 'advanced'"
+                :class="[
+                    'JSearch-content',
+                    expand ? 'senior-expand' : 'pack-up',
+                    screenSize ? 'big' : 'small',
+                ]"
             >
-                <div class="left">
-                    <div class="left-items">
+                <div
+                    :class="[
+                        'JSearch-items',
+                        expand ? 'items-expand' : '',
+                        layout,
+                    ]"
+                >
+                    <div class="left">
+                        <div class="left-items">
+                            <SearchItem
+                                :expand="expand"
+                                :index="1"
+                                :columns="searchItems"
+                                :terms-item="terms"
+                                :reset="resetNumber"
+                                @change="(v) => itemValueChange(v, 1)"
+                            />
+                            <SearchItem
+                                v-if="expand"
+                                :expand="expand"
+                                :index="2"
+                                :columns="searchItems"
+                                :terms-item="terms"
+                                :reset="resetNumber"
+                                @change="(v) => itemValueChange(v, 2)"
+                            />
+                            <SearchItem
+                                v-if="expand"
+                                :expand="expand"
+                                :index="3"
+                                :columns="searchItems"
+                                :terms-item="terms"
+                                :reset="resetNumber"
+                                @change="(v) => itemValueChange(v, 3)"
+                            />
+                        </div>
+                    </div>
+                    <div v-if="expand" class="center">
+                        <j-select
+                            v-model:value="termType"
+                            class="center-select"
+                            :options="typeOptions"
+                        />
+                    </div>
+                    <div v-if="expand" class="right">
+                        <div class="right-items">
+                            <SearchItem
+                                v-for="item in [4, 5, 6]"
+                                :key="`search_item_${item}`"
+                                :expand="expand"
+                                :index="item"
+                                :columns="searchItems"
+                                :terms-item="terms"
+                                :reset="resetNumber"
+                                @change="(v) => itemValueChange(v, item)"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div :class="['JSearch-footer', expand ? 'expand' : '']">
+                    <div class="JSearch-footer--btns">
+                        <j-button
+                            type="stroke"
+                            class="no-radius"
+                            @click="reset"
+                        >
+                            重置
+                        </j-button>
+                        <SaveHistory
+                            :terms="terms"
+                            :target="target"
+                            :request="request"
+                        />
+                        <History
+                            :target="target"
+                            :request="historyRequest"
+                            :delete-request="deleteRequest"
+                            @click="searchSubmit"
+                            @itemClick="historyItemClick"
+                        />
+                    </div>
+                    <j-button
+                        type="link"
+                        class="more-btn"
+                        @click="expandChange"
+                    >
+                        <span class="more-text"> 更多筛选 </span>
+                        <AIcon
+                            type="DoubleRightOutlined"
+                            :class="[
+                                'more-icon',
+                                expand ? 'more-up' : 'more-down',
+                            ]"
+                        />
+                    </j-button>
+                </div>
+            </div>
+            <!--  简单模式  -->
+            <div v-else class="JSearch-content single big pack-up">
+                <div class="JSearch-items">
+                    <div class="left">
                         <SearchItem
-                            :expand="expand"
+                            :expand="false"
                             :index="1"
                             :columns="searchItems"
                             :terms-item="terms"
                             :reset="resetNumber"
                             @change="(v) => itemValueChange(v, 1)"
                         />
-                        <SearchItem
-                            v-if="expand"
-                            :expand="expand"
-                            :index="2"
-                            :columns="searchItems"
-                            :terms-item="terms"
-                            :reset="resetNumber"
-                            @change="(v) => itemValueChange(v, 2)"
-                        />
-                        <SearchItem
-                            v-if="expand"
-                            :expand="expand"
-                            :index="3"
-                            :columns="searchItems"
-                            :terms-item="terms"
-                            :reset="resetNumber"
-                            @change="(v) => itemValueChange(v, 3)"
-                        />
                     </div>
                 </div>
-                <div v-if="expand" class="center">
-                    <j-select
-                        v-model:value="termType"
-                        class="center-select"
-                        :options="typeOptions"
-                    />
-                </div>
-                <div v-if="expand" class="right">
-                    <div class="right-items">
-                        <SearchItem
-                            v-for="item in [4, 5, 6]"
-                            :key="`search_item_${item}`"
-                            :expand="expand"
-                            :index="item"
-                            :columns="searchItems"
-                            :terms-item="terms"
-                            :reset="resetNumber"
-                            @change="(v) => itemValueChange(v, item)"
-                        />
+                <div class="JSearch-footer">
+                    <div class="JSearch-footer--btns">
+                        <FormItemRest no-style>
+                            <j-button
+                                type="stroke"
+                                class="no-radius"
+                                @click="reset"
+                            >
+                                重置
+                            </j-button>
+                            <j-button html-type="submit" type="primary">
+                                搜索
+                            </j-button>
+                        </FormItemRest>
                     </div>
                 </div>
             </div>
-            <div :class="['JSearch-footer', expand ? 'expand' : '']">
-                <div class="JSearch-footer--btns">
-                    <j-button type="stroke" class="no-radius" @click="reset">
-                        重置
-                    </j-button>
-                    <SaveHistory
-                        :terms="terms"
-                        :target="target"
-                        :request="request"
-                    />
-                    <History
-                        :target="target"
-                        :request="historyRequest"
-                        :delete-request="deleteRequest"
-                        @click="searchSubmit"
-                        @itemClick="historyItemClick"
-                    />
-                </div>
-                <j-button type="link" class="more-btn" @click="expandChange">
-                    <span class="more-text"> 更多筛选 </span>
-                    <AIcon
-                        type="DoubleRightOutlined"
-                        :class="['more-icon', expand ? 'more-up' : 'more-down']"
-                    />
-                </j-button>
-            </div>
         </div>
-        <!--  简单模式  -->
-        <div v-else class="JSearch-content single big pack-up">
-            <div class="JSearch-items">
-                <div class="left">
-                    <SearchItem
-                        :expand="false"
-                        :index="1"
-                        :columns="searchItems"
-                        :terms-item="terms"
-                        :reset="resetNumber"
-                        @change="(v) => itemValueChange(v, 1)"
-                    />
-                </div>
-            </div>
-            <div class="JSearch-footer">
-                <div class="JSearch-footer--btns">
-                    <j-button type="stroke" class="no-radius" @click="reset">
-                        重置
-                    </j-button>
-                    <j-button
-                        type="primary"
-                        @click="searchSubmit"
-                        @keyup.enter="searchSubmit"
-                    >
-                        搜索
-                    </j-button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </Form>
 </template>
 
 <script setup lang="ts">
@@ -138,7 +157,13 @@ import type {
     JColumnsProps,
 } from '../typing';
 import { termsParamsFormat } from '../util';
-import { Select as JSelect, Button as JButton, AIcon } from '../../components';
+import {
+    Select as JSelect,
+    Button as JButton,
+    AIcon,
+    Form,
+    FormItemRest,
+} from '../../components';
 
 type UrlParam = {
     q: string | null;
@@ -251,7 +276,6 @@ const itemValueChange = (value: SearchItemData, index: number) => {
 };
 
 const addUrlParams = () => {
-    console.log(terms);
     urlParams.q = JSON.stringify(terms);
     urlParams.target = props.target;
 };
@@ -260,7 +284,6 @@ const addUrlParams = () => {
  * 提交
  */
 const searchSubmit = () => {
-    console.log(termsParamsFormat(terms, columnOptionMap), props.type);
     emit('search', termsParamsFormat(terms, columnOptionMap));
     if (props.type === 'advanced') {
         addUrlParams();
