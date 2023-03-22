@@ -9,7 +9,12 @@ AdvancedSearch组件组件基本使用
 </docs>
 
 <template>
-    <j-advanced-search :columns="columns" @search="onSearch" target="test" />
+    <j-advanced-search
+        :columns="columns"
+        @search="onSearch"
+        target="test"
+        :deleteRequest="deleteRequest"
+    />
     <div>
         查询结果:
         <br />
@@ -101,10 +106,15 @@ export default {
             paramsStr.value = JSON.stringify(e);
         };
 
+        const deleteRequest = async (id) => {
+            console.log(id);
+        };
+
         return {
             columns,
             paramsStr,
             onSearch,
+            deleteRequest,
         };
     },
 };

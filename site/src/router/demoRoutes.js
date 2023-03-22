@@ -230,6 +230,19 @@ export default [
             import('../../../components/DatePicker/demo/index.vue'),
     },
     {
+        path: 'Divider',
+        meta: {
+            category: 'Components',
+            title: 'Divider',
+            subtitle: '分割线',
+            cover: 'https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original',
+            cols: 2,
+            type: '布局',
+            order: 2,
+        },
+        component: () => import('../../../components/Divider/demo/index.vue'),
+    },
+    {
         path: 'Descriptions',
         meta: {
             category: 'Components',
@@ -242,19 +255,6 @@ export default [
         },
         component: () =>
             import('../../../components/Descriptions/demo/index.vue'),
-    },
-    {
-        path: 'Divider',
-        meta: {
-            category: 'Components',
-            title: 'Divider',
-            subtitle: '分割线',
-            cover: 'https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original',
-            cols: 2,
-            type: '布局',
-            order: 2,
-        },
-        component: () => import('../../../components/Divider/demo/index.vue'),
     },
     {
         path: 'Drawer',
@@ -470,6 +470,17 @@ export default [
             import('../../../components/Pagination/demo/index.vue'),
     },
     {
+        path: 'Popover',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'Popover',
+            subtitle: '气泡卡片',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/1PNL1p_cO/Popover.svg',
+        },
+        component: () => import('../../../components/Popover/demo/index.vue'),
+    },
+    {
         path: 'Popconfirm',
         meta: {
             category: 'Components',
@@ -481,17 +492,6 @@ export default [
         },
         component: () =>
             import('../../../components/Popconfirm/demo/index.vue'),
-    },
-    {
-        path: 'Popover',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'Popover',
-            subtitle: '气泡卡片',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/1PNL1p_cO/Popover.svg',
-        },
-        component: () => import('../../../components/Popover/demo/index.vue'),
     },
     {
         path: 'Progress',
@@ -608,17 +608,6 @@ export default [
         component: () => import('../../../components/Select/demo/index.vue'),
     },
     {
-        path: 'Skeleton',
-        meta: {
-            category: 'Components',
-            type: '反馈',
-            title: 'Skeleton',
-            subtitle: '骨架屏',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/KpcciCJgv/Skeleton.svg',
-        },
-        component: () => import('../../../components/Skeleton/demo/index.vue'),
-    },
-    {
         path: 'Slider',
         meta: {
             category: 'Components',
@@ -628,6 +617,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/HZ3meFc6W/Silder.svg',
         },
         component: () => import('../../../components/Slider/demo/index.vue'),
+    },
+    {
+        path: 'Skeleton',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Skeleton',
+            subtitle: '骨架屏',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/KpcciCJgv/Skeleton.svg',
+        },
+        component: () => import('../../../components/Skeleton/demo/index.vue'),
     },
     {
         path: 'Space',
@@ -744,6 +744,17 @@ export default [
         component: () => import('../../../components/Timeline/demo/index.vue'),
     },
     {
+        path: 'Tooltip',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'Tooltip',
+            subtitle: '文字提示',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/Vyyeu8jq2/Tooltp.svg',
+        },
+        component: () => import('../../../components/Tooltip/demo/index.vue'),
+    },
+    {
         path: 'TimePicker',
         meta: {
             category: 'Components',
@@ -754,17 +765,6 @@ export default [
         },
         component: () =>
             import('../../../components/TimePicker/demo/index.vue'),
-    },
-    {
-        path: 'Tooltip',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'Tooltip',
-            subtitle: '文字提示',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/Vyyeu8jq2/Tooltp.svg',
-        },
-        component: () => import('../../../components/Tooltip/demo/index.vue'),
     },
     {
         path: 'Transfer',

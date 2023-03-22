@@ -30,7 +30,6 @@
                             </j-button>
                             <j-button
                                 type="primary"
-                                ghost
                                 @click="searchSubmit"
                                 @keyup.enter="searchSubmit"
                             >

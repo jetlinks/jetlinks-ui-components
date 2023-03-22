@@ -77,6 +77,7 @@
                     <History
                         :target="target"
                         :request="historyRequest"
+                        :delete-request="deleteRequest"
                         @click="searchSubmit"
                         @itemClick="historyItemClick"
                     />
@@ -111,7 +112,6 @@
                     </j-button>
                     <j-button
                         type="primary"
-                        ghost
                         @click="searchSubmit"
                         @keyup.enter="searchSubmit"
                     >
@@ -177,7 +177,9 @@ const props = defineProps({
         default: undefined,
     },
     deleteRequest: {
-        type: Function as PropType<(target: string) => Promise<any>>,
+        type: Function as PropType<
+            (target: string, id: string) => Promise<any>
+        >,
         default: null,
     },
 });
@@ -249,6 +251,7 @@ const itemValueChange = (value: SearchItemData, index: number) => {
 };
 
 const addUrlParams = () => {
+    console.log(terms);
     urlParams.q = JSON.stringify(terms);
     urlParams.target = props.target;
 };
@@ -257,6 +260,7 @@ const addUrlParams = () => {
  * 提交
  */
 const searchSubmit = () => {
+    console.log(termsParamsFormat(terms, columnOptionMap), props.type);
     emit('search', termsParamsFormat(terms, columnOptionMap));
     if (props.type === 'advanced') {
         addUrlParams();

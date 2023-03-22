@@ -54,7 +54,9 @@ export const termsParamsFormat = (
                 terms: cloneParams.terms.map((item) => {
                     if (item.terms) {
                         item.terms = item.terms
-                            .filter((iItem) => iItem && iItem.value)
+                            .filter(
+                                (iItem) => iItem && iItem.value !== undefined,
+                            )
                             .map((iItem) =>
                                 handleItemValue(iItem, columnOptionMap),
                             );
@@ -64,13 +66,13 @@ export const termsParamsFormat = (
             };
         } else {
             return cloneParams
-                .filter((iItem) => iItem && iItem.value)
+                .filter((iItem) => iItem && iItem.value !== undefined)
                 .map((iItem) => handleItemValue(iItem, columnOptionMap));
         }
     } else if (searchType == 'object') {
         let result = {};
         cloneParams
-            .filter((item) => item && item.value)
+            .filter((item) => item && item.value !== undefined)
             .forEach((item) => {
                 Object.assign(result, { [item.column]: item.value });
             });

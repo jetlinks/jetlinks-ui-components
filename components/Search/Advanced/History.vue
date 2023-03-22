@@ -1,13 +1,14 @@
 <template>
     <Dropdown
+        v-model:visible="historyVisible"
         class="search-history-dropdown"
         placement="bottomLeft"
-        :visible="historyVisible"
+        trigger="click"
         @visibleChange="visibleChange"
     >
-        <Button ghost type="primary" @click.stop="click" @keyup.enter="click">
+        <Button type="primary" @click.stop="click">
             搜索
-            <AIcon type="DownOutlined" @click.stop="historyVisible = true" />
+            <AIcon type="DownOutlined" @click="historyVisible = true" />
         </Button>
         <template #overlay>
             <j-menu v-if="!showEmpty" class="search-history-items">
@@ -15,17 +16,14 @@
                     <div class="search-history-item">
                         <div
                             class="history-item--title"
-                            @click.stop="itemClick(item.content)"
+                            @click="itemClick(item.content)"
                         >
                             <div class="">{{ item.name }}</div>
                         </div>
                         <j-popconfirm
                             title="确认删除吗？"
                             placement="top"
-                            :ok-button-props="{
-                                loading: deleteLoading,
-                            }"
-                            @confirm.stop="deleteHistory(item.id)"
+                            @confirm="deleteHistory(item.id)"
                         >
                             <span class="delete">
                                 <AIcon type="DeleteOutlined" />
@@ -57,6 +55,9 @@ import {
     Popconfirm as JPopconfirm,
     Dropdown,
     Button,
+    Input,
+    Form,
+    FormItem,
 } from '../../components';
 
 type Emit = {
@@ -76,14 +77,15 @@ const props = defineProps({
         default: null,
     },
     deleteRequest: {
-        type: Function as PropType<(target: string) => Promise<any>>,
+        type: Function as PropType<
+            (target: string, id: string) => Promise<any>
+        >,
         default: null,
     },
 });
 
 const historyList = ref<SearchHistoryList[]>([]);
 const historyVisible = ref(false);
-const deleteLoading = ref(false);
 const showEmpty = computed(() => {
     return historyList.value.length === 0;
 });
@@ -111,12 +113,8 @@ const itemClick = (content: string) => {
 
 const deleteHistory = async (id: string) => {
     if (props.deleteRequest && isFunction(props.deleteRequest)) {
-        deleteLoading.value = true;
-        const resp = await props.deleteRequest(props.target, id);
-        deleteLoading.value = false;
-        if (resp.success) {
-            historyVisible.value = false;
-        }
+        await props.deleteRequest(props.target, id);
+        historyVisible.value = false;
     }
 };
 </script>
