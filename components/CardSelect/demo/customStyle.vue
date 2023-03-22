@@ -1,6 +1,6 @@
 <docs>
 ---
-order: 0
+order: 5
 title: 自定义内容
 ---
 
@@ -9,8 +9,10 @@ title: 自定义内容
 <template>
     <div class="select">
         <j-card-select v-model:value="value" multiple :options="options">
-            <template #title="{ title }">
-                <span class="custom-title">{{ title }}</span>
+            <template #title="{ title, option }">
+                <span class="custom-title"
+                    >{{ title }} {{ option.subLabel }}</span
+                >
             </template>
             <template #subLabel="{ subLabel }">
                 <span class="custom-sub-label">{{ subLabel }}</span>

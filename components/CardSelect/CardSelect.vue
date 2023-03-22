@@ -20,7 +20,11 @@
                 >
                     <div class="j-card-title-warp">
                         <div class="title">
-                            <slot name="title" :title="item.label">
+                            <slot
+                                name="title"
+                                :title="item.label"
+                                :option="item"
+                            >
                                 {{ item.label }}
                             </slot>
                         </div>
@@ -28,13 +32,17 @@
                             v-if="item.subLabel && showSubLabel"
                             class="sub-title"
                         >
-                            <slot name="subLabel" :sub-label="item.subLabel">
+                            <slot
+                                name="subLabel"
+                                :sub-label="item.subLabel"
+                                :option="item"
+                            >
                                 {{ item.subLabel }}
                             </slot>
                         </div>
                     </div>
                     <div v-if="showImage" class="j-card-image">
-                        <slot name="image" :image="item.iconUrl">
+                        <slot name="image" :image="item.iconUrl" :option="item">
                             <Avatar
                                 class="icon box-shadow"
                                 :src="item.iconUrl"
@@ -61,18 +69,22 @@
             >
                 <div class="j-card-title-warp">
                     <div class="title">
-                        <slot name="title" :title="item.label">
+                        <slot name="title" :title="item.label" :option="item">
                             {{ item.label }}
                         </slot>
                     </div>
                     <div v-if="item.subLabel && showSubLabel" class="sub-title">
-                        <slot name="subLabel" :sub-label="item.subLabel">
+                        <slot
+                            name="subLabel"
+                            :sub-label="item.subLabel"
+                            :option="item"
+                        >
                             {{ item.subLabel }}
                         </slot>
                     </div>
                 </div>
                 <div v-if="showImage" class="j-card-image">
-                    <slot name="image" :image="item.iconUrl">
+                    <slot name="image" :image="item.iconUrl" :option="item">
                         <Avatar class="icon box-shadow" :src="item.iconUrl" />
                     </slot>
                 </div>
