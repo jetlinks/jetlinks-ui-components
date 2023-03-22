@@ -1,5 +1,5 @@
 import Table from 'ant-design-vue/lib/table/Table';
-import { Empty } from '../../components/components';
+import { Empty } from '../components';
 import { defineComponent } from 'vue';
 
 const JTable = defineComponent({
