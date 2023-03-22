@@ -274,12 +274,9 @@ const ProPageHeader: FunctionalComponent<
         // @ts-ignore
         backProps.backIcon = <Button>返回</Button>;
         backProps.onBack = () => {
-            console.log(value.back);
             value.back?.();
         };
     }
-
-    console.log('backProps', backProps, value.back);
 
     return (
         <div class={`${prefixedClassName}-wrap`}>

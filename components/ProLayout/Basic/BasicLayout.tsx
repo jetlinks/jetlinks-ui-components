@@ -155,7 +155,6 @@ export default defineComponent({
             emit('menuClick', args);
         };
         const onBack = (args: any) => {
-            console.log('onBack');
             emit('backClick', args);
         };
 
