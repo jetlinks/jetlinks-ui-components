@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import Table from 'ant-design-vue/lib/table/Table';
+import Table from './table';
 import TableColumn from 'ant-design-vue/lib/table/Column';
 import TableColumnGroup from 'ant-design-vue/lib/table/ColumnGroup';
 import {
