@@ -87,6 +87,7 @@
                             :target="target"
                             :request="historyRequest"
                             :delete-request="deleteRequest"
+                            :delete-key="deleteKey"
                             @click="searchSubmit"
                             @itemClick="historyItemClick"
                         />
@@ -206,6 +207,10 @@ const props = defineProps({
             (target: string, id: string) => Promise<any>
         >,
         default: null,
+    },
+    deleteKey: {
+        type: String,
+        default: 'key',
     },
 });
 

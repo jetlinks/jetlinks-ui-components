@@ -25,12 +25,12 @@
                                 class="history-item--title"
                                 @click="itemClick(item.content)"
                             >
-                                <div class="">{{ item.name }}</div>
+                                <Ellipsis>{{ item.name }}</Ellipsis>
                             </div>
                             <j-popconfirm
                                 title="确认删除吗？"
                                 placement="top"
-                                @confirm="deleteHistory(item.id)"
+                                @confirm="deleteHistory(item)"
                             >
                                 <span class="delete">
                                     <AIcon type="DeleteOutlined" />
@@ -69,6 +69,7 @@ import {
     Input,
     FormItemRest,
     Popover,
+    Ellipsis,
 } from '../../components';
 
 type Emit = {
@@ -88,10 +89,12 @@ const props = defineProps({
         default: null,
     },
     deleteRequest: {
-        type: Function as PropType<
-            (target: string, id: string) => Promise<any>
-        >,
+        type: Function as PropType<(target: string, item: any) => Promise<any>>,
         default: null,
+    },
+    deleteKey: {
+        type: String,
+        default: 'key',
     },
 });
 
@@ -125,9 +128,9 @@ const itemClick = (content: string) => {
     emit('itemClick', content);
 };
 
-const deleteHistory = async (id: string) => {
+const deleteHistory = async (item: any) => {
     if (props.deleteRequest && isFunction(props.deleteRequest)) {
-        await props.deleteRequest(props.target, id);
+        await props.deleteRequest(props.target, item[props.deleteKey]);
         historyVisible.value = false;
     }
 };
