@@ -1,5 +1,12 @@
 import { withInstall } from '../../util/type';
-import { TabPaneProps, Affix, Spin, PageHeader, Tabs } from '../../components';
+import {
+    TabPaneProps,
+    Affix,
+    Spin,
+    PageHeader,
+    Tabs,
+    Button,
+} from '../../components';
 import type {
     ExtractPropTypes,
     FunctionalComponent,
@@ -139,6 +146,10 @@ export const pageContainerProps = {
         type: Boolean,
         default: false,
     },
+    showBack: {
+        type: Boolean,
+        default: false,
+    },
 };
 
 export type PageContainerProps = Partial<
@@ -232,6 +243,7 @@ const ProPageHeader: FunctionalComponent<
         prefixedClassName,
         prefixCls,
         fixedHeader: _,
+        showBack,
         ...restProps
     } = props;
 
@@ -256,9 +268,23 @@ const ProPageHeader: FunctionalComponent<
         itemRender: unrefBreadcrumb.itemRender,
     };
 
+    const backProps: any = {};
+
+    if (showBack) {
+        // @ts-ignore
+        backProps.backIcon = <Button>返回</Button>;
+        backProps.onBack = () => {
+            console.log(value.back);
+            value.back?.();
+        };
+    }
+
+    console.log('backProps', backProps, value.back);
+
     return (
         <div class={`${prefixedClassName}-wrap`}>
             <PageHeader
+                {...backProps}
                 {...restProps}
                 // {...value}
                 title={pageHeaderTitle}
