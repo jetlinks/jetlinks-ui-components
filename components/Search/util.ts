@@ -1,4 +1,5 @@
 import { cloneDeep, isFunction, isString } from 'lodash-es';
+import type { SearchItemData } from './typing';
 
 /**
  * 处理like，nlike特殊值
@@ -120,25 +121,21 @@ export const filterSelectNode = (
     return option[key]?.includes(value);
 };
 
-export const handleQData = (q: string): any => {
-    try {
-        const termsData = JSON.parse(q);
-        // 排序, null 往后放
-        termsData.terms.forEach((a) => {
-            for (let i = 0; i < a.terms.length; i++) {
-                for (let j = 0; j < a.terms.length - i - 1; j++) {
-                    if (!a.terms[j] && a.terms[j + 1]) {
-                        const temp = a.terms[j];
-                        a.terms[j] = a.terms[j + 1];
-                        a.terms[j + 1] = temp;
-                    }
+export const handleQData = (terms: any): any => {
+    // 排序, null 往后放
+    terms.terms.forEach((a) => {
+        for (let i = 0; i < a.terms.length; i++) {
+            for (let j = 0; j < a.terms.length - i - 1; j++) {
+                if (!a.terms[j] && a.terms[j + 1]) {
+                    const temp = a.terms[j];
+                    a.terms[j] = a.terms[j + 1];
+                    a.terms[j + 1] = temp;
                 }
             }
-        });
-        return termsData;
-    } catch (e) {
-        console.warn(`Search组件中handleUrlParams处理JSON时异常：【${e}】`);
-    }
+        }
+    });
+
+    return terms;
 };
 
 export const hasExpand = (terms): boolean => {
@@ -151,4 +148,49 @@ export const hasExpand = (terms): boolean => {
         });
     });
     return itemCount >= 2;
+};
+
+export const compatibleOldTerms = (
+    q: string = '{"terms":[{"terms":[{"column":"name","termType":"like","value":"111","type":"and"}]}]}',
+) => {
+    const _terms = [
+        { terms: [null, null, null] },
+        { terms: [null, null, null], type: 'and' },
+    ];
+
+    try {
+        const terms = JSON.parse(q || '{}');
+        terms.terms?.forEach((a, aIndex) => {
+            a?.terms?.forEach((b, bIndex) => {
+                _terms[aIndex].terms[bIndex] = b;
+            });
+            if (a.type) {
+                _terms[aIndex].type = a.type;
+            }
+        });
+        return { terms: _terms };
+    } catch (e) {
+        return { terms: _terms };
+    }
+};
+
+export const handleParamsToString = (
+    terms: SearchItemData[] = [],
+    type: string = 'and',
+) => {
+    const _terms = [
+        { terms: [null, null, null] },
+        { terms: [null, null, null], type: type },
+    ];
+    let termsIndex = 0;
+    let termsStar = 0;
+    terms.forEach((item, index) => {
+        if (index > 2) {
+            termsIndex = 1;
+            termsStar = 4;
+        }
+        _terms[termsIndex].terms[index - termsStar] = item;
+    });
+
+    return JSON.stringify({ terms: _terms });
 };

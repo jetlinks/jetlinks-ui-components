@@ -49,7 +49,7 @@
                     </div>
                     <div v-if="expand" class="center">
                         <j-select
-                            v-model:value="termType"
+                            v-model:value="termsData.terms[1].type"
                             class="center-select"
                             :options="typeOptions"
                         />
@@ -156,7 +156,13 @@ import type {
     Terms,
     JColumnsProps,
 } from '../typing';
-import { handleQData, hasExpand, termsParamsFormat } from '../util';
+import {
+    compatibleOldTerms,
+    handleParamsToString,
+    handleQData,
+    hasExpand,
+    termsParamsFormat,
+} from '../util';
 import {
     Select as JSelect,
     Button as JButton,
@@ -227,9 +233,6 @@ const urlParams = useUrlSearchParams<UrlParam>(
 // 是否展开更多筛选
 const expand = ref(false);
 
-// 第一组，第二组的关系
-const termType = ref('and');
-
 // 组件方向
 const layout = ref('horizontal');
 // 当前组件宽度 true 大于1000
@@ -239,7 +242,10 @@ const resetNumber = ref(1);
 const searchItems = ref<SearchProps[]>([]); // 当前查询条件
 
 const termsData = reactive<Terms>({
-    terms: [{ terms: [null, null, null] }, { terms: [null, null, null] }],
+    terms: [
+        { terms: [null, null, null] },
+        { terms: [null, null, null], type: 'and' },
+    ],
 });
 
 const columnOptionMap = new Map();
@@ -281,7 +287,6 @@ const addUrlParams = () => {
  * 提交
  */
 const searchSubmit = () => {
-    console.log('searchSubmit', termsData);
     emit('search', termsParamsFormat(termsData, columnOptionMap));
     if (props.type === 'advanced') {
         addUrlParams();
@@ -294,7 +299,7 @@ const searchSubmit = () => {
 const reset = () => {
     termsData.terms = [
         { terms: [null, null, null] },
-        { terms: [null, null, null] },
+        { terms: [null, null, null], type: 'and' },
     ];
     expand.value = false;
     if (props.type === 'advanced') {
@@ -317,7 +322,7 @@ watch(width, (value) => {
 
 const historyItemClick = (content: string) => {
     try {
-        termsData.terms = handleQData(content)?.terms || [];
+        termsData.terms = handleQData(compatibleOldTerms(content))?.terms || [];
         expand.value = hasExpand(termsData.terms);
         searchSubmit();
     } catch (e) {
@@ -332,7 +337,8 @@ const historyItemClick = (content: string) => {
 const handleUrlParams = (_params: UrlParam) => {
     // URL中的target和props的一致，则还原查询参数
     if (props.target && _params.target === props.target && _params.q) {
-        termsData.terms = handleQData(_params.q)?.terms || [];
+        termsData.terms =
+            handleQData(compatibleOldTerms(_params.q))?.terms || [];
         expand.value = hasExpand(termsData.terms);
         emit('search', termsParamsFormat(termsData, columnOptionMap));
     }

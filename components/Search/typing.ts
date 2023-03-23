@@ -36,6 +36,7 @@ export interface SearchItemData {
 
 export interface TermsItem {
     terms: SearchItemData[];
+    type?: string;
 }
 
 export interface Terms {

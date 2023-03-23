@@ -17,27 +17,31 @@
             @visibleChange="visibleChange"
         >
             <template #content>
-                <j-menu v-if="!showEmpty" class="search-history-items">
-                    <j-menu-item v-for="item in historyList" :key="item.id">
-                        <div class="search-history-item">
-                            <div
-                                class="history-item--title"
-                                @click="itemClick(item.content)"
-                            >
-                                <Ellipsis>{{ item.name }}</Ellipsis>
-                            </div>
-                            <j-popconfirm
-                                title="确认删除吗？"
-                                placement="top"
-                                @confirm="deleteHistory(item)"
-                            >
-                                <span class="delete">
-                                    <AIcon type="DeleteOutlined" />
-                                </span>
-                            </j-popconfirm>
+                <div v-if="!showEmpty" class="search-history-items">
+                    <div
+                        v-for="item in historyList"
+                        :key="item.id"
+                        class="search-history-item"
+                    >
+                        <div
+                            class="history-item--title"
+                            @click="itemClick(item.content)"
+                        >
+                            <Ellipsis style="width: 100%">{{
+                                item.name
+                            }}</Ellipsis>
                         </div>
-                    </j-menu-item>
-                </j-menu>
+                        <j-popconfirm
+                            title="确认删除吗？"
+                            placement="top"
+                            @confirm="deleteHistory(item)"
+                        >
+                            <span class="delete">
+                                <AIcon type="DeleteOutlined" />
+                            </span>
+                        </j-popconfirm>
+                    </div>
+                </div>
                 <div v-else class="search-history-empty">
                     <j-empty />
                 </div>
