@@ -1,5 +1,5 @@
 <template>
-    <Form :model="terms" @finish="searchSubmit">
+    <Form :model="termsData" @finish="searchSubmit">
         <div ref="searchRef" :class="['JSearch-warp', 'senior', props.class]">
             <!--  高级模式  -->
             <div
@@ -23,7 +23,7 @@
                                 :expand="expand"
                                 :index="1"
                                 :columns="searchItems"
-                                :terms-item="terms"
+                                :terms-item="termsData.terms[0].terms[0]"
                                 :reset="resetNumber"
                                 @change="(v) => itemValueChange(v, 1)"
                             />
@@ -32,7 +32,7 @@
                                 :expand="expand"
                                 :index="2"
                                 :columns="searchItems"
-                                :terms-item="terms"
+                                :terms-item="termsData.terms[0].terms[1]"
                                 :reset="resetNumber"
                                 @change="(v) => itemValueChange(v, 2)"
                             />
@@ -41,7 +41,7 @@
                                 :expand="expand"
                                 :index="3"
                                 :columns="searchItems"
-                                :terms-item="terms"
+                                :terms-item="termsData.terms[0].terms[2]"
                                 :reset="resetNumber"
                                 @change="(v) => itemValueChange(v, 3)"
                             />
@@ -62,7 +62,7 @@
                                 :expand="expand"
                                 :index="item"
                                 :columns="searchItems"
-                                :terms-item="terms"
+                                :terms-item="termsData.terms[1].terms[item - 4]"
                                 :reset="resetNumber"
                                 @change="(v) => itemValueChange(v, item)"
                             />
@@ -79,7 +79,7 @@
                             重置
                         </j-button>
                         <SaveHistory
-                            :terms="terms"
+                            :terms="termsData"
                             :target="target"
                             :request="request"
                         />
@@ -124,7 +124,7 @@
                 </div>
                 <div class="JSearch-footer">
                     <div class="JSearch-footer--btns">
-                        <FormItemRest no-style>
+                        <FormItemRest>
                             <j-button
                                 type="stroke"
                                 class="no-radius"
@@ -147,8 +147,7 @@
 import SearchItem from '../Item.vue';
 import { typeOptions } from '../setting';
 import { useElementSize, useUrlSearchParams } from '@vueuse/core';
-import { set } from 'lodash-es';
-import { PropType, ref, reactive, watch, nextTick, onMounted } from 'vue';
+import { PropType, ref, reactive, watch } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
 import type {
@@ -157,7 +156,7 @@ import type {
     Terms,
     JColumnsProps,
 } from '../typing';
-import { termsParamsFormat } from '../util';
+import { handleQData, hasExpand, termsParamsFormat } from '../util';
 import {
     Select as JSelect,
     Button as JButton,
@@ -212,20 +211,24 @@ const props = defineProps({
         type: String,
         default: 'key',
     },
+    routerMode: {
+        type: String,
+        default: 'hash',
+    },
 });
 
 const searchRef = ref(null);
 const { width } = useElementSize(searchRef);
 
-const urlParams = useUrlSearchParams<UrlParam>('hash');
+const urlParams = useUrlSearchParams<UrlParam>(
+    props.routerMode as 'hash' | 'history' | 'hash-params',
+);
 
 // 是否展开更多筛选
 const expand = ref(false);
 
 // 第一组，第二组的关系
 const termType = ref('and');
-// 搜索历史记录
-const historyList = ref([]);
 
 // 组件方向
 const layout = ref('horizontal');
@@ -234,7 +237,10 @@ const screenSize = ref(true);
 const resetNumber = ref(1);
 
 const searchItems = ref<SearchProps[]>([]); // 当前查询条件
-const terms = reactive<Terms>({ terms: [] });
+
+const termsData = reactive<Terms>({
+    terms: [{ terms: [null, null, null] }, { terms: [null, null, null] }],
+});
 
 const columnOptionMap = new Map();
 
@@ -243,7 +249,12 @@ const emit = defineEmits<Emit>();
 const expandChange = () => {
     expand.value = !expand.value;
     if (!expand.value) {
-        terms.terms = [terms.terms[0]];
+        // 收起
+        const firstItem = termsData.terms[0].terms[0];
+        termsData.terms = [
+            { terms: [firstItem, null, null] },
+            { terms: [null, null, null] },
+        ];
     }
 };
 
@@ -251,37 +262,18 @@ const searchParams = reactive({
     data: {},
 });
 
-/**
- * 处理每项的key为Item组件所需要的key
- */
-const handleItems = () => {
-    searchItems.value = [];
-    columnOptionMap.clear();
-    props.columns!.forEach((item, index) => {
-        if (item.search && Object.keys(item.search).length) {
-            columnOptionMap.set(item.dataIndex, item.search);
-            searchItems.value.push({
-                ...item.search,
-                sortIndex: item.search.first ? 0 : index + 1,
-                title: item.title as any,
-                column: item.dataIndex,
-            });
-        }
-    });
-};
-
 const itemValueChange = (value: SearchItemData, index: number) => {
     if (index < 4) {
         // 第一组数据
-        set(terms.terms, [0, 'terms', index - 1], value);
+        termsData.terms[0].terms[index - 1] = value;
     } else {
         // 第二组数据
-        set(terms.terms, [1, 'terms', index - 4], value);
+        termsData.terms[1].terms[index - 4] = value;
     }
 };
 
 const addUrlParams = () => {
-    urlParams.q = JSON.stringify(terms);
+    urlParams.q = JSON.stringify(termsData);
     urlParams.target = props.target;
 };
 
@@ -289,7 +281,8 @@ const addUrlParams = () => {
  * 提交
  */
 const searchSubmit = () => {
-    emit('search', termsParamsFormat(terms, columnOptionMap));
+    console.log('searchSubmit', termsData);
+    emit('search', termsParamsFormat(termsData, columnOptionMap));
     if (props.type === 'advanced') {
         addUrlParams();
     }
@@ -299,7 +292,10 @@ const searchSubmit = () => {
  * 重置查询
  */
 const reset = () => {
-    terms.terms = [];
+    termsData.terms = [
+        { terms: [null, null, null] },
+        { terms: [null, null, null] },
+    ];
     expand.value = false;
     if (props.type === 'advanced') {
         urlParams.q = null;
@@ -321,10 +317,8 @@ watch(width, (value) => {
 
 const historyItemClick = (content: string) => {
     try {
-        terms.terms = JSON.parse(content)?.terms || [];
-        if (terms.terms.length === 2) {
-            expand.value = true;
-        }
+        termsData.terms = handleQData(content)?.terms || [];
+        expand.value = hasExpand(termsData.terms);
         searchSubmit();
     } catch (e) {
         console.warn(`Search组件中handleUrlParams处理JSON时异常：【${e}】`);
@@ -338,23 +332,32 @@ const historyItemClick = (content: string) => {
 const handleUrlParams = (_params: UrlParam) => {
     // URL中的target和props的一致，则还原查询参数
     if (props.target && _params.target === props.target && _params.q) {
-        try {
-            terms.terms = JSON.parse(_params.q)?.terms || [];
-            if (terms.terms.length === 2) {
-                expand.value = true;
-            }
-            emit('search', termsParamsFormat(terms, columnOptionMap));
-        } catch (e) {
-            console.warn(`Search组件中handleUrlParams处理JSON时异常：【${e}】`);
-        }
+        termsData.terms = handleQData(_params.q)?.terms || [];
+        expand.value = hasExpand(termsData.terms);
+        emit('search', termsParamsFormat(termsData, columnOptionMap));
     }
 };
 
-onMounted(() => {
-    setTimeout(() => {
-        handleUrlParams(urlParams);
+/**
+ * 处理每项的key为Item组件所需要的key
+ */
+const handleItems = () => {
+    searchItems.value = [];
+    columnOptionMap.clear();
+    props.columns!.forEach((item, index) => {
+        if (item.search && Object.keys(item.search).length) {
+            columnOptionMap.set(item.dataIndex, item.search);
+            searchItems.value.push({
+                ...item.search,
+                sortIndex: item.search.first ? 0 : index + 1,
+                title: item.title as any,
+                column: item.dataIndex,
+            });
+        }
     });
-});
+
+    handleUrlParams(urlParams);
+};
 
 handleItems();
 </script>

@@ -15,7 +15,7 @@
                                 :index="index + 1"
                                 :columns="[item]"
                                 :component-props="item.componentProps"
-                                :terms-item="terms"
+                                :terms-item="terms.terms[index]"
                                 :reset="resetNumber"
                                 @change="(v) => itemValueChange(v, index)"
                             />
@@ -29,7 +29,7 @@
                                 >
                                     重置
                                 </j-button>
-                                <FormItemRest no-style>
+                                <FormItemRest>
                                     <j-button html-type="submit" type="primary">
                                         搜索
                                     </j-button>
@@ -95,10 +95,12 @@ const itemValueChange = (value: SearchItemData, index: number) => {
 
 const handleItems = () => {
     searchItems.value = [];
+    terms.terms = [];
     columnOptionMap.clear();
     props.columns!.forEach((item, index) => {
         if (item.search && Object.keys(item.search).length) {
             columnOptionMap.set(item.dataIndex, item.search);
+            terms.terms.push(null);
             searchItems.value.push({
                 ...item.search,
                 sortIndex: item.search.first ? 0 : index + 1,

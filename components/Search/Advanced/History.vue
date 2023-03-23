@@ -1,11 +1,10 @@
 <template>
     <div class="search-history-warp">
-        <FormItemRest no-style>
+        <FormItemRest>
             <Button
                 class="search-history-button"
                 type="primary"
                 html-type="submit"
-                @click.stop="click"
             >
                 搜索
             </Button>
@@ -60,7 +59,7 @@ import type { PropType } from 'vue';
 import { isFunction } from 'lodash-es';
 import {
     Menu as JMenu,
-    Menu as JMenuItem,
+    MenuItem as JMenuItem,
     AIcon,
     Empty as JEmpty,
     Popconfirm as JPopconfirm,

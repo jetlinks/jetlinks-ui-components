@@ -51,28 +51,40 @@ export const termsParamsFormat = (
     if (searchType == 'terms') {
         if (type === 'adv') {
             return {
-                terms: cloneParams.terms.map((item) => {
-                    if (item.terms) {
-                        item.terms = item.terms
-                            .filter(
-                                (iItem) => iItem && iItem.value !== undefined,
-                            )
-                            .map((iItem) =>
-                                handleItemValue(iItem, columnOptionMap),
-                            );
-                    }
-                    return item;
-                }),
+                terms: cloneParams.terms
+                    .map((item) => {
+                        if (item.terms) {
+                            item.terms = item.terms
+                                .filter(
+                                    (iItem) =>
+                                        iItem &&
+                                        iItem.value !== undefined &&
+                                        iItem.value !== '',
+                                )
+                                .map((iItem) =>
+                                    handleItemValue(iItem, columnOptionMap),
+                                );
+                        }
+                        return item;
+                    })
+                    .filter((item) => item.terms.length),
             };
         } else {
             return cloneParams
-                .filter((iItem) => iItem && iItem.value !== undefined)
+                .filter(
+                    (iItem) =>
+                        iItem &&
+                        iItem.value !== undefined &&
+                        iItem.value !== '',
+                )
                 .map((iItem) => handleItemValue(iItem, columnOptionMap));
         }
     } else if (searchType == 'object') {
         let result = {};
         cloneParams
-            .filter((item) => item && item.value !== undefined)
+            .filter(
+                (item) => item && item.value !== undefined && item.value !== '',
+            )
             .forEach((item) => {
                 Object.assign(result, { [item.column]: item.value });
             });
@@ -106,4 +118,37 @@ export const filterSelectNode = (
     key: string = 'label',
 ): boolean => {
     return option[key]?.includes(value);
+};
+
+export const handleQData = (q: string): any => {
+    try {
+        const termsData = JSON.parse(q);
+        // 排序, null 往后放
+        termsData.terms.forEach((a) => {
+            for (let i = 0; i < a.terms.length; i++) {
+                for (let j = 0; j < a.terms.length - i - 1; j++) {
+                    if (!a.terms[j] && a.terms[j + 1]) {
+                        const temp = a.terms[j];
+                        a.terms[j] = a.terms[j + 1];
+                        a.terms[j + 1] = temp;
+                    }
+                }
+            }
+        });
+        return termsData;
+    } catch (e) {
+        console.warn(`Search组件中handleUrlParams处理JSON时异常：【${e}】`);
+    }
+};
+
+export const hasExpand = (terms): boolean => {
+    let itemCount = 0;
+    terms.forEach((a) => {
+        a.terms.forEach((b) => {
+            if (b) {
+                itemCount += 1;
+            }
+        });
+    });
+    return itemCount >= 2;
 };

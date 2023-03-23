@@ -13,6 +13,7 @@ AdvancedSearch组件组件基本使用
         :columns="columns"
         @search="onSearch"
         target="test"
+        routerMode="history"
         :deleteRequest="deleteRequest"
     />
     <div>
@@ -62,7 +63,7 @@ export default {
             },
             {
                 title: '类型',
-                dataIndex: 'type',
+                dataIndex: 'type2',
                 search: {
                     type: 'select',
                     options: [
@@ -98,6 +99,20 @@ export default {
                 dataIndex: 'time',
                 search: {
                     type: 'timeRange',
+                },
+            },
+            {
+                title: '时间2',
+                dataIndex: 'time',
+                search: {
+                    type: 'time',
+                },
+            },
+            {
+                title: 'id',
+                dataIndex: 'id',
+                search: {
+                    type: 'string',
                 },
             },
         ];

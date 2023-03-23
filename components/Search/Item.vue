@@ -145,9 +145,9 @@
 <script setup lang="ts" name="SearchItem">
 import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
-import { watch, ref, reactive, onBeforeMount, nextTick } from 'vue';
-import type { SearchItemData, SearchProps, Terms } from './typing';
-import { cloneDeep, get, isArray, isFunction, omit } from 'lodash-es';
+import { ref, reactive, watchEffect } from 'vue';
+import type { SearchItemData, SearchProps } from './typing';
+import { cloneDeep, isArray, isFunction, omit } from 'lodash-es';
 import { filterTreeSelectNode, filterSelectNode } from './util';
 import {
     TreeSelect as JTreeSelect,
@@ -192,7 +192,7 @@ const props = defineProps({
         default: false,
     },
     termsItem: {
-        type: Object as PropType<Terms>,
+        type: Object as PropType<SearchItemData>,
         default: () => ({}),
     },
     componentProps: {
@@ -208,8 +208,6 @@ const props = defineProps({
         default: 1,
     },
 });
-
-const urlParams = useUrlSearchParams<UrlParam>('hash');
 
 type optionItemType = { label: string; value: any };
 
@@ -238,8 +236,14 @@ const optionLoading = ref(false);
  * 根据类型切换默termType值
  * @param type
  */
-const getTermType = (type?: ItemType) => {
+const getTermType = (type?: ItemType, column?: string) => {
     termTypeOptions.option = termType;
+
+    if (column?.includes('id') && type === 'string') {
+        // 默认id为 eq
+        return 'eq';
+    }
+
     switch (type) {
         case 'select':
         case 'treeSelect':
@@ -322,14 +326,18 @@ const handleItemOptions = (option?: any[] | Function) => {
     }
 };
 
-const columnChange = (value: string, isChange: boolean) => {
+const columnChange = (
+    value: string,
+    isChange: boolean,
+    changeValue: boolean = true,
+) => {
     const item = columnOptionMap.get(value);
 
     cProps.value = item.componentProps;
     optionLoading.value = false;
     // 设置value为undefined
     termsModel.column = value;
-    termsModel.termType = item.defaultTermType || getTermType(item.type);
+    termsModel.termType = item.defaultTermType || getTermType(item.type, value);
 
     getComponent(item.type); // 处理Item的组件类型
 
@@ -338,7 +346,9 @@ const columnChange = (value: string, isChange: boolean) => {
         handleItemOptions(item.options);
     }
 
-    termsModel.value = undefined;
+    if (changeValue) {
+        termsModel.value = undefined;
+    }
 
     if (isChange) {
         valueChange();
@@ -349,7 +359,6 @@ const handleItem = () => {
     columnOptionMap.clear();
     columnOptions.value = [];
     if (!props.columns.length) return;
-
     columnOptions.value = props.columns.map((item) => {
         // 对columns进行Map处理以及值处理
         columnOptionMap.set(item.column, item);
@@ -390,48 +399,20 @@ const valueChange = () => {
 const reset = () => {
     termsModel.value = undefined;
 };
-const handleQuery = (_params: UrlParam) => {
-    if (_params.q) {
-        const path =
-            props.index < 4
-                ? [0, 'terms', props.index - 1]
-                : [1, 'terms', props.index - 4];
-        const itemData: SearchItemData = get(props.termsItem.terms, path);
-        if (itemData) {
-            termsModel.type = itemData.type;
-            termsModel.column = itemData.column;
-            termsModel.termType = itemData.termType;
-            termsModel.value = itemData.value;
-            const item = columnOptionMap.get(itemData.column);
-            getComponent(item.type); // 处理Item的组件类型
-
-            // 处理options 以及 request
-            if ('options' in item) {
-                handleItemOptions(item.options);
-            }
-        }
-    }
-};
 
 handleItem();
 
-onBeforeMount(() => {
-    cProps.value = props.componentProps;
-});
-
-nextTick(() => {
-    handleQuery(urlParams);
-});
-
-watch(
-    () => props.reset,
-    () => {
+watchEffect(() => {
+    if (props.termsItem) {
+        Object.keys(props.termsItem).forEach((key) => {
+            termsModel[key] = props.termsItem[key];
+            if (key === 'column') {
+                columnChange(termsModel[key] as string, false, false);
+            }
+        });
+    } else {
         handleItem();
-    },
-);
-
-defineExpose({
-    reset,
+    }
 });
 </script>
 
