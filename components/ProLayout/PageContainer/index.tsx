@@ -1,5 +1,12 @@
 import { withInstall } from '../../util/type';
-import { TabPaneProps, Affix, Spin, PageHeader, Tabs } from '../../components';
+import {
+    TabPaneProps,
+    Affix,
+    Spin,
+    PageHeader,
+    Tabs,
+    Button,
+} from '../../components';
 import type {
     ExtractPropTypes,
     FunctionalComponent,
@@ -21,7 +28,7 @@ export const pageHeaderTabConfig = {
      */
     tabList: {
         type: [Object, Function, Array] as PropType<
-            (Omit<TabPaneProps, 'id'> & { key?: string })[]
+            (Omit<TabPaneProps, 'id'> & { key?: string; class: string })[]
         >,
         default: () => undefined,
     },
@@ -49,6 +56,7 @@ export const pageHeaderTabConfig = {
     fixedHeader: Boolean, //PropTypes.looseBool,
     // events
     onTabChange: Function, //PropTypes.func,
+    pure: Boolean,
 };
 export type PageHeaderTabConfig = Partial<
     ExtractPropTypes<typeof pageHeaderTabConfig>
@@ -134,6 +142,14 @@ export const pageContainerProps = {
         type: Boolean,
         default: () => true,
     },
+    pure: {
+        type: Boolean,
+        default: false,
+    },
+    showBack: {
+        type: Boolean,
+        default: false,
+    },
 };
 
 export type PageContainerProps = Partial<
@@ -145,6 +161,11 @@ const renderFooter = (
 ): VNodeChild | JSX.Element => {
     const { tabList, tabActiveKey, onTabChange, tabBarExtraContent, tabProps } =
         props;
+    const tabPane = (item: any) => {
+        return (
+            <span class={item.class || `tab-pane-${item.key}`}>{item.tab}</span>
+        );
+    };
     if (tabList && tabList.length) {
         return (
             <Tabs
@@ -159,7 +180,11 @@ const renderFooter = (
                 {...tabProps}
             >
                 {tabList.map((item) => (
-                    <Tabs.TabPane {...item} tab={item.tab} key={item.key} />
+                    <Tabs.TabPane
+                        {...item}
+                        tab={tabPane(item)}
+                        key={item.key}
+                    />
                 ))}
             </Tabs>
         );
@@ -218,6 +243,7 @@ const ProPageHeader: FunctionalComponent<
         prefixedClassName,
         prefixCls,
         fixedHeader: _,
+        showBack,
         ...restProps
     } = props;
 
@@ -242,9 +268,20 @@ const ProPageHeader: FunctionalComponent<
         itemRender: unrefBreadcrumb.itemRender,
     };
 
+    const backProps: any = {};
+
+    if (showBack) {
+        // @ts-ignore
+        backProps.backIcon = <Button>返回</Button>;
+        backProps.onBack = () => {
+            value.back?.();
+        };
+    }
+
     return (
         <div class={`${prefixedClassName}-wrap`}>
             <PageHeader
+                {...backProps}
                 {...restProps}
                 // {...value}
                 title={pageHeaderTitle}
@@ -329,51 +366,59 @@ const PageContainer = defineComponent({
         });
 
         return () => {
-            const { fixedHeader } = props;
+            const { fixedHeader, pure } = props;
             return (
-                <div class={classNames.value}>
-                    {fixedHeader && headerDom.value ? (
-                        <Affix
-                            {...affixProps.value}
-                            offsetTop={
-                                value.hasHeader && value.fixedHeader
-                                    ? value.headerHeight
-                                    : 0
-                            }
-                        >
-                            {headerDom.value}
-                        </Affix>
+                <>
+                    {pure ? (
+                        <div class={classNames.value}>{slots.default?.()}</div>
                     ) : (
-                        headerDom.value
-                    )}
-                    <div class={`${prefixedClassName.value}-grid-content`}>
-                        {loading.value ? (
-                            <Spin />
-                        ) : slots.default ? (
-                            <div>
-                                <div
-                                    class={`${
-                                        prefixedClassName.value
-                                    }-children-content ${
-                                        childrenFullHeight.value
-                                            ? 'children-full-height'
-                                            : ''
-                                    }`}
+                        <div class={classNames.value}>
+                            {fixedHeader && headerDom.value ? (
+                                <Affix
+                                    {...affixProps.value}
+                                    offsetTop={
+                                        value.hasHeader && value.fixedHeader
+                                            ? value.headerHeight
+                                            : 0
+                                    }
                                 >
-                                    {slots.default()}
-                                </div>
-                                {value.hasFooterToolbar && (
-                                    <div
-                                        style={{
-                                            height: 48,
-                                            marginTop: 24,
-                                        }}
-                                    />
-                                )}
+                                    {headerDom.value}
+                                </Affix>
+                            ) : (
+                                headerDom.value
+                            )}
+                            <div
+                                class={`${prefixedClassName.value}-grid-content`}
+                            >
+                                {loading.value ? (
+                                    <Spin />
+                                ) : slots.default ? (
+                                    <div>
+                                        <div
+                                            class={`${
+                                                prefixedClassName.value
+                                            }-children-content ${
+                                                childrenFullHeight.value
+                                                    ? 'children-full-height'
+                                                    : ''
+                                            }`}
+                                        >
+                                            {slots.default()}
+                                        </div>
+                                        {value.hasFooterToolbar && (
+                                            <div
+                                                style={{
+                                                    height: 48,
+                                                    marginTop: 24,
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                ) : null}
                             </div>
-                        ) : null}
-                    </div>
-                </div>
+                        </div>
+                    )}
+                </>
             );
         };
     },

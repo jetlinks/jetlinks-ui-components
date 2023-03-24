@@ -1,47 +1,59 @@
 <template>
-    <Dropdown
-        class="search-history-dropdown"
-        placement="bottomLeft"
-        :visible="historyVisible"
-        @visibleChange="visibleChange"
-    >
-        <Button ghost type="primary" @click.stop="click">
-            搜索
-            <AIcon type="DownOutlined" @click.stop="historyVisible = true" />
-        </Button>
-        <template #overlay>
-            <j-menu v-if="!showEmpty" class="search-history-items">
-                <j-menu-item v-for="item in historyList" :key="item.id">
-                    <div class="search-history-item">
+    <div class="search-history-warp">
+        <FormItemRest>
+            <Button
+                class="search-history-button"
+                type="primary"
+                html-type="submit"
+            >
+                搜索
+            </Button>
+        </FormItemRest>
+        <Popover
+            placement="bottom"
+            trigger="click"
+            overlay-class-name="search-history-list-pop"
+            :visible="historyVisible"
+            @visibleChange="visibleChange"
+        >
+            <template #content>
+                <div v-if="!showEmpty" class="search-history-items">
+                    <div
+                        v-for="item in historyList"
+                        :key="item.id"
+                        class="search-history-item"
+                    >
                         <div
                             class="history-item--title"
-                            @click.stop="itemClick(item.content)"
+                            @click="itemClick(item.content)"
                         >
-                            <div class="">{{ item.name }}</div>
+                            <Ellipsis style="width: 100%">{{
+                                item.name
+                            }}</Ellipsis>
                         </div>
                         <j-popconfirm
                             title="确认删除吗？"
                             placement="top"
-                            :ok-button-props="{
-                                loading: deleteLoading,
-                            }"
-                            @confirm.stop="deleteHistory(item.id)"
+                            @confirm="deleteHistory(item)"
                         >
                             <span class="delete">
                                 <AIcon type="DeleteOutlined" />
                             </span>
                         </j-popconfirm>
                     </div>
-                </j-menu-item>
-            </j-menu>
-            <div v-else class="search-history-empty">
-                <j-empty />
+                </div>
+                <div v-else class="search-history-empty">
+                    <j-empty />
+                </div>
+            </template>
+            <div
+                class="search-history-button-icon"
+                @click.stop="showHistoryList"
+            >
+                <AIcon type="DownOutlined" />
             </div>
-        </template>
-        <template #icon>
-            <AIcon type="SearchOutlined" />
-        </template>
-    </Dropdown>
+        </Popover>
+    </div>
 </template>
 
 <script setup lang="ts" name="SearchHistory">
@@ -51,12 +63,16 @@ import type { PropType } from 'vue';
 import { isFunction } from 'lodash-es';
 import {
     Menu as JMenu,
-    Menu as JMenuItem,
+    MenuItem as JMenuItem,
     AIcon,
     Empty as JEmpty,
     Popconfirm as JPopconfirm,
     Dropdown,
     Button,
+    Input,
+    FormItemRest,
+    Popover,
+    Ellipsis,
 } from '../../components';
 
 type Emit = {
@@ -76,21 +92,23 @@ const props = defineProps({
         default: null,
     },
     deleteRequest: {
-        type: Function as PropType<(target: string) => Promise<any>>,
+        type: Function as PropType<(target: string, item: any) => Promise<any>>,
         default: null,
+    },
+    deleteKey: {
+        type: String,
+        default: 'key',
     },
 });
 
 const historyList = ref<SearchHistoryList[]>([]);
 const historyVisible = ref(false);
-const deleteLoading = ref(false);
 const showEmpty = computed(() => {
     return historyList.value.length === 0;
 });
 
-const visibleChange = async (visible: boolean) => {
-    historyVisible.value = visible;
-    if (visible && props.request) {
+const showHistoryList = async () => {
+    if (props.request) {
         const resp = await props.request(props.target);
         if (resp.success && resp.result.length) {
             historyList.value = resp.result.filter((item) => item.content);
@@ -98,6 +116,10 @@ const visibleChange = async (visible: boolean) => {
             historyList.value = [];
         }
     }
+};
+
+const visibleChange = async (v: boolean) => {
+    historyVisible.value = v;
 };
 
 const click = () => {
@@ -109,14 +131,10 @@ const itemClick = (content: string) => {
     emit('itemClick', content);
 };
 
-const deleteHistory = async (id: string) => {
+const deleteHistory = async (item: any) => {
     if (props.deleteRequest && isFunction(props.deleteRequest)) {
-        deleteLoading.value = true;
-        const resp = await props.deleteRequest(props.target, id);
-        deleteLoading.value = false;
-        if (resp.success) {
-            historyVisible.value = false;
-        }
+        await props.deleteRequest(props.target, item[props.deleteKey]);
+        historyVisible.value = false;
     }
 };
 </script>

@@ -46,7 +46,8 @@ const props = defineProps({
 
 const visible = ref<boolean>(false);
 
-const cancel = () => {
+const cancel = async (e: MouseEvent) => {
+    await props.onCancel?.(e);
     visible.value = false;
 };
 

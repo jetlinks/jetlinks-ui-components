@@ -19,6 +19,7 @@ const Icon = (props) =>
     );
 
 export default defineComponent({
+    name: 'JAIcon',
     // 传入组件配置
     props: ['type', 'scriptUrl', 'class'],
     emits: ['click'],

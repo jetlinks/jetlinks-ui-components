@@ -9,7 +9,13 @@ AdvancedSearch组件组件基本使用
 </docs>
 
 <template>
-    <j-advanced-search :columns="columns" @search="onSearch" target="test" />
+    <j-advanced-search
+        :columns="columns"
+        @search="onSearch"
+        target="test"
+        routerMode="history"
+        :deleteRequest="deleteRequest"
+    />
     <div>
         查询结果:
         <br />
@@ -49,6 +55,7 @@ export default {
                 dataIndex: 'type',
                 search: {
                     type: 'select',
+                    rename: 'typeTest',
                     options: [
                         { label: '类型1', value: 1 },
                         { label: '类型2', value: 2 },
@@ -57,7 +64,7 @@ export default {
             },
             {
                 title: '类型',
-                dataIndex: 'type',
+                dataIndex: 'type2',
                 search: {
                     type: 'select',
                     options: [
@@ -95,16 +102,35 @@ export default {
                     type: 'timeRange',
                 },
             },
+            {
+                title: '时间2',
+                dataIndex: 'time',
+                search: {
+                    type: 'time',
+                },
+            },
+            {
+                title: 'id',
+                dataIndex: 'id',
+                search: {
+                    type: 'string',
+                },
+            },
         ];
 
         const onSearch = (e) => {
             paramsStr.value = JSON.stringify(e);
         };
 
+        const deleteRequest = async (id) => {
+            console.log(id);
+        };
+
         return {
             columns,
             paramsStr,
             onSearch,
+            deleteRequest,
         };
     },
 };

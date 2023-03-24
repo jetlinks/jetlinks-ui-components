@@ -18,9 +18,11 @@ title: 基本使用
             v-model:openKeys="baseState.openKeys"
             v-bind="state"
             style="min-height: 600px"
+            @backClick="onBack"
         >
             <j-page-container
                 title="Page 1"
+                :showBack="true"
                 sub-title="is a sub-title."
                 :tabList="pageState.tabList"
                 :tabActiveKey="pageState.active"
@@ -62,6 +64,7 @@ export default defineComponent({
             tabList: [
                 {
                     tab: 'tab1',
+                    class: 'test-tab1',
                     key: 'tab1',
                 },
                 {
@@ -80,11 +83,16 @@ export default defineComponent({
             pageState.active = key;
         };
 
+        const onBack = () => {
+            console.log('onBack--');
+        };
+
         return {
             state,
             baseState,
             pageState,
             onTabChange,
+            onBack,
         };
     },
 });

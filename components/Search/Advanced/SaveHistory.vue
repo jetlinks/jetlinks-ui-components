@@ -27,6 +27,7 @@
                     :loading="saveHistoryLoading"
                     type="primary"
                     class="save-btn"
+                    style="width: 100%"
                     @click="saveHistory"
                 >
                     保存
@@ -77,6 +78,15 @@ const modelRef = reactive({
     name: undefined,
 });
 
+const visibleChange = (e: boolean) => {
+    visible.value = e;
+    if (!e) {
+        setTimeout(() => {
+            modelRef.name = undefined;
+        }, 100);
+    }
+};
+
 /**
  * 保存当前查询条件
  */
@@ -89,13 +99,9 @@ const saveHistory = async () => {
         const resp = await props.request(formData, props.target);
         saveHistoryLoading.value = false;
         if (resp.status === 200) {
-            visible.value = false;
+            visibleChange(false);
         }
     }
-};
-
-const visibleChange = (e: boolean) => {
-    visible.value = e;
 };
 </script>
 
