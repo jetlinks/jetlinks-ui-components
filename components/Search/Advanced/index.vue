@@ -287,6 +287,7 @@ const addUrlParams = () => {
  * 提交
  */
 const searchSubmit = () => {
+    console.log('searchSubmit');
     emit('search', termsParamsFormat(termsData, columnOptionMap));
     if (props.type === 'advanced') {
         addUrlParams();
@@ -297,6 +298,7 @@ const searchSubmit = () => {
  * 重置查询
  */
 const reset = () => {
+    console.log('reset');
     termsData.terms = [
         { terms: [null, null, null] },
         { terms: [null, null, null], type: 'and' },
@@ -340,6 +342,7 @@ const handleUrlParams = (_params: UrlParam) => {
         termsData.terms =
             handleQData(compatibleOldTerms(_params.q))?.terms || [];
         expand.value = hasExpand(termsData.terms);
+        console.log('handleUrlParams');
         emit('search', termsParamsFormat(termsData, columnOptionMap));
     }
 };

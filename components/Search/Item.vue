@@ -214,10 +214,10 @@ type optionItemType = { label: string; value: any };
 const emit = defineEmits<Emit>();
 
 const termsModel = reactive<SearchItemData>({
-    type: 'or',
-    value: '',
-    termType: 'like',
-    column: '',
+    type: props.termsItem?.type || 'or',
+    value: props.termsItem?.value || '',
+    termType: props.termsItem?.termType || 'like',
+    column: props.termsItem?.column || '',
 });
 
 const component = ref(componentType.input);
@@ -337,7 +337,6 @@ const columnChange = (
     optionLoading.value = false;
     // 设置value为undefined
     termsModel.column = value;
-    termsModel.termType = item.defaultTermType || getTermType(item.type, value);
 
     getComponent(item.type); // 处理Item的组件类型
 
@@ -348,6 +347,8 @@ const columnChange = (
 
     if (changeValue) {
         termsModel.value = undefined;
+        termsModel.termType =
+            item.defaultTermType || getTermType(item.type, value);
     }
 
     if (isChange) {
