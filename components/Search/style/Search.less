@@ -116,16 +116,40 @@
         border-radius: 0;
         border-color: #f1f1f1;
     }
+
+    .search-history-warp {
+        position: relative;
+
+        .search-history-button {
+            padding-right: 32px;
+        }
+
+        .search-history-button-icon {
+            position: absolute;
+            width: 24px;
+            height: 18px;
+            right: 6px;
+            top: 8px;
+            color: #fff;
+            line-height: 18px;
+            text-align: center;
+            font-weight: bold;
+            > span {
+                font-size: 14px;
+            }
+        }
+    }
 }
 
 .search-history-empty {
     padding: 12px 12px 6px 12px;
     background-color: #fff;
-    box-shadow: @box-shadow-base;
 }
 
 .search-history-items {
     width: 120px;
+    max-height: 300px;
+    overflow-y: auto;
     .search-history-item {
         display: flex;
         padding: 4px 0px 4px 4px;
@@ -137,26 +161,19 @@
         }
 
         .history-item--title {
-            width: calc(100% - 28px);
+            width: calc(100% - 30px);
             cursor: pointer;
-            line-height: 1.5715;
-
-            > div {
-                display: -webkit-box;
-                overflow: hidden;
-                max-width: 100%;
-                -webkit-line-clamp: 1;
-                text-overflow: ellipsis;
-                /*! autoprefixer: off */
-                -webkit-box-orient: vertical;
-                /*! autoprefixer: on */
-                word-break: break-all;
-            }
         }
 
         .delete {
             padding: 0 6px;
             flex: 0 0 28px;
         }
+    }
+}
+
+.search-history-list-pop {
+    .ant-popover-inner-content {
+        padding: 0;
     }
 }

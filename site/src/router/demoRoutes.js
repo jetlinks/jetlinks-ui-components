@@ -11,6 +11,17 @@ export default [
         component: () => import('../../../components/Affix/demo/index.vue'),
     },
     {
+        path: 'Alert',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Alert',
+            subtitle: '警告提示',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/8emPa3fjl/Alert.svg',
+        },
+        component: () => import('../../../components/Alert/demo/index.vue'),
+    },
+    {
         path: 'AIcon',
         meta: {
             category: 'Components',
@@ -21,17 +32,6 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/rrwbSt3FQ/Icon.svg',
         },
         component: () => import('../../../components/AIcon/demo/index.vue'),
-    },
-    {
-        path: 'Alert',
-        meta: {
-            category: 'Components',
-            type: '反馈',
-            title: 'Alert',
-            subtitle: '警告提示',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/8emPa3fjl/Alert.svg',
-        },
-        component: () => import('../../../components/Alert/demo/index.vue'),
     },
     {
         path: 'Anchor',
@@ -257,17 +257,6 @@ export default [
         component: () => import('../../../components/Divider/demo/index.vue'),
     },
     {
-        path: 'Drawer',
-        meta: {
-            category: 'Components',
-            type: '反馈',
-            title: 'Drawer',
-            subtitle: '抽屉',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/7z8NJQhFb/Drawer.svg',
-        },
-        component: () => import('../../../components/Drawer/demo/index.vue'),
-    },
-    {
         path: 'Dropdown',
         meta: {
             category: 'Components',
@@ -277,6 +266,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/eedWN59yJ/Dropdown.svg',
         },
         component: () => import('../../../components/Dropdown/demo/index.vue'),
+    },
+    {
+        path: 'Drawer',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Drawer',
+            subtitle: '抽屉',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/7z8NJQhFb/Drawer.svg',
+        },
+        component: () => import('../../../components/Drawer/demo/index.vue'),
     },
     {
         path: 'Ellipsis',
@@ -432,18 +432,6 @@ export default [
             import('../../../components/MonacoEditor/demo/index.vue'),
     },
     {
-        path: 'Notification',
-        meta: {
-            category: 'Components',
-            type: '反馈',
-            title: 'Notification',
-            subtitle: '通知提醒框',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/Jxm5nw61w/Notification.svg',
-        },
-        component: () =>
-            import('../../../components/Notification/demo/index.vue'),
-    },
-    {
         path: 'PageHeader',
         meta: {
             category: 'Components',
@@ -455,6 +443,18 @@ export default [
         },
         component: () =>
             import('../../../components/PageHeader/demo/index.vue'),
+    },
+    {
+        path: 'Notification',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Notification',
+            subtitle: '通知提醒框',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/Jxm5nw61w/Notification.svg',
+        },
+        component: () =>
+            import('../../../components/Notification/demo/index.vue'),
     },
     {
         path: 'Pagination',

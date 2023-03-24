@@ -7,15 +7,7 @@ title: 单选
 </docs>
 
 <template>
-    <j-card-select v-model:value="value" :options="options">
-        <j-card-select-option
-            v-for="item in options"
-            :key="item.value"
-            :value="item.value"
-            :image="item.image"
-            :label="item.label"
-        >
-        </j-card-select-option>
+    <j-card-select v-model:value="value" float="right" :options="options">
     </j-card-select>
 </template>
 

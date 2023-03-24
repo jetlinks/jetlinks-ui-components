@@ -118,6 +118,7 @@ export default defineComponent({
         'select',
         'menuHeaderClick',
         'menuClick',
+        'backClick',
     ],
     setup(props, { emit, attrs, slots }) {
         const { prefixCls } = useConfigInject('layout', {});
@@ -152,6 +153,9 @@ export default defineComponent({
         };
         const onMenuClick = (args: any) => {
             emit('menuClick', args);
+        };
+        const onBack = (args: any) => {
+            emit('backClick', args);
         };
 
         const baseClassName = computed(() => `${props.prefixCls}-basicLayout`);
@@ -231,6 +235,7 @@ export default defineComponent({
             breadcrumb,
             flatMenuData,
             hasSide,
+            back: onBack,
             hasHeader: true,
             flatMenu: hasFlatMenu,
         });

@@ -1,4 +1,5 @@
 import { cloneDeep, isFunction, isString } from 'lodash-es';
+import type { SearchItemData } from './typing';
 
 /**
  * 处理like，nlike特殊值
@@ -51,26 +52,40 @@ export const termsParamsFormat = (
     if (searchType == 'terms') {
         if (type === 'adv') {
             return {
-                terms: cloneParams.terms.map((item) => {
-                    if (item.terms) {
-                        item.terms = item.terms
-                            .filter((iItem) => iItem && iItem.value)
-                            .map((iItem) =>
-                                handleItemValue(iItem, columnOptionMap),
-                            );
-                    }
-                    return item;
-                }),
+                terms: cloneParams.terms
+                    .map((item) => {
+                        if (item.terms) {
+                            item.terms = item.terms
+                                .filter(
+                                    (iItem) =>
+                                        iItem &&
+                                        iItem.value !== undefined &&
+                                        iItem.value !== '',
+                                )
+                                .map((iItem) =>
+                                    handleItemValue(iItem, columnOptionMap),
+                                );
+                        }
+                        return item;
+                    })
+                    .filter((item) => item.terms.length),
             };
         } else {
             return cloneParams
-                .filter((iItem) => iItem && iItem.value)
+                .filter(
+                    (iItem) =>
+                        iItem &&
+                        iItem.value !== undefined &&
+                        iItem.value !== '',
+                )
                 .map((iItem) => handleItemValue(iItem, columnOptionMap));
         }
     } else if (searchType == 'object') {
         let result = {};
         cloneParams
-            .filter((item) => item && item.value)
+            .filter(
+                (item) => item && item.value !== undefined && item.value !== '',
+            )
             .forEach((item) => {
                 Object.assign(result, { [item.column]: item.value });
             });
@@ -104,4 +119,78 @@ export const filterSelectNode = (
     key: string = 'label',
 ): boolean => {
     return option[key]?.includes(value);
+};
+
+export const handleQData = (terms: any): any => {
+    // 排序, null 往后放
+    terms.terms.forEach((a) => {
+        for (let i = 0; i < a.terms.length; i++) {
+            for (let j = 0; j < a.terms.length - i - 1; j++) {
+                if (!a.terms[j] && a.terms[j + 1]) {
+                    const temp = a.terms[j];
+                    a.terms[j] = a.terms[j + 1];
+                    a.terms[j + 1] = temp;
+                }
+            }
+        }
+    });
+
+    return terms;
+};
+
+export const hasExpand = (terms): boolean => {
+    let itemCount = 0;
+    terms.forEach((a) => {
+        a.terms.forEach((b) => {
+            if (b) {
+                itemCount += 1;
+            }
+        });
+    });
+    return itemCount >= 2;
+};
+
+export const compatibleOldTerms = (
+    q: string = '{"terms":[{"terms":[{"column":"name","termType":"like","value":"111","type":"and"}]}]}',
+) => {
+    const _terms = [
+        { terms: [null, null, null] },
+        { terms: [null, null, null], type: 'and' },
+    ];
+
+    try {
+        const terms = JSON.parse(q || '{}');
+        terms.terms?.forEach((a, aIndex) => {
+            a?.terms?.forEach((b, bIndex) => {
+                _terms[aIndex].terms[bIndex] = b;
+            });
+            if (a.type) {
+                _terms[aIndex].type = a.type;
+            }
+        });
+        return { terms: _terms };
+    } catch (e) {
+        return { terms: _terms };
+    }
+};
+
+export const handleParamsToString = (
+    terms: SearchItemData[] = [],
+    type: string = 'and',
+) => {
+    const _terms = [
+        { terms: [null, null, null] },
+        { terms: [null, null, null], type: type },
+    ];
+    let termsIndex = 0;
+    let termsStar = 0;
+    terms.forEach((item, index) => {
+        if (index > 2) {
+            termsIndex = 1;
+            termsStar = 4;
+        }
+        _terms[termsIndex].terms[index - termsStar] = item;
+    });
+
+    return JSON.stringify({ terms: _terms });
 };

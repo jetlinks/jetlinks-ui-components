@@ -9,9 +9,10 @@
         color: @black;
         display: flex;
         width: 100%;
-        justify-content: space-between;
+        gap: 12px;
 
         .j-card-title-warp {
+            flex: 1 1 auto;
         }
 
         &.vertical {
@@ -31,6 +32,10 @@
         .sub-title {
             color: rgba(0, 0, 0, 0.24);
         }
+
+        &.right {
+            flex-direction: row-reverse;
+        }
     }
 
     &.no-column {
@@ -43,7 +48,7 @@
             width: unset;
 
             &.vertical {
-                padding: 18px 12px;
+                padding: 14px 16px;
             }
         }
     }

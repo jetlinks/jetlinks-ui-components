@@ -32,110 +32,112 @@
             </div>
         </template>
         <div class="JSearch-item--value">
-            <j-input
-                v-if="component === componentType.input"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-select
-                v-else-if="component === componentType.select"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%; min-width: 80px"
-                show-search
-                :loading="optionLoading"
-                :options="options"
-                :filter-option="
-                    (v, option) => filterSelectNode(v, option, 'label')
-                "
-                @change="valueChange"
-            />
-            <j-input-number
-                v-else-if="component === componentType.inputNumber"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-input-password
-                v-else-if="component === componentType.password"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-switch
-                v-else-if="component === componentType.switch"
-                v-bind="cProps"
-                v-model:checked="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-radio-group
-                v-else-if="component === componentType.radio"
-                v-bind="cProps"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                @change="valueChange"
-            />
-            <j-checkbox-group
-                v-else-if="component === componentType.checkbox"
-                v-model:value="termsModel.value"
-                style="width: 100%"
-                v-bind="cProps"
-                :options="options"
-                @change="valueChange"
-            />
-            <j-time-picker
-                v-else-if="component === componentType.time"
-                v-model:value="termsModel.value"
-                value-format="HH:mm:ss"
-                style="width: 100%"
-                v-bind="cProps"
-                @change="valueChange"
-            />
-            <j-time-range-picker
-                v-else-if="component === componentType.timeRange"
-                v-model:value="termsModel.value"
-                value-format="HH:mm:ss"
-                style="width: 100%"
-                v-bind="cProps"
-                @change="valueChange"
-            />
-            <j-date-picker
-                v-else-if="component === componentType.date"
-                v-model:value="termsModel.value"
-                show-time
-                value-format="YYYY-MM-DD HH:mm:ss"
-                style="width: 100%"
-                v-bind="cProps"
-                @change="valueChange"
-            />
-            <j-range-picker
-                v-else-if="component === componentType.rangePicker"
-                v-model:value="termsModel.value"
-                show-time
-                value-format="YYYY-MM-DD HH:mm:ss"
-                style="width: 100%"
-                v-bind="cProps"
-                @change="valueChange"
-            />
-            <j-tree-select
-                v-else-if="component === componentType.treeSelect"
-                v-model:value="termsModel.value"
-                show-search
-                style="width: 100%"
-                :height="350"
-                :field-names="{ label: 'name', value: 'id' }"
-                v-bind="cProps"
-                :tree-data="options"
-                :filter-tree-node="
-                    (v, option) => filterTreeSelectNode(v, option)
-                "
-                @change="valueChange"
-            />
+            <FormItem no-style>
+                <j-input
+                    v-if="component === componentType.input"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-select
+                    v-else-if="component === componentType.select"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%; min-width: 80px"
+                    show-search
+                    :loading="optionLoading"
+                    :options="options"
+                    :filter-option="
+                        (v, option) => filterSelectNode(v, option, 'label')
+                    "
+                    @change="valueChange"
+                />
+                <j-input-number
+                    v-else-if="component === componentType.inputNumber"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-input-password
+                    v-else-if="component === componentType.password"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-switch
+                    v-else-if="component === componentType.switch"
+                    v-bind="cProps"
+                    v-model:checked="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-radio-group
+                    v-else-if="component === componentType.radio"
+                    v-bind="cProps"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    @change="valueChange"
+                />
+                <j-checkbox-group
+                    v-else-if="component === componentType.checkbox"
+                    v-model:value="termsModel.value"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    :options="options"
+                    @change="valueChange"
+                />
+                <j-time-picker
+                    v-else-if="component === componentType.time"
+                    v-model:value="termsModel.value"
+                    value-format="HH:mm:ss"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
+                <j-time-range-picker
+                    v-else-if="component === componentType.timeRange"
+                    v-model:value="termsModel.value"
+                    value-format="HH:mm:ss"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
+                <j-date-picker
+                    v-else-if="component === componentType.date"
+                    v-model:value="termsModel.value"
+                    show-time
+                    value-format="YYYY-MM-DD HH:mm:ss"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
+                <j-range-picker
+                    v-else-if="component === componentType.rangePicker"
+                    v-model:value="termsModel.value"
+                    show-time
+                    value-format="YYYY-MM-DD HH:mm:ss"
+                    style="width: 100%"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
+                <j-tree-select
+                    v-else-if="component === componentType.treeSelect"
+                    v-model:value="termsModel.value"
+                    show-search
+                    style="width: 100%"
+                    :height="350"
+                    :field-names="{ label: 'name', value: 'id' }"
+                    v-bind="cProps"
+                    :tree-data="options"
+                    :filter-tree-node="
+                        (v, option) => filterTreeSelectNode(v, option)
+                    "
+                    @change="valueChange"
+                />
+            </FormItem>
         </div>
     </div>
 </template>
@@ -143,9 +145,9 @@
 <script setup lang="ts" name="SearchItem">
 import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
-import { watch, ref, reactive, onBeforeMount, nextTick } from 'vue';
-import type { SearchItemData, SearchProps, Terms } from './typing';
-import { cloneDeep, get, isArray, isFunction, omit } from 'lodash-es';
+import { ref, reactive, watchEffect } from 'vue';
+import type { SearchItemData, SearchProps } from './typing';
+import { cloneDeep, isArray, isFunction, omit } from 'lodash-es';
 import { filterTreeSelectNode, filterSelectNode } from './util';
 import {
     TreeSelect as JTreeSelect,
@@ -160,6 +162,7 @@ import {
     CheckboxGroup as JCheckboxGroup,
     RangePicker as JRangePicker,
     TimeRangePicker as JTimeRangePicker,
+    FormItem,
 } from '../components';
 import { useUrlSearchParams } from '@vueuse/core';
 
@@ -189,7 +192,7 @@ const props = defineProps({
         default: false,
     },
     termsItem: {
-        type: Object as PropType<Terms>,
+        type: Object as PropType<SearchItemData>,
         default: () => ({}),
     },
     componentProps: {
@@ -206,17 +209,15 @@ const props = defineProps({
     },
 });
 
-const urlParams = useUrlSearchParams<UrlParam>('hash');
-
 type optionItemType = { label: string; value: any };
 
 const emit = defineEmits<Emit>();
 
 const termsModel = reactive<SearchItemData>({
-    type: 'or',
-    value: '',
-    termType: 'like',
-    column: '',
+    type: props.termsItem?.type || 'or',
+    value: props.termsItem?.value || '',
+    termType: props.termsItem?.termType || 'like',
+    column: props.termsItem?.column || '',
 });
 
 const component = ref(componentType.input);
@@ -235,8 +236,14 @@ const optionLoading = ref(false);
  * 根据类型切换默termType值
  * @param type
  */
-const getTermType = (type?: ItemType) => {
+const getTermType = (type?: ItemType, column?: string) => {
     termTypeOptions.option = termType;
+
+    if (column?.includes('id') && type === 'string') {
+        // 默认id为 eq
+        return 'eq';
+    }
+
     switch (type) {
         case 'select':
         case 'treeSelect':
@@ -319,14 +326,17 @@ const handleItemOptions = (option?: any[] | Function) => {
     }
 };
 
-const columnChange = (value: string, isChange: boolean) => {
+const columnChange = (
+    value: string,
+    isChange: boolean,
+    changeValue: boolean = true,
+) => {
     const item = columnOptionMap.get(value);
 
     cProps.value = item.componentProps;
     optionLoading.value = false;
     // 设置value为undefined
     termsModel.column = value;
-    termsModel.termType = item.defaultTermType || getTermType(item.type);
 
     getComponent(item.type); // 处理Item的组件类型
 
@@ -335,7 +345,11 @@ const columnChange = (value: string, isChange: boolean) => {
         handleItemOptions(item.options);
     }
 
-    termsModel.value = undefined;
+    if (changeValue) {
+        termsModel.value = undefined;
+        termsModel.termType =
+            item.defaultTermType || getTermType(item.type, value);
+    }
 
     if (isChange) {
         valueChange();
@@ -346,7 +360,6 @@ const handleItem = () => {
     columnOptionMap.clear();
     columnOptions.value = [];
     if (!props.columns.length) return;
-
     columnOptions.value = props.columns.map((item) => {
         // 对columns进行Map处理以及值处理
         columnOptionMap.set(item.column, item);
@@ -387,48 +400,20 @@ const valueChange = () => {
 const reset = () => {
     termsModel.value = undefined;
 };
-const handleQuery = (_params: UrlParam) => {
-    if (_params.q) {
-        const path =
-            props.index < 4
-                ? [0, 'terms', props.index - 1]
-                : [1, 'terms', props.index - 4];
-        const itemData: SearchItemData = get(props.termsItem.terms, path);
-        if (itemData) {
-            termsModel.type = itemData.type;
-            termsModel.column = itemData.column;
-            termsModel.termType = itemData.termType;
-            termsModel.value = itemData.value;
-            const item = columnOptionMap.get(itemData.column);
-            getComponent(item.type); // 处理Item的组件类型
-
-            // 处理options 以及 request
-            if ('options' in item) {
-                handleItemOptions(item.options);
-            }
-        }
-    }
-};
 
 handleItem();
 
-onBeforeMount(() => {
-    cProps.value = props.componentProps;
-});
-
-nextTick(() => {
-    handleQuery(urlParams);
-});
-
-watch(
-    () => props.reset,
-    () => {
+watchEffect(() => {
+    if (props.termsItem) {
+        Object.keys(props.termsItem).forEach((key) => {
+            termsModel[key] = props.termsItem[key];
+            if (key === 'column') {
+                columnChange(termsModel[key] as string, false, false);
+            }
+        });
+    } else {
         handleItem();
-    },
-);
-
-defineExpose({
-    reset,
+    }
 });
 </script>
 

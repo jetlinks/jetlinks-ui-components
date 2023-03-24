@@ -1,52 +1,57 @@
 <template>
-    <div class="JSearch-warp">
-        <div class="JSearch-content simple">
-            <div class="JSearch-items">
-                <j-row :gutter="[16, 16]">
-                    <j-col
-                        v-for="(item, index) in searchItems"
-                        :key="index + '_' + item.column"
-                        :span="item.span || 24 / column"
-                    >
-                        <SearchItem
-                            :only-value="true"
-                            :expand="false"
-                            :index="index + 1"
-                            :columns="[item]"
-                            :component-props="item.componentProps"
-                            :terms-item="terms"
-                            :reset="resetNumber"
-                            @change="(v) => itemValueChange(v, index)"
-                        />
-                    </j-col>
-                    <j-col :span="24 / column">
-                        <div class="JSearch-footer--btns">
-                            <j-button
-                                type="stroke"
-                                class="no-radius"
-                                @click="reset"
-                            >
-                                重置
-                            </j-button>
-                            <j-button
-                                type="primary"
-                                ghost
-                                @click="searchSubmit"
-                                @keyup.enter="searchSubmit"
-                            >
-                                搜索
-                            </j-button>
-                        </div>
-                    </j-col>
-                </j-row>
+    <Form :model="terms" @finish="searchSubmit">
+        <div class="JSearch-warp">
+            <div class="JSearch-content simple">
+                <div class="JSearch-items">
+                    <j-row :gutter="[16, 16]">
+                        <j-col
+                            v-for="(item, index) in searchItems"
+                            :key="index + '_' + item.column"
+                            :span="item.span || 24 / column"
+                        >
+                            <SearchItem
+                                :only-value="true"
+                                :expand="false"
+                                :index="index + 1"
+                                :columns="[item]"
+                                :component-props="item.componentProps"
+                                :terms-item="terms.terms[index]"
+                                :reset="resetNumber"
+                                @change="(v) => itemValueChange(v, index)"
+                            />
+                        </j-col>
+                        <j-col :span="24 / column">
+                            <div class="JSearch-footer--btns">
+                                <j-button
+                                    type="stroke"
+                                    class="no-radius"
+                                    @click="reset"
+                                >
+                                    重置
+                                </j-button>
+                                <FormItemRest>
+                                    <j-button html-type="submit" type="primary">
+                                        搜索
+                                    </j-button>
+                                </FormItemRest>
+                            </div>
+                        </j-col>
+                    </j-row>
+                </div>
             </div>
         </div>
-    </div>
+    </Form>
 </template>
 
 <script setup lang="ts">
 import { JColumnsProps, SearchItemData, SearchProps, Terms } from './typing';
-import { Button as JButton, Row as JRow, Col as JCol } from '../components';
+import {
+    Button as JButton,
+    Row as JRow,
+    Col as JCol,
+    Form,
+    FormItemRest,
+} from '../components';
 import { set } from 'lodash-es';
 import { reactive, ref } from 'vue';
 import type { PropType } from 'vue';
@@ -90,10 +95,12 @@ const itemValueChange = (value: SearchItemData, index: number) => {
 
 const handleItems = () => {
     searchItems.value = [];
+    terms.terms = [];
     columnOptionMap.clear();
     props.columns!.forEach((item, index) => {
         if (item.search && Object.keys(item.search).length) {
             columnOptionMap.set(item.dataIndex, item.search);
+            terms.terms.push(null);
             searchItems.value.push({
                 ...item.search,
                 sortIndex: item.search.first ? 0 : index + 1,

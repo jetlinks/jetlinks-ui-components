@@ -5,6 +5,7 @@ export const withInstall = <T>(comp: T, name: string) => {
     c.install = function (app: App) {
         // @ts-ignore
         app.component(name, comp);
+        return app;
     };
 
     return comp as T & Plugin;
