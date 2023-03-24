@@ -355,12 +355,15 @@ const handleItems = () => {
     columnOptionMap.clear();
     props.columns!.forEach((item, index) => {
         if (item.search && Object.keys(item.search).length) {
-            columnOptionMap.set(item.dataIndex, item.search);
+            columnOptionMap.set(
+                item.search?.rename || item.dataIndex,
+                item.search,
+            );
             searchItems.value.push({
                 ...item.search,
                 sortIndex: item.search.first ? 0 : index + 1,
                 title: item.title as any,
-                column: item.dataIndex,
+                column: item.search?.rename || item.dataIndex,
             });
         }
     });

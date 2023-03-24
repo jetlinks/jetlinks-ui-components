@@ -333,6 +333,7 @@ const columnChange = (
 ) => {
     const item = columnOptionMap.get(value);
 
+    if (!item) return;
     cProps.value = item.componentProps;
     optionLoading.value = false;
     // 设置value为undefined
@@ -342,6 +343,7 @@ const columnChange = (
 
     // 处理options 以及 request
     if ('options' in item) {
+        console.log('handleItemOptions');
         handleItemOptions(item.options);
     }
 
@@ -406,10 +408,14 @@ handleItem();
 watchEffect(() => {
     if (props.termsItem) {
         Object.keys(props.termsItem).forEach((key) => {
-            termsModel[key] = props.termsItem[key];
-            if (key === 'column') {
-                columnChange(termsModel[key] as string, false, false);
+            console.log(
+                key,
+                key === 'column' && props.termsItem[key] !== termsModel[key],
+            );
+            if (key === 'column' && props.termsItem[key] !== termsModel[key]) {
+                columnChange(props.termsItem[key] as string, false, false);
             }
+            termsModel[key] = props.termsItem[key];
         });
     } else {
         handleItem();

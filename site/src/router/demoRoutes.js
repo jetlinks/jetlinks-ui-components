@@ -257,17 +257,6 @@ export default [
         component: () => import('../../../components/Divider/demo/index.vue'),
     },
     {
-        path: 'Dropdown',
-        meta: {
-            category: 'Components',
-            subtitle: '下拉菜单',
-            type: '导航',
-            title: 'Dropdown',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/eedWN59yJ/Dropdown.svg',
-        },
-        component: () => import('../../../components/Dropdown/demo/index.vue'),
-    },
-    {
         path: 'Drawer',
         meta: {
             category: 'Components',
@@ -277,6 +266,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/7z8NJQhFb/Drawer.svg',
         },
         component: () => import('../../../components/Drawer/demo/index.vue'),
+    },
+    {
+        path: 'Dropdown',
+        meta: {
+            category: 'Components',
+            subtitle: '下拉菜单',
+            type: '导航',
+            title: 'Dropdown',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/eedWN59yJ/Dropdown.svg',
+        },
+        component: () => import('../../../components/Dropdown/demo/index.vue'),
     },
     {
         path: 'Ellipsis',
@@ -432,6 +432,18 @@ export default [
             import('../../../components/MonacoEditor/demo/index.vue'),
     },
     {
+        path: 'Notification',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Notification',
+            subtitle: '通知提醒框',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/Jxm5nw61w/Notification.svg',
+        },
+        component: () =>
+            import('../../../components/Notification/demo/index.vue'),
+    },
+    {
         path: 'PageHeader',
         meta: {
             category: 'Components',
@@ -443,18 +455,6 @@ export default [
         },
         component: () =>
             import('../../../components/PageHeader/demo/index.vue'),
-    },
-    {
-        path: 'Notification',
-        meta: {
-            category: 'Components',
-            type: '反馈',
-            title: 'Notification',
-            subtitle: '通知提醒框',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/Jxm5nw61w/Notification.svg',
-        },
-        component: () =>
-            import('../../../components/Notification/demo/index.vue'),
     },
     {
         path: 'Pagination',

@@ -22,6 +22,8 @@ export const handleLikeValue = (v: string) => {
 
 const handleItemValue = (item, columnOptionMap) => {
     const _item = columnOptionMap.get(item.column);
+
+    if (!_item) return item;
     if (_item.rename) {
         item.column = _item.rename;
     }

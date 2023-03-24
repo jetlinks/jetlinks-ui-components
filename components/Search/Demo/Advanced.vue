@@ -55,6 +55,7 @@ export default {
                 dataIndex: 'type',
                 search: {
                     type: 'select',
+                    rename: 'typeTest',
                     options: [
                         { label: '类型1', value: 1 },
                         { label: '类型2', value: 2 },
