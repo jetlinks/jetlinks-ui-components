@@ -97,10 +97,26 @@ const handleItems = () => {
     searchItems.value = [];
     terms.terms = [];
     columnOptionMap.clear();
+    let hasSearch = false;
     props.columns!.forEach((item, index) => {
         if (item.search && Object.keys(item.search).length) {
             columnOptionMap.set(item.dataIndex, item.search);
-            terms.terms.push(null);
+            // 默认值
+            const { search } = item;
+            let defaultTerms = null;
+            if (search.defaultValue !== undefined || search.defaultTermType) {
+                defaultTerms = {
+                    termType: search.defaultTermType,
+                    type: 'and',
+                    value: search.defaultValue,
+                };
+            }
+
+            if (search.defaultValue !== undefined) {
+                hasSearch = true;
+            }
+
+            terms.terms.push(defaultTerms);
             searchItems.value.push({
                 ...item.search,
                 sortIndex: item.search.first ? 0 : index + 1,
@@ -109,6 +125,10 @@ const handleItems = () => {
             });
         }
     });
+
+    if (hasSearch) {
+        searchSubmit();
+    }
 };
 
 /**

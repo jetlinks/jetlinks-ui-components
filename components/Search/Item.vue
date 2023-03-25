@@ -343,7 +343,6 @@ const columnChange = (
 
     // 处理options 以及 request
     if ('options' in item) {
-        console.log('handleItemOptions');
         handleItemOptions(item.options);
     }
 
@@ -408,10 +407,6 @@ handleItem();
 watchEffect(() => {
     if (props.termsItem) {
         Object.keys(props.termsItem).forEach((key) => {
-            console.log(
-                key,
-                key === 'column' && props.termsItem[key] !== termsModel[key],
-            );
             if (key === 'column' && props.termsItem[key] !== termsModel[key]) {
                 columnChange(props.termsItem[key] as string, false, false);
             }

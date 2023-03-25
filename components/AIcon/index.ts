@@ -1,5 +1,5 @@
 import { withInstall } from '../util/type';
-import AIcon from './aIcon.vue';
+import AIcon from './icon';
 
 export const JLAIcon = withInstall(AIcon, 'AIcon');
 
