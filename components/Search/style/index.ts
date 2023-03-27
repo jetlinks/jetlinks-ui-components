@@ -7,8 +7,6 @@ import '../../Popconfirm/style';
 import '../../DatePicker/style';
 import '../../TimePicker/style';
 import '../../InputNumber/style';
-import '../../Checkbox/style';
-import '../../Radio/style';
 import '../../TreeSelect/style';
 import '../../Row/style';
 import '../../Col/style';

@@ -11,3 +11,4 @@ import '../../Tooltip/style';
 import '../../Input/style';
 import '../../Tree/style';
 import '../../Table/style';
+import '../../Alert/style';

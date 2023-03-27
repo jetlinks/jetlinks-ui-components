@@ -10,8 +10,7 @@
             </div>
         </template>
         <template #cancelButton>
-            <Button size="small" class="popconfirm-button" @click="cancel"
-                ><j-aIcon type="RightOutlined" />
+            <Button size="small" class="popconfirm-button" @click="cancel">
                 {{ props.cancelText || '取消' }}
             </Button>
         </template>
@@ -23,7 +22,6 @@
                 class="popconfirm-button"
                 @click="ok"
             >
-                <j-aIcon v-if="!loading" type="RightOutlined" />
                 {{ props.okText || '确定' }}
             </Button>
         </template>
@@ -35,6 +33,7 @@
 import { Popconfirm, Button } from 'ant-design-vue';
 import { popconfirmProps } from 'ant-design-vue/lib/popconfirm';
 import { ref } from 'vue';
+import { AIcon as JAIcon } from '../components';
 
 const props = defineProps({
     ...popconfirmProps(),

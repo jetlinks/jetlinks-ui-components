@@ -7,11 +7,9 @@ import {
     Alert,
     Spin,
     RadioGroup,
-    RadioButton
+    RadioButton,
 } from '../../../components';
-import type {
-    RadioChangeEvent
-} from '../../../components';
+import type { RadioChangeEvent } from '../../../components';
 import type { TableProps } from 'ant-design-vue/lib/table';
 import {
     defineComponent,
@@ -27,7 +25,7 @@ import {
     TypeEnum,
     RequestData,
 } from '../proTableTypes';
-import { get, throttle } from 'lodash-es';
+import { get, debounce } from 'lodash-es';
 import { tableProps as _tableProps } from 'ant-design-vue/lib/table';
 
 export interface JTableProps extends TableProps {
@@ -104,7 +102,7 @@ const tableProps = () => {
         },
         params: {
             type: Object,
-            default: () => { },
+            default: () => {},
         },
         type: {
             type: String,
@@ -118,23 +116,23 @@ const tableProps = () => {
         },
         defaultParams: {
             type: Object,
-            default: () => { },
+            default: () => {},
         },
         rowKey: {
             type: [String, Function],
-            default: 'id'
+            default: 'id',
         },
         pagination: {
-            type: Object, // Boolean, 
+            type: Object, // Boolean,
             default: () => {
                 return {
                     showSizeChanger: true,
                     showQuickJumper: false,
                     size: 'size',
-                    pageSizeOptions: ['12', '24', '48', '96']
-                }
-            }
-        }
+                    pageSizeOptions: ['12', '24', '48', '96'],
+                };
+            },
+        },
     };
 };
 
@@ -242,12 +240,13 @@ const ProTable = defineComponent<JTableProps>({
                     : false;
         };
 
-        const _throttleFn = throttle(handleSearch, 500)
+        const _debounceFn = debounce(handleSearch, 300);
 
         watch(
             () => props.params,
             (newValue) => {
-                _throttleFn(newValue || {})
+                console.log('请求参数---params', new Date().getTime());
+                _debounceFn(newValue || {});
             },
             { deep: true, immediate: true },
         );
@@ -270,7 +269,7 @@ const ProTable = defineComponent<JTableProps>({
             handleSearch({
                 ..._params,
                 pageSize: pageSize.value || 12, // 刷新页面不改变分页情况
-                pageIndex: pageIndex.value || 0
+                pageIndex: pageIndex.value || 0,
             });
         };
 
@@ -329,11 +328,19 @@ const ProTable = defineComponent<JTableProps>({
                                     >
                                         <AIcon type="UnorderedListOutlined" />
                                     </div> */}
-                                    <RadioGroup class="jtable-body-header-right-button" value={_model.value} onChange={(e: RadioChangeEvent) => {
-                                        _model.value = e.target.value
-                                    }}>
-                                        <RadioButton value={ModelEnum.TABLE}><AIcon type="UnorderedListOutlined" /></RadioButton>
-                                        <RadioButton value={ModelEnum.CARD}><AIcon type="AppstoreOutlined" /></RadioButton>
+                                    <RadioGroup
+                                        class="jtable-body-header-right-button"
+                                        value={_model.value}
+                                        onChange={(e: RadioChangeEvent) => {
+                                            _model.value = e.target.value;
+                                        }}
+                                    >
+                                        <RadioButton value={ModelEnum.TABLE}>
+                                            <AIcon type="UnorderedListOutlined" />
+                                        </RadioButton>
+                                        <RadioButton value={ModelEnum.CARD}>
+                                            <AIcon type="AppstoreOutlined" />
+                                        </RadioButton>
                                     </RadioGroup>
                                 </div>
                             )}
@@ -342,9 +349,9 @@ const ProTable = defineComponent<JTableProps>({
                     {/* content */}
                     <div class={'jtable-content'}>
                         {props.alertRender &&
-                            props?.rowSelection &&
-                            props?.rowSelection?.selectedRowKeys &&
-                            props.rowSelection.selectedRowKeys?.length ? (
+                        props?.rowSelection &&
+                        props?.rowSelection?.selectedRowKeys &&
+                        props.rowSelection.selectedRowKeys?.length ? (
                             <div class={'jtable-alert'}>
                                 <Alert
                                     message={
@@ -438,7 +445,12 @@ const ProTable = defineComponent<JTableProps>({
                                                 //     ] || ''
                                                 // );
                                                 // 获取数据
-                                                return get(record, column?.dataIndex) || ""
+                                                return (
+                                                    get(
+                                                        record,
+                                                        column?.dataIndex,
+                                                    ) || ''
+                                                );
                                             }
                                         },
                                         emptyText: () => <Empty />,
@@ -463,13 +475,14 @@ const ProTable = defineComponent<JTableProps>({
                                         showTotal={(num) => {
                                             const minSize =
                                                 pageIndex.value *
-                                                pageSize.value +
+                                                    pageSize.value +
                                                 1;
                                             const MaxSize =
                                                 (pageIndex.value + 1) *
                                                 pageSize.value;
-                                            return `第 ${minSize} - ${MaxSize > num ? num : MaxSize
-                                                } 条/总共 ${num} 条`;
+                                            return `第 ${minSize} - ${
+                                                MaxSize > num ? num : MaxSize
+                                            } 条/总共 ${num} 条`;
                                         }}
                                         onChange={(page, size) => {
                                             handleSearch({

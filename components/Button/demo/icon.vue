@@ -16,7 +16,7 @@ title: 图标按钮
     <Space>
         <j-button type="text" myIcon="ImportOutlined">导入</j-button>
         <j-button type="primary">
-            <j-aIcon type="DownloadOutlined" />Primary
+            <AIcon type="DownloadOutlined" />Primary
         </j-button>
         <j-button danger type="primary">Primary</j-button>
         <j-button danger type="icon-danger" shape="circle">

@@ -15,6 +15,7 @@ export interface SearchBaseProps {
     options?: any[] | Function;
     first?: boolean;
     defaultTermType?: string; // 默认 eq
+    defaultValue?: any; // 默认值
     title?: ColumnType['title'];
     sortIndex?: number;
     componentProps?: any;
