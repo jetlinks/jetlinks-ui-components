@@ -445,18 +445,12 @@ const ProTable = defineComponent<JTableProps>({
                                                     column?.dataIndex;
                                                 return slots?.[_key]!(record);
                                             } else {
-                                                // return (
-                                                //     record?.[
-                                                //     column?.dataIndex
-                                                //     ] || ''
-                                                // );
+                                                const _value = get(
+                                                    record,
+                                                    column?.dataIndex,
+                                                )
                                                 // 获取数据
-                                                return (
-                                                    get(
-                                                        record,
-                                                        column?.dataIndex,
-                                                    ) || ''
-                                                );
+                                                return _value
                                             }
                                         },
                                         emptyText: () => <Empty />,
