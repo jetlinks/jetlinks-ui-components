@@ -102,7 +102,7 @@ const tableProps = () => {
         },
         params: {
             type: Object,
-            default: () => {},
+            default: () => { },
         },
         type: {
             type: String,
@@ -116,7 +116,7 @@ const tableProps = () => {
         },
         defaultParams: {
             type: Object,
-            default: () => {},
+            default: () => { },
         },
         rowKey: {
             type: [String, Function],
@@ -192,7 +192,7 @@ const ProTable = defineComponent<JTableProps>({
             _loading.value =
                 props.loading !== undefined ? (props.loading as boolean) : true;
             if (props.request) {
-                const resp = await props.request({
+                const resp: any = await props.request({
                     pageIndex: 0,
                     pageSize: 12,
                     ...props.defaultParams,
@@ -201,6 +201,11 @@ const ProTable = defineComponent<JTableProps>({
                         ...(props.defaultParams?.terms || []),
                         ...(_params?.terms || []),
                     ],
+                }).catch(() => {
+                    _loading.value =
+                        props.loading !== undefined
+                            ? (props.loading as boolean)
+                            : false;
                 });
                 if (resp.status === 200) {
                     if (props.type === 'PAGE') {
@@ -267,6 +272,7 @@ const ProTable = defineComponent<JTableProps>({
          */
         const reload = (_params?: Record<string, any>) => {
             handleSearch({
+                ...props.params,
                 ..._params,
                 pageSize: pageSize.value || 12, // 刷新页面不改变分页情况
                 pageIndex: pageIndex.value || 0,
@@ -349,9 +355,9 @@ const ProTable = defineComponent<JTableProps>({
                     {/* content */}
                     <div class={'jtable-content'}>
                         {props.alertRender &&
-                        props?.rowSelection &&
-                        props?.rowSelection?.selectedRowKeys &&
-                        props.rowSelection.selectedRowKeys?.length ? (
+                            props?.rowSelection &&
+                            props?.rowSelection?.selectedRowKeys &&
+                            props.rowSelection.selectedRowKeys?.length ? (
                             <div class={'jtable-alert'}>
                                 <Alert
                                     message={
@@ -475,14 +481,13 @@ const ProTable = defineComponent<JTableProps>({
                                         showTotal={(num) => {
                                             const minSize =
                                                 pageIndex.value *
-                                                    pageSize.value +
+                                                pageSize.value +
                                                 1;
                                             const MaxSize =
                                                 (pageIndex.value + 1) *
                                                 pageSize.value;
-                                            return `第 ${minSize} - ${
-                                                MaxSize > num ? num : MaxSize
-                                            } 条/总共 ${num} 条`;
+                                            return `第 ${minSize} - ${MaxSize > num ? num : MaxSize
+                                                } 条/总共 ${num} 条`;
                                         }}
                                         onChange={(page, size) => {
                                             handleSearch({
