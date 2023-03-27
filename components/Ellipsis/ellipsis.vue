@@ -1,5 +1,10 @@
 <template>
-    <j-tooltip ref="tooltipRef" placement="top" v-bind="props.tooltip">
+    <j-tooltip
+        ref="tooltipRef"
+        placement="top"
+        v-bind="props.tooltip"
+        :visible="visible"
+    >
         <template v-if="props.tooltip" #title>
             <slot></slot>
             <slot name="tooltip"></slot>
@@ -12,9 +17,10 @@
                 [
                     props.expandTrigger === 'click'
                         ? getTooltipDisabled()
-                        : undefined,
+                        : showTooltip(),
                 ]
             "
+            @mouseleave="visible = false"
         >
             <slot></slot>
         </span>
@@ -71,6 +77,14 @@ function triggerAttrs() {
 const expandedRef = ref(false);
 const tooltipRef = ref<HTMLElement | null>(null);
 const triggerRef = ref<HTMLElement | null>(null);
+const visible = ref(false);
+
+const showTooltip = () => {
+    const { value: trigger } = triggerRef;
+    if (trigger) {
+        visible.value = trigger.scrollHeight > trigger.offsetHeight;
+    }
+};
 
 const ellipsisStyleRef = computed(() => {
     const { lineClamp } = props;
