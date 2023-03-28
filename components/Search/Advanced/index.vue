@@ -116,7 +116,7 @@
                             :expand="false"
                             :index="1"
                             :columns="searchItems"
-                            :terms-item="terms"
+                            :terms-item="termsData.terms[0].terms[0]"
                             :reset="resetNumber"
                             @change="(v) => itemValueChange(v, 1)"
                         />
