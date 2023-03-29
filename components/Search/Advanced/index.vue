@@ -330,6 +330,7 @@ watch(
         } else {
             layout.value = 'horizontal';
             screenSize.value = true;
+            compatible.value = false
         }
     },
     { immediate: true },
