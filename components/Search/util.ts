@@ -62,7 +62,8 @@ export const termsParamsFormat = (
                                     (iItem) =>
                                         iItem &&
                                         iItem.value !== undefined &&
-                                        iItem.value !== '',
+                                        iItem.value !== '' &&
+                                        iItem.column !== undefined,
                                 )
                                 .map((iItem) =>
                                     handleItemValue(iItem, columnOptionMap),
@@ -78,7 +79,8 @@ export const termsParamsFormat = (
                     (iItem) =>
                         iItem &&
                         iItem.value !== undefined &&
-                        iItem.value !== '',
+                        iItem.value !== '' &&
+                        iItem.column !== undefined,
                 )
                 .map((iItem) => handleItemValue(iItem, columnOptionMap));
         }

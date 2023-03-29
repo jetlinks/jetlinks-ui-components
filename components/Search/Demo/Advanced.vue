@@ -63,7 +63,7 @@ export default {
                 },
             },
             {
-                title: '类型',
+                title: '类型2',
                 dataIndex: 'type2',
                 search: {
                     type: 'select',
@@ -71,49 +71,6 @@ export default {
                         { label: '类型1', value: 1 },
                         { label: '类型2', value: 2 },
                     ],
-                },
-            },
-            {
-                title: '分类',
-                dataIndex: 'tree',
-                search: {
-                    type: 'treeSelect',
-                    options: () => {
-                        return new Promise((res) => {
-                            res([
-                                { key: 123, id: 123, name: '12311' },
-                                {
-                                    key: 1231,
-                                    id: 1231,
-                                    name: '123111',
-                                    children: [
-                                        { key: 321, id: 321, name: '321' },
-                                    ],
-                                },
-                            ]);
-                        });
-                    },
-                },
-            },
-            {
-                title: '时间',
-                dataIndex: 'time',
-                search: {
-                    type: 'timeRange',
-                },
-            },
-            {
-                title: '时间2',
-                dataIndex: 'time',
-                search: {
-                    type: 'time',
-                },
-            },
-            {
-                title: 'id',
-                dataIndex: 'id',
-                search: {
-                    type: 'string',
                 },
             },
         ];

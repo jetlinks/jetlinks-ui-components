@@ -15,12 +15,14 @@
             </div>
             <j-select
                 v-model:value="termsModel.column"
+                placeholder="请选择"
                 class="JSearch-item--column"
                 :options="columnOptions"
                 @change="columnChange"
             />
             <j-select
                 v-model:value="termsModel.termType"
+                placeholder="请选择"
                 class="JSearch-item--termType"
                 :options="termTypeOptions.option"
                 @change="termTypeChange"
@@ -200,7 +202,7 @@ const termsModel = reactive<SearchItemData>({
     type: props.termsItem?.type || 'or',
     value: props.termsItem?.value || '',
     termType: props.termsItem?.termType || 'like',
-    column: props.termsItem?.column || '',
+    column: props.termsItem?.column || undefined,
 });
 
 const component = ref(componentType.input);
@@ -319,6 +321,7 @@ const columnChange = (
     if (!item) return;
     cProps.value = item.componentProps;
     optionLoading.value = false;
+    console.log(value);
     // 设置value为undefined
     termsModel.column = value;
 
@@ -361,8 +364,11 @@ const handleItem = () => {
             props.index > sortColumn.length
                 ? sortColumn.length - 1
                 : props.index;
-        const _itemColumn = sortColumn[_index - 1];
-        columnChange(_itemColumn.column as string, false);
+        if (props.index <= sortColumn.length) {
+            const _itemColumn = sortColumn[_index - 1];
+            console.log(_itemColumn);
+            columnChange(_itemColumn.column as string, false);
+        }
     } else {
         columnChange(props.columns[0]?.column as string, false);
     }
