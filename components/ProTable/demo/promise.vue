@@ -9,30 +9,36 @@ title: 远程加载数据
 </docs>
 <template>
     <!-- <j-button @click="onChange">改变params</j-button> -->
-    <j-pro-table
-        :columns="columns"
-        :request="query"
-        :params="params"
-        :defaultParams="{ sorts: [{ name: 'createTime', order: 'desc' }] }"
-        ref="instanceRef"
-        :pagination="{
-            pageSizeOptions: ['10', '20'],
-        }"
-    >
-        <template #headerTitle
-            ><j-button type="primary" @click="refresh"
-                >刷新页面</j-button
-            ></template
+    <div style="height: 600px;">
+        <j-pro-table
+            :columns="columns"
+            :request="query"
+            :params="params"
+            :defaultParams="{ sorts: [{ name: 'createTime', order: 'desc' }] }"
+            ref="instanceRef"
+            :pagination="{
+                pageSizeOptions: ['10', '20'],
+            }"
         >
-        <template #card="slotProps">
-            <div
-                style="width: 100%; border: 1px solid lightgray; padding: 20px"
+            <template #headerTitle
+                ><j-button type="primary" @click="refresh"
+                    >刷新页面</j-button
+                ></template
             >
-                <p>年龄： {{ slotProps?.age }}</p>
-                <p>{{ slotProps?.address }}</p>
-            </div>
-        </template>
-    </j-pro-table>
+            <template #card="slotProps">
+                <div
+                    style="
+                        width: 100%;
+                        border: 1px solid lightgray;
+                        padding: 20px;
+                    "
+                >
+                    <p>年龄： {{ slotProps?.age }}</p>
+                    <p>{{ slotProps?.address }}</p>
+                </div>
+            </template>
+        </j-pro-table>
+    </div>
 </template>
 
 <script lang="ts">
