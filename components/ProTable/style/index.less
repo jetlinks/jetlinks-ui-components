@@ -1,73 +1,79 @@
 @import '../../style/variable.less';
 
-.jtable-body {
+.jtable-body-spin {
+    height: 100%;
     width: 100%;
     padding: 16px 24px 24px;
-    background-color: white;
-    box-sizing: border-box;
+    background-color: #fff;
 
-    .jtable-body-header {
+    .ant-spin-nested-loading {
+        height: 100%;
+        .ant-spin-container {
+            height: 100%;
+        }
+    }
+
+    .jtable-body {
+        width: 100%;
+        box-sizing: border-box;
+        height: 100%;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
 
-        .jtable-body-header-right {
+        .jtable-body-header {
             display: flex;
-            gap: 8px;
+            justify-content: space-between;
             align-items: center;
 
-            .jtable-body-header-right-button {
-                .ant-radio-button-wrapper {
-                    padding: 0 8px;
-                }
-                // display: flex;
-                // margin-left: 10px;
-                // gap: 8px;
+            .jtable-body-header-right {
+                display: flex;
+                gap: 8px;
+                align-items: center;
 
-                // .jtable-setting-item {
-                //     color: rgba(0, 0, 0, 0.75);
-                //     font-size: 16px;
-                //     cursor: pointer;
-
-                //     &:hover {
-                //         color: @primary-color-hover;
-                //     }
-
-                //     &.active {
-                //         color: @primary-color-active;
-                //     }
-                // }
-            }
-        }
-    }
-
-    .jtable-content {
-        padding: 16px 0;
-        .jtable-alert {
-            margin-bottom: 16px;
-        }
-
-        .jtable-card {
-            .jtable-card-items {
-                display: grid;
-                grid-gap: 26px;
-
-                .jtable-card-item {
-                    display: flex;
+                .jtable-body-header-right-button {
+                    .ant-radio-button-wrapper {
+                        padding: 0 8px;
+                    }
                 }
             }
         }
-    }
 
-    .jtable-pagination {
-        display: flex;
-        justify-content: flex-end;
-    }
+        .jtable-content {
+            flex: 1;
+            padding: 16px 0;
 
-    .j-table-empty {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 10% 0;
+            .jtable-alert {
+                margin-bottom: 16px;
+            }
+
+            .jtable-card {
+                .jtable-card-items {
+                    display: grid;
+                    grid-gap: 26px;
+
+                    .jtable-card-item {
+                        display: flex;
+                    }
+                }
+            }
+        }
+
+        .jtable-pagination {
+            // position: absolute;
+            // background-color: white;
+            // padding: 10px 0;
+            // right: 0;
+            // bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .j-table-empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10% 0;
+        }
     }
 }
