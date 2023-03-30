@@ -52,6 +52,7 @@
                         <j-select
                             v-model:value="termsData.terms[1].type"
                             class="center-select"
+                            style="width: 100px"
                             :options="typeOptions"
                         />
                     </div>
@@ -330,7 +331,7 @@ watch(
         } else {
             layout.value = 'horizontal';
             screenSize.value = true;
-            compatible.value = false
+            compatible.value = false;
         }
     },
     { immediate: true },

@@ -4,7 +4,8 @@
     align-items: center;
 
     .JSearch-item--type {
-        min-width: 80px;
+        width: 90px;
+        min-width: 0;
         > span {
             line-height: 34px;
             font-weight: bold;
@@ -13,16 +14,20 @@
 
     .JSearch-item--column {
         width: 130px;
+        min-width: 0;
     }
 
     .JSearch-item--termType {
         width: 100px;
+        min-width: 0;
     }
     .JSearch-item--label {
         min-width: 40px;
     }
 
     .JSearch-item--value {
-        flex: 1 1 auto;
+        display: flex;
+        width: 0;
+        flex-grow: 1;
     }
 }
