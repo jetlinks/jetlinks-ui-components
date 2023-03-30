@@ -150,5 +150,9 @@
     "webpack-dev-server": "^4.0.0",
     "webpack-merge": "^5.0.0",
     "webpackbar": "^5.0.2"
+  },
+  "volta": {
+    "node": "18.14.0",
+    "yarn": "1.22.0"
   }
 }

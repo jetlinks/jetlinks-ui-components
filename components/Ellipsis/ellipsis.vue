@@ -6,8 +6,10 @@
         :visible="visible"
     >
         <template v-if="props.tooltip" #title>
-            <slot></slot>
-            <slot name="tooltip"></slot>
+            <div class="j-ellipsis-line-clamp j-ellipsis j-ellipsis-deep">
+                <slot></slot>
+                <slot name="tooltip"></slot>
+            </div>
         </template>
         <span
             ref="triggerRef"
@@ -28,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Tooltip as JTooltip, TooltipProps } from '../components';
+import { Tooltip as JTooltip, TooltipProps, Ellipsis } from '../components';
 
 import { computed, mergeProps, PropType, ref, useAttrs } from 'vue';
 

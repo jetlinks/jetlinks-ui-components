@@ -147,7 +147,7 @@ const searchSubmit = () => {
 const resetNumber = ref(1);
 const reset = () => {
     resetNumber.value += 1;
-    terms.terms = [];
+    handleItems();
     if (props.type == 'object') {
         emit('search', {});
     } else if (props.type == 'terms') {

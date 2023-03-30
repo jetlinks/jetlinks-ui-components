@@ -73,6 +73,7 @@ import {
     FormItemRest,
     Popover,
     Ellipsis,
+    message,
 } from '../../components';
 
 type Emit = {
@@ -133,8 +134,16 @@ const itemClick = (content: string) => {
 
 const deleteHistory = async (item: any) => {
     if (props.deleteRequest && isFunction(props.deleteRequest)) {
-        await props.deleteRequest(props.target, item[props.deleteKey]);
+        const resp = await props.deleteRequest(
+            props.target,
+            item[props.deleteKey],
+        );
         historyVisible.value = false;
+        if (resp.success || resp.status === 200 || resp.code === 200) {
+            message.success('操作成功');
+        } else {
+            message.error('操作失败');
+        }
     }
 };
 </script>

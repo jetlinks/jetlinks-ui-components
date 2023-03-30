@@ -4,9 +4,10 @@
             <!--  高级模式  -->
             <div
                 v-if="props.type === 'advanced'"
+                ref="searchRefContentRef"
                 :class="[
                     'JSearch-content',
-                    expand ? 'senior-expand' : 'pack-up',
+                    expand || compatible ? 'senior-expand' : 'pack-up',
                     screenSize ? 'big' : 'small',
                 ]"
             >
@@ -69,7 +70,12 @@
                         </div>
                     </div>
                 </div>
-                <div :class="['JSearch-footer', expand ? 'expand' : '']">
+                <div
+                    :class="[
+                        'JSearch-footer',
+                        expand || compatible ? 'expand' : '',
+                    ]"
+                >
                     <div class="JSearch-footer--btns">
                         <j-button
                             type="stroke"
@@ -116,7 +122,7 @@
                             :expand="false"
                             :index="1"
                             :columns="searchItems"
-                            :terms-item="terms"
+                            :terms-item="termsData.terms[0].terms[0]"
                             :reset="resetNumber"
                             @change="(v) => itemValueChange(v, 1)"
                         />
@@ -224,6 +230,7 @@ const props = defineProps({
 });
 
 const searchRef = ref(null);
+const searchRefContentRef = ref(null);
 const { width } = useElementSize(searchRef);
 
 const urlParams = useUrlSearchParams<UrlParam>(
@@ -235,6 +242,7 @@ const expand = ref(false);
 
 // 组件方向
 const layout = ref('horizontal');
+const compatible = ref(false);
 // 当前组件宽度 true 大于1000
 const screenSize = ref(true);
 const resetNumber = ref(1);
@@ -312,15 +320,20 @@ const reset = () => {
     emit('search', { terms: [] });
 };
 
-watch(width, (value) => {
-    if (value < 1000) {
-        layout.value = 'vertical';
-        screenSize.value = false;
-    } else {
-        layout.value = 'horizontal';
-        screenSize.value = true;
-    }
-});
+watch(
+    width,
+    (value) => {
+        if (value < 1000) {
+            layout.value = 'vertical';
+            screenSize.value = false;
+            compatible.value = value < 760;
+        } else {
+            layout.value = 'horizontal';
+            screenSize.value = true;
+        }
+    },
+    { immediate: true },
+);
 
 const historyItemClick = (content: string) => {
     try {

@@ -49,6 +49,7 @@ import {
     AIcon,
     Popover,
     Textarea,
+    message,
 } from '../../components';
 import { isFunction } from 'lodash-es';
 
@@ -98,8 +99,11 @@ const saveHistory = async () => {
         saveHistoryLoading.value = true;
         const resp = await props.request(formData, props.target);
         saveHistoryLoading.value = false;
-        if (resp.status === 200) {
+        if (resp.success || resp.status === 200 || resp.code === 200) {
+            message.success('操作成功');
             visibleChange(false);
+        } else {
+            message.error('操作失败');
         }
     }
 };
