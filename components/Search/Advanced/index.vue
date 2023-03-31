@@ -296,7 +296,6 @@ const addUrlParams = () => {
  * 提交
  */
 const searchSubmit = () => {
-    console.log('searchSubmit');
     emit('search', termsParamsFormat(termsData, columnOptionMap));
     if (props.type === 'advanced') {
         addUrlParams();
@@ -307,7 +306,6 @@ const searchSubmit = () => {
  * 重置查询
  */
 const reset = () => {
-    console.log('reset');
     termsData.terms = [
         { terms: [null, null, null] },
         { terms: [null, null, null], type: 'and' },

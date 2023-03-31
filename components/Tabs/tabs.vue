@@ -36,19 +36,15 @@ const { width } = useElementSize(jetTabs);
 watch(
     width,
     () => {
-        centerExtraWidth.value =
-            jetTabs.value.querySelector('.ant-tabs-nav-wrap').clientWidth -
-            jetTabs.value.querySelector('.ant-tabs-nav-list').clientWidth -
-            10 +
-            'px';
-        content.value = jetTabs.value.querySelector('.ant-tabs-nav-wrap');
+        if (jetTabs.value) {
+            centerExtraWidth.value =
+                jetTabs.value.querySelector('.ant-tabs-nav-wrap').clientWidth -
+                jetTabs.value.querySelector('.ant-tabs-nav-list').clientWidth -
+                10 +
+                'px';
+            content.value = jetTabs.value.querySelector('.ant-tabs-nav-wrap');
+        }
     },
     { immediate: true },
 );
-
-// onMounted(() => {
-//     nextTick(() => {
-//
-//     });
-// });
 </script>
