@@ -1,10 +1,10 @@
 # Jetlinks-ui-components
 
-前端 UI 组件库，采用 [vue3](https://v3.cn.vuejs.org) + TypeScript + [ant-design-vue](https://www.antdv.com/components/overview-cn) 开发
+前端 UI 组件库，采用 [vue3](https://v3.cn.vuejs.org) + [TypeScript](https://www.typescriptlang.org/zh/docs/handbook/2/basic-types.html) + [ant-design-vue](https://www.antdv.com/components/overview-cn) 开发
 
 ## 特性
 
-整合 element-plus、ant-design-vue 和 naive-ui 组件和方法，更加全面、方便快捷于项目开发
+整合 [element-plus](https://element-plus.org/zh-CN/) 、 [ant-design-vue](https://www.antdv.com/components/overview-cn) 和 [naive-ui](https://www.naiveui.com/zh-CN/os-theme) 组件和方法，更加全面、方便快捷于项目开发
 
 ## 代码规范
 
