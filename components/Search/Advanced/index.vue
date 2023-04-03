@@ -1,6 +1,10 @@
 <template>
     <Form :model="termsData" @finish="searchSubmit">
-        <div ref="searchRef" :class="['JSearch-warp', 'senior', props.class]">
+        <div
+            ref="searchRef"
+            :class="['JSearch-warp', 'senior', props.class]"
+            :style="style"
+        >
             <!--  高级模式  -->
             <div
                 v-if="props.type === 'advanced'"
@@ -217,6 +221,10 @@ const props = defineProps({
     routerMode: {
         type: String,
         default: 'hash',
+    },
+    style: {
+        type: [String, Object],
+        default: undefined,
     },
 });
 
