@@ -22,11 +22,7 @@
                         </j-col>
                         <j-col :span="24 / column">
                             <div class="JSearch-footer--btns">
-                                <j-button
-                                    type="stroke"
-                                    class="no-radius"
-                                    @click="reset"
-                                >
+                                <j-button type="stroke" @click="reset">
                                     重置
                                 </j-button>
                                 <FormItemRest>

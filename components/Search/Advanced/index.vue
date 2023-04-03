@@ -78,13 +78,7 @@
                     ]"
                 >
                     <div class="JSearch-footer--btns">
-                        <j-button
-                            type="stroke"
-                            class="no-radius"
-                            @click="reset"
-                        >
-                            重置
-                        </j-button>
+                        <j-button type="stroke" @click="reset"> 重置 </j-button>
                         <SaveHistory
                             :terms="termsData"
                             :target="target"
@@ -132,11 +126,7 @@
                 <div class="JSearch-footer">
                     <div class="JSearch-footer--btns">
                         <FormItemRest>
-                            <j-button
-                                type="stroke"
-                                class="no-radius"
-                                @click="reset"
-                            >
+                            <j-button type="stroke" @click="reset">
                                 重置
                             </j-button>
                             <j-button html-type="submit" type="primary">
