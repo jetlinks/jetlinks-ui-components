@@ -154,6 +154,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
         return {
             [prefixCls]: true,
             light: props.theme === 'light',
+            dark: props.theme === 'dark',
         };
     });
 
