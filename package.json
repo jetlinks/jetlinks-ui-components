@@ -1,8 +1,18 @@
 {
   "name": "jetlinks-ui-components",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "keywords": [
+    "vue",
+    "vue3",
+    "component",
+    "components",
+    "ui",
+    "framework",
+    "jetLinks",
+    "jetlinks-ui"
+  ],
   "scripts": {
     "predev": "node node_modules/esbuild/install.js",
     "dev": "yarn predev && yarn routes && vite serve site",
@@ -21,10 +31,26 @@
     "lib",
     "es"
   ],
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "not IE 11"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jetlinks/jetlinks-ui-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jetlinks/jetlinks-ui-components/issues"
+  },
   "dependencies": {
     "@vueuse/core": "^9.12.0",
+    "@vueuse/router": "^9.13.0",
     "ant-design-vue": "^3.2.15",
     "colorpicker-v3": "^2.10.2",
+    "jetlinks-ui-components": "1.0.5",
     "lodash-es": "^4.17.21",
     "monaco-editor": "^0.35.0"
   },
@@ -154,5 +180,8 @@
   "volta": {
     "node": "18.14.0",
     "yarn": "1.22.0"
+  },
+  "engines": {
+    "node": ">=18.14.0"
   }
 }

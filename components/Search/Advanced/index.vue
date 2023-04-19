@@ -352,7 +352,6 @@ const handleUrlParams = (_params: UrlParam) => {
         termsData.terms =
             handleQData(compatibleOldTerms(_params.q))?.terms || [];
         expand.value = hasExpand(termsData.terms);
-        console.log('handleUrlParams');
         emit('search', termsParamsFormat(termsData, columnOptionMap));
     }
 };
@@ -378,7 +377,7 @@ const handleItems = () => {
         }
     });
 
-    handleUrlParams(urlParams);
+    handleUrlParams({ q: q.value, target: target.value });
 };
 
 handleItems();
