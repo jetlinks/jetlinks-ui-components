@@ -1,6 +1,6 @@
 <template>
     <Form :model="terms" @finish="searchSubmit">
-        <div class="JSearch-warp">
+        <div :class="['JSearch-warp', props.class]" :style="style">
             <div class="JSearch-content simple">
                 <div class="JSearch-items">
                     <j-row :gutter="[16, 16]">
@@ -74,6 +74,14 @@ const props = defineProps({
     column: {
         type: Number,
         default: 4,
+    },
+    style: {
+        type: [String, Object],
+        default: undefined,
+    },
+    class: {
+        type: String,
+        default: '',
     },
 });
 

@@ -1,6 +1,10 @@
 <template>
     <Form :model="termsData" @finish="searchSubmit">
-        <div ref="searchRef" :class="['JSearch-warp', 'senior', props.class]">
+        <div
+            ref="searchRef"
+            :class="['JSearch-warp', 'senior', props.class]"
+            :style="style"
+        >
             <!--  高级模式  -->
             <div
                 v-if="props.type === 'advanced'"
@@ -143,7 +147,8 @@
 <script setup lang="ts">
 import SearchItem from '../Item.vue';
 import { typeOptions } from '../setting';
-import { useElementSize, useUrlSearchParams } from '@vueuse/core';
+import { useElementSize } from '@vueuse/core';
+import { useRouteQuery } from '@vueuse/router';
 import { PropType, ref, reactive, watch } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
@@ -155,7 +160,6 @@ import type {
 } from '../typing';
 import {
     compatibleOldTerms,
-    handleParamsToString,
     handleQData,
     hasExpand,
     termsParamsFormat,
@@ -218,15 +222,18 @@ const props = defineProps({
         type: String,
         default: 'hash',
     },
+    style: {
+        type: [String, Object],
+        default: undefined,
+    },
 });
 
 const searchRef = ref(null);
 const searchRefContentRef = ref(null);
 const { width } = useElementSize(searchRef);
 
-const urlParams = useUrlSearchParams<UrlParam>(
-    props.routerMode as 'hash' | 'history' | 'hash-params',
-);
+const q = useRouteQuery('q');
+const target = useRouteQuery('target');
 
 // 是否展开更多筛选
 const expand = ref(false);
@@ -278,8 +285,8 @@ const itemValueChange = (value: SearchItemData, index: number) => {
 };
 
 const addUrlParams = () => {
-    urlParams.q = JSON.stringify(termsData);
-    urlParams.target = props.target;
+    q.value = JSON.stringify(termsData);
+    target.value = props.target;
 };
 
 /**
@@ -302,8 +309,8 @@ const reset = () => {
     ];
     expand.value = false;
     if (props.type === 'advanced') {
-        urlParams.q = null;
-        urlParams.target = null;
+        q.value = null;
+        target.value = null;
     }
     resetNumber.value += 1;
     emit('search', { terms: [] });

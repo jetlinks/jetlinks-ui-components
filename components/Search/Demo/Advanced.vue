@@ -15,6 +15,7 @@ AdvancedSearch组件组件基本使用
         target="test"
         routerMode="history"
         :deleteRequest="deleteRequest"
+        style="padding: 0"
     />
     <div>
         查询结果:
