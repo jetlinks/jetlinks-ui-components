@@ -29,7 +29,7 @@
             />
         </template>
         <template v-else>
-            <div class="JSearch-item--label">
+            <div class="JSearch-item--label" :style="{minWidth: `${labelWidth}px`}">
                 {{ columnOptions[0]?.label }}
             </div>
         </template>
@@ -126,6 +126,13 @@
                     "
                     @change="valueChange"
                 />
+                <component
+                    v-else-if="component === componentType.component && componentName"
+                    v-model:value="termsModel.value"
+                    :is="componentName"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
             </FormItem>
         </div>
     </div>
@@ -192,6 +199,10 @@ const props = defineProps({
         type: Number,
         default: 1,
     },
+    labelWidth: {
+      type: Number,
+      default: 40
+    }
 });
 
 type optionItemType = { label: string; value: any };
@@ -206,6 +217,7 @@ const termsModel = reactive<SearchItemData>({
 });
 
 const component = ref(componentType.input);
+const componentName = ref();
 const cProps = ref({});
 
 const options = ref<any[]>([]);
@@ -279,6 +291,9 @@ const getComponent = (type?: ItemType) => {
         case 'rangePicker':
             component.value = componentType.rangePicker;
             break;
+        case 'component':
+          component.value = componentType.component;
+          break;
         default:
             component.value = componentType.input;
             break;
@@ -321,11 +336,10 @@ const columnChange = (
     if (!item) return;
     cProps.value = item.componentProps;
     optionLoading.value = false;
-    console.log(value);
     // 设置value为undefined
     termsModel.column = value;
-
     getComponent(item.type); // 处理Item的组件类型
+    componentName.value = item.components
 
     // 处理options 以及 request
     if ('options' in item) {
@@ -366,7 +380,6 @@ const handleItem = () => {
                 : props.index;
         if (props.index <= sortColumn.length) {
             const _itemColumn = sortColumn[_index - 1];
-            console.log(_itemColumn);
             columnChange(_itemColumn.column as string, false);
         }
     } else {
@@ -382,7 +395,7 @@ const valueChange = () => {
     emit('change', {
         type: props.onlyValue ? 'and' : termsModel.type,
         value: termsModel.value,
-        termType: termsModel.termType,
+        termType: termsModel.termType || 'like',
         column: termsModel.column,
     });
 };

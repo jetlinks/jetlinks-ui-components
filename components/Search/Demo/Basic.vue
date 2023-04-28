@@ -31,7 +31,7 @@ export default {
         const value = ref('terms');
         const columns = [
             {
-                title: '名称',
+                title: '名称名称名称1',
                 dataIndex: 'name',
                 search: {
                     type: 'string',

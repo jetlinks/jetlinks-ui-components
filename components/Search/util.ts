@@ -74,6 +74,7 @@ export const termsParamsFormat = (
                     .filter((item) => item.terms.length),
             };
         } else {
+            console.log('cloneParams', cloneParams)
             return cloneParams
                 .filter(
                     (iItem) =>

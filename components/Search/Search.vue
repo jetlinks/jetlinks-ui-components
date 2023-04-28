@@ -17,11 +17,12 @@
                                 :component-props="item.componentProps"
                                 :terms-item="terms.terms[index]"
                                 :reset="resetNumber"
+                                :labelWidth="labelWidth"
                                 @change="(v) => itemValueChange(v, index)"
                             />
                         </j-col>
                         <j-col :span="24 / column">
-                            <div class="JSearch-footer--btns">
+                            <div class="JSearch-footer--btns" :style="{ paddingLeft: `${labelWidth + 8}px` }">
                                 <j-button type="stroke" @click="reset">
                                     重置
                                 </j-button>
@@ -83,6 +84,10 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    labelWidth: {
+        type: Number,
+        default: 40
+    }
 });
 
 const columnOptionMap = new Map();
@@ -110,7 +115,8 @@ const handleItems = () => {
             let defaultTerms = null;
             if (search.defaultValue !== undefined || search.defaultTermType) {
                 defaultTerms = {
-                    termType: search.defaultTermType,
+                    column: item.dataIndex,
+                    termType: search.defaultTermType || 'like',
                     type: 'and',
                     value: search.defaultValue,
                 };

@@ -10,6 +10,7 @@ export interface SearchBaseProps {
         | 'date'
         | 'time'
         | 'rangePicker'
+        | 'component'
         | 'timeRange';
     format?: string;
     options?: any[] | Function;
