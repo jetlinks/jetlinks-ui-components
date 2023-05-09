@@ -17,12 +17,15 @@
                                 :component-props="item.componentProps"
                                 :terms-item="terms.terms[index]"
                                 :reset="resetNumber"
-                                :labelWidth="labelWidth"
+                                :label-width="labelWidth"
                                 @change="(v) => itemValueChange(v, index)"
                             />
                         </j-col>
                         <j-col :span="24 / column">
-                            <div class="JSearch-footer--btns" :style="{ paddingLeft: `${labelWidth + 8}px` }">
+                            <div
+                                class="JSearch-footer--btns"
+                                :style="{ paddingLeft: `${labelWidth + 8}px` }"
+                            >
                                 <j-button type="stroke" @click="reset">
                                     重置
                                 </j-button>
@@ -86,8 +89,8 @@ const props = defineProps({
     },
     labelWidth: {
         type: Number,
-        default: 40
-    }
+        default: 40,
+    },
 });
 
 const columnOptionMap = new Map();
@@ -102,7 +105,7 @@ const itemValueChange = (value: SearchItemData, index: number) => {
     set(terms.terms, [index], value);
 };
 
-const handleItems = () => {
+const handleItems = (reset: boolean = false) => {
     searchItems.value = [];
     terms.terms = [];
     columnOptionMap.clear();
@@ -113,12 +116,21 @@ const handleItems = () => {
             // 默认值
             const { search } = item;
             let defaultTerms = null;
-            if (search.defaultValue !== undefined || search.defaultTermType) {
+            // 包含defaultValue 或者 defaultOnceValue
+            if (
+                search.defaultValue !== undefined ||
+                search.defaultTermType ||
+                search.defaultOnceValue
+            ) {
+                const _value =
+                    search.defaultValue || reset
+                        ? undefined
+                        : search.defaultOnceValue;
                 defaultTerms = {
                     column: item.dataIndex,
                     termType: search.defaultTermType || 'like',
                     type: 'and',
-                    value: search.defaultValue,
+                    value: _value,
                 };
             }
 
@@ -157,7 +169,7 @@ const searchSubmit = () => {
 const resetNumber = ref(1);
 const reset = () => {
     resetNumber.value += 1;
-    handleItems();
+    handleItems(true);
     if (props.type == 'object') {
         emit('search', {});
     } else if (props.type == 'terms') {

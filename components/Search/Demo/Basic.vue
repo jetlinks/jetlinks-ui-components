@@ -38,7 +38,7 @@ export default {
                     componentProps: {
                         placeholder: '请输入名称',
                     },
-                    defaultValue: '123123',
+                    defaultOnceValue: '123123',
                 },
             },
             {
