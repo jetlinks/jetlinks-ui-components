@@ -134,7 +134,10 @@ const handleItems = (reset: boolean = false) => {
                 };
             }
 
-            if (search.defaultValue !== undefined) {
+            if (
+                search.defaultValue !== undefined ||
+                search.defaultOnceValue !== undefined
+            ) {
                 hasSearch = true;
             }
 

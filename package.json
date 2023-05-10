@@ -1,6 +1,6 @@
 {
   "name": "jetlinks-ui-components",
-  "version": "1.0.11",
+  "version": "1.0.14",
   "main": "lib/index.js",
   "module": "es/index.js",
   "keywords": [
