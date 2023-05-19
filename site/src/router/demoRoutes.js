@@ -157,14 +157,14 @@ export default [
     component: () => import('../../../components/InputNumber/demo/index.vue'),
   },
   {
-    path: 'Mentions',
-    meta: {"category":"Components","type":"数据录入","title":"Mentions","subtitle":"提及","cover":"https://gw.alipayobjects.com/zos/alicdn/jPE-itMFM/Mentions.svg"},
-    component: () => import('../../../components/Mentions/demo/index.vue'),
-  },
-  {
     path: 'List',
     meta: {"category":"Components","type":"数据展示","title":"List","subtitle":"列表","cover":"https://gw.alipayobjects.com/zos/alicdn/5FrZKStG_/List.svg"},
     component: () => import('../../../components/List/demo/index.vue'),
+  },
+  {
+    path: 'Mentions',
+    meta: {"category":"Components","type":"数据录入","title":"Mentions","subtitle":"提及","cover":"https://gw.alipayobjects.com/zos/alicdn/jPE-itMFM/Mentions.svg"},
+    component: () => import('../../../components/Mentions/demo/index.vue'),
   },
   {
     path: 'Menu',
@@ -342,13 +342,13 @@ export default [
     component: () => import('../../../components/Tree/demo/index.vue'),
   },
   {
-    path: 'TreeSelect',
-    meta: {"category":"Components","type":"数据录入","title":"TreeSelect","subtitle":"树选择","cover":"https://gw.alipayobjects.com/zos/alicdn/Ax4DA0njr/TreeSelect.svg"},
-    component: () => import('../../../components/TreeSelect/demo/index.vue'),
-  },
-  {
     path: 'Upload',
     meta: {"category":"Components","subtitle":"上传","cols":1,"type":"导航","title":"Upload","cover":"https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Upload.svg"},
     component: () => import('../../../components/Upload/demo/index.vue'),
+  },
+  {
+    path: 'TreeSelect',
+    meta: {"category":"Components","type":"数据录入","title":"TreeSelect","subtitle":"树选择","cover":"https://gw.alipayobjects.com/zos/alicdn/Ax4DA0njr/TreeSelect.svg"},
+    component: () => import('../../../components/TreeSelect/demo/index.vue'),
   }
 ];

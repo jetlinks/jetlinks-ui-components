@@ -146,7 +146,7 @@
 <script setup lang="ts" name="SearchItem">
 import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
-import { ref, reactive, watchEffect } from 'vue';
+import { ref, reactive, watchEffect, watch } from 'vue';
 import type { SearchItemData, SearchProps } from './typing';
 import { cloneDeep, isArray, isFunction, omit } from 'lodash-es';
 import { filterTreeSelectNode, filterSelectNode } from './util';
@@ -423,6 +423,15 @@ watchEffect(() => {
         handleItem();
     }
 });
+
+watch(() => props.columns, () => {
+  console.log('item-watch')
+  handleItem();
+}, {
+  deep: true,
+  immediate: true
+})
+
 </script>
 
 <style scoped lang="less"></style>
