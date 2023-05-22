@@ -12,6 +12,7 @@ AdvancedSearch组件组件基本使用
     <j-advanced-search
         :columns="columns"
         @search="onSearch"
+        type="simple"
         target="test"
         routerMode="history"
         :deleteRequest="deleteRequest"
@@ -105,11 +106,11 @@ export default {
                 },
                 {
                     title: '类型1',
-                    dataIndex: 'type',
+                    dataIndex: 'type2222',
                     search: {
                         type: 'select',
-                        rename: 'typeTest',
                         first: true,
+                        rename: 'type111',
                         defaultOnceValue: [2],
                         componentProps: {
                             mode: 'multiple',

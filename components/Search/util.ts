@@ -1,5 +1,7 @@
 import { cloneDeep, isFunction, isString } from 'lodash-es';
 import type { SearchItemData } from './typing';
+import {termType} from "./setting";
+import {SearchProps} from "./typing";
 
 /**
  * 处理like，nlike特殊值
@@ -199,3 +201,25 @@ export const handleParamsToString = (
 
     return JSON.stringify({ terms: _terms });
 };
+
+export const getTermTypeFn = (type?: SearchProps['type'], column?: string) => {
+    if (column?.includes('id') && type === 'string') {
+        // 默认id为 eq
+        return 'eq';
+    }
+
+    switch (type) {
+        case 'select':
+        case 'treeSelect':
+        case 'number':
+            return 'eq';
+        case 'date':
+        case 'time':
+            return 'gt';
+        case 'timeRange':
+        case 'rangePicker':
+            return 'btw';
+        default:
+            return 'like';
+    }
+}

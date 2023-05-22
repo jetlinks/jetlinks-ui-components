@@ -160,6 +160,7 @@ import type {
 } from '../typing';
 import {
     compatibleOldTerms,
+  getTermTypeFn,
     handleQData,
     hasExpand,
     termsParamsFormat,
@@ -391,7 +392,7 @@ const handleItems = () => {
                 defaultTerms = {
                     type: 'and',
                     value: _value,
-                    termType: search.defaultTermType || 'like',
+                    termType: search.defaultTermType || getTermTypeFn(search.type),
                     column: _item.dataIndex,
                 };
             }
@@ -402,11 +403,6 @@ const handleItems = () => {
             ) {
                 hasOnceSearch.value = true;
             }
-
-            if (defaultTerms) {
-                itemValueChange(defaultTerms, search.first ? 1 : index + 1);
-            }
-
             searchItems.value.push({
                 ..._item.search,
                 sortIndex: _item.search.first ? 0 : index + 1,
@@ -414,13 +410,14 @@ const handleItems = () => {
                 // column: _item.search?.rename || _item.dataIndex,
                 column: _item.dataIndex,
             });
+
+            if (defaultTerms) {
+              itemValueChange(defaultTerms, search.first ? 1 : index + 1);
+            }
         }
     });
 
-    if (hasOnceSearch.value) {
-        hasOnceSearch.value = false;
-        submitData();
-    }
+    submitData();
 
     handleUrlParams({ q: q.value, target: target.value });
 };
