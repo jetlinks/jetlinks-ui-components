@@ -171,7 +171,7 @@ import {
     Form,
     FormItemRest,
 } from '../../components';
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep } from 'lodash-es';
 
 type UrlParam = {
     q: string | null;
@@ -235,7 +235,7 @@ const { width } = useElementSize(searchRef);
 
 const q = useRouteQuery('q');
 const target = useRouteQuery('target');
-const hasOnceSearch = ref(false)
+const hasOnceSearch = ref(false);
 
 // 是否展开更多筛选
 const expand = ref(false);
@@ -277,7 +277,7 @@ const searchParams = reactive({
 });
 
 const itemValueChange = (value: SearchItemData, index: number) => {
-  console.log('itemValueChange', value, index)
+    console.log('itemValueChange', value, index);
     if (index < 4) {
         // 第一组数据
         termsData.terms[0].terms[index - 1] = value;
@@ -293,14 +293,14 @@ const addUrlParams = () => {
 };
 
 const submitData = () => {
-  emit('search', termsParamsFormat(termsData, columnOptionMap));
-}
+    emit('search', termsParamsFormat(termsData, columnOptionMap));
+};
 
 /**
  * 提交
  */
 const searchSubmit = () => {
-    submitData()
+    submitData();
     if (props.type === 'advanced') {
         addUrlParams();
     }
@@ -370,7 +370,7 @@ const handleItems = () => {
     searchItems.value = [];
     columnOptionMap.clear();
     props.columns!.forEach((item, index) => {
-        const _item = cloneDeep(item)
+        const _item = cloneDeep(item);
         if (_item.search && Object.keys(_item.search).length) {
             columnOptionMap.set(
                 // _item.search?.rename || _item.dataIndex,
@@ -379,7 +379,7 @@ const handleItems = () => {
             );
 
             // 默认值
-            const { search } = item;
+            const { search } = _item;
             let defaultTerms = null;
             // 包含defaultValue 或者 defaultOnceValue
             if (
@@ -387,12 +387,12 @@ const handleItems = () => {
                 search.defaultTermType ||
                 search.defaultOnceValue
             ) {
-                const _value = search.defaultValue ||  search.defaultOnceValue;
+                const _value = search.defaultValue || search.defaultOnceValue;
                 defaultTerms = {
-                    column: item.dataIndex,
-                    termType: search.defaultTermType || 'like',
                     type: 'and',
                     value: _value,
+                    termType: search.defaultTermType || 'like',
+                    column: _item.dataIndex,
                 };
             }
 
@@ -402,10 +402,11 @@ const handleItems = () => {
             ) {
                 hasOnceSearch.value = true;
             }
-            console.log(defaultTerms)
+
             if (defaultTerms) {
-                itemValueChange(defaultTerms, index + 1)
+                itemValueChange(defaultTerms, search.first ? 1 : index + 1);
             }
+
             searchItems.value.push({
                 ..._item.search,
                 sortIndex: _item.search.first ? 0 : index + 1,
@@ -417,27 +418,31 @@ const handleItems = () => {
     });
 
     if (hasOnceSearch.value) {
-      hasOnceSearch.value = false
-      submitData()
+        hasOnceSearch.value = false;
+        submitData();
     }
 
     handleUrlParams({ q: q.value, target: target.value });
 };
 
-watch(() => props.columns, () => {
-    termsData.terms = [
-        { terms: [null, null, null] },
-        { terms: [null, null, null], type: 'and' },
-    ];
-    expand.value = false;
-    if (props.type === 'advanced') {
-        q.value = null;
-        target.value = null;
-    }
-    handleItems();
-}, {
-    deep: true
-})
+watch(
+    () => props.columns,
+    () => {
+        termsData.terms = [
+            { terms: [null, null, null] },
+            { terms: [null, null, null], type: 'and' },
+        ];
+        expand.value = false;
+        if (props.type === 'advanced') {
+            q.value = null;
+            target.value = null;
+        }
+        handleItems();
+    },
+    {
+        deep: true,
+    },
+);
 
 handleItems();
 </script>

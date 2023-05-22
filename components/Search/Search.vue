@@ -127,10 +127,10 @@ const handleItems = (reset: boolean = false) => {
                         ? undefined
                         : search.defaultOnceValue;
                 defaultTerms = {
-                    column: item.dataIndex,
-                    termType: search.defaultTermType || 'like',
                     type: 'and',
                     value: _value,
+                    termType: search.defaultTermType || 'like',
+                    column: item.dataIndex,
                 };
             }
 

@@ -409,7 +409,13 @@ const reset = () => {
     termsModel.value = undefined;
 };
 
-handleItem();
+// handleItem();
+
+watchEffect(() => {
+    if (props.columns) {
+        handleItem();
+    }
+});
 
 watchEffect(() => {
     if (props.termsItem) {
@@ -423,15 +429,6 @@ watchEffect(() => {
         handleItem();
     }
 });
-
-watch(() => props.columns, () => {
-  console.log('item-watch')
-  handleItem();
-}, {
-  deep: true,
-  immediate: true
-})
-
 </script>
 
 <style scoped lang="less"></style>

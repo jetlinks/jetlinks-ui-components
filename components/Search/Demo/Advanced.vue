@@ -58,6 +58,11 @@ export default {
                 search: {
                     type: 'select',
                     rename: 'typeTest',
+                    first: true,
+                    defaultOnceValue: [1],
+                    componentProps: {
+                        mode: 'multiple',
+                    },
                     options: [
                         { label: '类型1', value: 1 },
                         { label: '类型2', value: 2 },
@@ -75,7 +80,7 @@ export default {
                     ],
                 },
             },
-        ])
+        ]);
 
         const onSearch = (e) => {
             paramsStr.value = JSON.stringify(e);
@@ -87,22 +92,6 @@ export default {
 
         const addColumns = () => {
             columns.value = [
-              {
-                title: '类型1',
-                dataIndex: 'type',
-                search: {
-                  type: 'select',
-                  rename: 'typeTest',
-                  defaultOnceValue: [1],
-                  componentProps: {
-                    mode: 'multiple'
-                  },
-                  options: [
-                    { label: '类型1', value: 1 },
-                    { label: '类型2', value: 2 },
-                  ],
-                },
-              },
                 {
                     title: '名称1',
                     dataIndex: 'name',
@@ -115,6 +104,23 @@ export default {
                     },
                 },
                 {
+                    title: '类型1',
+                    dataIndex: 'type',
+                    search: {
+                        type: 'select',
+                        rename: 'typeTest',
+                        first: true,
+                        defaultOnceValue: [2],
+                        componentProps: {
+                            mode: 'multiple',
+                        },
+                        options: [
+                            { label: '类型1', value: 1 },
+                            { label: '类型2', value: 2 },
+                        ],
+                    },
+                },
+                {
                     title: '年龄1',
                     dataIndex: 'age',
                     search: {
@@ -124,16 +130,15 @@ export default {
                         },
                     },
                 },
-
-            ]
-        }
+            ];
+        };
 
         return {
             columns,
             paramsStr,
             onSearch,
             deleteRequest,
-            addColumns
+            addColumns,
         };
     },
 };
