@@ -152,7 +152,7 @@ const ProTable = defineComponent<JTableProps>({
 
         const _dataSource = ref<Record<string, any>[]>([]);
         const pageIndex = ref<number>(0);
-        const pageSize = ref<number>(6);
+        const pageSize = ref<number>(12);
         const total = ref<number>(0);
         const _loading = ref<boolean>(false);
         const column = ref<number>(props.gridColumn || 4);
