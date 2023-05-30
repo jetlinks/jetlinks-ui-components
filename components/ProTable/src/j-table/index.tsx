@@ -218,18 +218,19 @@ const ProTable = defineComponent<JTableProps>({
                             resp?.result?.pageIndex &&
                             resp?.result?.data?.length === 0
                         ) {
+                            pageIndex.value = pageIndex.value > 0
+                                ? pageIndex.value - 1
+                                : 0
+                            console.log(pageIndex.value)
                             handleSearch({
                                 ..._params,
                                 pageSize: pageSize.value,
-                                pageIndex:
-                                    pageIndex.value > 0
-                                        ? pageIndex.value - 1
-                                        : 0,
+                                pageIndex: pageIndex.value
                             });
                         } else {
                             _dataSource.value = resp?.result?.data || [];
                             pageIndex.value = resp?.result?.pageIndex || 0;
-                            pageSize.value = resp?.result?.pageSize || 6;
+                            pageSize.value = resp?.result?.pageSize || 12;
                             total.value = resp?.result?.total || 0;
                         }
                     } else {
@@ -252,7 +253,6 @@ const ProTable = defineComponent<JTableProps>({
         watch(
             () => props.params,
             (newValue) => {
-                console.log('请求参数---params', new Date().getTime());
                 _debounceFn(newValue || {});
             },
             { deep: true, immediate: true },
@@ -358,12 +358,9 @@ const ProTable = defineComponent<JTableProps>({
                                         }
                                         type="info"
                                         onClose={() => {
-                                            if (props.rowSelection?.onChange) {
+                                            if (props.rowSelection?.onSelectNone) {
                                                 // 取消选择清空被选数据
-                                                props.rowSelection.onChange(
-                                                    [],
-                                                    [],
-                                                );
+                                                props.rowSelection.onSelectNone();
                                             }
                                         }}
                                         closeText={
