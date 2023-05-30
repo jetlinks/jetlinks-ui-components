@@ -133,8 +133,8 @@ export { default as Rate } from './Rate';
 export type { SliderProps } from './Slider';
 export { default as Slider } from './Slider';
 
-export type { SwitchProps } from './switch';
-export { default as Switch } from './switch';
+export type { SwitchProps } from './Switch';
+export { default as Switch } from './Switch';
 
 export type { TimePickerProps, TimeRangePickerProps } from './TimePicker';
 export { default as TimePicker, TimeRangePicker } from './TimePicker';
@@ -157,8 +157,8 @@ export { default as Carousel } from './Carousel';
 export type { CommentProps } from './Comment';
 export { default as Comment } from './Comment';
 
-export type { ImageProps } from './image';
-export { default as Image, ImagePreviewGroup } from './image';
+export type { ImageProps } from './Image';
+export { default as Image, ImagePreviewGroup } from './Image';
 
 export type { ListProps, ListItemProps, ListItemMetaProps } from './List';
 export { default as List, ListItem, ListItemMeta } from './List';
@@ -194,7 +194,7 @@ export type {
     SkeletonImageProps,
     SkeletonAvatarProps,
     SkeletonTitleProps,
-} from './skeleton';
+} from './Skeleton';
 export {
     default as Skeleton,
     SkeletonButton,
@@ -202,7 +202,7 @@ export {
     SkeletonInput,
     SkeletonImage,
     SkeletonTitle,
-} from './skeleton';
+} from './Skeleton';
 
 export type { SpinProps } from './Spin';
 export { default as Spin } from './Spin';
@@ -233,8 +233,8 @@ export {
     TableSummaryCell,
 } from './Table';
 
-export type { BadgeProps } from './badge';
-export { default as Badge, BadgeRibbon } from './badge';
+export type { BadgeProps } from './Badge';
+export { default as Badge, BadgeRibbon } from './Badge';
 
 export type { CardProps } from './Card';
 export { default as Card, CardGrid, CardMeta } from './Card';

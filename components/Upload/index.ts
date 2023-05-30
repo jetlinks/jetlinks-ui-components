@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import JUploadImage from './Upload.vue';
+import JUploadImage from './upload.vue';
 import Upload from 'ant-design-vue/lib/upload';
 
 Upload.name = 'JUpload';

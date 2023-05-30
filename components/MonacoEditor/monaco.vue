@@ -11,13 +11,17 @@ const props = defineProps({
     modelValue: [String, Number],
     theme: { type: String, default: 'vs-dark' },
     language: { type: String, default: 'json' },
+    codeTips: { type: Array, default: () => []}
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const dom = ref();
+const codeTipsMap = ref(new Map())
 
 let instance;
+
+// codeTipItem.dispose() // 销毁自定义提示
 
 onMounted(() => {
     const _model = monaco.editor.createModel(props.modelValue, props.language);

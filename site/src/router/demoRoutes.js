@@ -327,18 +327,6 @@ export default [
         component: () => import('../../../components/Grid/demo/index.vue'),
     },
     {
-        path: 'Input',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'Input',
-            subtitle: '输入框',
-            cols: 1,
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
-        },
-        component: () => import('../../../components/Input/demo/index.vue'),
-    },
-    {
         path: 'Image',
         meta: {
             category: 'Components',
@@ -360,6 +348,18 @@ export default [
         },
         component: () =>
             import('../../../components/InputNumber/demo/index.vue'),
+    },
+    {
+        path: 'Input',
+        meta: {
+            category: 'Components',
+            type: '数据录入',
+            title: 'Input',
+            subtitle: '输入框',
+            cols: 1,
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
+        },
+        component: () => import('../../../components/Input/demo/index.vue'),
     },
     {
         path: 'List',
@@ -528,17 +528,6 @@ export default [
         component: () => import('../../../components/ProTable/demo/index.vue'),
     },
     {
-        path: 'Rate',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'Rate',
-            subtitle: '评分',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/R5uiIWmxe/Rate.svg',
-        },
-        component: () => import('../../../components/Rate/demo/index.vue'),
-    },
-    {
         path: 'Radio',
         meta: {
             category: 'Components',
@@ -548,6 +537,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/8cYb5seNB/Radio.svg',
         },
         component: () => import('../../../components/Radio/demo/index.vue'),
+    },
+    {
+        path: 'Rate',
+        meta: {
+            category: 'Components',
+            type: '数据录入',
+            title: 'Rate',
+            subtitle: '评分',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/R5uiIWmxe/Rate.svg',
+        },
+        component: () => import('../../../components/Rate/demo/index.vue'),
     },
     {
         path: 'Result',
@@ -676,6 +676,17 @@ export default [
         component: () => import('../../../components/Steps/demo/index.vue'),
     },
     {
+        path: 'Switch',
+        meta: {
+            category: 'Components',
+            subtitle: '开关',
+            type: '数据录入',
+            title: 'Switch',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/zNdJQMhfm/Switch.svg',
+        },
+        component: () => import('../../../components/Switch/demo/index.vue'),
+    },
+    {
         path: 'Table',
         meta: {
             category: 'Components',
@@ -686,17 +697,6 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/f-SbcX2Lx/Table.svg',
         },
         component: () => import('../../../components/Table/demo/index.vue'),
-    },
-    {
-        path: 'Switch',
-        meta: {
-            category: 'Components',
-            subtitle: '开关',
-            type: '数据录入',
-            title: 'Switch',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/zNdJQMhfm/Switch.svg',
-        },
-        component: () => import('../../../components/Switch/demo/index.vue'),
     },
     {
         path: 'TableCard',
@@ -733,6 +733,17 @@ export default [
         component: () => import('../../../components/Tag/demo/index.vue'),
     },
     {
+        path: 'Timeline',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'Timeline',
+            subtitle: '时间轴',
+            cover: 'https://gw.alipayobjects.com/zos/antfincdn/vJmo00mmgR/Timeline.svg',
+        },
+        component: () => import('../../../components/Timeline/demo/index.vue'),
+    },
+    {
         path: 'TimePicker',
         meta: {
             category: 'Components',
@@ -743,17 +754,6 @@ export default [
         },
         component: () =>
             import('../../../components/TimePicker/demo/index.vue'),
-    },
-    {
-        path: 'Timeline',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'Timeline',
-            subtitle: '时间轴',
-            cover: 'https://gw.alipayobjects.com/zos/antfincdn/vJmo00mmgR/Timeline.svg',
-        },
-        component: () => import('../../../components/Timeline/demo/index.vue'),
     },
     {
         path: 'Tooltip',

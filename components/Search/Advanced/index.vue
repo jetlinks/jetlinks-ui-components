@@ -1,6 +1,10 @@
 <template>
     <Form :model="termsData" @finish="searchSubmit">
-        <div ref="searchRef" :class="['JSearch-warp', 'senior', props.class]">
+        <div
+            ref="searchRef"
+            :class="['JSearch-warp', 'senior', props.class]"
+            :style="style"
+        >
             <!--  高级模式  -->
             <div
                 v-if="props.type === 'advanced'"
@@ -52,6 +56,7 @@
                         <j-select
                             v-model:value="termsData.terms[1].type"
                             class="center-select"
+                            style="width: 100px"
                             :options="typeOptions"
                         />
                     </div>
@@ -77,13 +82,7 @@
                     ]"
                 >
                     <div class="JSearch-footer--btns">
-                        <j-button
-                            type="stroke"
-                            class="no-radius"
-                            @click="reset"
-                        >
-                            重置
-                        </j-button>
+                        <j-button type="stroke" @click="reset"> 重置 </j-button>
                         <SaveHistory
                             :terms="termsData"
                             :target="target"
@@ -131,11 +130,7 @@
                 <div class="JSearch-footer">
                     <div class="JSearch-footer--btns">
                         <FormItemRest>
-                            <j-button
-                                type="stroke"
-                                class="no-radius"
-                                @click="reset"
-                            >
+                            <j-button type="stroke" @click="reset">
                                 重置
                             </j-button>
                             <j-button html-type="submit" type="primary">
@@ -152,7 +147,8 @@
 <script setup lang="ts">
 import SearchItem from '../Item.vue';
 import { typeOptions } from '../setting';
-import { useElementSize, useUrlSearchParams } from '@vueuse/core';
+import { useElementSize } from '@vueuse/core';
+import { useRouteQuery } from '@vueuse/router';
 import { PropType, ref, reactive, watch } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
@@ -164,7 +160,7 @@ import type {
 } from '../typing';
 import {
     compatibleOldTerms,
-    handleParamsToString,
+  getTermTypeFn,
     handleQData,
     hasExpand,
     termsParamsFormat,
@@ -176,6 +172,7 @@ import {
     Form,
     FormItemRest,
 } from '../../components';
+import { cloneDeep } from 'lodash-es';
 
 type UrlParam = {
     q: string | null;
@@ -227,15 +224,19 @@ const props = defineProps({
         type: String,
         default: 'hash',
     },
+    style: {
+        type: [String, Object],
+        default: undefined,
+    },
 });
 
 const searchRef = ref(null);
 const searchRefContentRef = ref(null);
 const { width } = useElementSize(searchRef);
 
-const urlParams = useUrlSearchParams<UrlParam>(
-    props.routerMode as 'hash' | 'history' | 'hash-params',
-);
+const q = useRouteQuery('q');
+const target = useRouteQuery('target');
+const hasOnceSearch = ref(false);
 
 // 是否展开更多筛选
 const expand = ref(false);
@@ -277,6 +278,7 @@ const searchParams = reactive({
 });
 
 const itemValueChange = (value: SearchItemData, index: number) => {
+    console.log('itemValueChange', value, index);
     if (index < 4) {
         // 第一组数据
         termsData.terms[0].terms[index - 1] = value;
@@ -287,16 +289,19 @@ const itemValueChange = (value: SearchItemData, index: number) => {
 };
 
 const addUrlParams = () => {
-    urlParams.q = JSON.stringify(termsData);
-    urlParams.target = props.target;
+    q.value = JSON.stringify(termsData);
+    target.value = props.target;
+};
+
+const submitData = () => {
+    emit('search', termsParamsFormat(termsData, columnOptionMap));
 };
 
 /**
  * 提交
  */
 const searchSubmit = () => {
-    console.log('searchSubmit');
-    emit('search', termsParamsFormat(termsData, columnOptionMap));
+    submitData();
     if (props.type === 'advanced') {
         addUrlParams();
     }
@@ -306,15 +311,14 @@ const searchSubmit = () => {
  * 重置查询
  */
 const reset = () => {
-    console.log('reset');
     termsData.terms = [
         { terms: [null, null, null] },
         { terms: [null, null, null], type: 'and' },
     ];
     expand.value = false;
     if (props.type === 'advanced') {
-        urlParams.q = null;
-        urlParams.target = null;
+        q.value = null;
+        target.value = null;
     }
     resetNumber.value += 1;
     emit('search', { terms: [] });
@@ -330,6 +334,7 @@ watch(
         } else {
             layout.value = 'horizontal';
             screenSize.value = true;
+            compatible.value = false;
         }
     },
     { immediate: true },
@@ -355,7 +360,6 @@ const handleUrlParams = (_params: UrlParam) => {
         termsData.terms =
             handleQData(compatibleOldTerms(_params.q))?.terms || [];
         expand.value = hasExpand(termsData.terms);
-        console.log('handleUrlParams');
         emit('search', termsParamsFormat(termsData, columnOptionMap));
     }
 };
@@ -367,22 +371,75 @@ const handleItems = () => {
     searchItems.value = [];
     columnOptionMap.clear();
     props.columns!.forEach((item, index) => {
-        if (item.search && Object.keys(item.search).length) {
+        const _item = cloneDeep(item);
+        if (_item.search && Object.keys(_item.search).length) {
             columnOptionMap.set(
-                item.search?.rename || item.dataIndex,
-                item.search,
+                // _item.search?.rename || _item.dataIndex,
+                _item.dataIndex,
+                _item.search,
             );
+
+            // 默认值
+            const { search } = _item;
+            let defaultTerms = null;
+            // 包含defaultValue 或者 defaultOnceValue
+            if (
+                search.defaultValue !== undefined ||
+                search.defaultTermType ||
+                search.defaultOnceValue
+            ) {
+                const _value = search.defaultValue || search.defaultOnceValue;
+                defaultTerms = {
+                    type: 'and',
+                    value: _value,
+                    termType: search.defaultTermType || getTermTypeFn(search.type),
+                    column: _item.dataIndex,
+                };
+            }
+
+            if (
+                search.defaultValue !== undefined ||
+                search.defaultOnceValue !== undefined
+            ) {
+                hasOnceSearch.value = true;
+            }
             searchItems.value.push({
-                ...item.search,
-                sortIndex: item.search.first ? 0 : index + 1,
-                title: item.title as any,
-                column: item.search?.rename || item.dataIndex,
+                ..._item.search,
+                sortIndex: _item.search.first ? 0 : index + 1,
+                title: _item.title as any,
+                // column: _item.search?.rename || _item.dataIndex,
+                column: _item.dataIndex,
             });
+
+            if (defaultTerms) {
+              itemValueChange(defaultTerms, search.first ? 1 : index + 1);
+            }
         }
     });
 
-    handleUrlParams(urlParams);
+    submitData();
+
+    handleUrlParams({ q: q.value, target: target.value });
 };
+
+watch(
+    () => props.columns,
+    () => {
+        termsData.terms = [
+            { terms: [null, null, null] },
+            { terms: [null, null, null], type: 'and' },
+        ];
+        expand.value = false;
+        if (props.type === 'advanced') {
+            q.value = null;
+            target.value = null;
+        }
+        handleItems();
+    },
+    {
+        deep: true,
+    },
+);
 
 handleItems();
 </script>

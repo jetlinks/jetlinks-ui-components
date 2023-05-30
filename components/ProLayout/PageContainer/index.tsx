@@ -12,6 +12,7 @@ import type {
     FunctionalComponent,
     PropType,
     VNodeChild,
+    CSSProperties,
 } from 'vue';
 import { defineComponent, unref, toRefs, computed } from 'vue';
 import { pageHeaderProps } from 'ant-design-vue/lib/page-header';
@@ -149,6 +150,10 @@ export const pageContainerProps = {
     showBack: {
         type: Boolean,
         default: false,
+    },
+    contentStyle: {
+        type: Object,
+        default: () => ({}),
     },
 };
 
@@ -304,7 +309,7 @@ const PageContainer = defineComponent({
     name: 'JPageContainer',
     inheritAttrs: false,
     props: pageContainerProps,
-    setup(props, { slots }) {
+    setup(props, { slots, attrs }) {
         const { loading, affixProps, ghost, childrenFullHeight } =
             toRefs(props);
 
@@ -372,7 +377,12 @@ const PageContainer = defineComponent({
                     {pure ? (
                         <div class={classNames.value}>{slots.default?.()}</div>
                     ) : (
-                        <div class={classNames.value}>
+                        <div
+                            class={classNames.value}
+                            style={{
+                                ...((attrs.style as CSSProperties) || {}),
+                            }}
+                        >
                             {fixedHeader && headerDom.value ? (
                                 <Affix
                                     {...affixProps.value}
@@ -402,6 +412,10 @@ const PageContainer = defineComponent({
                                                     ? 'children-full-height'
                                                     : ''
                                             }`}
+                                            style={{
+                                                ...((props.contentStyle as CSSProperties) ||
+                                                    {}),
+                                            }}
                                         >
                                             {slots.default()}
                                         </div>

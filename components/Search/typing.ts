@@ -10,12 +10,14 @@ export interface SearchBaseProps {
         | 'date'
         | 'time'
         | 'rangePicker'
+        | 'component'
         | 'timeRange';
     format?: string;
     options?: any[] | Function;
     first?: boolean;
     defaultTermType?: string; // 默认 eq
     defaultValue?: any; // 默认值
+    defaultOnceValue?: any; // 会被重置掉的默认值
     title?: ColumnType['title'];
     sortIndex?: number;
     componentProps?: any;
