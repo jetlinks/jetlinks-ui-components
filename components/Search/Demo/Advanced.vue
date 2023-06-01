@@ -12,11 +12,13 @@ AdvancedSearch组件组件基本使用
     <j-advanced-search
         :columns="columns"
         @search="onSearch"
+        type="simple"
         target="test"
         routerMode="history"
         :deleteRequest="deleteRequest"
         style="padding: 0"
     />
+    <j-button @click="addColumns">改变搜索项</j-button>
     <div>
         查询结果:
         <br />
@@ -30,7 +32,7 @@ export default {
     name: 'AdvancedSearch',
     setup() {
         const paramsStr = ref();
-        const columns = [
+        const columns = ref([
             {
                 title: '名称',
                 dataIndex: 'name',
@@ -57,6 +59,11 @@ export default {
                 search: {
                     type: 'select',
                     rename: 'typeTest',
+                    first: true,
+                    defaultOnceValue: [1],
+                    componentProps: {
+                        mode: 'multiple',
+                    },
                     options: [
                         { label: '类型1', value: 1 },
                         { label: '类型2', value: 2 },
@@ -74,7 +81,7 @@ export default {
                     ],
                 },
             },
-        ];
+        ]);
 
         const onSearch = (e) => {
             paramsStr.value = JSON.stringify(e);
@@ -84,11 +91,55 @@ export default {
             console.log(id);
         };
 
+        const addColumns = () => {
+            columns.value = [
+                {
+                    title: '名称1',
+                    dataIndex: 'name',
+                    search: {
+                        type: 'string',
+                        defaultValue: '123',
+                        componentProps: {
+                            placeholder: '请输入名称',
+                        },
+                    },
+                },
+                {
+                    title: '类型1',
+                    dataIndex: 'type2222',
+                    search: {
+                        type: 'select',
+                        first: true,
+                        rename: 'type111',
+                        defaultOnceValue: [2],
+                        componentProps: {
+                            mode: 'multiple',
+                        },
+                        options: [
+                            { label: '类型1', value: 1 },
+                            { label: '类型2', value: 2 },
+                        ],
+                    },
+                },
+                {
+                    title: '年龄1',
+                    dataIndex: 'age',
+                    search: {
+                        type: 'number',
+                        componentProps: {
+                            placeholder: '请输入真实年龄',
+                        },
+                    },
+                },
+            ];
+        };
+
         return {
             columns,
             paramsStr,
             onSearch,
             deleteRequest,
+            addColumns,
         };
     },
 };

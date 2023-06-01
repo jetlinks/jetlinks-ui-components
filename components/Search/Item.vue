@@ -29,7 +29,10 @@
             />
         </template>
         <template v-else>
-            <div class="JSearch-item--label">
+            <div
+                class="JSearch-item--label"
+                :style="{ minWidth: `${labelWidth}px` }"
+            >
                 {{ columnOptions[0]?.label }}
             </div>
         </template>
@@ -126,6 +129,15 @@
                     "
                     @change="valueChange"
                 />
+                <component
+                    :is="componentName"
+                    v-else-if="
+                        component === componentType.component && componentName
+                    "
+                    v-model:value="termsModel.value"
+                    v-bind="cProps"
+                    @change="valueChange"
+                />
             </FormItem>
         </div>
     </div>
@@ -134,10 +146,10 @@
 <script setup lang="ts" name="SearchItem">
 import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
-import { ref, reactive, watchEffect } from 'vue';
+import { ref, reactive, watchEffect, nextTick } from 'vue';
 import type { SearchItemData, SearchProps } from './typing';
 import { cloneDeep, isArray, isFunction, omit } from 'lodash-es';
-import { filterTreeSelectNode, filterSelectNode } from './util';
+import {filterTreeSelectNode, filterSelectNode, getTermTypeFn} from './util';
 import {
     TreeSelect as JTreeSelect,
     Select as JSelect,
@@ -192,6 +204,10 @@ const props = defineProps({
         type: Number,
         default: 1,
     },
+    labelWidth: {
+        type: Number,
+        default: 40,
+    },
 });
 
 type optionItemType = { label: string; value: any };
@@ -206,6 +222,7 @@ const termsModel = reactive<SearchItemData>({
 });
 
 const component = ref(componentType.input);
+const componentName = ref();
 const cProps = ref({});
 
 const options = ref<any[]>([]);
@@ -224,32 +241,19 @@ const optionLoading = ref(false);
 const getTermType = (type?: ItemType, column?: string) => {
     termTypeOptions.option = termType;
 
-    if (column?.includes('id') && type === 'string') {
-        // 默认id为 eq
-        return 'eq';
+    const termTypeKey = getTermTypeFn(type, column)
+
+    if (['date', 'time'].includes(type)) {
+      termTypeOptions.option = termType.filter((item) =>
+          ['gt', 'lt'].includes(item.value),
+      );
+    } else if (['timeRange', 'rangePicker'].includes(type)) {
+      termTypeOptions.option = termType.filter((item) =>
+          ['btw', 'nbtw'].includes(item.value),
+      );
     }
 
-    switch (type) {
-        case 'select':
-        case 'treeSelect':
-        case 'number':
-            return 'eq';
-        case 'date':
-        case 'time':
-            // 时间只有大于或小于两个值
-            termTypeOptions.option = termType.filter((item) =>
-                ['gt', 'lt'].includes(item.value),
-            );
-            return 'gt';
-        case 'timeRange':
-        case 'rangePicker':
-            termTypeOptions.option = termType.filter((item) =>
-                ['btw', 'nbtw'].includes(item.value),
-            );
-            return 'btw';
-        default:
-            return 'like';
-    }
+    return termTypeKey
 };
 
 /**
@@ -278,6 +282,9 @@ const getComponent = (type?: ItemType) => {
             break;
         case 'rangePicker':
             component.value = componentType.rangePicker;
+            break;
+        case 'component':
+            component.value = componentType.component;
             break;
         default:
             component.value = componentType.input;
@@ -321,11 +328,10 @@ const columnChange = (
     if (!item) return;
     cProps.value = item.componentProps;
     optionLoading.value = false;
-    console.log(value);
     // 设置value为undefined
     termsModel.column = value;
-
     getComponent(item.type); // 处理Item的组件类型
+    componentName.value = item.components;
 
     // 处理options 以及 request
     if ('options' in item) {
@@ -366,7 +372,6 @@ const handleItem = () => {
                 : props.index;
         if (props.index <= sortColumn.length) {
             const _itemColumn = sortColumn[_index - 1];
-            console.log(_itemColumn);
             columnChange(_itemColumn.column as string, false);
         }
     } else {
@@ -382,7 +387,7 @@ const valueChange = () => {
     emit('change', {
         type: props.onlyValue ? 'and' : termsModel.type,
         value: termsModel.value,
-        termType: termsModel.termType,
+        termType: termsModel.termType || 'like',
         column: termsModel.column,
     });
 };
@@ -391,18 +396,30 @@ const reset = () => {
     termsModel.value = undefined;
 };
 
-handleItem();
+
+const handleColumnChange = (key: string) => {
+  nextTick(() => {
+    if(key === 'column' && props.termsItem[key] !== termsModel[key]) {
+      columnChange(props.termsItem[key] as string, false, false);
+    }
+    termsModel[key] = props.termsItem[key];
+  })
+}
+
+// handleItem();
+
+watchEffect(() => {
+    if (props.columns) {
+        handleItem();
+    }
+});
 
 watchEffect(() => {
     if (props.termsItem) {
         Object.keys(props.termsItem).forEach((key) => {
-            if (key === 'column' && props.termsItem[key] !== termsModel[key]) {
-                columnChange(props.termsItem[key] as string, false, false);
-            }
-            termsModel[key] = props.termsItem[key];
+            handleColumnChange(key)
+
         });
-    } else {
-        handleItem();
     }
 });
 </script>

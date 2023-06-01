@@ -31,14 +31,14 @@ export default {
         const value = ref('terms');
         const columns = [
             {
-                title: '名称',
+                title: '名称名称名称1',
                 dataIndex: 'name',
                 search: {
                     type: 'string',
                     componentProps: {
                         placeholder: '请输入名称',
                     },
-                    defaultValue: '123123',
+                    defaultOnceValue: '123123',
                 },
             },
             {

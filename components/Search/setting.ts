@@ -33,4 +33,5 @@ export const componentType = {
     upload: 'upload',
     tree: 'tree',
     select: 'select',
+    component: 'component',
 };

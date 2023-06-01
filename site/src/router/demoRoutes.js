@@ -338,18 +338,6 @@ export default [
         component: () => import('../../../components/Image/demo/index.vue'),
     },
     {
-        path: 'Input',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'Input',
-            subtitle: '输入框',
-            cols: 1,
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
-        },
-        component: () => import('../../../components/Input/demo/index.vue'),
-    },
-    {
         path: 'InputNumber',
         meta: {
             category: 'Components',
@@ -360,6 +348,18 @@ export default [
         },
         component: () =>
             import('../../../components/InputNumber/demo/index.vue'),
+    },
+    {
+        path: 'Input',
+        meta: {
+            category: 'Components',
+            type: '数据录入',
+            title: 'Input',
+            subtitle: '输入框',
+            cols: 1,
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
+        },
+        component: () => import('../../../components/Input/demo/index.vue'),
     },
     {
         path: 'List',
@@ -505,17 +505,6 @@ export default [
         component: () => import('../../../components/Progress/demo/index.vue'),
     },
     {
-        path: 'ProTable',
-        meta: {
-            category: 'Components',
-            subtitle: '表格',
-            cols: 1,
-            type: '高阶组件',
-            title: 'ProTable',
-        },
-        component: () => import('../../../components/ProTable/demo/index.vue'),
-    },
-    {
         path: 'ProLayout',
         meta: {
             category: 'Components',
@@ -526,6 +515,17 @@ export default [
             cover: null,
         },
         component: () => import('../../../components/ProLayout/demo/index.vue'),
+    },
+    {
+        path: 'ProTable',
+        meta: {
+            category: 'Components',
+            subtitle: '表格',
+            cols: 1,
+            type: '高阶组件',
+            title: 'ProTable',
+        },
+        component: () => import('../../../components/ProTable/demo/index.vue'),
     },
     {
         path: 'Radio',
@@ -756,17 +756,6 @@ export default [
             import('../../../components/TimePicker/demo/index.vue'),
     },
     {
-        path: 'Transfer',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'Transfer',
-            subtitle: '穿梭框',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/QAXskNI4G/Transfer.svg',
-        },
-        component: () => import('../../../components/Transfer/demo/index.vue'),
-    },
-    {
         path: 'Tooltip',
         meta: {
             category: 'Components',
@@ -776,6 +765,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/Vyyeu8jq2/Tooltp.svg',
         },
         component: () => import('../../../components/Tooltip/demo/index.vue'),
+    },
+    {
+        path: 'Transfer',
+        meta: {
+            category: 'Components',
+            type: '数据录入',
+            title: 'Transfer',
+            subtitle: '穿梭框',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/QAXskNI4G/Transfer.svg',
+        },
+        component: () => import('../../../components/Transfer/demo/index.vue'),
     },
     {
         path: 'Tree',

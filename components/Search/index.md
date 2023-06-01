@@ -18,6 +18,7 @@ cover:
 | Property | Description         | Type      | Default Value |
 | -------- | ------------------- | --------- | ------------- |
 | columns  | 同`Table` `columns` | Columns[] | []            |
+| labelWidth | label最小宽度 | Number | 40 |
 
 ### Columns
 

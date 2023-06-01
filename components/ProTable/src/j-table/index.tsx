@@ -102,7 +102,7 @@ const tableProps = () => {
         },
         params: {
             type: Object,
-            default: () => { },
+            default: () => {},
         },
         type: {
             type: String,
@@ -116,7 +116,7 @@ const tableProps = () => {
         },
         defaultParams: {
             type: Object,
-            default: () => { },
+            default: () => {},
         },
         rowKey: {
             type: [String, Function],
@@ -152,7 +152,7 @@ const ProTable = defineComponent<JTableProps>({
 
         const _dataSource = ref<Record<string, any>[]>([]);
         const pageIndex = ref<number>(0);
-        const pageSize = ref<number>(6);
+        const pageSize = ref<number>(12);
         const total = ref<number>(0);
         const _loading = ref<boolean>(false);
         const column = ref<number>(props.gridColumn || 4);
@@ -192,21 +192,23 @@ const ProTable = defineComponent<JTableProps>({
             _loading.value =
                 props.loading !== undefined ? (props.loading as boolean) : true;
             if (props.request) {
-                const resp: any = await props.request({
-                    pageIndex: 0,
-                    pageSize: 12,
-                    ...props.defaultParams,
-                    ..._params,
-                    terms: [
-                        ...(props.defaultParams?.terms || []),
-                        ...(_params?.terms || []),
-                    ],
-                }).catch(() => {
-                    _loading.value =
-                        props.loading !== undefined
-                            ? (props.loading as boolean)
-                            : false;
-                });
+                const resp: any = await props
+                    .request({
+                        pageIndex: 0,
+                        pageSize: 12,
+                        ...props.defaultParams,
+                        ..._params,
+                        terms: [
+                            ...(props.defaultParams?.terms || []),
+                            ...(_params?.terms || []),
+                        ],
+                    })
+                    .catch(() => {
+                        _loading.value =
+                            props.loading !== undefined
+                                ? (props.loading as boolean)
+                                : false;
+                    });
                 if (resp.status === 200) {
                     if (props.type === 'PAGE') {
                         // 判断如果是最后一页且最后一页为空，就跳转到前一页
@@ -216,18 +218,19 @@ const ProTable = defineComponent<JTableProps>({
                             resp?.result?.pageIndex &&
                             resp?.result?.data?.length === 0
                         ) {
+                            pageIndex.value = pageIndex.value > 0
+                                ? pageIndex.value - 1
+                                : 0
+                            console.log(pageIndex.value)
                             handleSearch({
                                 ..._params,
                                 pageSize: pageSize.value,
-                                pageIndex:
-                                    pageIndex.value > 0
-                                        ? pageIndex.value - 1
-                                        : 0,
+                                pageIndex: pageIndex.value
                             });
                         } else {
                             _dataSource.value = resp?.result?.data || [];
                             pageIndex.value = resp?.result?.pageIndex || 0;
-                            pageSize.value = resp?.result?.pageSize || 6;
+                            pageSize.value = resp?.result?.pageSize || 12;
                             total.value = resp?.result?.total || 0;
                         }
                     } else {
@@ -250,7 +253,6 @@ const ProTable = defineComponent<JTableProps>({
         watch(
             () => props.params,
             (newValue) => {
-                console.log('请求参数---params', new Date().getTime());
                 _debounceFn(newValue || {});
             },
             { deep: true, immediate: true },
@@ -306,9 +308,14 @@ const ProTable = defineComponent<JTableProps>({
                             </div>
                             <div class={'jtable-body-header-right'}>
                                 {/* 顶部右边插槽 */}
-                                {slots.rightExtraRender && slots.rightExtraRender()}
+                                {slots.rightExtraRender &&
+                                    slots.rightExtraRender()}
                                 {!props.model && (
-                                    <div class={'jtable-body-header-right-button'}>
+                                    <div
+                                        class={
+                                            'jtable-body-header-right-button'
+                                        }
+                                    >
                                         <RadioGroup
                                             class="jtable-body-header-right-button"
                                             value={_model.value}
@@ -316,11 +323,19 @@ const ProTable = defineComponent<JTableProps>({
                                                 _model.value = e.target.value;
                                             }}
                                         >
-                                            <RadioButton value={ModelEnum.TABLE}>
-                                                <AIcon type="UnorderedListOutlined" />
+                                            <RadioButton
+                                                value={ModelEnum.TABLE}
+                                            >
+                                                <AIcon
+                                                    class={'right-button-icon'}
+                                                    type="UnorderedListOutlined"
+                                                />
                                             </RadioButton>
                                             <RadioButton value={ModelEnum.CARD}>
-                                                <AIcon type="AppstoreOutlined" />
+                                                <AIcon
+                                                    class={'right-button-icon'}
+                                                    type="AppstoreOutlined"
+                                                />
                                             </RadioButton>
                                         </RadioGroup>
                                     </div>
@@ -330,9 +345,9 @@ const ProTable = defineComponent<JTableProps>({
                         {/* content */}
                         <div class={'jtable-content'}>
                             {props.alertRender &&
-                                props?.rowSelection &&
-                                props?.rowSelection?.selectedRowKeys &&
-                                props.rowSelection.selectedRowKeys?.length ? (
+                            props?.rowSelection &&
+                            props?.rowSelection?.selectedRowKeys &&
+                            props.rowSelection.selectedRowKeys?.length ? (
                                 <div class={'jtable-alert'}>
                                     <Alert
                                         message={
@@ -343,13 +358,15 @@ const ProTable = defineComponent<JTableProps>({
                                         }
                                         type="info"
                                         onClose={() => {
-                                            if (props.rowSelection?.onChange) {
+                                            if (props.rowSelection?.onSelectNone) {
                                                 // 取消选择清空被选数据
-                                                props.rowSelection.onChange([], []);
+                                                props.rowSelection.onSelectNone();
                                             }
                                         }}
                                         closeText={
-                                            <Button type="link">取消选择</Button>
+                                            <Button type="link">
+                                                取消选择
+                                            </Button>
                                         }
                                     />
                                 </div>
@@ -406,26 +423,32 @@ const ProTable = defineComponent<JTableProps>({
                                                     return title || '';
                                                 }
                                             },
-                                            bodyCell: (dt: Record<string, any>) => {
+                                            bodyCell: (
+                                                dt: Record<string, any>,
+                                            ) => {
                                                 const { column, record } = dt;
                                                 if (
                                                     (column?.key ||
                                                         column?.dataIndex) &&
                                                     column?.scopedSlots &&
-                                                    (slots?.[column?.dataIndex] ||
+                                                    (slots?.[
+                                                        column?.dataIndex
+                                                    ] ||
                                                         slots?.[column?.key])
                                                 ) {
                                                     const _key =
                                                         column?.key ||
                                                         column?.dataIndex;
-                                                    return slots?.[_key]!(record);
+                                                    return slots?.[_key]!(
+                                                        record,
+                                                    );
                                                 } else {
                                                     const _value = get(
                                                         record,
                                                         column?.dataIndex,
-                                                    )
+                                                    );
                                                     // 获取数据
-                                                    return _value
+                                                    return _value;
                                                 }
                                             },
                                             emptyText: () => <Empty />,
@@ -450,13 +473,16 @@ const ProTable = defineComponent<JTableProps>({
                                             showTotal={(num) => {
                                                 const minSize =
                                                     pageIndex.value *
-                                                    pageSize.value +
+                                                        pageSize.value +
                                                     1;
                                                 const MaxSize =
                                                     (pageIndex.value + 1) *
                                                     pageSize.value;
-                                                return `第 ${minSize} - ${MaxSize > num ? num : MaxSize
-                                                    } 条/总共 ${num} 条`;
+                                                return `第 ${minSize} - ${
+                                                    MaxSize > num
+                                                        ? num
+                                                        : MaxSize
+                                                } 条/总共 ${num} 条`;
                                             }}
                                             onChange={(page, size) => {
                                                 handleSearch({
