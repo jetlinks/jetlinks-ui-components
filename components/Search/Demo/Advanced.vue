@@ -12,7 +12,6 @@ AdvancedSearch组件组件基本使用
     <j-advanced-search
         :columns="columns"
         @search="onSearch"
-        type="simple"
         target="test"
         routerMode="history"
         :deleteRequest="deleteRequest"
@@ -75,10 +74,18 @@ export default {
                 dataIndex: 'type2',
                 search: {
                     type: 'select',
+                    termOptions: ['eq', 'not'],
                     options: [
                         { label: '类型1', value: 1 },
                         { label: '类型2', value: 2 },
                     ],
+                },
+            },
+            {
+                title: '时间',
+                dataIndex: 'time2',
+                search: {
+                    type: 'date',
                 },
             },
         ]);

@@ -146,10 +146,16 @@
 <script setup lang="ts" name="SearchItem">
 import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
-import { ref, reactive, watchEffect, nextTick } from 'vue';
+import { ref, reactive, watchEffect, nextTick, watch } from 'vue';
 import type { SearchItemData, SearchProps } from './typing';
 import { cloneDeep, isArray, isFunction, omit } from 'lodash-es';
-import {filterTreeSelectNode, filterSelectNode, getTermTypeFn} from './util';
+import {
+    filterTreeSelectNode,
+    filterSelectNode,
+    getTermTypeFn,
+    getTermOptions,
+    getTermTypes,
+} from './util';
 import {
     TreeSelect as JTreeSelect,
     Select as JSelect,
@@ -238,22 +244,14 @@ const optionLoading = ref(false);
  * 根据类型切换默termType值
  * @param type
  */
-const getTermType = (type?: ItemType, column?: string) => {
-    termTypeOptions.option = termType;
-
-    const termTypeKey = getTermTypeFn(type, column)
-
-    if (['date', 'time'].includes(type)) {
-      termTypeOptions.option = termType.filter((item) =>
-          ['gt', 'lt'].includes(item.value),
-      );
-    } else if (['timeRange', 'rangePicker'].includes(type)) {
-      termTypeOptions.option = termType.filter((item) =>
-          ['btw', 'nbtw'].includes(item.value),
-      );
+const getTermType = (type?: ItemType, column?: string, options?: string[]) => {
+    if (options?.length) {
+        termTypeOptions.option = [...getTermTypes(options)];
+    } else {
+        termTypeOptions.option = [...getTermOptions(type)];
     }
 
-    return termTypeKey
+    return getTermTypeFn(type, column);
 };
 
 /**
@@ -334,6 +332,7 @@ const columnChange = (
     componentName.value = item.components;
 
     // 处理options 以及 request
+
     if ('options' in item) {
         handleItemOptions(item.options);
     }
@@ -341,7 +340,8 @@ const columnChange = (
     if (changeValue) {
         termsModel.value = undefined;
         termsModel.termType =
-            item.defaultTermType || getTermType(item.type, value);
+            item.defaultTermType ||
+            getTermType(item.type, value, item.termOptions);
     }
 
     if (isChange) {
@@ -396,29 +396,29 @@ const reset = () => {
     termsModel.value = undefined;
 };
 
-
 const handleColumnChange = (key: string) => {
-  nextTick(() => {
-    if(key === 'column' && props.termsItem[key] !== termsModel[key]) {
-      columnChange(props.termsItem[key] as string, false, false);
-    }
-    termsModel[key] = props.termsItem[key];
-  })
-}
+    nextTick(() => {
+        if (key === 'column' && props.termsItem[key] !== termsModel[key]) {
+            columnChange(props.termsItem[key] as string, false, false);
+        }
+        termsModel[key] = props.termsItem[key];
+    });
+};
 
-// handleItem();
-
-watchEffect(() => {
-    if (props.columns) {
-        handleItem();
-    }
-});
+watch(
+    () => props.columns,
+    () => {
+        if (props.columns) {
+            handleItem();
+        }
+    },
+    { immediate: true, deep: true },
+);
 
 watchEffect(() => {
     if (props.termsItem) {
         Object.keys(props.termsItem).forEach((key) => {
-            handleColumnChange(key)
-
+            handleColumnChange(key);
         });
     }
 });
