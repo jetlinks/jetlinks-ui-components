@@ -228,12 +228,12 @@ export const getTermTypes = (types: string[]) => {
     return termType.filter((item) => types.includes(item.value));
 };
 
-export const getTermOptions = (type?: SearchProps['type']) => {
+export const getTermOptions = (type?: SearchProps['type'], column?: string) => {
     let keys: string[] = [];
     switch (type) {
         case 'select':
         case 'treeSelect':
-            keys = ['eq'];
+            keys = column?.includes('state') ? ['not'] : ['eq'];
             break;
         case 'time':
         case 'date':
@@ -247,7 +247,10 @@ export const getTermOptions = (type?: SearchProps['type']) => {
             keys = ['eq'];
             break;
         default:
-            keys = ['like', 'nlike'];
+            keys =
+                column?.includes('id') && type === 'string'
+                    ? ['eq']
+                    : ['like', 'nlike'];
             break;
     }
     return keys.length ? getTermTypes(keys) : termType;

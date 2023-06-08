@@ -33,10 +33,19 @@ export default {
         const paramsStr = ref();
         const columns = ref([
             {
+                title: 'ID',
+                dataIndex: 'id',
+                search: {
+                    type: 'string',
+                    defaultTermType: 'eq',
+                },
+            },
+            {
                 title: '名称',
                 dataIndex: 'name',
                 search: {
                     type: 'string',
+                    first: true,
                     componentProps: {
                         placeholder: '请输入名称',
                     },
@@ -58,7 +67,7 @@ export default {
                 search: {
                     type: 'select',
                     rename: 'typeTest',
-                    first: true,
+
                     defaultOnceValue: [1],
                     componentProps: {
                         mode: 'multiple',

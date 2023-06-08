@@ -382,11 +382,7 @@ const handleItems = () => {
             const { search } = _item;
             let defaultTerms = null;
             // 包含defaultValue 或者 defaultOnceValue
-            if (
-                search.defaultValue !== undefined ||
-                search.defaultTermType ||
-                search.defaultOnceValue
-            ) {
+            if (search.defaultValue !== undefined || search.defaultOnceValue) {
                 const _value = search.defaultValue || search.defaultOnceValue;
                 defaultTerms = {
                     type: 'and',
@@ -410,7 +406,6 @@ const handleItems = () => {
                 // column: _item.search?.rename || _item.dataIndex,
                 column: _item.dataIndex,
             });
-
             if (defaultTerms) {
                 itemValueChange(defaultTerms, search.first ? 1 : index + 1);
             }

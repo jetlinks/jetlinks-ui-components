@@ -242,16 +242,22 @@ const optionLoading = ref(false);
 
 /**
  * 根据类型切换默termType值
- * @param type
+ * @param type {}
+ * @param column {}
+ * @param options {}
+ * @param defaultTermType {}
  */
-const getTermType = (type?: ItemType, column?: string, options?: string[]) => {
-    if (options?.length) {
-        termTypeOptions.option = [...getTermTypes(options)];
-    } else {
-        termTypeOptions.option = [...getTermOptions(type)];
-    }
+const getTermType = (
+    type?: ItemType,
+    column?: string,
+    options?: string[],
+    defaultTermType?: string,
+) => {
+    termTypeOptions.option = options?.length
+        ? getTermTypes(options)
+        : getTermOptions(type, column);
 
-    return getTermTypeFn(type, column);
+    return defaultTermType || getTermTypeFn(type, column);
 };
 
 /**
@@ -339,9 +345,12 @@ const columnChange = (
 
     if (changeValue) {
         termsModel.value = undefined;
-        termsModel.termType =
-            item.defaultTermType ||
-            getTermType(item.type, value, item.termOptions);
+        termsModel.termType = getTermType(
+            item.type,
+            value,
+            item.termOptions,
+            item.defaultTermType,
+        );
     }
 
     if (isChange) {
@@ -406,6 +415,18 @@ const handleColumnChange = (key: string) => {
 };
 
 watch(
+    () => props.termsItem,
+    () => {
+        if (props.termsItem) {
+            Object.keys(props.termsItem).forEach((key) => {
+                handleColumnChange(key);
+            });
+        }
+    },
+    { immediate: true, deep: true },
+);
+
+watch(
     () => props.columns,
     () => {
         if (props.columns) {
@@ -414,14 +435,6 @@ watch(
     },
     { immediate: true, deep: true },
 );
-
-watchEffect(() => {
-    if (props.termsItem) {
-        Object.keys(props.termsItem).forEach((key) => {
-            handleColumnChange(key);
-        });
-    }
-});
 </script>
 
 <style scoped lang="less"></style>
