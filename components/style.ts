@@ -69,3 +69,4 @@ import './Layout/style';
 import './AutoComplete/style';
 import './Message/style';
 import './Tree/style';
+import './DataTable/style';
