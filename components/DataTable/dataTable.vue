@@ -16,7 +16,7 @@
         </table>
     </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts" setup name="JDataTable">
 import { PropType } from 'vue';
 import { DataEntryData } from './typing';
 
