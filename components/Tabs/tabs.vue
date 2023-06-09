@@ -19,14 +19,21 @@
 <script lang="ts" setup>
 import { Tabs } from 'ant-design-vue';
 import { tabsProps } from './tabsTypes';
-import { useSlots, ref, onMounted, nextTick, watch } from 'vue';
+import { useSlots, ref, watch } from 'vue';
+import type { PropType, CSSProperties } from 'vue';
 import { useElementSize } from '@vueuse/core';
 
 const slots = useSlots();
 const renderArr = Object.keys(slots).filter(
     (item) => !['centerExtra'].includes(item),
 );
-const props = defineProps(tabsProps);
+const props = defineProps({
+    ...tabsProps,
+    style: {
+        type: Object as PropType<CSSProperties>,
+        default: undefined,
+    },
+});
 const jetTabs = ref();
 const content = ref();
 const centerExtraWidth = ref();
