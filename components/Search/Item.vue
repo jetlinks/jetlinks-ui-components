@@ -343,14 +343,16 @@ const columnChange = (
         handleItemOptions(item.options);
     }
 
+    const termsTypeValue = getTermType(
+        item.type,
+        value,
+        item.termOptions,
+        item.defaultTermType,
+    );
+
     if (changeValue) {
         termsModel.value = undefined;
-        termsModel.termType = getTermType(
-            item.type,
-            value,
-            item.termOptions,
-            item.defaultTermType,
-        );
+        termsModel.termType = termsTypeValue;
     }
 
     if (isChange) {
@@ -415,21 +417,26 @@ const handleColumnChange = (key: string) => {
 };
 
 watch(
-    () => props.termsItem,
+    () => props.columns,
     () => {
-        if (props.termsItem) {
-            Object.keys(props.termsItem).forEach((key) => {
-                handleColumnChange(key);
-            });
+        console.log(props.columns, props.index);
+        if (props.columns) {
+            handleItem();
         }
     },
     { immediate: true, deep: true },
 );
 
 watch(
-    () => props.columns,
+    () => props.termsItem,
     () => {
-        if (props.columns) {
+        console.log('value', props.termsItem, props.index);
+        if (props.termsItem) {
+            Object.keys(props.termsItem).forEach((key) => {
+                handleColumnChange(key);
+            });
+        } else {
+            // 重置
             handleItem();
         }
     },

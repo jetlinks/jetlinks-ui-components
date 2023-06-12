@@ -78,23 +78,41 @@ export default {
                     ],
                 },
             },
+
+            {
+                title: '时间',
+                dataIndex: 'time1',
+                search: {
+                    type: 'date',
+                },
+            },
+            {
+                title: '时间2',
+                dataIndex: 'time2',
+                search: {
+                    type: 'date',
+                },
+            },
+            {
+                title: '时间3',
+                dataIndex: 'time3',
+                search: {
+                    type: 'date',
+                },
+            },
             {
                 title: '类型2',
                 dataIndex: 'type2',
                 search: {
                     type: 'select',
                     termOptions: ['eq', 'not'],
-                    options: [
-                        { label: '类型1', value: 1 },
-                        { label: '类型2', value: 2 },
-                    ],
-                },
-            },
-            {
-                title: '时间',
-                dataIndex: 'time2',
-                search: {
-                    type: 'date',
+                    options: async () => {
+                        console.log('刷新');
+                        return [
+                            { label: '类型1', value: 1 },
+                            { label: '类型2', value: 2 },
+                        ];
+                    },
                 },
             },
         ]);
