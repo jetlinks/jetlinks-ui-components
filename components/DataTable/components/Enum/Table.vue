@@ -1,18 +1,26 @@
 <template>
-    <j-table :source="source" :columns="columns">
-        <template #bodyCell="{ column, record }">
+  <div class="enum-table-warp">
+    <j-table :dataSource="source" :columns="columns" :pagination="false">
+        <template #bodyCell="{ column, record, index }">
             <template v-if="column.dataIndex === 'value'">
                 <j-input v-model="record.value" placeholder="请输入" />
             </template>
             <template v-if="column.dataIndex === 'text'">
                 <j-input v-model="record.text" placeholder="请输入" />
             </template>
+            <template v-if="column.dataIndex === 'action'">
+                <j-button type="link" @click="() => deleteItem(index)">
+                  <AIcon type="DeleteOutlined" />
+                </j-button>
+            </template>
         </template>
     </j-table>
-    <j-button @click="addItem">新增枚举项</j-button>
+    <j-button class="enum-table-add" @click="addItem">新增枚举项</j-button>
+  </div>
 </template>
 
 <script setup lang="ts" name="EnumTable">
+import AIcon from '../../../AIcon'
 import { ref } from 'vue';
 const source = ref([]);
 
@@ -30,6 +38,7 @@ const columns = [
     {
         title: '操作',
         dataIndex: 'action',
+        width: 80
     },
 ];
 
@@ -48,7 +57,7 @@ const addItem = () => {
 };
 
 const deleteItem = (index: number) => {
-    source.value = source.value.slice(index, 1);
+  source.value.splice(index, 1);
     updateValue();
 };
 </script>

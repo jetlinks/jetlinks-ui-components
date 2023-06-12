@@ -28,6 +28,22 @@ title: 组件
         <p>Enum</p>
         <j-data-table-enum />
         <j-divider />
+
+        <p>File</p>
+        <j-data-table-file />
+        <j-divider />
+
+        <p>Date</p>
+        <j-data-table-date />
+        <j-divider />
+
+      <p>Type</p>
+      <j-data-table-type />
+      <j-divider />
+
+      <p>Array</p>
+      <j-data-table-array />
+      <j-divider />
     </j-form>
 </template>
 

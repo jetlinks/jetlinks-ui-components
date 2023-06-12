@@ -1,6 +1,6 @@
 <template>
     <j-select
-        v-model:aria-valuemax="value"
+        v-model:value="value"
         mode="tags"
         :options="unitOptions"
         :size="size"
@@ -35,7 +35,7 @@ const props = defineProps({
     },
 });
 
-const value = ref<valueType[]>([props.value]);
+const value = ref<valueType[]>(props.value ? [props.value] : []);
 const unitOptions = ref([]);
 
 const change = (v: valueType[]) => {
