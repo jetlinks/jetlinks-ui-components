@@ -12,10 +12,12 @@
       <div class="popconfirm-modal-body" >
         <slot name="content" />
       </div>
-      <div class="popconfirm-modal-footer">
-        <j-button size="small" @click.stop="cancel">{{ cancelText }}</j-button>
-        <j-button size="small" @click.stop="confirm" type="primary">{{ okText }}</j-button>
-      </div>
+        <slot name="footer">
+        <div class="popconfirm-modal-footer">
+          <j-button v-if="showCancel" size="small" @click.stop="cancel">{{ cancelText }}</j-button>
+          <j-button v-if="showOk" size="small" @click.stop="confirm" type="primary" :loading="confirmLoading">{{ okText }}</j-button>
+        </div>
+        </slot>
     </template>
     <span @click.stop="() => visibleChange(true)">
       <slot />
@@ -48,6 +50,18 @@ const props = defineProps({
   okText: {
     type: String,
     default: '确认'
+  },
+  showCancel: {
+    type: Boolean,
+    default: true
+  },
+  showOk: {
+    type: Boolean,
+    default: true
+  },
+  confirmLoading: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -115,12 +129,10 @@ const visibleChange = (e: boolean) => {
 }
 
 const cancel = () => {
-  visibleChange(false)
   emit('cancel')
 }
 
 const confirm = () => {
-  visibleChange(false)
   emit('confirm')
 }
 
