@@ -245,3 +245,5 @@ export { default as Collapse, CollapsePanel } from './Collapse';
 export { default as ConfigProvider } from './ConfigProvider';
 
 export { default as DataTable } from './DataTable';
+
+export { default as PopconfirmModal } from './PopconfirmModal';
