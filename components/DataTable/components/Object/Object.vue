@@ -1,12 +1,8 @@
 <template>
-
+  <data-table
+  />
 </template>
 
-<script setup lang="ts" name="Object">
-import {} from
-
+<script setup lang="ts">
+import { DataTable } from '../../../components'
 </script>
-
-<style scoped>
-
-</style>

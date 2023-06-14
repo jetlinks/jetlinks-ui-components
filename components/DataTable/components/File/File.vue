@@ -12,6 +12,7 @@
 
 <script setup name="File" lang="ts">
 import {ref} from "vue";
+import { FormItem as JFormItem, RadioGroup as JRadioGroup, Space as JSpace, RadioButton as JRadioButton } from '../../../components'
 
 const type = ref('url')
 

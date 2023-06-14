@@ -12,6 +12,7 @@ import type { PropType } from 'vue'
 import { computed } from 'vue'
 import defaultOptions from './data'
 import { selectProps } from 'ant-design-vue/lib/select'
+import { Select as JSelect } from '../../../components'
 
 const props = defineProps({
   ...selectProps,

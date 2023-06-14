@@ -49,9 +49,10 @@
   </div>
 </template>
 
-<script setup lang="ts" name="Metrics">
+<script setup lang="ts">
 import {reactive} from "vue";
 import ValueItem from './ValueItem.vue'
+import { Table as JTable, Button as JButton, AIcon, Input as JInput  } from '../../../components'
 
 const source = reactive([]);
 

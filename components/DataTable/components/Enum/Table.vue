@@ -22,9 +22,10 @@
   </div>
 </template>
 
-<script setup lang="ts" name="EnumTable">
-import AIcon from '../../../AIcon'
+<script setup lang="ts">
 import { ref } from 'vue';
+import { Table as JTable, Button as JButton, AIcon  } from '../../../components'
+
 const source = ref([]);
 
 const emit = defineEmits(['update:value', 'change']);

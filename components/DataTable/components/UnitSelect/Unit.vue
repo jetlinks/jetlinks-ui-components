@@ -14,6 +14,8 @@ import { UnitProps } from './defaultSetting';
 import type { PropType } from 'vue';
 import { ref, watch } from 'vue';
 import { isArray, isFunction } from 'lodash-es';
+import { Select as JSelect } from '../../../components'
+
 type valueType = string | number;
 
 type Emits = {

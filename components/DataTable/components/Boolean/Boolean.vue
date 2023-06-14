@@ -1,32 +1,34 @@
 <template>
-    <j-form-item no-style require label="布尔值">
+    <form-item no-style require label="布尔值">
         <div class="data-table-boolean-item">
             <div class="data-table-boolean-item--value">
-                <j-form-item name="trueText">
+                <form-item name="trueText">
                     <j-input />
-                </j-form-item>
+                </form-item>
             </div>
             <div>-</div>
             <div class="data-table-boolean-item--value">
-                <j-form-item name="trueValue">
+                <form-item name="trueValue">
                     <j-input />
-                </j-form-item>
+                </form-item>
             </div>
         </div>
         <div class="data-table-boolean-item">
             <div class="data-table-boolean-item--value">
-                <j-form-item name="falseText">
+                <form-item name="falseText">
                     <j-input />
-                </j-form-item>
+                </form-item>
             </div>
             <div>-</div>
             <div class="data-table-boolean-item--value">
-                <j-form-item name="falseValue">
+                <form-item name="falseValue">
                     <j-input />
-                </j-form-item>
+                </form-item>
             </div>
         </div>
-    </j-form-item>
+    </form-item>
 </template>
 
-<script setup lang="ts" name="Boolean"></script>
+<script setup lang="ts">
+import { FormItem, Input as JInput } from '../../../components'
+</script>

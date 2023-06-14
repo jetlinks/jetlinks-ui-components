@@ -29,8 +29,8 @@
 
 </template>
 
-<script setup lang="ts" name="ValueItem">
-
+<script setup lang="ts">
+import { PopconfirmModal as JPopconfirmModal, Button as JButton, Form as JForm, FormItem as JFormItem, InputNumber as JInputNumber  } from '../../../components'
 import { reactive} from "vue";
 import type { PropType} from "vue";
 
