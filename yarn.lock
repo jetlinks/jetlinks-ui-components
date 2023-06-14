@@ -6727,18 +6727,6 @@ jest-worker@^27.0.2, jest-worker@^27.4.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-jetlinks-ui-components@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.jetlinks.cn/jetlinks-ui-components/-/jetlinks-ui-components-1.0.5.tgz#3fcf05d870ad11300b0ea47aefaff75c8b79edd7"
-  integrity sha512-yGoFyuIg4DX921oZfKk/ObulFWUV72DWHo2wvi4RObyqF80N/DvSFREK+eGF+9YYIxcfTeTVzBlsRlz0258Vog==
-  dependencies:
-    "@vueuse/core" "^9.12.0"
-    "@vueuse/router" "^9.13.0"
-    ant-design-vue "^3.2.15"
-    colorpicker-v3 "^2.10.2"
-    lodash-es "^4.17.21"
-    monaco-editor "^0.35.0"
-
 joycon@^3.0.1:
   version "3.1.1"
   resolved "https://registry.npmmirror.com/joycon/-/joycon-3.1.1.tgz#bce8596d6ae808f8b68168f5fc69280996894f03"
@@ -9724,6 +9712,11 @@ socks@^1.1.10:
     ip "^1.1.4"
     smart-buffer "^1.0.13"
 
+sortablejs@1.14.0:
+  version "1.14.0"
+  resolved "https://registry.jetlinks.cn/sortablejs/-/sortablejs-1.14.0.tgz#6d2e17ccbdb25f464734df621d4f35d4ab35b3d8"
+  integrity sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==
+
 source-list-map@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmmirror.com/source-list-map/-/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"
@@ -11039,6 +11032,13 @@ vue@^3.2.25, vue@^3.2.45:
     "@vue/runtime-dom" "3.2.47"
     "@vue/server-renderer" "3.2.47"
     "@vue/shared" "3.2.47"
+
+vuedraggable@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.jetlinks.cn/vuedraggable/-/vuedraggable-4.1.0.tgz#edece68adb8a4d9e06accff9dfc9040e66852270"
+  integrity sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==
+  dependencies:
+    sortablejs "1.14.0"
 
 warning@^4.0.0:
   version "4.0.3"
