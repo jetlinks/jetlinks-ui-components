@@ -1,37 +1,41 @@
 <template>
   <j-popover
-      v-bind="props"
       trigger="click"
       :visible="myVisible"
       :overlayClassName="[modalWarpName, overlayClassName ]"
+      @visibleChange="() => {}"
   >
     <template #title>
-      <slot name="title" />
+      <slot name="title"/>
     </template>
     <template #content>
-      <div class="popconfirm-modal-body" >
-        <slot name="content" />
+      <div class="popconfirm-modal-body">
+        <slot name="content"/>
       </div>
-        <slot name="footer">
+      <slot name="footer">
         <div class="popconfirm-modal-footer">
           <j-button v-if="showCancel" size="small" @click.stop="cancel">{{ cancelText }}</j-button>
-          <j-button v-if="showOk" size="small" @click.stop="confirm" type="primary" :loading="confirmLoading">{{ okText }}</j-button>
+          <j-button v-if="showOk" size="small" @click.stop="confirm" type="primary" :loading="loading">{{
+              okText
+            }}
+          </j-button>
         </div>
-        </slot>
+      </slot>
     </template>
-    <span @click.stop="() => visibleChange(true)">
-      <slot />
+    <span @click="() => visibleChange(true)">
+      <slot/>
     </span>
   </j-popover>
 </template>
 
 <script setup lang="ts" name="JPopconfirmModal">
-import { popoverProps } from 'ant-design-vue/lib/popover'
-import {computed, nextTick, ref, watch} from "vue";
-import type { CSSProperties, PropType } from "vue";
-import { updateStyle } from '../util/document'
+import {popoverProps} from 'ant-design-vue/lib/popover'
+import {ref, watch, watchEffect} from "vue";
+import type {CSSProperties, PropType} from "vue";
+import {updateStyle} from '../util/document'
 
 type Emit = {
+  (e: 'update:visible', data: Boolean): void
   (e: 'visibleChange', data: Boolean): void
   (e: 'confirm'): void
   (e: 'cancel'): void
@@ -59,15 +63,24 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  visible: {
+    type: Boolean,
+    default: undefined
+  },
   confirmLoading: {
     type: Boolean,
     default: false
-  }
+  },
+  onConfirm: Function as PropType<
+      (e: MouseEvent) => void |
+          Promise<any>
+  >
 })
 
 const emit = defineEmits<Emit>()
 
 const myVisible = ref(false)
+const loading = ref(false)
 
 const modalName = 'popconfirm-modal-mask'
 const modalWarpName = 'popconfirm-modal-warp'
@@ -84,11 +97,11 @@ const hideModal = () => {
   // 获取最后一个隐藏
   const modalDivs = document.querySelectorAll<HTMLDivElement>(`.${modalName}.hide`)
   const hideModal = modalDivs.length ? modalDivs[modalDivs.length - 1] : null
-  modalMaskDom.classList.replace('show', 'close')
+  modalMaskDom?.classList?.replace?.('show', 'close')
   if (!hideModal) {
     document.body.removeAttribute('style')
   } else {
-    hideModal?.classList?.replace('hide', 'show')
+    hideModal.classList.replace('hide', 'show')
   }
 }
 
@@ -108,7 +121,7 @@ const createModal = () => {
 
     modalDiv.setAttribute('class', `${modalName} show`)
     // modalDiv.style.zIndex = `${zIndex}`
-    modalWarps[modalWarps.length - 1]?.insertAdjacentElement('beforebegin',modalDiv )
+    modalWarps[modalWarps.length - 1]?.insertAdjacentElement('beforebegin', modalDiv)
     showModal()
   } else {
     modalMaskDom.classList.replace('close', 'show')
@@ -121,26 +134,28 @@ const visibleChange = (e: boolean) => {
     setTimeout(() => {
       hideModalAll()
       createModal()
-    }, 150)
+    }, 10)
   } else {
     hideModal()
   }
+  emit('update:visible', e)
   emit('visibleChange', e)
 }
 
 const cancel = () => {
+  visibleChange(false)
+  loading.value = false
   emit('cancel')
 }
 
-const confirm = () => {
-  emit('confirm')
-}
-
-watch(() => props.visible, (newVisible, oldVisible) => {
-  if (newVisible !== oldVisible) {
-    visibleChange(newVisible)
+const confirm = async (e) => {
+  loading.value = true
+  const result = await props.onConfirm?.(e)
+  loading.value = false
+  if (result !== false) {
+    visibleChange(false)
   }
-}, { immediate: true })
+}
 
 </script>
 

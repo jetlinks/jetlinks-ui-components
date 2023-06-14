@@ -10,12 +10,10 @@
         <j-input v-model="record.text" placeholder="请输入" />
       </template>
       <template v-if="column.dataIndex === 'range'">
-        <j-select
+        <j-select-boolean
             v-model="record.range"
-            :options="[
-                { label: '固定值', value: false },
-                { label: '范围值', value: true },
-            ]"
+            trueText="范围值"
+            falseText="固定值"
             @select="() => itemSelect(record)"
         />
       </template>
@@ -29,7 +27,7 @@
       </template>
     </template>
   </j-table>
-  <j-button>添加指标值</j-button>
+  <j-button @click="addItem">添加指标值</j-button>
 </template>
 
 <script setup lang="ts" name="Metrics">
