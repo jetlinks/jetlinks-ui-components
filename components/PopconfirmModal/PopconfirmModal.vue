@@ -9,7 +9,7 @@
       <slot name="title"/>
     </template>
     <template #content>
-      <div class="popconfirm-modal-body">
+      <div class="popconfirm-modal-body" :style="bodyStyle">
         <slot name="content"/>
       </div>
       <slot name="footer">
@@ -122,10 +122,10 @@ const createModal = () => {
     modalDiv.setAttribute('class', `${modalName} show`)
     // modalDiv.style.zIndex = `${zIndex}`
     modalWarps[modalWarps.length - 1]?.insertAdjacentElement('beforebegin', modalDiv)
-    showModal()
   } else {
     modalMaskDom.classList.replace('close', 'show')
   }
+  showModal()
 }
 
 const visibleChange = (e: boolean) => {

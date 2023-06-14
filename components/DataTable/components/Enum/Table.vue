@@ -15,7 +15,10 @@
             </template>
         </template>
     </j-table>
-    <j-button class="enum-table-add" @click="addItem">新增枚举项</j-button>
+    <j-button class="enum-table-add" @click="addItem">
+      <template #icon><AIcon type="PlusOutlined"/></template>
+      新增枚举项
+    </j-button>
   </div>
 </template>
 

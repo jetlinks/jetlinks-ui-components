@@ -3,7 +3,7 @@
       style="width: 100%"
       placeholder="请选择数据类型"
       v-bind="props"
-      :options="options"
+      :options="_options"
   />
 </template>
 
@@ -21,7 +21,7 @@ const props = defineProps({
   }
 })
 
-const options = computed(() => {
+const _options = computed(() => {
   return props.filter.length ? defaultOptions.filter((item: {value: string}) => !props.filter.includes(item.value)) : defaultOptions
 })
 
