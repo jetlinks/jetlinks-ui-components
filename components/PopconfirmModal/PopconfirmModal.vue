@@ -72,8 +72,7 @@ const props = defineProps({
     default: false
   },
   onConfirm: Function as PropType<
-      (e: MouseEvent) => void |
-          Promise<any>
+      (e: MouseEvent) => (void | Promise<any>)
   >
 })
 
@@ -150,7 +149,7 @@ const cancel = () => {
 
 const confirm = async (e) => {
   loading.value = true
-  const result = await props.onConfirm?.(e)
+  const result = await (props.onConfirm?.(e) as Promise<any>)?.catch?.(() => false)
   loading.value = false
   if (result !== false) {
     visibleChange(false)
