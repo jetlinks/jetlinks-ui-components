@@ -14,3 +14,7 @@ export function getSlotVNode<T>(slots: Slots, props: Record<string, unknown>, pr
     }
     return (props[prop] || slots[prop]?.()) as T;
 }
+
+export const isPromise = (fn: Promise<any> | any) => {
+    return !!fn && typeof fn.then === 'function'
+}

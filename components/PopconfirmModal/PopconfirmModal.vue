@@ -14,11 +14,11 @@
       </div>
       <slot name="footer">
         <div class="popconfirm-modal-footer">
-          <j-button v-if="showCancel" size="small" @click.stop="cancel">{{ cancelText }}</j-button>
-          <j-button v-if="showOk" size="small" @click.stop="confirm" type="primary" :loading="loading">{{
+          <Button v-if="showCancel" size="small" @click.stop="cancel">{{ cancelText }}</Button>
+          <Button v-if="showOk" size="small" @click.stop="confirm" type="primary" :loading="loading">{{
               okText
             }}
-          </j-button>
+          </Button>
         </div>
       </slot>
     </template>
@@ -30,10 +30,11 @@
 
 <script setup lang="ts" name="JPopconfirmModal">
 import {popoverProps} from 'ant-design-vue/lib/popover'
-import {ref, watch, watchEffect} from "vue";
+import {ref} from "vue";
 import type {CSSProperties, PropType} from "vue";
 import {updateStyle} from '../util/document'
-
+import { Button, Popover as JPopover } from '../components'
+import { isPromise } from "../util/comm";
 type Emit = {
   (e: 'update:visible', data: Boolean): void
   (e: 'visibleChange', data: Boolean): void
@@ -85,11 +86,18 @@ const modalName = 'popconfirm-modal-mask'
 const modalWarpName = 'popconfirm-modal-warp'
 let modalMaskDom: HTMLDivElement = null
 
+const bodyHasScrollbar = () => {
+  return document.body.scrollHeight > document.body.clientHeight;
+}
+
 const showModal = () => {
-  updateStyle(document.body, {
-    overflow: 'hidden',
-    width: 'calc(100% - 17px)'
-  })
+  const hasScrollbar = bodyHasScrollbar()
+  if (hasScrollbar) {
+    updateStyle(document.body, {
+      overflow: 'hidden',
+      width: 'calc(100% - 17px)'
+    })
+  }
 }
 
 const hideModal = () => {
@@ -149,11 +157,15 @@ const cancel = () => {
 
 const confirm = async (e) => {
   loading.value = true
-  const result = await (props.onConfirm?.(e) as Promise<any>)?.catch?.(() => false)
-  loading.value = false
-  if (result !== false) {
-    visibleChange(false)
+  const fn = props.onConfirm?.(e)
+  if (isPromise(fn)) {
+    (fn as Promise<any>).then(() => {
+      visibleChange(false)
+    }).finally(() => loading.value = false)
+  } else {
+    loading.value = false
   }
+
 }
 
 </script>

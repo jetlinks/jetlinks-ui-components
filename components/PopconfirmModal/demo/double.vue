@@ -55,13 +55,12 @@ export default {
       visible1.value = false
     }
 
-    const confirm2 = () => {
-      console.log('confirm2')
-      return new Promise((resolve) => {
+    const confirm2 = async () => {
+      return new Promise((resolve, reject) => {
         setTimeout(() => {
-          console.log('confirm2-----timeend')
-          resolve(true)
-        }, 3000)
+          reject()
+          // resolve(true)
+        }, 2000)
       })
     }
 
