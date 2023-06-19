@@ -50,7 +50,7 @@ const columns = ref([
     },
 ]);
 const newSource = ref([  //初始数据
-    { name: 1, age: 18, width: 150, config:  null},
+    { name: 1, age: 18, width: 150, config:  [{ name: 1, age: 18, width: 150, config:  null}]},
     { name: 2, age: 21, width: 160, config:  null},
     { name: 3, age: 21, width: 160, config:  null},
     { name: 4, age: 21, width: 160, config:  null},

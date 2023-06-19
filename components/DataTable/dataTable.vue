@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{props.childe}}
         <table style="width: 100%" >
         
             <draggable :list="dataSource" :animation="300" @end='move'>
@@ -98,15 +97,8 @@ import { DataEntryData } from './typing';
 import draggable from 'vuedraggable';
 import { text } from 'stream/consumers';
 
-import Integer from './components/Integer'
-import Double from './components/Double'
-import String from './components/String' //最大长度
-import Boolean from './components/Boolean' //布尔值
-import Enum from './components/Enum'   //枚举
 import ObjectText from './components/Object'
-import Array from './components/Array'
-import File from './components/File'
-import Date from './components/Date'
+import {Integer,Double,String,Boolean,Enum,Array,File,Date} from './components'
 
 const props = defineProps({
     data: {
@@ -171,15 +163,16 @@ onMounted(() => {
         columns.value=props.columns  
         dataSource.value=props.newSource
         Serial.value=props.serial
+        dataSourceList.value.push(JSON.parse(JSON.stringify(dataSource.value))) //添加撤销初始数据
     }else{
-        dataSource.value=newSource.value
+        // dataSource.value=newSource.value
     }
 
     // if(props.childe){  //子页面时没有object类型
     //     typeList.value=["int","long","double","float","text","boolean","enum","file","array","date","password","geoPoint",]
     // }
     
-    dataSourceList.value.push(JSON.parse(JSON.stringify(dataSource.value))) //添加撤销初始数据
+   
 
     window.addEventListener("keydown", KeyDown, true); //开启键盘监听
     document.addEventListener('keydown', function(event) {   //数据撤销 Ctrl+Z
@@ -248,6 +241,7 @@ const onConfig=()=>{  //其他配置保存
         stringConfig.value[0].addList()
     }
     dataSource.value[stringConfig.value[0].index]=stringConfig.value[0].title
+    console.log(stringConfig.value[0].title)
     addList() //Ctrl+Z添加
 }
 
