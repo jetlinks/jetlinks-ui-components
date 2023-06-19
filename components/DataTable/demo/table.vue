@@ -1,3 +1,11 @@
+<docs>
+
+---
+order: 4
+title: 基础
+---
+
+</docs>
 <template>
     <div>
         <j-data-table :columns='columns' :serial="true" :newSource="newSource" border>
@@ -29,6 +37,18 @@ const columns = ref([
         dataIndex: 'age',
         width: '100',
         type: 'index',
+        form: {
+          rules: [
+            {
+              validator(_, value) {
+                if (!value) {
+                  return Promise.reject('请输入年龄')
+                }
+                  return Promise.resolve()
+              }
+            }
+          ]
+        }
     },
     {
         title: 'width',
