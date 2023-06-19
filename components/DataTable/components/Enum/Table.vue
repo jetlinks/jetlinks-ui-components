@@ -3,10 +3,10 @@
     <j-table :dataSource="source" :columns="columns" :pagination="false">
         <template #bodyCell="{ column, record, index }">
             <template v-if="column.dataIndex === 'value'">
-                <j-input v-model="record.value" placeholder="请输入" />
+                <j-input v-model:value="record.value" placeholder="请输入" />
             </template>
             <template v-if="column.dataIndex === 'text'">
-                <j-input v-model="record.text" placeholder="请输入" />
+                <j-input v-model:value="record.text" placeholder="请输入" />
             </template>
             <template v-if="column.dataIndex === 'action'">
                 <j-button type="link" @click="() => deleteItem(index)">
@@ -23,6 +23,7 @@
 import AIcon from '../../../AIcon'
 import { ref } from 'vue';
 const source = ref([]);
+const source1 = ref();
 
 const emit = defineEmits(['update:value', 'change']);
 
@@ -56,10 +57,14 @@ const addItem = () => {
     updateValue();
 };
 
+
 const deleteItem = (index: number) => {
   source.value.splice(index, 1);
     updateValue();
 };
+defineExpose({
+  source,
+})
 </script>
 
 <style scoped></style>

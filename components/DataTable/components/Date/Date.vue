@@ -1,7 +1,7 @@
 <template>
   <j-form-item label="格式" required>
     <j-select
-        v-model:value="value"
+        v-model:value="title.config.data"
         :options="options"
         mode="tags"
         placeholder="请选择时间格式"
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts" name="Date">
-import { ref, watch} from 'vue';
+import { ref, watch,reactive} from 'vue';
 
 type Emits = {
   (e: 'update:value', data: string | undefined): void;
@@ -24,6 +24,14 @@ const props = defineProps({
   value: {
     type: String,
     default: undefined,
+  },
+  configData:{    
+      type:Object,
+      default: null,
+  },
+  configIndex:{
+      type:Number,
+      default: null,
   }
 });
 
@@ -50,6 +58,13 @@ watch(
     { immediate: true },
 );
 
+
+const title=reactive( JSON.parse(JSON.stringify({...props.configData})) )
+title.config={data:'yy-mm-dd hh:mm:ss'}
+const index=ref(props.configIndex)
+defineExpose({
+  title,index
+})
 </script>
 
 <style scoped>

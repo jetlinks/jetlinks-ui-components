@@ -7,3 +7,4 @@ export { default as File } from './File';
 export { default as Integer } from './Integer';
 export { default as String } from './String';
 export { default as TypeSelect } from './Type';
+export { default as Object } from './Object';

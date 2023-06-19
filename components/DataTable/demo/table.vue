@@ -1,6 +1,6 @@
 <template>
     <div>
-        <j-data-table :columns='columns' :serial="true" :newSource="newSource">
+        <j-data-table :columns='columns' :serial="true" :newSource="newSource" border>
             <template #slot1="scope">
                 <div>
                     支持通过实体{{scope.data.index}}
@@ -34,21 +34,26 @@ const columns = ref([
         title: 'width',
         dataIndex: 'width',
         width: '100',
-        type: 'select',
+        type: 'TypeSelect',
     },
     {
-        title: 'width',
+        title: '操作',
         dataIndex: 'width',
         width: '100',
-        type: 'select',
         slot:'slot4'
+    },
+    {
+        title: '其他配置',
+        dataIndex: 'config',
+        width: '100',
+        type: 'config',
     },
 ]);
 const newSource = ref([  //初始数据
-    { name: 1, age: 18, width: 150 },
-    { name: 2, age: 21, width: 160 },
-    { name: 3, age: 21, width: 160 },
-    { name: 4, age: 21, width: 160 },
+    { name: 1, age: 18, width: 150, config:  null},
+    { name: 2, age: 21, width: 160, config:  null},
+    { name: 3, age: 21, width: 160, config:  null},
+    { name: 4, age: 21, width: 160, config:  null},
 ])
 
 </script>
