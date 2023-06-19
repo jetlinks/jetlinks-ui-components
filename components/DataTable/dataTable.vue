@@ -3,7 +3,7 @@
         {{props.childe}}
         <Form :model="form">
         <table style="width: 100%" >
-
+        
             <draggable :list="form.table" :animation="300" @end='move'>
                 <!-- 表头 -->
                 <template #header>
@@ -96,15 +96,7 @@ import type { DataEntryData, DataTableColumnsType } from './typing';
 import draggable from 'vuedraggable';
 import { text } from 'stream/consumers';
 
-import Integer from './components/Integer'
-import Double from './components/Double'
-import String from './components/String' //最大长度
-import Boolean from './components/Boolean' //布尔值
-import Enum from './components/Enum'   //枚举
-import ObjectText from './components/Object'
-import Array from './components/Array'
-import File from './components/File'
-import Date from './components/Date'
+import {Integer,Double,String,Boolean,Enum,Array,File,Date, Object as ObjectText} from './components'
 import TypeData from './components/Type/data'
 import { TypeSelect } from './components'
 import { Form, FormItem, InputNumber as JInputNumber, Select as JSelect, SelectOption as JSelectOption, Input as JInput, Empty } from '../../components'
@@ -161,7 +153,7 @@ onMounted(() => {
     // if(props.childe){  //子页面时没有object类型
     //     typeList.value=["int","long","double","float","text","boolean","enum","file","array","date","password","geoPoint",]
     // }
-
+    
     dataSourceList.value.push(JSON.parse(JSON.stringify(form.table))) //添加撤销初始数据
 
     window.addEventListener("keydown", KeyDown, true); //开启键盘监听
