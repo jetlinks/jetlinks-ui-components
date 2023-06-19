@@ -16,6 +16,8 @@ export type DataTableColumnsType = {
     dataIndex: string | number,
     width: string,
     type: string
+
+    options?: Array<{ label: string, value: any }> | Promise<any>
     form?: {
         rules: Rule[]
     }

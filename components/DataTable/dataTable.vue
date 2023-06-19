@@ -3,7 +3,7 @@
         {{props.childe}}
         <Form :model="form">
         <table style="width: 100%" >
-        
+
             <draggable :list="form.table" :animation="300" @end='move'>
                 <!-- 表头 -->
                 <template #header>
@@ -26,68 +26,61 @@
                             :class="borderClass"
                             :style="`width:${item.width || 100 }vw`"
                         >
-                          <FormItem :name='["table", index, item.dataIndex]' :rules="item.form?.rules || []">
+                          <FormItem v-if="item.dataIndex !== 'action'" :name='["table", index, item.dataIndex]' :rules="item.form?.rules || []">
                               <!-- 插槽 -->
                               <div v-if="item.slot">
                                 <slot :name="item.slot" :data='{element,index}'></slot>
                               </div>
-                              <div v-else>
+                              <template v-else>
                                   <!-- 默认输出文本 -->
-                                  <div v-if="item.type == 'text'||endRow!=index||!item.type">
-                                          {{element[item.dataIndex]}}
+                                  <div v-if="item.type === 'text'||endRow!==index||!item.type">
+                                       {{element[item.dataIndex]}}
                                   </div>
                                   <!-- 文本 -->
-                                  <div v-if="item.type == 'index'&& endRow==index">
-                                      <j-input v-model:value="element[item.dataIndex]"  @blur="addList" style="width:100px" />
+                                  <div v-if="item.type === 'index'&& endRow===index">
+                                      <j-input v-model:value="element[item.dataIndex]" style="width:100%" @blur="addList" />
                                   </div>
-                                  <div v-if="item.type == 'NumberIndex'&& endRow==index">
-                                      <j-input-number v-model:value="element[item.dataIndex]"  @blur="addList" style="width:100px" />
+                                  <div v-if="item.type === 'NumberIndex'&& endRow===index">
+                                      <j-input-number v-model:value="element[item.dataIndex]" style="width:100%" @blur="addList"/>
                                   </div>
                                   <!-- 填写约束 -->
-                                  <div v-if="item.type == 'select'&& endRow==index">
-                                      <j-select value="必填" style="width:100px">
+                                  <div v-if="item.type === 'select'&& endRow===index">
+                                      <j-select value="必填" style="width:100%">
                                           <j-select-option value="必填" >必填</j-select-option>
                                           <j-select-option value="非必填" >非必填</j-select-option>
                                       </j-select>
                                   </div>
                                   <!-- 数据类型 -->
-                                  <div v-if="item.type == 'TypeSelect'&& endRow==index">
-                                      <j-select :value="valueType" v-model:value="valueType"  style="width:100px">
-                                          <j-select-option :value="item" v-for="item in typeList" :key="item">
-                                              {{item}}
-                                          </j-select-option>
-                                      </j-select>
+                                  <div v-if="item.type === 'TypeSelect'&& endRow===index">
+
+                                      <TypeSelect v-model:value="element[item.dataIndex]" style="width:100%" />
                                   </div>
                                   <!-- 其他配置 -->
-                                  <div v-if="item.type == 'config'&& endRow==index" style="">
-                                      <div class="data-table-config" v-if="valueType">
+                                  <div v-if="item.type === 'config'&& endRow===index">
+                                      <div v-if="element[TypeSelectDataIndex]" class="data-table-config" >
                                           <div class="data-table-config--text">
-                                              {{element[item.dataIndex]}}
+                                              {{element[item.dataIndex] || '空'}}
                                           </div>
-                                          <a-popconfirm
-                                              ok-text="完成" placement="bottomRight" @confirm='onConfig'
-                                              cancel-text="取消" icon=" " :overlayStyle="{ width: '800px' }"
-                                          >
-                                              <template #title>
-                                                  <!-- {{element}} -->
-                                                  <Integer v-if="valueType=='int'||valueType=='long'" :configData='element' :configIndex="index" ref="stringConfig"></Integer>
-                                                  <Double  v-if="valueType=='double'||valueType=='float'" :configData='element' :configIndex="index" ref="stringConfig"></Double>
-                                                  <String  v-if="valueType=='text'||valueType=='password'" :configData='element' :configIndex="index" ref="stringConfig"></String>
-                                                  <Boolean v-if="valueType=='boolean'" :configData='element' :configIndex="index" ref="stringConfig"></Boolean>
-                                                  <Enum  v-if="valueType=='enum'" :configData='element' :configIndex="index" ref="stringConfig"></Enum>
-                                                  <ObjectText  v-if="valueType=='object'"  :configData='element' :configIndex="index" ref="stringConfig"
-                                                   :columns='columns'></ObjectText>
-                                                  <Array  v-if="valueType=='array'" :configData='element' :configIndex="index" ref="stringConfig"></Array>
-                                                  <File  v-if="valueType=='file'"  :configData='element' :configIndex="index" ref="stringConfig"></File>
-                                                  <Date  v-if="valueType=='date'"  :configData='element' :configIndex="index" ref="stringConfig"></Date>
-                                              </template>
-                                              <div style="float:right;"><AIcon class="data-table-config--icon" style="" type="EditTwoTone"/></div>
-                                          </a-popconfirm>
+                                          <Integer v-if="['int','long'].includes(element[TypeSelectDataIndex])" v-model:value="element[item.dataIndex]" />
+                                          <Double  v-else-if="['float','double'].includes(element[TypeSelectDataIndex])" v-model:value="element[item.dataIndex]" />
+                                          <Boolean v-else-if="element[TypeSelectDataIndex]==='boolean'" v-model:value="element[item.dataIndex]"/>
+                                          <Enum v-else-if="element[TypeSelectDataIndex]==='enum'" :configData='element' :configIndex="index" ref="stringConfig"/>
+                                          <ObjectText v-else-if="element[TypeSelectDataIndex]==='object'"  :configData='element' :configIndex="index" ref="stringConfig"
+                                                       :columns='columns'/>
+                                          <Array  v-else-if="element[TypeSelectDataIndex]==='array'" :configData='element' :configIndex="index" ref="stringConfig"/>
+                                          <File  v-else-if="element[TypeSelectDataIndex]==='file'"  :configData='element' :configIndex="index" ref="stringConfig"/>
+                                          <Date  v-else-if="element[TypeSelectDataIndex]==='date'"  :configData='element' :configIndex="index" ref="stringConfig"/>
+                                          <String  v-else-if="['geoPoint','password','string'].includes(element[TypeSelectDataIndex])" :configData='element' :configIndex="index" ref="stringConfig"/>
                                       </div>
-                                      <div v-else>空</div>
+                                      <div v-else class="data-table-config empty">
+                                        空
+                                      </div>
                                   </div>
-                              </div>
+                              </template>
                           </FormItem>
+                          <template v-else>
+                            <slot name="action" :data="element"></slot>
+                          </template>
                         </td>
                     </tr>
                   </tbody>
@@ -98,7 +91,7 @@
     </div>
 </template>
 <script lang="ts" setup name="JDataTable">
-import {onMounted, PropType, ref, getCurrentInstance, reactive, computed} from 'vue';
+import {onMounted, PropType, ref, getCurrentInstance, reactive, computed, watch} from 'vue';
 import type { DataEntryData, DataTableColumnsType } from './typing';
 import draggable from 'vuedraggable';
 import { text } from 'stream/consumers';
@@ -113,7 +106,9 @@ import Array from './components/Array'
 import File from './components/File'
 import Date from './components/Date'
 import TypeData from './components/Type/data'
-import Form, { FormItem } from '../Form'
+import { TypeSelect } from './components'
+import { Form, FormItem, InputNumber as JInputNumber, Select as JSelect, SelectOption as JSelectOption, Input as JInput, Empty } from '../../components'
+import {cloneDeep} from "lodash-es";
 
 const props = defineProps({
     data: {
@@ -131,35 +126,11 @@ const {proxy} = <any>getCurrentInstance()
 
 const Serial=ref<any>(true) //是否开启序号
 const typeList=ref(TypeData.map(item => item.value))
-const columns = ref<any[]>([
-    {
-        title: 'name',
-        dataIndex: 'name',
-        width: '100',
-        type: 'text',
-    },
-    {
-        title: 'age',
-        dataIndex: 'age',
-        width: '100',
-        type: 'index',
-    },
-    {
-        title: 'width',
-        dataIndex: 'width',
-        width: '100',
-        type: 'TypeSelect',
-    },
-]);
+const columns = ref<any[]>(props.columns || []);
 //  type为列的数据类型  width为列的宽度默认以100为基数，若要宽度为两倍则写200
 const dataSource = ref<any>(); //展示数据
 const dataSourceList = ref([]);  //用来撤销的数据
-const newSource = ref([  //初始数据
-    { name: 111, age: 18, width: 150 },
-    { name: 222, age: 21, width: 160 },
-    { name: 333, age: 21, width: 160 },
-    { name: 444, age: 21, width: 160 },
-]);
+const newSource = ref();
 
 const borderClass = computed(() => {
   return {
@@ -169,7 +140,7 @@ const borderClass = computed(() => {
 
 //  表单值
 const form = reactive({
-  table: []
+  table: props.newSource || []
 })
 const endRow=ref<number>()
 const onRow=(data:any)=>{
@@ -181,18 +152,16 @@ const offRow=()=>{
 onMounted(() => {
     //参数引入初始化
     if(props.newSource){
-        columns.value=props.columns  
+        columns.value=props.columns
         dataSource.value=props.newSource
         Serial.value=props.serial
-        form.table = props.newSource as any[]
-    }else{
-      form.table=newSource.value
+
     }
 
     // if(props.childe){  //子页面时没有object类型
     //     typeList.value=["int","long","double","float","text","boolean","enum","file","array","date","password","geoPoint",]
     // }
-    
+
     dataSourceList.value.push(JSON.parse(JSON.stringify(form.table))) //添加撤销初始数据
 
     window.addEventListener("keydown", KeyDown, true); //开启键盘监听
@@ -202,18 +171,24 @@ onMounted(() => {
           form.table=JSON.parse(JSON.stringify(dataSourceList.value[dataSourceList.value.length-1]))
         }
     });
-
 });
+
+watch(() => props.newSource, () => {
+  form.table = cloneDeep(props.newSource as any[])
+}, { deep: true })
+
+
+
 const move=(e)=>{ //拖拽时动态改变编辑的行位置
     if(e.oldIndex-1==endRow.value){
         endRow.value=e.newIndex-1
-    }  
+    }
     else if(e.newIndex>=endRow.value+1 && e.newIndex>e.oldIndex){
         endRow.value=endRow.value-1
-    } 
+    }
     else if(e.newIndex<=endRow.value+1 && e.newIndex<e.oldIndex){
         endRow.value=endRow.value+1
-    }  
+    }
 }
 const addList=()=>{
     if(JSON.stringify(form.table) != JSON.stringify(dataSourceList.value[dataSourceList.value.length-1])){
@@ -224,11 +199,11 @@ const addList=()=>{
             dataSourceList.value.push(JSON.parse(JSON.stringify(form.table)))  //深拷贝
         }
     }
-    
+
     endRow.value=null
 }
 const KeyDown=(e:any)=>{
-    
+
     if(e.keyCode==13){  //回车
         addList()
     }
@@ -253,6 +228,10 @@ const KeyDown=(e:any)=>{
         }
     }
 }
+
+const TypeSelectDataIndex = computed(() => {
+  return columns.value.find(item => item.type === 'TypeSelect')?.dataIndex
+})
 
 const valueType=ref<any>()
 

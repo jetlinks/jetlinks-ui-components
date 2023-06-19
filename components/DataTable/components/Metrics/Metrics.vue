@@ -1,58 +1,68 @@
 <template>
-  <div class="data-table-metrics">
-    <j-table
-        :dataSource="source"
-        :columns="columns"
-        :pagination="false"
-    >
-      <template #bodyCell="{ column, record, index }">
-        <template v-if="column.dataIndex === 'index'">
-          {{index + 1}}
-        </template>
-        <template v-if="column.dataIndex === 'id'">
-          <j-input v-model="record.value" placeholder="请输入" maxLength="64" />
-        </template>
-        <template v-if="column.dataIndex === 'name'">
-          <j-input v-model="record.text" placeholder="请输入" maxLength="64" />
-        </template>
-        <template v-if="column.dataIndex === 'range'">
-          <j-select-boolean
-              v-model:value="record.range"
-              trueText="范围值"
-              falseText="固定值"
-              style="width: 100%"
-              @select="() => itemSelect(record)"
-          />
-        </template>
-        <template v-if="column.dataIndex === 'value'">
-          <div>
-            <span>
-              {{ record.value || '' }}
-            </span>
-            <ValueItem
-              :range="record.range"
-              v-model:value="record.value"
-            />
-          </div>
-        </template>
-        <template v-if="column.dataIndex === 'action'">
-          <j-button type="link" @click="() => deleteItem(index)">
-            <AIcon type="DeleteOutlined" />
-          </j-button>
-        </template>
-      </template>
-    </j-table>
-    <j-button class="data-table-metrics--add" @click="addItem">
-      <template #icon><AIcon type="PlusOutlined"/></template>
-      添加指标值
-    </j-button>
-  </div>
+  <PopconfirmModal
+      body-style="padding-top:4px;"
+      @confirm="confirm"
+  >
+    <template #content>
+
+      <div class="data-table-metrics">
+        <j-table
+            :dataSource="source"
+            :columns="columns"
+            :pagination="false"
+        >
+          <template #bodyCell="{ column, record, index }">
+            <template v-if="column.dataIndex === 'index'">
+              {{index + 1}}
+            </template>
+            <template v-if="column.dataIndex === 'id'">
+              <j-input v-model="record.value" placeholder="请输入" maxLength="64" />
+            </template>
+            <template v-if="column.dataIndex === 'name'">
+              <j-input v-model="record.text" placeholder="请输入" maxLength="64" />
+            </template>
+            <template v-if="column.dataIndex === 'range'">
+              <j-select-boolean
+                  v-model:value="record.range"
+                  trueText="范围值"
+                  falseText="固定值"
+                  style="width: 100%"
+                  @select="() => itemSelect(record)"
+              />
+            </template>
+            <template v-if="column.dataIndex === 'value'">
+              <div>
+                <span>
+                  {{ record.value || '' }}
+                </span>
+                <ValueItem
+                  :range="record.range"
+                  v-model:value="record.value"
+                />
+              </div>
+            </template>
+            <template v-if="column.dataIndex === 'action'">
+              <j-button type="link" @click="() => deleteItem(index)">
+                <AIcon type="DeleteOutlined" />
+              </j-button>
+            </template>
+          </template>
+        </j-table>
+        <j-button class="data-table-metrics--add" @click="addItem">
+          <template #icon><AIcon type="PlusOutlined"/></template>
+          添加指标值
+        </j-button>
+      </div>
+    </template>
+    <Icon />
+  </PopconfirmModal>
 </template>
 
 <script setup lang="ts">
 import {reactive} from "vue";
 import ValueItem from './ValueItem.vue'
-import { Table as JTable, Button as JButton, AIcon, Input as JInput  } from '../../../components'
+import { Table as JTable, Button as JButton, AIcon, Input as JInput, PopconfirmModal  } from '../../../components'
+import Icon from '../Icon.vue'
 
 const source = reactive([]);
 

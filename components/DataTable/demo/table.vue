@@ -57,23 +57,23 @@ const columns = ref([
         type: 'TypeSelect',
     },
     {
+      title: '其他配置',
+      dataIndex: 'config',
+      width: '100',
+      type: 'config',
+    },
+    {
         title: '操作',
-        dataIndex: 'width',
+        dataIndex: 'action',
         width: '100',
         slot:'slot4'
     },
-    {
-        title: '其他配置',
-        dataIndex: 'config',
-        width: '100',
-        type: 'config',
-    },
 ]);
 const newSource = ref([  //初始数据
-    { name: 1, age: 18, width: 150, config:  null},
-    { name: 2, age: 21, width: 160, config:  null},
-    { name: 3, age: 21, width: 160, config:  null},
-    { name: 4, age: 21, width: 160, config:  null},
+    { name: 1, age: 18, width: 'int', config:  null},
+    { name: 2, age: 21, width: 'double', config:  null},
+    { name: 3, age: 21, width: 'date', config:  null},
+    { name: 4, age: 21, width: 'array', config:  null},
 ])
 
 </script>

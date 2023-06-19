@@ -164,8 +164,8 @@ const confirm = async (e) => {
     }).finally(() => loading.value = false)
   } else {
     loading.value = false
+    visibleChange(false)
   }
-
 }
 
 </script>

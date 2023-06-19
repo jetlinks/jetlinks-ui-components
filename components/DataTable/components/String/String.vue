@@ -1,30 +1,37 @@
 
 <template>
-    <j-form-item name="" label="最大长度">
-        <j-input-number :precision="0" :max="999" v-if="title.config" v-model:value="title.config.text"/>
-        {{title.config?.text}}
-        <!-- v-model:value="title.text" -->
-    </j-form-item>
+  <PopconfirmModal
+      body-style="padding-top:4px;"
+      @confirm="confirm"
+  >
+    <template #content>
+      <j-input-number v-model:value="string" :precision="0" :max="999" />
+    </template>
+    <Icon />
+  </PopconfirmModal>
 </template>
 
 <script setup lang="ts" name="String">
 import { reactive, ref } from "vue";
+import { PopconfirmModal, InputNumber as JInputNumber } from '../../../components'
+import Icon from '../Icon.vue'
+
+const emit = defineEmits(['update:value'])
 
 const props = defineProps({
-    configData:{
-        type:Object,
-        default: null,
-    },
-    configIndex:{
-        type:Number,
-        default: null,
+    value: {
+      type: String,
+      default: undefined
     }
 });
-const title=reactive( JSON.parse(JSON.stringify({...props.configData})) )
-const index=ref(props.configIndex)
-defineExpose({
-  title,index
-})
+
+const string = ref(props.value)
+
+const confirm = () => {
+  emit('update:value', string)
+}
+
+
 </script>
 
 <style scoped></style>

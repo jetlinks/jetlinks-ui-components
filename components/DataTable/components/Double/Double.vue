@@ -1,47 +1,47 @@
 <template>
-    <j-form-item name="unit" label="单位">
-        <UnitSelect :options="options"  v-model:value="title.config.double.selectValue"/>
-    </j-form-item>
-    <j-form-item name="" label="精度">
-        <j-input-number :precision="0" :max="999" v-if="title.config" v-model:value="title.config.double.text"/>
-    </j-form-item>
+  <PopconfirmModal
+      body-style="padding-top:4px;"
+      @confirm="confirm"
+  >
+    <template #content>
+      <Form :model="formData" layout="vertical">
+        <FormItem name="unit" label="单位">
+            <UnitSelect v-model:value="formData.unit" :options="options"/>
+        </FormItem>
+        <FormItem name="degree" label="精度">
+            <InputNumber v-model:value="formData.degree" :precision="0" min="0" :max="9999" />
+        </FormItem>
+      </Form>
+    </template>
+    <Icon />
+  </PopconfirmModal>
 </template>
 
 <script setup lang="ts">
 import UnitSelect, { UnitProps } from '../UnitSelect';
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
+import { Form, FormItem, PopconfirmModal, InputNumber } from '../../../components'
+import Icon from '../Icon.vue'
+
+const emit = defineEmits(['update:value'])
+
 const props = defineProps({
     ...UnitProps,
-    configData:{    
-        type:Object,
-        default: null,
-    },
-    configIndex:{
-        type:Number,
-        default: null,
+    value: {
+      type: Object,
+      default: () => ({})
     }
 });
 
-const options=ref([{
-        value: 'jack',
-        label: 'Jack',
-      },
-      {
-        value: 'lucy',
-        label: 'Lucy',
-},])
-
-const title=reactive( JSON.parse(JSON.stringify({...props.configData})) )
-// title.value.config.double=''
-title.config={double:{
-    selectValue:null,
-    text:null,
-}}
-// console.log(title.config)
-const index=ref(props.configIndex)
-defineExpose({
-  title,index
+const formData = reactive({
+  unit: props.value.unit,
+  degree: props.value.degree || 0
 })
+
+const confirm = () => {
+  emit('update:value', formData)
+}
+
 </script>
 
 <style scoped></style>

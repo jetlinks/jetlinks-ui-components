@@ -1,32 +1,56 @@
 <template>
-  <j-form-item label="元素类型" required>
-    <TypeSelect  v-model:value="title.config.array"/>
-  </j-form-item>
+  <PopconfirmModal
+      body-style="padding-top:4px;"
+      @confirm="confirm"
+  >
+    <template #content>
+      <Form :model="formData" layout="vertical">
+        <FormItem label="元素类型" required name="type" :rules="rules">
+          <TypeSelect v-model:value="formData.type"/>
+        </FormItem>
+      </Form>
+    </template>
+    <Icon />
+  </PopconfirmModal>
 </template>
 
 <script setup lang="ts">
-import { FormItem } from '../../../components'
 import { TypeSelect } from "../index";
 import { reactive, ref } from "vue";
+import { Form, FormItem, PopconfirmModal } from '../../../components'
+import Icon from '../Icon.vue'
+
+const emit = defineEmits(['update:value'])
+
 const props = defineProps({
-    configData:{    
-        type:Object,
-        default: null,
-    },
-    configIndex:{
-        type:Number,
-        default: null,
-    }
+  value: {
+    type: String,
+    default: undefined
+  }
 });
 
-const title=reactive( JSON.parse(JSON.stringify({...props.configData})) )
-
-title.config={array:null}
-
-const index=ref(props.configIndex)
-defineExpose({
-  title,index
+const formData = reactive({
+  type: props.value
 })
+
+const rules = [
+  {
+    validator(_, value) {
+      console.log(value)
+      if (!value) {
+        return Promise.reject('请选择元素类型')
+      }
+      return Promise.resolve()
+    },
+    trigger: 'change'
+  }
+]
+
+const confirm = () => {
+  emit('update:value', formData)
+}
+
+
 </script>
 
 <style scoped>
