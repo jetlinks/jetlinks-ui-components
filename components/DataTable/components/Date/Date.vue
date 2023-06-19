@@ -1,5 +1,5 @@
 <template>
-  <j-form-item label="格式" required>
+  <form-item label="格式" required>
     <j-select
         v-model:value="title.config.data"
         :options="options"
@@ -7,7 +7,7 @@
         placeholder="请选择时间格式"
         @change="change"
     />
-  </j-form-item>
+  </form-item>
 </template>
 
 <script setup lang="ts" name="Date">

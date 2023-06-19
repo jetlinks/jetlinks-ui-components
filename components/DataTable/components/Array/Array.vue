@@ -4,7 +4,8 @@
   </j-form-item>
 </template>
 
-<script setup lang="ts" name="Array">
+<script setup lang="ts">
+import { FormItem } from '../../../components'
 import { TypeSelect } from "../index";
 import { reactive, ref } from "vue";
 const props = defineProps({

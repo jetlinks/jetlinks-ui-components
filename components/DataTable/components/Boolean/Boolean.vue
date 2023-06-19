@@ -1,5 +1,5 @@
 <template>
-    <j-form-item no-style require label="布尔值">
+    <form-item no-style require label="布尔值">
         <div class="data-table-boolean-item">
             <div class="data-table-boolean-item--value">
                 <j-form-item name="trueText" >

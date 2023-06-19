@@ -7,7 +7,7 @@
     </j-form-item>
 </template>
 
-<script setup lang="ts" name="Double">
+<script setup lang="ts">
 import UnitSelect, { UnitProps } from '../UnitSelect';
 import { reactive, ref } from "vue";
 const props = defineProps({
