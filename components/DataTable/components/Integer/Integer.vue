@@ -4,7 +4,7 @@
     </j-form-item>
 </template>
 
-<script setup lang="ts" name="Integer">
+<script setup lang="ts" >
 import UnitSelect, { UnitProps } from '../UnitSelect';
 import { onMounted, reactive, ref } from "vue";
 const props = defineProps({

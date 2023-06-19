@@ -1,41 +1,60 @@
 <template>
-  <j-table
-    :paging="false"
-  >
-    <template #bodyCell="{ column, record, index }">
-      <template v-if="column.dataIndex === 'id'">
-        <j-input v-model="record.value" placeholder="请输入" />
+  <div class="data-table-metrics">
+    <j-table
+        :dataSource="source"
+        :columns="columns"
+        :pagination="false"
+    >
+      <template #bodyCell="{ column, record, index }">
+        <template v-if="column.dataIndex === 'index'">
+          {{index + 1}}
+        </template>
+        <template v-if="column.dataIndex === 'id'">
+          <j-input v-model="record.value" placeholder="请输入" maxLength="64" />
+        </template>
+        <template v-if="column.dataIndex === 'name'">
+          <j-input v-model="record.text" placeholder="请输入" maxLength="64" />
+        </template>
+        <template v-if="column.dataIndex === 'range'">
+          <j-select-boolean
+              v-model:value="record.range"
+              trueText="范围值"
+              falseText="固定值"
+              style="width: 100%"
+              @select="() => itemSelect(record)"
+          />
+        </template>
+        <template v-if="column.dataIndex === 'value'">
+          <div>
+            <span>
+              {{ record.value || '' }}
+            </span>
+            <ValueItem
+              :range="record.range"
+              v-model:value="record.value"
+            />
+          </div>
+        </template>
+        <template v-if="column.dataIndex === 'action'">
+          <j-button type="link" @click="() => deleteItem(index)">
+            <AIcon type="DeleteOutlined" />
+          </j-button>
+        </template>
       </template>
-      <template v-if="column.dataIndex === 'name'">
-        <j-input v-model="record.text" placeholder="请输入" />
-      </template>
-      <template v-if="column.dataIndex === 'range'">
-        <j-select
-            v-model="record.range"
-            :options="[
-                { label: '固定值', value: false },
-                { label: '范围值', value: true },
-            ]"
-            @select="() => itemSelect(record)"
-        />
-      </template>
-      <template v-if="column.dataIndex === 'value'">
-        <j-input v-model="record.text" placeholder="请输入" />
-      </template>
-      <template v-if="column.dataIndex === 'action'">
-        <j-button type="link" @click="() => deleteItem(index)">
-          <AIcon type="DeleteOutlined" />
-        </j-button>
-      </template>
-    </template>
-  </j-table>
-  <j-button>添加指标值</j-button>
+    </j-table>
+    <j-button class="data-table-metrics--add" @click="addItem">
+      <template #icon><AIcon type="PlusOutlined"/></template>
+      添加指标值
+    </j-button>
+  </div>
 </template>
 
-<script setup lang="ts" name="Metrics">
-import {ref} from "vue";
+<script setup lang="ts">
+import {reactive} from "vue";
+import ValueItem from './ValueItem.vue'
+import { Table as JTable, Button as JButton, AIcon, Input as JInput  } from '../../../components'
 
-const source = ref([]);
+const source = reactive([]);
 
 const emit = defineEmits(['update:value', 'change']);
 
@@ -43,6 +62,7 @@ const columns = [
   {
     title: '序号',
     dataIndex: 'index',
+    width: 60
   },
   {
     title: '指标标识',
@@ -55,10 +75,12 @@ const columns = [
   {
     title: '指标值',
     dataIndex: 'range',
+    width: 120
   },
   {
     title: '指标配置',
     dataIndex: 'value',
+    width: 120
   },
   {
     title: '操作',
@@ -67,12 +89,12 @@ const columns = [
   },
 ];
 const updateValue = () => {
-  emit('update:value', source.value);
-  emit('change', source.value);
+  emit('update:value', source);
+  emit('change', source);
 };
 
 const addItem = () => {
-  source.value.push({
+  source.push({
     id: undefined,
     name: undefined,
     range: false,
@@ -83,12 +105,12 @@ const addItem = () => {
 };
 
 const deleteItem = (index: number) => {
-  source.value.splice(index, 1);
+  source.splice(index, 1);
   updateValue();
 };
 
 const itemSelect = (data: any) => {
-  data.value = data.range ? [undefined, undefined] : undefined
+  data.value = undefined
 }
 
 </script>

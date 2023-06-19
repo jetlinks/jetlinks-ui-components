@@ -15,13 +15,17 @@
             </template>
         </template>
     </j-table>
-    <j-button class="enum-table-add" @click="addItem">新增枚举项</j-button>
+    <j-button class="enum-table-add" @click="addItem">
+      <template #icon><AIcon type="PlusOutlined"/></template>
+      新增枚举项
+    </j-button>
   </div>
 </template>
 
-<script setup lang="ts" name="EnumTable">
-import AIcon from '../../../AIcon'
+<script setup lang="ts">
 import { ref } from 'vue';
+import { Table as JTable, Button as JButton, AIcon  } from '../../../components'
+
 const source = ref([]);
 const source1 = ref();
 

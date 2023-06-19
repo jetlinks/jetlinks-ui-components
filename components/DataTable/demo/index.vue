@@ -3,6 +3,7 @@
         <Common />
         <Components />
         <Table/>
+        <PopconfirmModal />
     </demo-sort>
 </template>
 
@@ -11,12 +12,14 @@ import CN from '../index.md';
 import Common from './common.vue';
 import Components from './components.vue';
 import Table from './table.vue';
+import PopconfirmModal from './popconfirmModal.vue'
 export default {
     CN,
     components: {
         Common,
         Components,
         Table,
+      PopconfirmModal
     },
 };
 </script>

@@ -44,6 +44,10 @@ title: 组件
       <p>Array</p>
       <j-data-table-array />
       <j-divider />
+
+      <p>Metrics</p>
+      <j-data-table-metrics />
+      <j-divider />
     </j-form>
 </template>
 

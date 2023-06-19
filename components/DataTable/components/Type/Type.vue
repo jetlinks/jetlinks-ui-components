@@ -3,7 +3,7 @@
       style="width: 100%"
       placeholder="请选择数据类型"
       v-bind="props"
-      :options="options"
+      :options="_options"
   />
 </template>
 
@@ -12,6 +12,7 @@ import type { PropType } from 'vue'
 import { computed } from 'vue'
 import defaultOptions from './data'
 import { selectProps } from 'ant-design-vue/lib/select'
+import { Select as JSelect } from '../../../components'
 
 const props = defineProps({
   ...selectProps,
@@ -21,7 +22,7 @@ const props = defineProps({
   }
 })
 
-const options = computed(() => {
+const _options = computed(() => {
   return props.filter.length ? defaultOptions.filter((item: {value: string}) => !props.filter.includes(item.value)) : defaultOptions
 })
 
