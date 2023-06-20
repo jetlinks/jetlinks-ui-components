@@ -63,6 +63,7 @@ import {reactive} from "vue";
 import ValueItem from './ValueItem.vue'
 import { Table as JTable, Button as JButton, AIcon, Input as JInput, PopconfirmModal  } from '../../../components'
 import Icon from '../Icon.vue'
+import { cloneDeep } from 'lodash-es'
 
 const source = reactive([]);
 
@@ -99,8 +100,8 @@ const columns = [
   },
 ];
 const updateValue = () => {
-  emit('update:value', source);
-  emit('change', source);
+  emit('update:value', cloneDeep(source));
+  emit('change', cloneDeep(source));
 };
 
 const addItem = () => {

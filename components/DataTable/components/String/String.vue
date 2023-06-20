@@ -5,7 +5,11 @@
       @confirm="confirm"
   >
     <template #content>
-      <j-input-number v-model:value="string" :precision="0" :max="999" />
+      <Form layout="vertical">
+        <FormItem label="最大长度">
+          <j-input-number v-model:value="string" :precision="0" :max="999" style="width: 100%" />
+        </FormItem>
+      </Form>
     </template>
     <Icon />
   </PopconfirmModal>
@@ -13,7 +17,7 @@
 
 <script setup lang="ts" name="String">
 import { reactive, ref } from "vue";
-import { PopconfirmModal, InputNumber as JInputNumber } from '../../../components'
+import { PopconfirmModal, InputNumber as JInputNumber, FormItem, Form } from '../../../components'
 import Icon from '../Icon.vue'
 
 const emit = defineEmits(['update:value'])

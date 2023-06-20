@@ -9,7 +9,7 @@
             <UnitSelect v-model:value="formData.unit" :options="options"/>
         </FormItem>
         <FormItem name="degree" label="精度">
-            <InputNumber v-model:value="formData.degree" :precision="0" min="0" :max="9999" />
+            <InputNumber v-model:value="formData.degree" :precision="0" min="0" :max="9999" style="width: 100%" />
         </FormItem>
       </Form>
     </template>
@@ -34,8 +34,8 @@ const props = defineProps({
 });
 
 const formData = reactive({
-  unit: props.value.unit,
-  degree: props.value.degree || 0
+  unit: props.value?.unit,
+  degree: props.value?.degree || 0
 })
 
 const confirm = () => {

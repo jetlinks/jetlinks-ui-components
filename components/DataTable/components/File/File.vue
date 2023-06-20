@@ -24,6 +24,7 @@
 import { reactive } from "vue";
 import { Form, FormItem, PopconfirmModal, RadioGroup as JRadioGroup, Space as JSpace, RadioButton as JRadioButton } from '../../../components'
 import Icon from '../Icon.vue'
+import {cloneDeep} from "lodash-es";
 
 const emit = defineEmits(['update:value'])
 
@@ -50,7 +51,7 @@ const formData = reactive({
 })
 
 const confirm = () => {
-  emit('update:value', formData)
+  emit('update:value', cloneDeep(formData))
 }
 
 </script>

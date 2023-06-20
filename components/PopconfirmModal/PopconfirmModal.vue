@@ -157,11 +157,18 @@ const cancel = () => {
 
 const confirm = async (e) => {
   loading.value = true
-  const fn = props.onConfirm?.(e)
+  const fn = await props.onConfirm?.(e)
+  console.log(fn.then)
   if (isPromise(fn)) {
     (fn as Promise<any>).then(() => {
       visibleChange(false)
-    }).finally(() => loading.value = false)
+    }).finally(() => {
+      console.log('finally')
+      loading.value = false
+    }).catch(() => {
+      console.log('catch')
+      loading.value = false
+    })
   } else {
     loading.value = false
     visibleChange(false)

@@ -51,7 +51,7 @@ const formData = reactive<{ date: any}>({
 
 const change = (v: string[]) => {
   const newValue = v.length > 1 ? v.pop() : v?.[0];
-  formData.date = [newValue];
+  formData.date = newValue ? [newValue] : undefined;
   emit('change', newValue);
 };
 

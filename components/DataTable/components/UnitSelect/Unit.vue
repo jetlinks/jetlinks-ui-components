@@ -1,9 +1,10 @@
 <template>
     <j-select
         v-model:value="value"
-        mode="tags"
         :options="unitOptions"
         :size="size"
+        style="width: 100%"
+        mode="tags"
         placeholder="请选择单位"
         @change="change"
     />

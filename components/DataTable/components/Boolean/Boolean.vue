@@ -44,6 +44,7 @@
 import { Form, FormItem, PopconfirmModal, Input } from '../../../components'
 import Icon from '../Icon.vue'
 import {reactive, ref} from "vue";
+import {cloneDeep} from "lodash-es";
 
 const emit = defineEmits(['update:value'])
 
@@ -89,7 +90,7 @@ const confirm = () => {
       reject()
     })
     if (data) {
-      emit('update:value', formData)
+      emit('update:value', cloneDeep(formData))
       resolve(true)
     }
   })

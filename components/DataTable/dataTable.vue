@@ -1,7 +1,7 @@
 <template>
     <div class="data-table">
         {{props.childe}}
-        <Form :model="form">
+        <Form :model="form" ref="formRef">
         <table style="width: 100%" >
         
             <draggable :list="form.table" :animation="300" @end='move'>
@@ -17,7 +17,6 @@
                   </thead>
                 </template>
                 <template #item="{ element,index }">
-                  <tbody>
                     <tr @click="onRow(index)"  >
                         <td  v-if="Serial" :class="borderClass"><div>{{index+1}}</div></td>
                         <td
@@ -53,24 +52,29 @@
                                   <!-- 数据类型 -->
                                   <div v-if="item.type === 'TypeSelect'&& endRow===index">
 
-                                      <TypeSelect v-model:value="element[item.dataIndex]" style="width:100%" />
+                                      <TypeSelect v-model:value="element[item.dataIndex]" />
                                   </div>
                                   <!-- 其他配置 -->
                                   <div v-if="item.type === 'config'&& endRow===index">
-                                      <div v-if="element[TypeSelectDataIndex]" class="data-table-config" >
+                                      <div v-if="TypeSelectDataIndex(element)" class="data-table-config" >
                                           <div class="data-table-config--text">
+                                            <slot name="config" :data="element">
                                               {{element[item.dataIndex] || '空'}}
+                                            </slot>
                                           </div>
-                                          <Integer v-if="['int','long'].includes(element[TypeSelectDataIndex])" v-model:value="element[item.dataIndex]" />
-                                          <Double  v-else-if="['float','double'].includes(element[TypeSelectDataIndex])" v-model:value="element[item.dataIndex]" />
-                                          <Boolean v-else-if="element[TypeSelectDataIndex]==='boolean'" v-model:value="element[item.dataIndex]"/>
-                                          <Enum v-else-if="element[TypeSelectDataIndex]==='enum'" :configData='element' :configIndex="index" ref="stringConfig"/>
-                                          <ObjectText v-else-if="element[TypeSelectDataIndex]==='object'"  :configData='element' :configIndex="index" ref="stringConfig"
-                                                       :columns='columns'/>
-                                          <Array  v-else-if="element[TypeSelectDataIndex]==='array'" :configData='element' :configIndex="index" ref="stringConfig"/>
-                                          <File  v-else-if="element[TypeSelectDataIndex]==='file'"  :configData='element' :configIndex="index" ref="stringConfig"/>
-                                          <Date  v-else-if="element[TypeSelectDataIndex]==='date'"  :configData='element' :configIndex="index" ref="stringConfig"/>
-                                          <String  v-else-if="['geoPoint','password','string'].includes(element[TypeSelectDataIndex])" :configData='element' :configIndex="index" ref="stringConfig"/>
+                                          <Integer v-if="['int','long'].includes(TypeSelectDataIndex(element))" v-model:value="element[item.dataIndex]" />
+                                          <Double  v-else-if="['float','double'].includes(TypeSelectDataIndex(element))" v-model:value="element[item.dataIndex]" />
+                                          <Boolean v-else-if="TypeSelectDataIndex(element)==='boolean'" v-model:value="element[item.dataIndex]"/>
+                                          <Enum v-else-if="TypeSelectDataIndex(element)==='enum'" v-model:value="element[item.dataIndex]"/>
+                                          <Array  v-else-if="TypeSelectDataIndex(element)==='array'" v-model:value="element[item.dataIndex]"/>
+                                          <File  v-else-if="TypeSelectDataIndex(element)==='file'" v-model:value="element[item.dataIndex]"/>
+                                          <Date  v-else-if="TypeSelectDataIndex(element)==='date'" v-model:value="element[item.dataIndex]"/>
+                                          <String  v-else-if="['password','string'].includes(TypeSelectDataIndex(element))" v-model:value="element[item.dataIndex]"/>
+                                          <ObjectText
+                                              v-else-if="TypeSelectDataIndex(element)==='object'"
+                                              v-model:value="element[item.dataIndex]"
+                                              :columns='columns'
+                                          />
                                       </div>
                                       <div v-else class="data-table-config empty">
                                         空
@@ -83,15 +87,15 @@
                           </template>
                         </td>
                     </tr>
-                  </tbody>
                 </template>
             </draggable>
+            <Empty v-if="!form.table.length" />
         </table>
         </Form>
     </div>
 </template>
 <script lang="ts" setup name="JDataTable">
-import {onMounted, PropType, ref, getCurrentInstance, reactive, computed, watch} from 'vue';
+import {onMounted, PropType, ref, getCurrentInstance, reactive, computed, watch, defineExpose} from 'vue';
 import type { DataEntryData, DataTableColumnsType } from './typing';
 import draggable from 'vuedraggable';
 import { text } from 'stream/consumers';
@@ -101,6 +105,7 @@ import TypeData from './components/Type/data'
 import { TypeSelect } from './components'
 import { Form, FormItem, InputNumber as JInputNumber, Select as JSelect, SelectOption as JSelectOption, Input as JInput, Empty } from '../../components'
 import {cloneDeep} from "lodash-es";
+import type { FormInstance } from "ant-design-vue";
 
 const props = defineProps({
     data: {
@@ -123,6 +128,7 @@ const columns = ref<any[]>(props.columns || []);
 const dataSource = ref<any>(); //展示数据
 const dataSourceList = ref([]);  //用来撤销的数据
 const newSource = ref();
+const formRef = ref<FormInstance>()
 
 const borderClass = computed(() => {
   return {
@@ -221,9 +227,10 @@ const KeyDown=(e:any)=>{
     }
 }
 
-const TypeSelectDataIndex = computed(() => {
-  return columns.value.find(item => item.type === 'TypeSelect')?.dataIndex
-})
+const TypeSelectDataIndex = (row: any) => {
+  console.log(row, columns.value)
+  return row[columns.value?.find(item => item.type === 'TypeSelect')?.dataIndex]
+}
 
 const valueType=ref<any>()
 
@@ -235,5 +242,20 @@ const onConfig=()=>{  //其他配置保存
     form.table[stringConfig.value[0].index]=stringConfig.value[0].title
     addList() //Ctrl+Z添加
 }
+
+const getData = () => {
+  return new Promise(async (resolve, reject) => {
+    const data = await formRef.value?.validate()
+    if (data) {
+      resolve(cloneDeep(form.table))
+    } else {
+      reject()
+    }
+  })
+}
+
+defineExpose({
+  getData: getData
+})
 
 </script>
