@@ -1,54 +1,48 @@
 <template>
-  <PopconfirmModal
-      body-style="padding-top:4px;width: 500px;"
-      @confirm="confirm"
-  >
-    <template #content>
-      <Scrollbar height="350">
-        <Form :model="formData" layout="vertical">
-          <FormItem label="枚举项" required>
-              <RadioGroup v-model:value="formData.type"  button-style="solid">
-                  <Space>
-                    <RadioButton value="1">仅单选</RadioButton>
-                    <RadioButton value="2">支持多选</RadioButton>
-                  </Space>
-              </RadioGroup>
-              <Table v-model:value="formData.enums"/>
-          </FormItem>
-        </Form>
-      </Scrollbar>
-    </template>
-    <Icon />
-  </PopconfirmModal>
+    <j-form-item label="枚举项" required>
+        <j-radio-group v-model:value="type" button-style="solid">
+            <j-space>
+                <j-radio-button value="1">仅单选</j-radio-button>
+                <j-radio-button value="2">支持多选</j-radio-button>
+            </j-space>
+        </j-radio-group>
+        <Table ref="list" :source="source" />
+    </j-form-item>
 </template>
 
-<script setup lang="ts">
-import { reactive, ref } from "vue";
+<script setup lang="ts" name="Enum">
+import { onBeforeMount, onUnmounted, reactive, ref } from 'vue';
 import Table from './Table.vue';
-import { PopconfirmModal, FormItem, Form, Scrollbar, RadioGroup, Space, RadioButton } from '../../../components'
-import Icon from '../Icon.vue'
-import {cloneDeep} from "lodash-es";
-
-const emit = defineEmits(['update:value'])
 
 const props = defineProps({
-    value: {
-      type: Object,
-      default: () => {
-
-      }
-    }
+    source: {
+        type: Array,
+        default: () => [],
+    },
+    configData: {
+        type: Object,
+        default: null,
+    },
+    configIndex: {
+        type: Number,
+        default: null,
+    },
 });
+const type = ref('1');
 
+const list = ref();
+const addList = () => {
+    title.config = { enum: list.value.source };
+};
 
-const formData = reactive({
-  type: props.value?.unit,
-  enums: props.value?.enums || []
-})
+const title = reactive(JSON.parse(JSON.stringify({ ...props.configData })));
 
-const confirm = () => {
-  emit('update:value', cloneDeep(formData))
-}
+const index = ref(props.configIndex);
+defineExpose({
+    title,
+    index,
+    addList,
+});
 </script>
 
 <style scoped></style>

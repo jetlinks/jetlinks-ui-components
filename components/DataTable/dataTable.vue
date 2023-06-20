@@ -266,6 +266,14 @@
                                 <template v-else>
                                     <slot name="action" :data="element"></slot>
                                 </template>
+                                <img
+                                    v-show="
+                                        element[item.dataIndex] !=
+                                        dataSourceList[0][index][item.dataIndex]
+                                    "
+                                    class="icon isimg"
+                                    :src="isImg"
+                                />
                             </td>
                         </tr>
                     </template>
@@ -273,6 +281,9 @@
                 <Empty v-if="!form.table.length" />
             </table>
         </Form>
+        <Button style="width: 100%; margin-bottom: 24px" @click="onaddList"
+            >添加</Button
+        >
     </div>
 </template>
 <script lang="ts" setup name="JDataTable">
@@ -354,6 +365,12 @@ const onRow = (data: any) => {
     endRow.value = data;
 };
 const offRow = () => {};
+const onaddList = () => {
+    const newObject = columns.value.reduce((prev, next) => {
+        return { ...prev, [next.dataIndex]: undefined };
+    }, {});
+    dataSource.value.push(newObject);
+};
 onMounted(() => {
     //参数引入初始化
     if (props.newSource) {

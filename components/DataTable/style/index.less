@@ -1,51 +1,58 @@
 .data-table {
-
-  td,th {
-    border-bottom: 1px solid #f3f3f3;
-    /* overflow: hidden; */
-  }
-  th > div, td > div {
-    padding: 16px;
-  }
-
-  tbody td > div{
-    width:100%;
-    text-align: center;
-  }
-
-  .data-table--header {
-    background-color: #f9f9f9;
-  }
-
-  .data-table--border {
-    border: 1px solid #eee;
-  }
-
-  .data-table-config {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    gap: 8px;
-
-    .data-table-config--text {
-      flex: 1;
-      background-color:#F0E68C;
-      padding: 4px;
-      border-radius: 4px;
-      height: 100%;
+    td,
+    th {
+        border-bottom: 1px solid #f3f3f3;
+        position: relative;
+        /* overflow: hidden; */
+        .isimg {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
+    }
+    th > div,
+    td > div {
+        padding: 16px;
     }
 
-    .data-table-config--icon {
-      font-size:20px;
-      border-radius: 4px;
+    tbody td > div {
+        width: 100%;
+        text-align: center;
     }
-  }
 
-  .ant-form-item {
-    margin-bottom: 0;
-    &.ant-form-item-has-error {
-      padding-bottom: 0;
+    .data-table--header {
+        background-color: #f9f9f9;
     }
-  }
+
+    .data-table--border {
+        border: 1px solid #eee;
+    }
+
+    .data-table-config {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        gap: 8px;
+
+        .data-table-config--text {
+            flex: 1;
+            background-color: #f0e68c;
+            padding: 4px;
+            border-radius: 4px;
+            height: 100%;
+        }
+
+        .data-table-config--icon {
+            font-size: 20px;
+            border-radius: 4px;
+        }
+    }
+
+    .ant-form-item {
+        margin-bottom: 0;
+        &.ant-form-item-has-error {
+            padding-bottom: 0;
+        }
+    }
 }

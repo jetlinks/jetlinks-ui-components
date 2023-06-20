@@ -1,10 +1,9 @@
 <template>
     <j-select
         v-model:value="value"
+        mode="tags"
         :options="unitOptions"
         :size="size"
-        style="width: 100%"
-        mode="tags"
         placeholder="请选择单位"
         @change="change"
     />
@@ -15,7 +14,7 @@ import { UnitProps } from './defaultSetting';
 import type { PropType } from 'vue';
 import { ref, watch } from 'vue';
 import { isArray, isFunction } from 'lodash-es';
-import { Select as JSelect } from '../../../components'
+import { Select as JSelect } from '../../../components';
 
 type valueType = string | number;
 

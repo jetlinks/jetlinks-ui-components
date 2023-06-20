@@ -1,32 +1,36 @@
 <template>
-  <div class="enum-table-warp">
-    <j-table :dataSource="source" :columns="columns" :pagination="false">
-        <template #bodyCell="{ column, record, index }">
-            <template v-if="column.dataIndex === 'value'">
-                <j-input v-model:value="record.value" placeholder="请输入" max="64" />
+    <div class="enum-table-warp">
+        <j-table :data-source="source" :columns="columns" :pagination="false">
+            <template #bodyCell="{ column, record, index }">
+                <template v-if="column.dataIndex === 'value'">
+                    <j-input
+                        v-model:value="record.value"
+                        placeholder="请输入"
+                    />
+                </template>
+                <template v-if="column.dataIndex === 'text'">
+                    <j-input v-model:value="record.text" placeholder="请输入" />
+                </template>
+                <template v-if="column.dataIndex === 'action'">
+                    <j-button type="link" @click="() => deleteItem(index)">
+                        <AIcon type="DeleteOutlined" />
+                    </j-button>
+                </template>
             </template>
-            <template v-if="column.dataIndex === 'text'">
-                <j-input v-model:value="record.text" placeholder="请输入" max="64" />
-            </template>
-            <template v-if="column.dataIndex === 'action'">
-                <j-button type="link" @click="() => deleteItem(index)">
-                  <AIcon type="DeleteOutlined" />
-                </j-button>
-            </template>
-        </template>
-    </j-table>
-    <j-button class="enum-table-add" @click="addItem">
-      <template #icon><AIcon type="PlusOutlined"/></template>
-      新增枚举项
-    </j-button>
-  </div>
+        </j-table>
+        <j-button class="enum-table-add" @click="addItem">
+            <template #icon><AIcon type="PlusOutlined" /></template>
+            新增枚举项
+        </j-button>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Table as JTable, Button as JButton, AIcon  } from '../../../components'
+import { Table as JTable, Button as JButton, AIcon } from '../../../components';
 
 const source = ref([]);
+const source1 = ref();
 
 const emit = defineEmits(['update:value', 'change']);
 
@@ -42,7 +46,7 @@ const columns = [
     {
         title: '操作',
         dataIndex: 'action',
-        width: 80
+        width: 80,
     },
 ];
 
@@ -60,12 +64,13 @@ const addItem = () => {
     updateValue();
 };
 
-
 const deleteItem = (index: number) => {
-  source.value.splice(index, 1);
+    source.value.splice(index, 1);
     updateValue();
 };
-
+defineExpose({
+    source,
+});
 </script>
 
 <style scoped></style>
