@@ -85,6 +85,7 @@
                           <template v-else>
                             <slot name="action" :data="element"></slot>
                           </template>
+                          <img class="icon isimg" :src="isImg" v-show="element[item.dataIndex]!=dataSourceList[0][index][item.dataIndex]" />
                         </td>
                     </tr>
                 </template>
@@ -107,7 +108,7 @@ import { TypeSelect } from './components'
 import { Form, FormItem, InputNumber as JInputNumber, Select as JSelect, SelectOption as JSelectOption, Input as JInput, Empty } from '../../components'
 import {cloneDeep} from "lodash-es";
 import type { FormInstance } from "ant-design-vue";
-
+import isImg from './多边形.png'
 const props = defineProps({
     data: {
         type: Array as PropType<DataEntryData[]>,
@@ -160,7 +161,6 @@ onMounted(() => {
         columns.value=props.columns
         dataSource.value=props.newSource
         Serial.value=props.serial
-
     }
 
     // if(props.childe){  //子页面时没有object类型

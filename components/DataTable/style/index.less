@@ -2,7 +2,9 @@
 
   td,th {
     border-bottom: 1px solid #f3f3f3;
+    position: relative;
     /* overflow: hidden; */
+    .isimg{position: absolute;top: 0px;right: 0px;}
   }
   th > div, td > div {
     padding: 16px;
@@ -45,7 +47,7 @@
   .ant-form-item {
     margin-bottom: 0;
     &.ant-form-item-has-error {
-      margin-bottom: 24px;
+      padding-bottom: 0;
     }
   }
 }
