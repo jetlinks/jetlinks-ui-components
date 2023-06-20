@@ -270,13 +270,13 @@
                                     v-show="
                                         !isEqual(
                                             element[item.dataIndex],
-                                            dataSourceList[0][index][
+                                            dataSourceList[0]?.[index]?.[
                                                 item.dataIndex
                                             ],
                                         )
                                     "
                                     class="data-table--edit"
-                                />
+                                ></div>
                             </td>
                         </tr>
                     </template>
@@ -341,6 +341,7 @@ const props = defineProps({
     serial: {},
     border: {},
     childe: {},
+    itemKey: {},
 });
 
 const { proxy } = <any>getCurrentInstance();

@@ -2,7 +2,7 @@
     <j-popover
         trigger="click"
         :visible="myVisible"
-        :overlay-class-name="[modalWarpName, overlayClassName]"
+        :overlay-class-name="modalWarpName"
         @visibleChange="() => {}"
     >
         <template #title>
