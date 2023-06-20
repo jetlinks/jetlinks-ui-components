@@ -327,7 +327,7 @@ import {
     Input as JInput,
     Empty,
     Button,
-} from '../../components';
+} from '../components';
 import { cloneDeep, isEqual } from 'lodash-es';
 import type { FormInstance } from 'ant-design-vue';
 
