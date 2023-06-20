@@ -266,13 +266,16 @@
                                 <template v-else>
                                     <slot name="action" :data="element"></slot>
                                 </template>
-                                <img
+                                <div
                                     v-show="
-                                        element[item.dataIndex] !=
-                                        dataSourceList[0][index][item.dataIndex]
+                                        !isEqual(
+                                            element[item.dataIndex],
+                                            dataSourceList[0][index][
+                                                item.dataIndex
+                                            ],
+                                        )
                                     "
-                                    class="icon isimg"
-                                    :src="isImg"
+                                    class="data-table--edit"
                                 />
                             </td>
                         </tr>
@@ -323,8 +326,9 @@ import {
     SelectOption as JSelectOption,
     Input as JInput,
     Empty,
+    Button,
 } from '../../components';
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep, isEqual } from 'lodash-es';
 import type { FormInstance } from 'ant-design-vue';
 
 const props = defineProps({

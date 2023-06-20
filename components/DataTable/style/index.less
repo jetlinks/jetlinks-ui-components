@@ -1,18 +1,27 @@
+@import 'ant-design-vue/lib/style/index.less';
+
 .data-table {
     td,
     th {
         border-bottom: 1px solid #f3f3f3;
         position: relative;
         /* overflow: hidden; */
-        .isimg {
+        .data-table--edit {
             position: absolute;
-            top: 0px;
+            top: -5px;
             right: 0px;
+            padding: 0;
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid @error-color;
+            transform: rotate(-45deg);
         }
     }
     th > div,
     td > div {
-        padding: 16px;
+        padding: 2px 4px;
     }
 
     tbody td > div {
