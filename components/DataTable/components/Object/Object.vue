@@ -1,21 +1,35 @@
 <template>
-    <div>
-        <DataTable  :columns='props.columns' :serial="true" :newSource="newSource" :childe="true" border></DataTable>
-        <a-button @click="addList">添加</a-button>
-    </div>
+  <PopconfirmModal
+      body-style="padding-top:4px;width:600px;"
+      @confirm="confirm"
+  >
+    <template #content>
+      <div>
+        <Scrollbar height="300">
+          <DataTable  :columns='columns' :serial="true" :newSource="newSource" :childe="true" border ref="tableRef"></DataTable>
+        </Scrollbar>
+      </div>
+    </template>
+      <Icon />
+  </PopconfirmModal>
 </template>
 
 <script setup lang="ts" name="Object">
 import DataTable from '../../dataTable.vue'
 import { onMounted, reactive, Ref, ref } from "vue";
+import { Button, PopconfirmModal, Scrollbar } from '../../../components'
+import Icon from '../Icon.vue'
+
+type Emits = {
+  (e: 'update:value', data: any): void;
+};
+
+const emit = defineEmits<Emits>();
+
 const props = defineProps({
-    configData:{    
-        type:Object,
-        default: null,
-    },
-    configIndex:{
-        type:Number,
-        default: null,
+    value: {
+      type: Array,
+      default: () => []
     },
     columns:{
         type:Object,
@@ -25,23 +39,21 @@ const props = defineProps({
 interface obj {
     [idx: string]: any
 }
-const title =  JSON.parse(JSON.stringify({...props.configData}))
-const newSource= ref(title.config?title.config:title.config=[]) //将null类型转为数组
-const listSource:obj={}
-onMounted(() => {
-    for(var i of props.columns){
-        var name=i.dataIndex
-        listSource[name]=null
-    }
-})
 
-const addList=()=>{
-    newSource.value.push(listSource)
+const newSource= ref(props.value || []) //将null类型转为数组
+const tableRef = ref()
+
+const confirm = () => {
+  return new Promise(async(resolve, reject) => {
+    tableRef.value?.getData().then((data) => {
+      resolve(true)
+      emit('update:value', data)
+    }).catch(() => {
+      reject(false)
+    })
+  })
 }
-const index=ref(props.configIndex)
-defineExpose({
-  title,index
-})
+
 </script>
 
 <style scoped>
