@@ -12,7 +12,6 @@ AdvancedSearch组件组件基本使用
     <j-advanced-search
         :columns="columns"
         @search="onSearch"
-        type="simple"
         target="test"
         routerMode="history"
         :deleteRequest="deleteRequest"
@@ -34,10 +33,19 @@ export default {
         const paramsStr = ref();
         const columns = ref([
             {
+                title: 'ID',
+                dataIndex: 'id',
+                search: {
+                    type: 'string',
+                    defaultTermType: 'eq',
+                },
+            },
+            {
                 title: '名称',
                 dataIndex: 'name',
                 search: {
                     type: 'string',
+                    first: true,
                     componentProps: {
                         placeholder: '请输入名称',
                     },
@@ -59,7 +67,7 @@ export default {
                 search: {
                     type: 'select',
                     rename: 'typeTest',
-                    first: true,
+
                     defaultOnceValue: [1],
                     componentProps: {
                         mode: 'multiple',
@@ -70,15 +78,41 @@ export default {
                     ],
                 },
             },
+
+            {
+                title: '时间',
+                dataIndex: 'time1',
+                search: {
+                    type: 'date',
+                },
+            },
+            {
+                title: '时间2',
+                dataIndex: 'time2',
+                search: {
+                    type: 'date',
+                },
+            },
+            {
+                title: '时间3',
+                dataIndex: 'time3',
+                search: {
+                    type: 'date',
+                },
+            },
             {
                 title: '类型2',
                 dataIndex: 'type2',
                 search: {
                     type: 'select',
-                    options: [
-                        { label: '类型1', value: 1 },
-                        { label: '类型2', value: 2 },
-                    ],
+                    termOptions: ['eq', 'not'],
+                    options: async () => {
+                        console.log('刷新');
+                        return [
+                            { label: '类型1', value: 1 },
+                            { label: '类型2', value: 2 },
+                        ];
+                    },
                 },
             },
         ]);

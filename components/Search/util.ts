@@ -1,7 +1,7 @@
 import { cloneDeep, isFunction, isString } from 'lodash-es';
 import type { SearchItemData } from './typing';
-import {termType} from "./setting";
-import {SearchProps} from "./typing";
+import { termType } from './setting';
+import { SearchProps } from './typing';
 
 /**
  * 处理like，nlike特殊值
@@ -76,7 +76,7 @@ export const termsParamsFormat = (
                     .filter((item) => item.terms.length),
             };
         } else {
-            console.log('cloneParams', cloneParams)
+            console.log('cloneParams', cloneParams);
             return cloneParams
                 .filter(
                     (iItem) =>
@@ -222,4 +222,36 @@ export const getTermTypeFn = (type?: SearchProps['type'], column?: string) => {
         default:
             return 'like';
     }
-}
+};
+
+export const getTermTypes = (types: string[]) => {
+    return termType.filter((item) => types.includes(item.value));
+};
+
+export const getTermOptions = (type?: SearchProps['type'], column?: string) => {
+    let keys: string[] = [];
+    switch (type) {
+        case 'select':
+        case 'treeSelect':
+            keys = column?.includes('state') ? ['not'] : ['eq'];
+            break;
+        case 'time':
+        case 'date':
+            keys = ['gt', 'lt'];
+            break;
+        case 'timeRange':
+        case 'rangePicker':
+            keys = ['btw', 'nbtw'];
+            break;
+        case 'number':
+            keys = ['eq'];
+            break;
+        default:
+            keys =
+                column?.includes('id') && type === 'string'
+                    ? ['eq']
+                    : ['like', 'nlike'];
+            break;
+    }
+    return keys.length ? getTermTypes(keys) : termType;
+};

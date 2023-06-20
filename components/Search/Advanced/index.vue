@@ -160,7 +160,7 @@ import type {
 } from '../typing';
 import {
     compatibleOldTerms,
-  getTermTypeFn,
+    getTermTypeFn,
     handleQData,
     hasExpand,
     termsParamsFormat,
@@ -278,7 +278,6 @@ const searchParams = reactive({
 });
 
 const itemValueChange = (value: SearchItemData, index: number) => {
-    console.log('itemValueChange', value, index);
     if (index < 4) {
         // 第一组数据
         termsData.terms[0].terms[index - 1] = value;
@@ -383,16 +382,13 @@ const handleItems = () => {
             const { search } = _item;
             let defaultTerms = null;
             // 包含defaultValue 或者 defaultOnceValue
-            if (
-                search.defaultValue !== undefined ||
-                search.defaultTermType ||
-                search.defaultOnceValue
-            ) {
+            if (search.defaultValue !== undefined || search.defaultOnceValue) {
                 const _value = search.defaultValue || search.defaultOnceValue;
                 defaultTerms = {
                     type: 'and',
                     value: _value,
-                    termType: search.defaultTermType || getTermTypeFn(search.type),
+                    termType:
+                        search.defaultTermType || getTermTypeFn(search.type),
                     column: _item.dataIndex,
                 };
             }
@@ -410,9 +406,8 @@ const handleItems = () => {
                 // column: _item.search?.rename || _item.dataIndex,
                 column: _item.dataIndex,
             });
-
             if (defaultTerms) {
-              itemValueChange(defaultTerms, search.first ? 1 : index + 1);
+                itemValueChange(defaultTerms, search.first ? 1 : index + 1);
             }
         }
     });
