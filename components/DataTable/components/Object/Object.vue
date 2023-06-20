@@ -1,13 +1,15 @@
 <template>
     <div>
         <DataTable  :columns='props.columns' :serial="true" :newSource="newSource" :childe="true" border></DataTable>
-        <a-button @click="addList">添加</a-button>
+        <Button @click="addList">添加</Button>
     </div>
 </template>
 
 <script setup lang="ts" name="Object">
 import DataTable from '../../dataTable.vue'
 import { onMounted, reactive, Ref, ref } from "vue";
+import { Button } from '../../../components'
+
 const props = defineProps({
     configData:{    
         type:Object,
