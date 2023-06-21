@@ -1,31 +1,30 @@
 <docs>
 
 ---
-order: 4
+order: 5
 title: 基础
 ---
 
 </docs>
 <template>
     <div>
-        <j-data-table
+        <j-data-tables
             :columns="columns"
             :serial="true"
-            :newSource="newSource"
+            :dataSource="newSource"
             border
-            itemKey="name"
         >
-            <template #slot1="scope">
+            <template #name="scope">
                 <div>支持通过实体{{ scope.data.index }}</div>
             </template>
-            <template #slot4>
+            <template #action>
                 <a-tag color="pink">pink</a-tag>
                 <a-tag color="red">red</a-tag>
             </template>
             <template #config="{ data }">
                 {{ data }}
             </template>
-        </j-data-table>
+        </j-data-tables>
     </div>
 </template>
 
@@ -43,7 +42,7 @@ const columns = ref([
         title: '年龄',
         dataIndex: 'age',
         width: '100',
-        type: 'index',
+        type: 'number',
         form: {
             rules: [
                 {
@@ -84,8 +83,8 @@ const newSource = ref([
         width: 'int',
         config: [{ name: 1, age: 18, width: 150, config: null }],
     },
-    { name: 2, age: 21, width: 'double', config: null },
-    { name: 3, age: 21, width: 'date', config: null },
+    { name: 2, age: 19, width: 'double', config: null },
+    { name: 3, age: 20, width: 'date', config: null },
     { name: 4, age: 21, width: 'array', config: null },
 ]);
 </script>

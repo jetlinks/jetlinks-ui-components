@@ -1,7 +1,8 @@
 <template>
     <demo-sort :cols="1">
         <Common />
-        <Table/>
+        <Table2 />
+        <Table />
         <PopconfirmModal />
         <Components />
     </demo-sort>
@@ -12,14 +13,16 @@ import CN from '../index.md';
 import Common from './common.vue';
 import Components from './components.vue';
 import Table from './table.vue';
-import PopconfirmModal from './popconfirmModal.vue'
+import Table2 from './table2.vue';
+import PopconfirmModal from './popconfirmModal.vue';
 export default {
     CN,
     components: {
         Common,
         Components,
         Table,
-      PopconfirmModal
+        Table2,
+        PopconfirmModal,
     },
 };
 </script>

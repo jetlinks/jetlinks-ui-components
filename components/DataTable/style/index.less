@@ -41,6 +41,10 @@
         border: 1px solid #eee;
     }
 
+    .data-table--text {
+        padding: 6px 4px;
+    }
+
     .data-table-config {
         display: flex;
         justify-content: space-between;
@@ -66,6 +70,61 @@
         margin-bottom: 0;
         &.ant-form-item-has-error {
             padding-bottom: 0;
+        }
+    }
+}
+
+.j-data-table {
+    .j-data-table-body {
+        .ant-table-tbody {
+            .ant-table-cell {
+                padding: 0;
+                & > div {
+                    padding: 8px 14px;
+                    border: 1px solid transparent;
+                }
+                .j-data-table-td-selected {
+                    border-color: @primary-color;
+                }
+                .j-data-table--edit {
+                    padding: 0;
+                    .ant-form-item {
+                        margin-bottom: 0;
+                        &.ant-form-item-has-error {
+                            padding-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .j-data-table-footer {
+        .j-data-table-footer--add {
+            width: 100%;
+            margin-top: 12px;
+        }
+    }
+
+    .data-table--text {
+        padding: 6px 4px;
+    }
+
+    .j-data-table-row--config {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        gap: 8px;
+        .j-data-table-config--text {
+            flex: 1;
+            height: 100%;
+        }
+
+        .j-data-table-config--icon {
+            font-size: 16px;
+            padding-right: 6px;
+            border-radius: 4px;
         }
     }
 }

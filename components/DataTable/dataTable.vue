@@ -36,30 +36,31 @@
                                 :class="borderClass"
                                 :style="`width:${item.width || 100}vw`"
                             >
-                                <FormItem
-                                    v-if="item.dataIndex !== 'action'"
-                                    :name="['table', index, item.dataIndex]"
-                                    :rules="item.form?.rules || []"
-                                >
-                                    <!-- 插槽 -->
-                                    <div v-if="item.slot">
-                                        <slot
-                                            :name="item.slot"
-                                            :data="{ element, index }"
-                                        ></slot>
+                                <!-- 插槽 -->
+                                <div v-if="item.slot">
+                                    <slot
+                                        :name="item.slot"
+                                        :data="{ element, index }"
+                                    ></slot>
+                                </div>
+                                <template v-else>
+                                    <!-- 默认输出文本 -->
+                                    <div
+                                        v-if="
+                                            item.type === 'text' ||
+                                            endRow !== index ||
+                                            !item.type
+                                        "
+                                        class="data-table--text"
+                                    >
+                                        {{ element[item.dataIndex] }}
                                     </div>
-                                    <template v-else>
-                                        <!-- 默认输出文本 -->
-                                        <div
-                                            v-if="
-                                                item.type === 'text' ||
-                                                endRow !== index ||
-                                                !item.type
-                                            "
-                                        >
-                                            {{ element[item.dataIndex] }}
-                                        </div>
-                                        <!-- 文本 -->
+                                    <!-- 文本 -->
+                                    <FormItem
+                                        v-else
+                                        :name="['table', index, item.dataIndex]"
+                                        :rules="item.form?.rules || []"
+                                    >
                                         <div
                                             v-if="
                                                 item.type === 'index' &&
@@ -138,7 +139,12 @@
                                                 >
                                                     <slot
                                                         name="config"
-                                                        :data="element"
+                                                        :data="{
+                                                            data1: element[
+                                                                item.dataIndex
+                                                            ],
+                                                            rowData: element,
+                                                        }"
                                                     >
                                                         {{
                                                             element[
@@ -261,10 +267,7 @@
                                                 空
                                             </div>
                                         </div>
-                                    </template>
-                                </FormItem>
-                                <template v-else>
-                                    <slot name="action" :data="element"></slot>
+                                    </FormItem>
                                 </template>
                                 <div
                                     v-show="
@@ -284,7 +287,7 @@
                 <Empty v-if="!form.table.length" />
             </table>
         </Form>
-        <Button style="width: 100%; margin-bottom: 24px" @click="onaddList"
+        <Button style="width: 100%; margin: 24px 0" @click="onAddList"
             >添加</Button
         >
     </div>
@@ -336,8 +339,8 @@ const props = defineProps({
         type: Array as PropType<DataEntryData[]>,
         default: null,
     },
-    columns: {},
-    newSource: {},
+    columns: Array,
+    newSource: Array,
     serial: {},
     border: {},
     childe: {},
@@ -350,9 +353,7 @@ const Serial = ref<any>(true); //是否开启序号
 const typeList = ref(TypeData.map((item) => item.value));
 const columns = ref<any[]>(props.columns || []);
 //  type为列的数据类型  width为列的宽度默认以100为基数，若要宽度为两倍则写200
-const dataSource = ref<any>(); //展示数据
 const dataSourceList = ref([]); //用来撤销的数据
-const newSource = ref();
 const formRef = ref<FormInstance>();
 
 const borderClass = computed(() => {
@@ -362,7 +363,7 @@ const borderClass = computed(() => {
 });
 
 //  表单值
-const form = reactive({
+const form = reactive<{ table: any[] }>({
     table: props.newSource || [],
 });
 const endRow = ref<number>();
@@ -370,17 +371,16 @@ const onRow = (data: any) => {
     endRow.value = data;
 };
 const offRow = () => {};
-const onaddList = () => {
+const onAddList = () => {
     const newObject = columns.value.reduce((prev, next) => {
         return { ...prev, [next.dataIndex]: undefined };
     }, {});
-    dataSource.value.push(newObject);
+    form.table.push(newObject);
 };
 onMounted(() => {
     //参数引入初始化
     if (props.newSource) {
         columns.value = props.columns;
-        dataSource.value = props.newSource;
         Serial.value = props.serial;
     }
 
