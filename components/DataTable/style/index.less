@@ -77,11 +77,44 @@
 .j-data-table {
     .j-data-table-body {
         .ant-table-tbody {
-            .ant-table-cell {
+            .ant-table-cell,
+            & td {
                 padding: 0;
+                height: 100%;
                 & > div {
-                    padding: 8px 14px;
+                    height: 100%;
+                    padding: 6px 14px;
                     border: 1px solid transparent;
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+
+                    &.j-data-table-empty {
+                        justify-content: center;
+                        padding-top: 30px;
+                    }
+
+                    &::after {
+                        position: absolute;
+                        content: ' ';
+                        top: -5px;
+                        right: -1px;
+                        padding: 0;
+                        width: 0;
+                        height: 0;
+                        border-top: 8px solid transparent;
+                        border-bottom: 8px solid transparent;
+                        border-left: 8px solid transparent;
+                        transform: rotate(-45deg);
+                        z-index: 4;
+                        transition: all 0.3s;
+                    }
+
+                    &.update::after {
+                        border-top: 8px solid transparent;
+                        border-bottom: 8px solid transparent;
+                        border-left: 8px solid @error-color;
+                    }
                 }
                 .j-data-table-td-selected {
                     border-color: @primary-color;
@@ -90,6 +123,7 @@
                     padding: 0;
                     .ant-form-item {
                         margin-bottom: 0;
+                        width: 100%;
                         &.ant-form-item-has-error {
                             padding-bottom: 0;
                         }
@@ -116,6 +150,7 @@
         align-items: center;
         height: 100%;
         gap: 8px;
+
         .j-data-table-config--text {
             flex: 1;
             height: 100%;

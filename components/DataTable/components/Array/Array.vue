@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { TypeSelect } from '../index';
+import TypeSelect from '../Type';
 import { reactive, ref } from 'vue';
 import { Form, FormItem, PopconfirmModal } from '../../../components';
 import Icon from '../Icon.vue';

@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import UnitSelect, { UnitProps } from '../UnitSelect';
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import {
     Form,
     FormItem,
@@ -45,12 +45,21 @@ const props = defineProps({
 
 const formData = reactive({
     unit: props.value.unit,
-    degree: props.value.degree || 0,
+    degree: props.value.degree || 0, // 精度
 });
 
 const confirm = () => {
     emit('update:value', formData);
 };
+
+watch(
+    () => props.value,
+    () => {
+        formData.unit = props.value.unit;
+        formData.degree = props.value.degree;
+    },
+    { deep: true },
+);
 </script>
 
 <style scoped></style>

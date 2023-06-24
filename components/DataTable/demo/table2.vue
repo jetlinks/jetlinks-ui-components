@@ -30,18 +30,19 @@ title: 基础
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { DataTableBoolean } from 'jetlinks-ui-components';
+
 const columns = ref([
     {
         title: '名称',
         dataIndex: 'name',
-        width: '100',
+        width: 200,
         type: 'text',
-        slot: 'slot1',
     },
     {
         title: '年龄',
         dataIndex: 'age',
-        width: '100',
+        width: 200,
         type: 'number',
         form: {
             rules: [
@@ -59,32 +60,62 @@ const columns = ref([
     {
         title: 'width',
         dataIndex: 'width',
-        width: '100',
+        width: 200,
         type: 'TypeSelect',
     },
     {
         title: '其他配置',
         dataIndex: 'config',
-        width: '100',
         type: 'config',
+    },
+    {
+        title: '布尔值',
+        dataIndex: 'boolean',
+        type: 'components',
+        components: {
+            name: DataTableBoolean,
+        },
+        width: 150,
     },
     {
         title: '操作',
         dataIndex: 'action',
-        width: '100',
-        slot: 'slot4',
+        width: 140,
     },
 ]);
 const newSource = ref([
     //初始数据
     {
+        id: '1111',
         name: 1,
         age: 18,
         width: 'int',
-        config: [{ name: 1, age: 18, width: 150, config: null }],
+        config: null,
+        boolean: false,
     },
-    { name: 2, age: 19, width: 'double', config: null },
-    { name: 3, age: 20, width: 'date', config: null },
-    { name: 4, age: 21, width: 'array', config: null },
+    {
+        id: '1112',
+        name: 2,
+        age: 19,
+        width: 'double',
+        config: null,
+        boolean: false,
+    },
+    {
+        id: '1113',
+        name: 3,
+        age: 20,
+        width: 'date',
+        config: null,
+        boolean: false,
+    },
+    {
+        id: '1114',
+        name: 4,
+        age: 21,
+        width: 'array',
+        config: null,
+        boolean: false,
+    },
 ]);
 </script>
