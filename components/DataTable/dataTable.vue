@@ -68,7 +68,7 @@
                                 "
                             >
                                 <!--         不需要校验           -->
-                                <template v-if="!column.type || !column.form">
+                                <template v-if="!column.type">
                                     <slot
                                         :name="column.dataIndex"
                                         :data="{ record, index }"
@@ -78,13 +78,14 @@
                                         </Ellipsis>
                                     </slot>
                                 </template>
-                                <!--         编辑中          -->
+                                <!--         需要校验          -->
                                 <FormItem
                                     v-else
                                     :name="['table', index, column.dataIndex]"
                                     :rules="column.form?.rules"
                                     :required="!!column.form?.required"
                                 >
+                                    <!--                未编辑                    -->
                                     <template
                                         v-if="
                                             editKey !==
@@ -100,6 +101,7 @@
                                             </Ellipsis>
                                         </slot>
                                     </template>
+                                    <!--                编辑                    -->
                                     <template v-else>
                                         <Input
                                             v-if="column.type === 'text'"
