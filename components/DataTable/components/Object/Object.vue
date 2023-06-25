@@ -12,9 +12,14 @@
                         :serial="true"
                         :new-source="newSource"
                         :childe="true"
-                        border
                     ></DataTable>
                 </Scrollbar>
+                <Button
+                    type="primary"
+                    style="width: 100%; margin-top: 12px"
+                    @click="addItem"
+                    >新增</Button
+                >
             </div>
         </template>
         <Icon />
@@ -23,7 +28,7 @@
 
 <script setup lang="ts" name="Object">
 import DataTable from '../../dataTable.vue';
-import { onMounted, reactive, Ref, ref } from 'vue';
+import { ref } from 'vue';
 import { Button, PopconfirmModal, Scrollbar } from '../../../components';
 import Icon from '../Icon.vue';
 
@@ -39,8 +44,8 @@ const props = defineProps({
         default: () => [],
     },
     columns: {
-        type: Object,
-        default: null,
+        type: Array,
+        default: () => [],
     },
 });
 interface obj {
@@ -49,6 +54,16 @@ interface obj {
 
 const newSource = ref(props.value || []); //将null类型转为数组
 const tableRef = ref();
+
+const addItem = () => {
+    const object: any = {};
+
+    props.columns.forEach((item: any) => {
+        object[item!.dataIndex] = undefined;
+    });
+
+    newSource.value.push(object);
+};
 
 const confirm = () => {
     return new Promise(async (resolve, reject) => {

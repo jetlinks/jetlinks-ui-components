@@ -1,6 +1,10 @@
 <template>
     <div class="enum-table-warp">
-        <DataTable :data-source="source" :columns="columns">
+        <DataTable
+            :data-source="source"
+            :columns="columns"
+            @change="valueChange"
+        >
             <template #action="{ data }">
                 <j-button type="link" @click="() => deleteItem(data.index)">
                     <AIcon type="DeleteOutlined" />
@@ -61,6 +65,11 @@ const addItem = () => {
         text: undefined,
     });
 
+    updateValue();
+};
+
+const valueChange = (data: any) => {
+    source.value = data;
     updateValue();
 };
 
