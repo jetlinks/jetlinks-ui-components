@@ -394,6 +394,10 @@ const props = defineProps({
     serial: Boolean,
     children: Boolean,
     controlSource: Array,
+    draggable: {
+      type: Boolean,
+      default: true
+    },
 });
 
 const emit = defineEmits(['change']);
@@ -504,9 +508,9 @@ const sortTableHandle = () => {
     const ele = draggableRef.value?.querySelector('tbody');
 
     if (!ele) return;
-
+  console.log('初始化拖拽')
     sortTable.value = new Sortable(ele as HTMLElement, {
-        draggable: '.ant-table-row',
+        draggable: '.ant-table-draggable-row',
         animation: 200,
         ghostClass: 'draggable-ghost',
         sort: true,
@@ -559,9 +563,12 @@ const updateRevoke = debounce((newData: any) => {
 watch(
     () => [props.dataSource, selectedKey.value],
     () => {
+      console.log(props.draggable)
+      if (props.draggable !== false) {
         nextTick(() => {
             sortTableHandle();
         });
+      }
     },
     { immediate: true },
 );
@@ -570,10 +577,7 @@ watch(
     () => props.dataSource,
     () => {
         formData.table = props.dataSource;
-        if (
-            !initRevokeLock.value &&
-            (props.dataSource || props.dataSource.length)
-        ) {
+        if (!initRevokeLock.value) {
             controlSource.value = cloneDeep(props.dataSource);
             updateState(formData.table);
             initRevokeLock.value = true;
@@ -590,12 +594,6 @@ watch(
         emit('change', formData.table);
     },
     { deep: true },
-);
-
-watch(
-    () => props.controlSource,
-    () => {},
-    { deep: true, immediate: true },
 );
 
 defineExpose({

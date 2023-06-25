@@ -12,6 +12,7 @@ title: 基础
             :columns="columns"
             :serial="true"
             :dataSource="newSource"
+            :rowDraggable="(record) => record.age >= 20"
             border
         >
             <template #name="scope">
