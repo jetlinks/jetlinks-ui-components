@@ -1,8 +1,11 @@
 <template>
     <div class="j-row-config">
         <slot name="config" :row-data="{ rowData: rowData }"> </slot>
-        <Integer v-if="['int', 'long'].includes(type)" v-model="value" />
-        <Double
+        <DataTableInteger
+            v-if="['int', 'long'].includes(type)"
+            v-model="value"
+        />
+        <DataTableDouble
             v-else-if="['float', 'double'].includes(type)"
             v-model="value"
         />
@@ -11,17 +14,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
-import {
-    Integer,
-    Double,
-    String,
-    Boolean,
-    Enum,
-    Array,
-    File,
-    Date,
-    Object as ObjectText,
-} from './index';
+import { DataTableInteger, DataTableDouble } from './index';
 
 const props = defineProps({
     type: {

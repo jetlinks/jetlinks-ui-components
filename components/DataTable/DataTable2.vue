@@ -91,7 +91,7 @@
                                                 ]
                                             "
                                             :placeholder="`请输入${column.title}`"
-                                            maxlength="64"
+                                            :maxlength="64"
                                             style="width: 100%"
                                             @keydown="inputRevoke"
                                         />
@@ -345,7 +345,7 @@ import {
     DataTableBoolean,
     DataTableFile,
     DataTableEnum,
-    DataTableMetrics,
+    DataTableString,
 } from './components';
 import Sortable from 'sortablejs';
 import useRevoke from './useRevoke';
@@ -439,13 +439,12 @@ const sortTableHandle = () => {
     if (sortTable.value) {
         sortTable.value?.destroy();
     }
-    const ele = document.querySelector('.draggable-body tbody');
-
+    const ele = document.querySelector('.draggable-body .ant-table-tbody');
+    console.log(ele);
     sortTable.value = new Sortable(ele as HTMLElement, {
         draggable: '.ant-table-row',
         animation: 200,
         ghostClass: 'draggable-ghost',
-        sort: true,
         onEnd: ({ oldIndex, newIndex }) => {
             const curr = formData.table.splice(oldIndex, 1)[0];
             formData.table.splice(newIndex, 0, curr);

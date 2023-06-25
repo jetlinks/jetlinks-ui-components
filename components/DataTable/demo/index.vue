@@ -1,6 +1,5 @@
 <template>
     <demo-sort :cols="1">
-        <Common />
         <Table2 />
         <Table />
         <PopconfirmModal />

@@ -2,7 +2,7 @@
     <div class="j-data-table">
         <div class="j-data-table-body">
             <Form ref="formRef" :model="formData">
-                <div class="draggable-body">
+                <div ref="draggableRef" class="draggable-body">
                     <Table
                         v-bind="props"
                         :columns="newColumns"
@@ -305,15 +305,6 @@
                                     </FormItem>
                                 </template>
                             </div>
-                            <!--              -->
-                            <!--              <tr v-for="(a, index) in slotProps" :key="`${a}`" :class="draggableClassName">-->
-                            <!--                <td v-for="b in newColumns" :key="`td_${index}_${column.dataIndex}`" :class="['j-data-table-td',selectedKey === `td_${index}_${column.dataIndex}` ? 'j-data-table-td-selected' : '']">-->
-                            <!--                  <div v-if="column.dataIndex === 'index'">-->
-                            <!--                    {{ index }}-->
-                            <!--                  </div>-->
-                            <!--                 -->
-                            <!--                </td>-->
-                            <!--              </tr>-->
                         </template>
                         <template #emptyText>
                             <div class="j-data-table-empty">
@@ -324,14 +315,6 @@
                 </div>
             </Form>
         </div>
-        <!--    <div class="j-data-table-footer">-->
-        <!--      <Button class="j-data-table-footer&#45;&#45;add" @click="addDataSource">-->
-        <!--        <template #icon>-->
-        <!--          <AIcon type="PlusOutlined" />-->
-        <!--        </template>-->
-        <!--        新增-->
-        <!--      </Button>-->
-        <!--    </div>-->
     </div>
 </template>
 
@@ -357,7 +340,7 @@ import {
     DataTableBoolean,
     DataTableFile,
     DataTableEnum,
-    DataTableMetrics,
+    DataTableString,
 } from './components';
 import Sortable from 'sortablejs';
 import useRevoke from './useRevoke';
@@ -373,6 +356,7 @@ const props = defineProps({
 const selectedKey = ref(); // 选中标识
 const editKey = ref(); // 编辑标识
 const controlTable = ref<any[]>([]); // 对照组
+const draggableRef = ref<HTMLDivElement>(null);
 
 //  重组columns
 const newColumns = computed(() => {
@@ -433,25 +417,16 @@ const inputRevoke = (e: any) => {
 };
 
 /**
- * 新增额外数据
- */
-// const addDataSource = () => {
-//     const obj = {};
-//     for (const item of props.columns) {
-//         const dataIndex = item.dataIndex;
-//         obj[dataIndex] = undefined;
-//     }
-//     formData.table.push(obj);
-// };
-
-/**
  * 初始化拖拽
  */
 const sortTableHandle = () => {
     if (sortTable.value) {
         sortTable.value?.destroy();
     }
-    const ele = document.querySelector('.draggable-body tbody');
+
+    const ele = draggableRef.value?.querySelector('tbody');
+
+    if (!ele) return;
 
     sortTable.value = new Sortable(ele as HTMLElement, {
         draggable: '.ant-table-row',
@@ -482,7 +457,6 @@ const sortTableHandle = () => {
             }
         },
     });
-
     return sortTable;
 };
 

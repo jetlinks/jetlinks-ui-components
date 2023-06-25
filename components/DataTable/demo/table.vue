@@ -11,7 +11,7 @@ title: 基础
         <j-data-table
             :columns="columns"
             :serial="true"
-            :newSource="newSource"
+            :dataSource="newSource"
             border
             itemKey="name"
         >
@@ -37,7 +37,6 @@ const columns = ref([
         dataIndex: 'name',
         width: '100',
         type: 'text',
-        slot: 'slot1',
     },
     {
         title: '年龄',
@@ -80,12 +79,13 @@ const newSource = ref([
     //初始数据
     {
         name: 1,
+        id: 123,
         age: 18,
         width: 'int',
         config: [{ name: 1, age: 18, width: 150, config: null }],
     },
-    { name: 2, age: 21, width: 'double', config: null },
-    { name: 3, age: 21, width: 'date', config: null },
-    { name: 4, age: 21, width: 'array', config: null },
+    { name: 2, id: 1232, age: 21, width: 'double', config: null },
+    { name: 3, id: 1233, age: 21, width: 'date', config: null },
+    { name: 4, id: 1234, age: 21, width: 'array', config: null },
 ]);
 </script>

@@ -8,7 +8,7 @@ title: 基础
 </docs>
 <template>
     <div>
-        <j-data-tables
+        <j-data-table
             :columns="columns"
             :serial="true"
             :dataSource="newSource"
@@ -24,7 +24,7 @@ title: 基础
             <template #config="{ data }">
                 {{ data }}
             </template>
-        </j-data-tables>
+        </j-data-table>
     </div>
 </template>
 
