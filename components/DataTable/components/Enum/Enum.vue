@@ -1,48 +1,88 @@
 <template>
-    <j-form-item label="枚举项" required>
-        <j-radio-group v-model:value="type" button-style="solid">
-            <j-space>
-                <j-radio-button value="1">仅单选</j-radio-button>
-                <j-radio-button value="2">支持多选</j-radio-button>
-            </j-space>
-        </j-radio-group>
-        <Table ref="list" :source="source" />
-    </j-form-item>
+    <PopconfirmModal
+        body-style="padding-top:4px; width: 450px;"
+        @confirm="confirm"
+    >
+        <template #content>
+            <Form :model="formData" layout="vertical">
+                <FormItem label="枚举项" required>
+                    <FormItem
+                        v-if="multiple"
+                        v-model:value="formData.type"
+                        button-style="solid"
+                    >
+                        <RadioGroup>
+                            <RadioButton value="1">仅单选</RadioButton>
+                            <RadioButton value="2">支持多选</RadioButton>
+                        </RadioGroup>
+                    </FormItem>
+                    <Table
+                        ref="list"
+                        :source="formData.elements"
+                        @change="valueChange"
+                    />
+                </FormItem>
+            </Form>
+        </template>
+        <Icon />
+    </PopconfirmModal>
 </template>
 
-<script setup lang="ts" name="Enum">
-import { onBeforeMount, onUnmounted, reactive, ref } from 'vue';
+<script setup lang="ts">
+import { reactive, ref, watch } from 'vue';
 import Table from './Table.vue';
+import {
+    Form,
+    FormItem,
+    PopconfirmModal,
+    RadioButton,
+    RadioGroup,
+} from '../../../components';
+import Icon from '../Icon.vue';
 
 const props = defineProps({
-    source: {
-        type: Array,
-        default: () => [],
-    },
-    configData: {
+    value: {
         type: Object,
-        default: null,
+        default: () => ({}),
     },
-    configIndex: {
-        type: Number,
-        default: null,
+    multiple: {
+        type: Boolean,
+        default: false,
     },
 });
-const type = ref('1');
 
-const list = ref();
-const addList = () => {
-    title.config = { enum: list.value.source };
+const emit = defineEmits(['update:value']);
+
+const formData = reactive({
+    type: props.value?.type || '1',
+    elements: props.value?.elements || [],
+});
+
+const source = ref([]);
+
+const valueChange = (data: any[]) => {
+    formData.elements = data;
 };
 
-const title = reactive(JSON.parse(JSON.stringify({ ...props.configData })));
+const confirm = () => {
+    const value: any = {
+        elements: formData.elements,
+    };
 
-const index = ref(props.configIndex);
-defineExpose({
-    title,
-    index,
-    addList,
-});
+    if (props.multiple) {
+        value.type = formData.type;
+    }
+    emit('update:value', value);
+};
+
+watch(
+    () => props.value,
+    () => {
+        formData.type = props.value?.type;
+        formData.elements = props.value?.elements || [];
+    },
+    { deep: true },
+);
 </script>
 
 <style scoped></style>

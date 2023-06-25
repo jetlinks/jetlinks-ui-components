@@ -12,7 +12,7 @@ title: 基础
             :columns="columns"
             :serial="true"
             :dataSource="newSource"
-            border
+            ref="tableRef"
             itemKey="name"
         >
             <template #slot1="scope">
@@ -26,17 +26,29 @@ title: 基础
                 {{ data }}
             </template>
         </j-data-table>
+        <j-button @click="save">保存</j-button>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+
+const tableRef = ref();
 const columns = ref([
     {
         title: '名称',
         dataIndex: 'name',
         width: '100',
         type: 'text',
+        form: {
+            required: true,
+            rules: [
+                {
+                    required: true,
+                    message: '请输入名称',
+                },
+            ],
+        },
     },
     {
         title: '年龄',
@@ -78,7 +90,7 @@ const columns = ref([
 const newSource = ref([
     //初始数据
     {
-        name: 1,
+        name: '',
         id: 123,
         age: 18,
         width: 'int',
@@ -88,4 +100,9 @@ const newSource = ref([
     { name: 3, id: 1233, age: 21, width: 'date', config: null },
     { name: 4, id: 1234, age: 21, width: 'array', config: null },
 ]);
+
+const save = async () => {
+    const data = await tableRef.value?.getData();
+    console.log(data);
+};
 </script>

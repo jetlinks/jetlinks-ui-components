@@ -1,28 +1,12 @@
 <template>
     <div class="enum-table-warp">
-        <j-table :data-source="source" :columns="columns" :pagination="false">
-            <template #bodyCell="{ column, record, index }">
-                <template v-if="column.dataIndex === 'value'">
-                    <j-input
-                        v-model:value="record.value"
-                        placeholder="请输入"
-                        max="64"
-                    />
-                </template>
-                <template v-if="column.dataIndex === 'text'">
-                    <j-input
-                        v-model:value="record.text"
-                        placeholder="请输入"
-                        max="64"
-                    />
-                </template>
-                <template v-if="column.dataIndex === 'action'">
-                    <j-button type="link" @click="() => deleteItem(index)">
-                        <AIcon type="DeleteOutlined" />
-                    </j-button>
-                </template>
+        <DataTable :data-source="source" :columns="columns">
+            <template #action="{ data }">
+                <j-button type="link" @click="() => deleteItem(data.index)">
+                    <AIcon type="DeleteOutlined" />
+                </j-button>
             </template>
-        </j-table>
+        </DataTable>
         <j-button class="enum-table-add" @click="addItem">
             <template #icon><AIcon type="PlusOutlined" /></template>
             新增枚举项
@@ -32,7 +16,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Table as JTable, Button as JButton, AIcon } from '../../../components';
+import { DataTable, Button as JButton, AIcon } from '../../../components';
 
 const source = ref([]);
 
@@ -42,10 +26,22 @@ const columns = [
     {
         title: 'value',
         dataIndex: 'value',
+        type: 'text',
+        width: 100,
+        form: {
+            required: true,
+            rules: [],
+        },
     },
     {
         title: 'text',
         dataIndex: 'text',
+        type: 'text',
+        width: 100,
+        form: {
+            required: true,
+            rules: [],
+        },
     },
     {
         title: '操作',

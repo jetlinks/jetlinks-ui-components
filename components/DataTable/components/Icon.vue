@@ -1,5 +1,5 @@
 <template>
-    <AIcon class="data-table-config--icon" type="EditTwoTone" />
+    <AIcon class="j-data-table-config--icon" type="EditTwoTone" />
 </template>
 
 <script setup>

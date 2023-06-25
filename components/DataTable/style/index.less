@@ -1,86 +1,26 @@
 @import 'ant-design-vue/lib/style/index.less';
 
-.data-table {
-    td,
-    th {
-        border-bottom: 1px solid #f3f3f3;
-        position: relative;
-        /* overflow: hidden; */
-        .data-table--edit {
-            position: absolute;
-            top: -5px;
-            right: 0px;
-            padding: 0;
-            width: 0;
-            height: 0;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-left: 8px solid @error-color;
-            transform: rotate(-45deg);
-        }
-    }
-    td > div {
-        padding: 2px 4px;
-    }
-
-    th > div {
-        height: 100%;
-        padding: 12px 4px;
-    }
-
-    td > div {
-        width: 100%;
-        text-align: center;
-    }
-
-    .data-table--header {
-        background-color: #f9f9f9;
-    }
-
-    .data-table--border {
-        border: 1px solid #eee;
-    }
-
-    .data-table--text {
-        padding: 6px 4px;
-    }
-
-    .data-table-config {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 100%;
-        gap: 8px;
-
-        .data-table-config--text {
-            flex: 1;
-            background-color: #f0e68c;
-            padding: 4px;
-            border-radius: 4px;
-            height: 100%;
-        }
-
-        .data-table-config--icon {
-            font-size: 20px;
-            border-radius: 4px;
-        }
-    }
-
-    .ant-form-item {
-        margin-bottom: 0;
-        &.ant-form-item-has-error {
-            padding-bottom: 0;
-        }
-    }
-}
-
 .j-data-table {
+    .j-data-table-header {
+        position: relative;
+        &.required {
+            padding-right: 12px;
+
+            &::after {
+                content: '*';
+                position: absolute;
+                color: @error-color;
+                top: 0;
+                right: 0;
+            }
+        }
+    }
+
     .j-data-table-body {
         .ant-table-tbody {
             tr {
                 height: 100%;
             }
-
             .ant-table-cell,
             & td {
                 padding: 0;

@@ -10,6 +10,18 @@
                         :data-source="formData.table"
                         :row-key="props.rowKey || 'id'"
                     >
+                        <template #headerCell="{ column }">
+                            <span
+                                :class="[
+                                    'j-data-table-header',
+                                    column.form?.required ? 'required' : '',
+                                ]"
+                            >
+                                <slot name="headerCell" :column="column">
+                                    {{ column.title }}
+                                </slot>
+                            </span>
+                        </template>
                         <template #bodyCell="{ column, record, index }">
                             <div
                                 v-if="column.dataIndex === 'index'"
@@ -319,7 +331,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, nextTick, reactive, watch, ref } from 'vue';
+import {
+    computed,
+    defineProps,
+    nextTick,
+    reactive,
+    watch,
+    ref,
+    defineExpose,
+} from 'vue';
 import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
 import {
@@ -353,10 +373,13 @@ const props = defineProps({
     serial: Boolean,
 });
 
+const emit = defineEmits(['change']);
+
 const selectedKey = ref(); // 选中标识
 const editKey = ref(); // 编辑标识
 const controlTable = ref<any[]>([]); // 对照组
 const draggableRef = ref<HTMLDivElement>(null);
+const formRef = ref();
 
 //  重组columns
 const newColumns = computed(() => {
@@ -388,11 +411,34 @@ const TypeSelectDataIndex = (row: any) =>
         newColumns.value?.find((item) => item.type === 'TypeSelect')?.dataIndex
     ];
 
+const getData = (quit = true) => {
+    return new Promise((resolve, reject) => {
+        formRef.value
+            .validate()
+            .then(() => {
+                resolve(formData.table);
+                // 退出编辑模式
+                if (quit) {
+                    editKey.value = '';
+                }
+            })
+            .catch(() => {
+                reject();
+            });
+    });
+};
 /**
  * 单个选中
  * @param key
  */
-const rowClick = (key: string) => {
+const rowClick = async (key: string) => {
+    if (editKey.value) {
+        //  校验当前编辑项，若表单校验失败，静止切换
+        const data = await getData(false);
+
+        if (!data) return;
+    }
+
     if (key !== editKey.value) {
         editKey.value = '';
     }
@@ -404,7 +450,9 @@ const rowClick = (key: string) => {
  * @param key
  */
 const editClick = (key: string) => {
-    editKey.value = key;
+    if (key === selectedKey.value) {
+        editKey.value = key;
+    }
 };
 
 /**
@@ -506,9 +554,14 @@ watch(
     () => formData.table,
     () => {
         updateRevoke(formData.table);
+        emit('change', formData.table);
     },
     { deep: true },
 );
+
+defineExpose({
+    getData: getData,
+});
 </script>
 
 <style scoped></style>
