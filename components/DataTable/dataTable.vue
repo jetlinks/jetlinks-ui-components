@@ -172,6 +172,11 @@
                                                             )?.dataIndex
                                                         ]
                                                     "
+                                                    :filter-option="
+                                                        children
+                                                            ? ['object']
+                                                            : undefined
+                                                    "
                                                     :placeholder="`请选择${column.title}`"
                                                 />
                                             </div>
@@ -312,6 +317,13 @@
                                                             column.dataIndex
                                                         ]
                                                     "
+                                                    :columns="
+                                                        newColumns.filter(
+                                                            (item) =>
+                                                                item.dataIndex !==
+                                                                'index',
+                                                        )
+                                                    "
                                                 />
                                                 <Input
                                                     v-else
@@ -380,13 +392,15 @@ const draggableClassName = 'draggable-item';
 const props = defineProps({
     ...tableProps(),
     serial: Boolean,
+    children: Boolean,
+    controlSource: Array,
 });
 
 const emit = defineEmits(['change']);
 
 const selectedKey = ref(); // 选中标识
 const editKey = ref(); // 编辑标识
-const controlTable = ref<any[]>([]); // 对照组
+const controlSource = ref<any[]>(props.controlSource || []); // 对照组
 const draggableRef = ref<HTMLDivElement>(null);
 const formRef = ref();
 
@@ -526,8 +540,8 @@ const sortTableHandle = () => {
 const controlData = (data: any, index, dataIndex, type) => {
     if (
         type &&
-        (!controlTable.value.length ||
-            !isEqual(data, controlTable.value[index]?.[dataIndex]))
+        (!controlSource.value.length ||
+            !isEqual(data, controlSource.value[index]?.[dataIndex]))
     ) {
         // 有type并且数据发生变化时
         return 'update';
@@ -556,8 +570,11 @@ watch(
     () => props.dataSource,
     () => {
         formData.table = props.dataSource;
-        if (!initRevokeLock.value) {
-            controlTable.value = cloneDeep(props.dataSource);
+        if (
+            !initRevokeLock.value &&
+            (props.dataSource || props.dataSource.length)
+        ) {
+            controlSource.value = cloneDeep(props.dataSource);
             updateState(formData.table);
             initRevokeLock.value = true;
         }
@@ -573,6 +590,12 @@ watch(
         emit('change', formData.table);
     },
     { deep: true },
+);
+
+watch(
+    () => props.controlSource,
+    () => {},
+    { deep: true, immediate: true },
 );
 
 defineExpose({

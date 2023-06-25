@@ -5,13 +5,13 @@
     >
         <template #content>
             <div>
-                <Scrollbar height="300">
+                <Scrollbar height="280">
                     <DataTable
                         ref="tableRef"
                         :columns="columns"
                         :serial="true"
-                        :new-source="newSource"
-                        :childe="true"
+                        :data-source="newSource"
+                        :children="true"
                     ></DataTable>
                 </Scrollbar>
                 <Button
