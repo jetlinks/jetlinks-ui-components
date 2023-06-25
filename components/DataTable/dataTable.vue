@@ -1,7 +1,7 @@
 <template>
     <div class="j-data-table">
         <div class="j-data-table-body">
-            <Form ref="formRef" :model="formData">
+            <Form ref="formRef" :model="formData" layout="horizontal">
                 <div ref="draggableRef" class="draggable-body">
                     <Table
                         v-bind="props"
@@ -84,6 +84,7 @@
                                     :name="['table', index, column.dataIndex]"
                                     :rules="column.form?.rules"
                                     :required="!!column.form?.required"
+                                    :validate-first="true"
                                 >
                                     <!--                未编辑                    -->
                                     <template
@@ -430,9 +431,7 @@ const getData = (quit = true) => {
                     editKey.value = '';
                 }
             })
-            .catch(() => {
-                reject();
-            });
+            .catch((err) => reject(err));
     });
 };
 /**
@@ -441,9 +440,17 @@ const getData = (quit = true) => {
  */
 const rowClick = async (key: string) => {
     if (editKey.value) {
-        //  校验当前编辑项，若表单校验失败，静止切换
-        const data = await getData(false);
-
+        const [td, index, dataIndex] = selectedKey.value.split('_');
+        //  校验当前编辑项，若表单校验失败，静止切换行
+        const data = await getData(false).catch((err) => {
+            const names = err.errorFields?.[0]?.name;
+            if (names) {
+                return names[1] !== Number(index)
+                    ? false
+                    : names[2] !== dataIndex;
+            }
+            return false;
+        });
         if (!data) return;
     }
 
@@ -562,6 +569,7 @@ watch(
     () => formData.table,
     () => {
         updateRevoke(formData.table);
+        console.log('formData.table----change');
         emit('change', formData.table);
     },
     { deep: true },

@@ -1,29 +1,31 @@
 .popconfirm-modal-warp {
-  .popconfirm-modal-body {
-    min-width: 220px;
-  }
+    .popconfirm-modal-body {
+        min-width: 220px;
+        margin-bottom: 12px;
+    }
 
-  .popconfirm-modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-  }
+    .popconfirm-modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
 }
 .popconfirm-modal-mask {
-  height: 100vh;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1030;
-  background-color: rgba(#000, .2);
+    height: 100vh;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1030;
+    background-color: rgba(#000, 0.2);
 
-  &.show {
-    position: fixed;
-  }
+    &.show {
+        position: fixed;
+    }
 
-  &.hide, &.close {
-    position: relative;
-    height: 0;
-  }
+    &.hide,
+    &.close {
+        position: relative;
+        height: 0;
+    }
 }

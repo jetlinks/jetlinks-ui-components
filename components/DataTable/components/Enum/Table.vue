@@ -1,6 +1,7 @@
 <template>
     <div class="enum-table-warp">
         <DataTable
+            ref="tableRef"
             :data-source="source"
             :columns="columns"
             @change="valueChange"
@@ -19,38 +20,56 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, defineExpose, nextTick } from 'vue';
 import { DataTable, Button as JButton, AIcon } from '../../../components';
 
-const source = ref([]);
+const emit = defineEmits(['update:value', 'change', 'add']);
 
-const emit = defineEmits(['update:value', 'change']);
+const props = defineProps({
+    value: {
+        type: Array,
+        default: () => [],
+    },
+});
+
+const source = ref(props.value || []);
+const tableRef = ref();
 
 const columns = [
     {
-        title: 'value',
+        title: 'Value',
         dataIndex: 'value',
         type: 'text',
         width: 100,
         form: {
             required: true,
-            rules: [],
+            rules: [
+                {
+                    required: true,
+                    message: '请输入value',
+                },
+            ],
         },
     },
     {
-        title: 'text',
+        title: 'Text',
         dataIndex: 'text',
         type: 'text',
         width: 100,
         form: {
             required: true,
-            rules: [],
+            rules: [
+                {
+                    required: true,
+                    message: '请输入Text',
+                },
+            ],
         },
     },
     {
         title: '操作',
         dataIndex: 'action',
-        width: 80,
+        width: 60,
     },
 ];
 
@@ -64,8 +83,10 @@ const addItem = () => {
         value: undefined,
         text: undefined,
     });
-
-    updateValue();
+    nextTick(() => {
+        emit('add');
+        updateValue();
+    });
 };
 
 const valueChange = (data: any) => {
@@ -77,6 +98,21 @@ const deleteItem = (index: number) => {
     source.value.splice(index, 1);
     updateValue();
 };
+
+const getData = () => {
+    return new Promise((resolve, reject) => {
+        tableRef.value
+            .getData()
+            .then(() => {
+                resolve(true);
+            })
+            .catch((err) => reject(err));
+    });
+};
+
+defineExpose({
+    getData: getData,
+});
 </script>
 
 <style scoped></style>

@@ -27,6 +27,7 @@ title: 基础
             </template>
         </j-data-table>
         <j-button @click="save">保存</j-button>
+        <j-button @click="addItem">新增</j-button>
     </div>
 </template>
 
@@ -38,7 +39,7 @@ const columns = ref([
     {
         title: '名称',
         dataIndex: 'name',
-        width: '100',
+        width: 100,
         type: 'text',
         form: {
             required: true,
@@ -54,8 +55,9 @@ const columns = ref([
         title: '年龄',
         dataIndex: 'age',
         width: '100',
-        type: 'index',
+        type: 'number',
         form: {
+            required: true,
             rules: [
                 {
                     validator(_, value) {
@@ -90,9 +92,9 @@ const columns = ref([
 const newSource = ref([
     //初始数据
     {
-        name: '',
+        name: '11',
         id: 123,
-        age: 18,
+        age: 12,
         width: 'int',
         config: [{ name: 1, age: 18, width: 150, config: null }],
     },
@@ -104,5 +106,15 @@ const newSource = ref([
 const save = async () => {
     const data = await tableRef.value?.getData();
     console.log(data);
+};
+
+const addItem = () => {
+    newSource.value.push({
+        name: undefined,
+        id: '123123',
+        age: undefined,
+        width: undefined,
+        config: undefined,
+    });
 };
 </script>

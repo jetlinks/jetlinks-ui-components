@@ -44,8 +44,8 @@ const props = defineProps({
 });
 
 const formData = reactive({
-    unit: props.value.unit,
-    degree: props.value.degree || 0, // 精度
+    unit: props.value?.unit,
+    degree: props.value?.degree || 0, // 精度
 });
 
 const confirm = () => {
@@ -55,8 +55,8 @@ const confirm = () => {
 watch(
     () => props.value,
     () => {
-        formData.unit = props.value.unit;
-        formData.degree = props.value.degree;
+        formData.unit = props.value?.unit;
+        formData.degree = props.value?.degree;
     },
     { deep: true },
 );
