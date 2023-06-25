@@ -67,14 +67,8 @@
                                     }
                                 "
                             >
-                                <!--         未编辑           -->
-                                <template
-                                    v-if="
-                                        editKey !==
-                                            `td_${index}_${column.dataIndex}` ||
-                                        !column.type
-                                    "
-                                >
+                                <!--         不需要校验           -->
+                                <template v-if="!column.type || !column.form">
                                     <slot
                                         :name="column.dataIndex"
                                         :data="{ record, index }"
@@ -85,16 +79,28 @@
                                     </slot>
                                 </template>
                                 <!--         编辑中          -->
-                                <template v-else>
-                                    <FormItem
-                                        :name="[
-                                            'table',
-                                            index,
-                                            column.dataIndex,
-                                        ]"
-                                        :rules="column.form?.rules"
-                                        :required="!!column.form?.required"
+                                <FormItem
+                                    v-else
+                                    :name="['table', index, column.dataIndex]"
+                                    :rules="column.form?.rules"
+                                    :required="!!column.form?.required"
+                                >
+                                    <template
+                                        v-if="
+                                            editKey !==
+                                            `td_${index}_${column.dataIndex}`
+                                        "
                                     >
+                                        <slot
+                                            :name="column.dataIndex"
+                                            :data="{ record, index }"
+                                        >
+                                            <Ellipsis>
+                                                {{ record[column.dataIndex] }}
+                                            </Ellipsis>
+                                        </slot>
+                                    </template>
+                                    <template v-else>
                                         <Input
                                             v-if="column.type === 'text'"
                                             v-model:value="
@@ -314,8 +320,8 @@
                                                 />
                                             </div>
                                         </div>
-                                    </FormItem>
-                                </template>
+                                    </template>
+                                </FormItem>
                             </div>
                         </template>
                         <template #emptyText>
