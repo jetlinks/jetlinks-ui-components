@@ -395,8 +395,8 @@ const props = defineProps({
     children: Boolean,
     controlSource: Array,
     draggable: {
-      type: Boolean,
-      default: true
+        type: Boolean,
+        default: true,
     },
 });
 
@@ -508,9 +508,9 @@ const sortTableHandle = () => {
     const ele = draggableRef.value?.querySelector('tbody');
 
     if (!ele) return;
-  console.log('初始化拖拽')
+
     sortTable.value = new Sortable(ele as HTMLElement, {
-        draggable: '.ant-table-draggable-row',
+        draggable: '.ant-table-row',
         animation: 200,
         ghostClass: 'draggable-ghost',
         sort: true,
@@ -563,12 +563,12 @@ const updateRevoke = debounce((newData: any) => {
 watch(
     () => [props.dataSource, selectedKey.value],
     () => {
-      console.log(props.draggable)
-      if (props.draggable !== false) {
-        nextTick(() => {
-            sortTableHandle();
-        });
-      }
+        console.log(props.draggable);
+        if (props.draggable !== false) {
+            nextTick(() => {
+                sortTableHandle();
+            });
+        }
     },
     { immediate: true },
 );
