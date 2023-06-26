@@ -24,6 +24,26 @@
                         </template>
                         <template #bodyCell="{ column, record, index }">
                             <div
+                                v-if="
+                                    controlData(
+                                        record,
+                                        index,
+                                        column.dataIndex,
+                                        column.type,
+                                    )
+                                "
+                                class="j-row-update"
+                            ></div>
+                            <div
+                                :class="[
+                                    'j-row-selected',
+                                    selectedKey ===
+                                    `td_${index}_${column.dataIndex}`
+                                        ? 'j-row-selected-active'
+                                        : '',
+                                ]"
+                            ></div>
+                            <div
                                 v-if="column.dataIndex === 'index'"
                                 :class="draggableClassName"
                             >
@@ -33,20 +53,11 @@
                                 v-else
                                 :class="[
                                     draggableClassName,
-                                    selectedKey ===
-                                    `td_${index}_${column.dataIndex}`
-                                        ? 'j-data-table-td-selected'
-                                        : '',
+
                                     editKey ===
                                     `td_${index}_${column.dataIndex}`
                                         ? 'j-data-table--edit'
                                         : '',
-                                    controlData(
-                                        record[column.dataIndex],
-                                        index,
-                                        column.dataIndex,
-                                        column.type,
-                                    ),
                                 ]"
                                 @click.stop="
                                     () => {
@@ -143,17 +154,17 @@
                                             :placeholder="`请选择${column.title}`"
                                         />
                                         <component
+                                            v-bind="column.components.props"
                                             :is="column.components.name"
                                             v-else-if="
                                                 column.type === 'components' &&
                                                 column.components.name
                                             "
-                                            v-bind="column.components.props"
                                             v-model:value="
-                                                formData.table[index][
-                                                    column.dataIndex
-                                                ]
+                                                formData.table[index]
                                             "
+                                            :record="record"
+                                            :data-source="formData.table"
                                         />
                                         <div
                                             v-else
@@ -384,8 +395,13 @@ import {
     DataTableString,
 } from './components';
 import Sortable from 'sortablejs';
-import useRevoke from './useRevoke';
+// import useRevoke from './useRevoke';
 import { cloneDeep, debounce, isEqual } from 'lodash-es';
+import {
+    cleanUUIDbyData,
+    initControlDataSource,
+    setUUIDbyDataSource,
+} from './util';
 
 const draggableClassName = 'draggable-item';
 
@@ -404,9 +420,11 @@ const emit = defineEmits(['change']);
 
 const selectedKey = ref(); // 选中标识
 const editKey = ref(); // 编辑标识
-const controlSource = ref<any[]>(props.controlSource || []); // 对照组
 const draggableRef = ref<HTMLDivElement>(null);
 const formRef = ref();
+const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
+
+const { setControlData, getControlData } = initControlDataSource();
 
 //  重组columns
 const newColumns = computed(() => {
@@ -427,11 +445,11 @@ const formData = reactive<{ table: any[] }>({
 const sortTable = ref();
 const initRevokeLock = ref(false);
 
-const { updateState } = useRevoke(formData.table, {
-    undo: (data) => {
-        formData.table = data;
-    },
-});
+// const { updateState } = useRevoke(formData.table, {
+//     undo: (data) => {
+//         formData.table = data;
+//     },
+// });
 
 const TypeSelectDataIndex = (row: any) =>
     row[
@@ -443,7 +461,8 @@ const getData = (quit = true) => {
         formRef.value
             .validate()
             .then(() => {
-                resolve(formData.table);
+                const newData = cleanUUIDbyData(formData.table);
+                resolve(newData);
                 // 退出编辑模式
                 if (quit) {
                     editKey.value = '';
@@ -457,20 +476,23 @@ const getData = (quit = true) => {
  * @param key
  */
 const rowClick = async (key: string) => {
-    if (editKey.value) {
-        const [td, index, dataIndex] = selectedKey.value.split('_');
+    let data = true;
+    try {
         //  校验当前编辑项，若表单校验失败，静止切换行
-        const data = await getData(false).catch((err) => {
-            const names = err.errorFields?.[0]?.name;
-            if (names) {
-                return names[1] !== Number(index)
-                    ? false
-                    : names[2] !== dataIndex;
-            }
-            return false;
-        });
-        if (!data) return;
+        if (editKey.value) {
+            await getData(false);
+        }
+    } catch (err) {
+        const [td, index, dataIndex] = selectedKey.value?.split('_');
+        const names = err.errorFields?.[0]?.name;
+        if (names) {
+            data = names[1] !== Number(index) ? false : names[2] !== dataIndex;
+        } else {
+            data = false;
+        }
     }
+    formRowValidate.value = data;
+    if (!data) return;
 
     if (key !== editKey.value) {
         editKey.value = '';
@@ -541,24 +563,21 @@ const sortTableHandle = () => {
     return sortTable;
 };
 
-const controlData = (data: any, index, dataIndex, type) => {
-    if (
-        type &&
-        (!controlSource.value.length ||
-            !isEqual(data, controlSource.value[index]?.[dataIndex]))
-    ) {
-        // 有type并且数据发生变化时
-        return 'update';
+const controlData = (record: any, index, dataIndex, type) => {
+    if (!type || !record) {
+        return false;
     }
-    return '';
+    const data = getControlData(record);
+    // 该数据是否支持编辑
+    return data ? !isEqual(data[dataIndex], record[dataIndex]) : true;
 };
 
 /**
  * 停止连续输入时，才更新操作记录
  */
-const updateRevoke = debounce((newData: any) => {
-    updateState(newData);
-}, 500);
+// const updateRevoke = debounce((newData: any) => {
+//     updateState(newData);
+// }, 500);
 
 watch(
     () => [props.dataSource, selectedKey.value],
@@ -576,10 +595,10 @@ watch(
 watch(
     () => props.dataSource,
     () => {
-        formData.table = props.dataSource;
+        formData.table = setUUIDbyDataSource(props.dataSource);
         if (!initRevokeLock.value) {
-            controlSource.value = cloneDeep(props.dataSource);
-            updateState(formData.table);
+            setControlData(cloneDeep(formData.table));
+            // updateState(formData.table);
             initRevokeLock.value = true;
         }
     },
@@ -589,8 +608,7 @@ watch(
 watch(
     () => formData.table,
     () => {
-        updateRevoke(formData.table);
-        console.log('formData.table----change');
+        // updateRevoke(formData.table);
         emit('change', formData.table);
     },
     { deep: true },

@@ -24,20 +24,9 @@
             .ant-table-cell,
             & td {
                 padding: 0;
-                height: 100%;
-                & > div {
-                    height: 100%;
-                    padding: 6px 14px;
-                    border: 1px solid transparent;
-                    display: flex;
-                    align-items: center;
-                    position: relative;
+                position: relative;
 
-                    &.j-data-table-empty {
-                        justify-content: center;
-                        padding-top: 30px;
-                    }
-
+                .j-row-update {
                     &::after {
                         position: absolute;
                         content: ' ';
@@ -48,7 +37,7 @@
                         height: 0;
                         border-top: 8px solid transparent;
                         border-bottom: 8px solid transparent;
-                        border-left: 8px solid transparent;
+                        border-left: 8px solid @error-color;
                         transform: rotate(-45deg);
                         z-index: 4;
                         transition: all 0.3s;
@@ -60,9 +49,37 @@
                         border-left: 8px solid @error-color;
                     }
                 }
-                .j-data-table-td-selected {
-                    border-color: @primary-color;
+
+                & .draggable-item {
+                    height: 100%;
+                    padding: 6px 14px;
+                    border: 1px solid transparent;
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+                    z-index: 2;
+
+                    &.j-data-table-empty {
+                        justify-content: center;
+                        padding-top: 30px;
+                    }
                 }
+
+                .j-row-selected {
+                    position: absolute;
+                    z-index: 1;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: transparent;
+                    transition: background-color 0.3s;
+
+                    &.j-row-selected-active {
+                        background-color: rgba(@primary-color, 0.1);
+                    }
+                }
+
                 .j-data-table--edit {
                     padding: 0;
                 }

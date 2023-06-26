@@ -92,9 +92,9 @@ const columns = ref([
 const newSource = ref([
     //初始数据
     {
-        name: '11',
         id: 123,
-        age: 12,
+        name: undefined,
+        age: undefined,
         width: 'int',
         config: [{ name: 1, age: 18, width: 150, config: null }],
     },

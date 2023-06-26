@@ -134,7 +134,7 @@ export default defineComponent({
         jsfiddle: Object,
     },
     setup(props) {
-        console.log('demoBox', props);
+        // console.log('demoBox', props);
         const codeExpand = ref(false);
         const type = ref('TS');
         const copyTooltipVisible = ref(false);
@@ -144,7 +144,7 @@ export default defineComponent({
             const relativePath = props.jsfiddle?.relativePath || '';
             return `${relativePath.split('/').join('-').replace('.vue', '')}`;
         });
-        console.log('sectionId', props);
+        // console.log('sectionId', props);
         const inIframe = inject('inIframe', false);
         const iframeHeight = computed(() => props.jsfiddle?.iframe);
         // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -160,7 +160,7 @@ export default defineComponent({
                 props.jsfiddle.iframePath
             );
         });
-        console.log('iframeDemoKey', props.jsfiddle);
+        // console.log('iframeDemoKey', props.jsfiddle);
         const onCopyTooltipVisibleChange = (visible: boolean) => {
             if (visible) {
                 copyTooltipVisible.value = visible;
