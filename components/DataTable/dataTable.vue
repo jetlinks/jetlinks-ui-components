@@ -1,7 +1,12 @@
 <template>
     <div class="j-data-table">
         <div class="j-data-table-body">
-            <Form ref="formRef" :model="formData" layout="horizontal">
+            <Form
+                ref="formRef"
+                :model="formData"
+                layout="horizontal"
+                :scroll-to-first-error="true"
+            >
                 <div ref="draggableRef" class="draggable-body">
                     <Table
                         v-bind="props"
@@ -34,15 +39,24 @@
                                 "
                                 class="j-row-update"
                             ></div>
-                            <div
-                                :class="[
-                                    'j-row-selected',
-                                    selectedKey ===
-                                    `td_${index}_${column.dataIndex}`
-                                        ? 'j-row-selected-active'
-                                        : '',
-                                ]"
-                            ></div>
+                            <Popover
+                                :visible="
+                                    !!formErr[`td_${index}_${column.dataIndex}`]
+                                "
+                                :content="
+                                    formErr[`td_${index}_${column.dataIndex}`]
+                                "
+                            >
+                                <div
+                                    :class="[
+                                        'j-row-selected',
+                                        selectedKey ===
+                                        `td_${index}_${column.dataIndex}`
+                                            ? 'j-row-selected-active'
+                                            : '',
+                                    ]"
+                                ></div>
+                            </Popover>
                             <div
                                 v-if="column.dataIndex === 'index'"
                                 :class="draggableClassName"
@@ -78,6 +92,8 @@
                                     :required="!!column.form?.required"
                                     :validate-first="true"
                                 >
+                                    <template #help></template>
+
                                     <!--                未编辑                    -->
                                     <template
                                         v-if="
@@ -144,6 +160,7 @@
                                             v-model:value="
                                                 formData.table[index]
                                             "
+                                            :extra="extra"
                                             :record="record"
                                             :data-source="formData.table"
                                         />
@@ -362,6 +379,7 @@ import {
     InputNumber,
     Ellipsis,
     Empty,
+    Popover,
 } from '../components';
 import {
     DataTableTypeSelect,
@@ -395,6 +413,7 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    extra: Object,
 });
 
 const emit = defineEmits(['change']);
@@ -404,6 +423,7 @@ const editKey = ref(); // 编辑标识
 const draggableRef = ref<HTMLDivElement>(null);
 const formRef = ref();
 const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
+const formErr = ref({});
 
 const { setControlData, getControlData } = initControlDataSource();
 
@@ -432,13 +452,36 @@ const getData = (quit = true) => {
             .validate()
             .then(() => {
                 const newData = cleanUUIDbyData(formData.table);
+                formErr.value = {};
                 resolve(newData);
                 // 退出编辑模式
                 if (quit) {
                     editKey.value = '';
                 }
             })
-            .catch((err) => reject(err));
+            .catch((err) => {
+                console.log(err);
+                const { errorFields } = err;
+                if (errorFields) {
+                    formErr.value = {};
+                    errorFields.forEach((item: any, index: number) => {
+                        const names = item.name;
+                        const key = `td_${names[1]}_${names[2]}`;
+                        formErr.value[key] = item.errors[0];
+                    });
+                    const firstKey = Object.keys(formErr.value)[0];
+                    // 未处于编辑模式时，强制第一个错误进入编辑模式
+                    if (!editKey.value) {
+                        editKey.value = firstKey;
+                    } else {
+                        //  处于编辑模式，并且编辑项在校验错误项中
+                        editKey.value = formErr.value[editKey.value]
+                            ? editKey.value
+                            : firstKey;
+                    }
+                }
+                reject(err);
+            });
     });
 };
 /**
