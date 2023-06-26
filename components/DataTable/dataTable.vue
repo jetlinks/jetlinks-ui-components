@@ -53,30 +53,11 @@
                                 v-else
                                 :class="[
                                     draggableClassName,
-
                                     editKey ===
                                     `td_${index}_${column.dataIndex}`
                                         ? 'j-data-table--edit'
                                         : '',
                                 ]"
-                                @click.stop="
-                                    () => {
-                                        rowClick(
-                                            column.type
-                                                ? `td_${index}_${column.dataIndex}`
-                                                : '',
-                                        );
-                                    }
-                                "
-                                @dblclick.stop="
-                                    () => {
-                                        editClick(
-                                            column.type
-                                                ? `td_${index}_${column.dataIndex}`
-                                                : '',
-                                        );
-                                    }
-                                "
                             >
                                 <!--         不需要校验           -->
                                 <template v-if="!column.type">
@@ -426,17 +407,6 @@ const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
 
 const { setControlData, getControlData } = initControlDataSource();
 
-//  重组columns
-const newColumns = computed(() => {
-    const hasSerial = 'serial' in props && props.serial !== false;
-    const serialItem = {
-        dataIndex: 'index',
-        title: '序号',
-        width: 60,
-    };
-    return hasSerial ? [serialItem, ...props.columns] : props.columns;
-});
-
 //  表单值
 const formData = reactive<{ table: any[] }>({
     table: [],
@@ -578,6 +548,35 @@ const controlData = (record: any, index, dataIndex, type) => {
 // const updateRevoke = debounce((newData: any) => {
 //     updateState(newData);
 // }, 500);
+
+const customCell = (record, rowIndex, column) => {
+    return {
+        onClick(e: Event) {
+            e.stopPropagation();
+            rowClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
+        },
+        onDblclick(e: Event) {
+            e.stopPropagation();
+            editClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
+        },
+    };
+};
+
+//  重组columns
+const newColumns = computed(() => {
+    const hasSerial = 'serial' in props && props.serial !== false;
+    const serialItem = {
+        dataIndex: 'index',
+        title: '序号',
+        width: 60,
+    };
+    const propsColumns = cloneDeep(props.columns);
+    const _columns = propsColumns.map((item: any) => {
+        item.customCell = customCell;
+        return { ...item };
+    });
+    return hasSerial ? [serialItem, ..._columns] : _columns;
+});
 
 watch(
     () => [props.dataSource, selectedKey.value],
