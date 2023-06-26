@@ -122,7 +122,6 @@
                                             :placeholder="`请输入${column.title}`"
                                             maxlength="64"
                                             style="width: 100%"
-                                            @keydown="inputRevoke"
                                         />
                                         <InputNumber
                                             v-else-if="column.type === 'number'"
@@ -133,7 +132,6 @@
                                             "
                                             style="width: 100%"
                                             :placeholder="`请输入${column.title}`"
-                                            @keydown="inputRevoke"
                                         />
                                         <DataTableTypeSelect
                                             v-else-if="
@@ -400,6 +398,7 @@ import {
     cleanUUIDbyData,
     initControlDataSource,
     setUUIDbyDataSource,
+    useDirection,
 } from './util';
 
 const draggableClassName = 'draggable-item';
@@ -426,6 +425,44 @@ const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
 const formErr = ref({});
 
 const { setControlData, getControlData } = initControlDataSource();
+
+useDirection((code) => {
+    if (selectedKey.value && formRowValidate.value) {
+        const columnKeys = newColumns.value.map((item: any) => item.dataIndex);
+        const maxLength = formData.table.length;
+        const [id, index, dataIndex] = selectedKey.value.split('_');
+        const _dataIndex =
+            columnKeys.findIndex((key) => key === dataIndex) || 1;
+
+        let newDataIndex = _dataIndex;
+        let newIndex = Number(index);
+
+        switch (code) {
+            case 'left':
+                if (_dataIndex > 1) {
+                    newDataIndex--;
+                }
+                break;
+            case 'right':
+                if (_dataIndex < columnKeys.length) {
+                    newDataIndex++;
+                }
+                break;
+            case 'down':
+                if (index < maxLength) {
+                    newIndex++;
+                }
+                break;
+            case 'up':
+                if (index > 0) {
+                    newIndex--;
+                }
+                break;
+        }
+        selectedKey.value = `td_${newIndex}_${columnKeys[newDataIndex]}`;
+        console.log(newDataIndex, newIndex, columnKeys[newDataIndex]);
+    }
+});
 
 //  表单值
 const formData = reactive<{ table: any[] }>({
@@ -460,7 +497,6 @@ const getData = (quit = true) => {
                 }
             })
             .catch((err) => {
-                console.log(err);
                 const { errorFields } = err;
                 if (errorFields) {
                     formErr.value = {};

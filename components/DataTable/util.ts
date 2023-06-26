@@ -1,7 +1,9 @@
 import Sortable from 'sortablejs';
 import { cloneDeep, isArray, omit, uniqueId } from 'lodash-es';
-import { ref } from 'vue';
+import { onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
+
 export const draggableClassName = 'draggable-item';
+
 export const sortTableHandle = (
     ele: HTMLElement,
     onEnd: (oldIndex: number, newIndex: number) => void,
@@ -23,7 +25,40 @@ export const sortTableHandle = (
 /**
  * 方向操作
  */
-export const useDirection = (selectKey: string, validate: boolean) => {};
+export const useDirection = (
+    cb: (direction: 'up' | 'down' | 'left' | 'right') => void,
+) => {
+    const keyDown = (e) => {
+        // 判断当前标签页状态, 标签未激活禁止操作
+        const isHidden = document.hidden;
+        if (isHidden) return;
+
+        const keyCode = e.keyCode;
+
+        switch (keyCode) {
+            case 37:
+                cb('left');
+                break;
+            case 38:
+                cb('up');
+                break;
+            case 39:
+                cb('right');
+                break;
+            case 40:
+                cb('down');
+                break;
+        }
+    };
+
+    onMounted(() => {
+        document.addEventListener('keydown', keyDown);
+    });
+
+    onBeforeUnmount(() => {
+        document.removeEventListener('keydown', keyDown);
+    });
+};
 
 export const setUUIDbyDataSource = (data: any[]) => {
     return isArray(data)
