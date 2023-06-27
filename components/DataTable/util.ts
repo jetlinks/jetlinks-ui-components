@@ -1,6 +1,8 @@
 import Sortable from 'sortablejs';
 import { cloneDeep, isArray, omit, uniqueId } from 'lodash-es';
-import { onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { useInfiniteScroll } from '@vueuse/core';
+import type { Ref } from 'vue';
 
 export const draggableClassName = 'draggable-item';
 
@@ -105,4 +107,56 @@ export const initControlDataSource = () => {
         setControlData,
         getControlData,
     };
+};
+
+export const getElData = (target: any) => {
+    let currentEl = target;
+    let off = true;
+    let position = [];
+    if (target.className.includes('ant-table-cell')) {
+        let _dataset = target.querySelector('.j-row-click')?.dataset;
+        position = ['td', Number(_dataset.index), _dataset.name];
+    } else if (target.className.includes('j-row-click')) {
+        let _dataset = target.dataset;
+        position = ['td', Number(_dataset.index), _dataset.name];
+    } else {
+        while (off) {
+            if (
+                !currentEl.parentNode.className ||
+                currentEl.parentNode.className.includes('ant-table-cell')
+            ) {
+                off = false;
+            } else if (currentEl.parentNode.className.includes('j-row-click')) {
+                off = false;
+                let _dataset = currentEl.parentNode.dataset;
+                position = ['td', Number(_dataset.index), _dataset.name];
+            } else {
+                currentEl = currentEl.parentNode;
+            }
+        }
+    }
+
+    return position;
+};
+
+export const useVirtualScrolling = (
+    target: HTMLDivElement,
+    dataSource: any[],
+    height: number,
+) => {
+    // const renderTable = ref([])
+    // const index = ref(0)
+    // const virtualEl = document.createElement('div')
+    // const bodyEl = target.querySelector('.ant-table-tbody') as HTMLElement
+    // bodyEl.style.position = 'absolute'
+    // const cellHeight = (target.querySelector('.ant-table-cell') as HTMLElement ).offsetHeight || 44
+    // virtualEl.style.height = dataSource.length * cellHeight + 'px'
+    // bodyEl.appendChild(virtualEl)
+    // console.log(virtualEl);
+    // const scroll = () => {
+    //     let scrollTop = bodyEl.scrollTop
+    //     index.value = Math.floor(scrollTop / cellHeight)
+    //     bodyEl.style.transform = `translateY(${index.value * cellHeight}px)`
+    // }
+    // bodyEl.addEventListener('scroll', scroll, {passive: true})
 };

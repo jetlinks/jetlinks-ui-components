@@ -13,7 +13,7 @@ title: 基础
             :serial="true"
             :dataSource="newSource"
             :rowDraggable="(record) => record.age >= 20"
-            border
+            :height="200"
         >
             <template #name="scope">
                 <div>支持通过实体{{ scope.data.index }}</div>

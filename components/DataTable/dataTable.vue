@@ -51,11 +51,16 @@
                                 <div
                                     :class="[
                                         'j-row-selected',
+                                        'j-row-click',
                                         selectedKey ===
                                         `td_${index}_${column.dataIndex}`
                                             ? 'j-row-selected-active'
                                             : '',
                                     ]"
+                                    :data-index="
+                                        column.type ? index : undefined
+                                    "
+                                    :data-name="column.dataIndex"
                                 ></div>
                             </Popover>
                             <div
@@ -68,11 +73,16 @@
                                 v-else
                                 :class="[
                                     draggableClassName,
+                                    column.dataIndex !== 'action'
+                                        ? 'j-row-click'
+                                        : '',
                                     editKey ===
                                     `td_${index}_${column.dataIndex}`
                                         ? 'j-data-table--edit'
                                         : '',
                                 ]"
+                                :data-index="column.type ? index : undefined"
+                                :data-name="column.dataIndex"
                             >
                                 <!--         不需要校验           -->
                                 <template v-if="!column.type">
@@ -370,6 +380,7 @@ import {
     ref,
     defineExpose,
     onMounted,
+    onBeforeUnmount,
 } from 'vue';
 import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
@@ -395,13 +406,15 @@ import {
     DataTableString,
 } from './components';
 import Sortable from 'sortablejs';
-import { useInfiniteScroll } from '@vueuse/core';
-import { cloneDeep, debounce, isEqual } from 'lodash-es';
+
+import { cloneDeep, isEqual } from 'lodash-es';
 import {
     cleanUUIDbyData,
     initControlDataSource,
     setUUIDbyDataSource,
     useDirection,
+    getElData,
+    useVirtualScrolling,
 } from './util';
 
 const draggableClassName = 'draggable-item';
@@ -416,6 +429,10 @@ const props = defineProps({
         default: true,
     },
     extra: Object,
+    height: {
+        type: Number,
+        default: undefined,
+    },
 });
 
 const emit = defineEmits(['change']);
@@ -468,10 +485,6 @@ useDirection((code) => {
         console.log(newDataIndex, newIndex, columnKeys[newDataIndex]);
     }
 });
-
-const draggableBody = (e) => {
-    console.log(e);
-};
 
 //  表单值
 const formData = reactive<{ table: any[] }>({
@@ -569,15 +582,6 @@ const editClick = (key: string) => {
 };
 
 /**
- * 阻止input撤销
- */
-const inputRevoke = (e: any) => {
-    if (e.ctrlKey && e.keyCode === 90) {
-        e.preventDefault();
-    }
-};
-
-/**
  * 初始化拖拽
  */
 const sortTableHandle = () => {
@@ -636,6 +640,23 @@ const controlData = (record: any, index, dataIndex, type) => {
 // const updateRevoke = debounce((newData: any) => {
 //     updateState(newData);
 // }, 500);
+const draggableClick = (e) => {
+    const { target } = e;
+    let position = getElData(target);
+
+    if (position[0] !== undefined || position[0] !== 'undefined') {
+        rowClick(position.join('_'));
+    }
+};
+
+const draggableDblClick = (e) => {
+    const { target } = e;
+    let position = getElData(target);
+
+    if (position[0] !== undefined || position[0] !== 'undefined') {
+        editClick(position.join('_'));
+    }
+};
 
 const customCell = (record, rowIndex, column) => {
     return {
@@ -660,32 +681,38 @@ const newColumns = computed(() => {
     };
     const propsColumns = cloneDeep(props.columns);
     const _columns = propsColumns.map((item: any) => {
-        item.customCell = customCell;
+        // item.customCell = customCell;
         return { ...item };
     });
     return hasSerial ? [serialItem, ..._columns] : _columns;
 });
 
 onMounted(() => {
+    nextTick(() => {
+        const scrollEl = draggableRef.value?.querySelector(
+            '.ant-table-tbody',
+        ) as HTMLElement;
+
+        if (scrollEl) {
+            scrollEl.addEventListener('click', draggableClick);
+            scrollEl.addEventListener('dblclick', draggableDblClick);
+        }
+    });
+});
+
+onBeforeUnmount(() => {
     const scrollEl = draggableRef.value?.querySelector(
-        '.ant-table-body',
+        '.ant-table-tbody',
     ) as HTMLElement;
     if (scrollEl) {
-        useInfiniteScroll(
-            scrollEl,
-            (e) => {
-                console.log(e);
-                // 触底，加载更多
-            },
-            { distance: 10 },
-        );
+        scrollEl.removeEventListener('click', draggableClick);
+        scrollEl.removeEventListener('dblclick', draggableDblClick);
     }
 });
 
 watch(
     () => [props.dataSource, selectedKey.value],
     () => {
-        console.log(props.draggable);
         if (props.draggable !== false) {
             nextTick(() => {
                 sortTableHandle();
@@ -700,6 +727,16 @@ watch(
     () => {
         formData.table = setUUIDbyDataSource(props.dataSource);
         setControlData(cloneDeep(formData.table));
+        // 模拟数据，计算总长度
+        if (props.height) {
+            nextTick(() => {
+                useVirtualScrolling(
+                    draggableRef.value!,
+                    formData.table,
+                    props.height,
+                );
+            });
+        }
     },
     { immediate: true, deep: true },
 );
