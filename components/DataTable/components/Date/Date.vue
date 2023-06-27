@@ -1,7 +1,11 @@
 <template>
-    <PopconfirmModal body-style="padding-top:4px;" @confirm="confirm">
+    <PopconfirmModal
+        body-style="padding-top:4px; width: 160px;"
+        @confirm="confirm"
+        @cancel="cancel"
+    >
         <template #content>
-            <Form :model="formData" layout="vertical">
+            <Form ref="formRef" :model="formData" layout="vertical">
                 <FormItem label="格式" required>
                     <Select
                         v-model:value="formData.date"
@@ -18,13 +22,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { Form, FormItem, PopconfirmModal, Select } from '../../../components';
 import Icon from '../Icon.vue';
 
 type Emits = {
     (e: 'update:value', data: string | undefined): void;
     (e: 'change', data: string | undefined): void;
+    (e: 'cancel'): void;
 };
 
 const emit = defineEmits<Emits>();
@@ -35,6 +40,8 @@ const props = defineProps({
         default: undefined,
     },
 });
+
+const formRef = ref();
 
 const options = [
     { label: 'yy-mm-dd hh:mm:ss', value: 'yy-mm-dd hh:mm:ss' },
@@ -50,6 +57,11 @@ const change = (v: string[]) => {
     const newValue = v.length > 1 ? v.pop() : v?.[0];
     formData.date = [newValue];
     emit('change', newValue);
+};
+
+const cancel = () => {
+    formRef.value?.resetFields();
+    emit('cancel');
 };
 
 const confirm = () => {

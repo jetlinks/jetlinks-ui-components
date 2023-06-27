@@ -1,7 +1,11 @@
 <template>
-    <PopconfirmModal body-style="padding-top:4px;" @confirm="confirm">
+    <PopconfirmModal
+        body-style="padding-top:4px;width:160px;"
+        @confirm="confirm"
+        @cancel="cancel"
+    >
         <template #content>
-            <Form :model="formData" layout="vertical">
+            <Form ref="formRef" :model="formData" layout="vertical">
                 <FormItem label="元素类型" required name="type" :rules="rules">
                     <TypeSelect v-model:value="formData.type" />
                 </FormItem>
@@ -17,7 +21,7 @@ import { reactive, ref } from 'vue';
 import { Form, FormItem, PopconfirmModal } from '../../../components';
 import Icon from '../Icon.vue';
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value', 'cancel']);
 
 const props = defineProps({
     value: {
@@ -25,6 +29,8 @@ const props = defineProps({
         default: undefined,
     },
 });
+
+const formRef = ref();
 
 const formData = reactive({
     type: props.value,
@@ -42,6 +48,11 @@ const rules = [
         trigger: 'change',
     },
 ];
+
+const cancel = () => {
+    formRef.value?.resetFields();
+    emit('cancel');
+};
 
 const confirm = () => {
     emit('update:value', formData);

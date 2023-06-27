@@ -46,6 +46,7 @@
                                 :content="
                                     formErr[`td_${index}_${column.dataIndex}`]
                                 "
+                                :get-popup-container="(e) => draggableRef || e"
                             >
                                 <div
                                     :class="[
@@ -158,6 +159,7 @@
                                             v-model:value="
                                                 formData.table[index]
                                             "
+                                            :columns="newColumns"
                                             :extra="extra"
                                             :record="record"
                                             :data-source="formData.table"
@@ -367,6 +369,7 @@ import {
     watch,
     ref,
     defineExpose,
+    onMounted,
 } from 'vue';
 import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
@@ -392,7 +395,7 @@ import {
     DataTableString,
 } from './components';
 import Sortable from 'sortablejs';
-// import useRevoke from './useRevoke';
+import { useInfiniteScroll } from '@vueuse/core';
 import { cloneDeep, debounce, isEqual } from 'lodash-es';
 import {
     cleanUUIDbyData,
@@ -465,6 +468,10 @@ useDirection((code) => {
         console.log(newDataIndex, newIndex, columnKeys[newDataIndex]);
     }
 });
+
+const draggableBody = (e) => {
+    console.log(e);
+};
 
 //  表单值
 const formData = reactive<{ table: any[] }>({
@@ -659,6 +666,22 @@ const newColumns = computed(() => {
     return hasSerial ? [serialItem, ..._columns] : _columns;
 });
 
+onMounted(() => {
+    const scrollEl = draggableRef.value?.querySelector(
+        '.ant-table-body',
+    ) as HTMLElement;
+    if (scrollEl) {
+        useInfiniteScroll(
+            scrollEl,
+            (e) => {
+                console.log(e);
+                // 触底，加载更多
+            },
+            { distance: 10 },
+        );
+    }
+});
+
 watch(
     () => [props.dataSource, selectedKey.value],
     () => {
@@ -669,20 +692,16 @@ watch(
             });
         }
     },
-    { immediate: true },
+    { immediate: true, deep: true },
 );
 
 watch(
     () => props.dataSource,
     () => {
         formData.table = setUUIDbyDataSource(props.dataSource);
-        if (!initRevokeLock.value) {
-            setControlData(cloneDeep(formData.table));
-            // updateState(formData.table);
-            initRevokeLock.value = true;
-        }
+        setControlData(cloneDeep(formData.table));
     },
-    { immediate: true },
+    { immediate: true, deep: true },
 );
 
 watch(

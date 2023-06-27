@@ -1,7 +1,11 @@
 <template>
-    <PopconfirmModal body-style="padding-top:4px;" @confirm="confirm">
+    <PopconfirmModal
+        body-style="padding-top:4px;"
+        @confirm="confirm"
+        @cancel="cancel"
+    >
         <template #content>
-            <Form :model="formData" layout="vertical">
+            <Form ref="formRef" :model="formData" layout="vertical">
                 <FormItem name="unit" label="单位">
                     <UnitSelect
                         v-model:value="formData.unit"
@@ -24,7 +28,7 @@
 
 <script setup lang="ts">
 import UnitSelect, { UnitProps } from '../UnitSelect';
-import { reactive, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import {
     Form,
     FormItem,
@@ -33,7 +37,7 @@ import {
 } from '../../../components';
 import Icon from '../Icon.vue';
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value', 'cancel']);
 
 const props = defineProps({
     ...UnitProps,
@@ -43,6 +47,8 @@ const props = defineProps({
     },
 });
 
+const formRef = ref();
+
 const formData = reactive({
     unit: props.value?.unit,
     degree: props.value?.degree || 0, // 精度
@@ -50,6 +56,11 @@ const formData = reactive({
 
 const confirm = () => {
     emit('update:value', formData);
+};
+
+const cancel = () => {
+    formRef.value?.resetFields();
+    emit('cancel');
 };
 
 watch(

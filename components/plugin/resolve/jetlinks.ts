@@ -443,6 +443,16 @@ const primitiveNames = [
     'ColorPicker',
     'PopconfirmModal',
     'DataTable',
+    'DataTableTypeSelect',
+    'DataTableInteger',
+    'DataTableDouble',
+    'DataTableArray',
+    'DataTableDate',
+    'DataTableObject',
+    'DataTableBoolean',
+    'DataTableFile',
+    'DataTableEnum',
+    'DataTableString',
 ];
 const prefix = 'J';
 

@@ -61,7 +61,7 @@ const formData = reactive({
 });
 
 const confirm = () => {
-    emit('update:value', formData);
+    emit('update:value', formData.file);
 };
 </script>
 

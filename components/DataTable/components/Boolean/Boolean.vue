@@ -1,5 +1,9 @@
 <template>
-    <PopconfirmModal body-style="padding-top:4px;" @confirm="confirm">
+    <PopconfirmModal
+        body-style="padding-top:4px;width: 200px;"
+        @confirm="confirm"
+        @cancel="cancel"
+    >
         <template #content>
             <Form ref="formRef" :model="formData" layout="vertical">
                 <FormItem label="布尔值" required name="value" :rules="rules">
@@ -53,7 +57,7 @@ import Icon from '../Icon.vue';
 import { reactive, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value', 'cancel']);
 
 const props = defineProps({
     value: {
@@ -90,6 +94,11 @@ const rules = [
         trigger: 'change',
     },
 ];
+
+const cancel = () => {
+    formRef.value?.resetFields();
+    emit('cancel');
+};
 
 const confirm = () => {
     return new Promise(async (resolve, reject) => {

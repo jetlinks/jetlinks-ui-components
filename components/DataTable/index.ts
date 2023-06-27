@@ -29,6 +29,7 @@ DataTable.install = function (app: App) {
     app.component('JDataTableDate', DataTableDate);
     app.component('JDataTableType', DataTableTypeSelect);
     app.component('JDataTableObject', DataTableObject);
+    return app;
 };
 
 export default DataTable;
