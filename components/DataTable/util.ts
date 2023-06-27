@@ -46,6 +46,7 @@ export const useDirection = (
                 cb('right');
                 break;
             case 40:
+            case 13:
                 cb('down');
                 break;
         }

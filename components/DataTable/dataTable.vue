@@ -428,8 +428,10 @@ const { setControlData, getControlData } = initControlDataSource();
 
 useDirection((code) => {
     if (selectedKey.value && formRowValidate.value) {
-        const columnKeys = newColumns.value.map((item: any) => item.dataIndex);
-        const maxLength = formData.table.length;
+        const columnKeys = newColumns.value
+            .map((item: any) => item.dataIndex)
+            .filter((key) => key !== 'action');
+        const maxLength = formData.table.length - 1;
         const [id, index, dataIndex] = selectedKey.value.split('_');
         const _dataIndex =
             columnKeys.findIndex((key) => key === dataIndex) || 1;
@@ -444,7 +446,7 @@ useDirection((code) => {
                 }
                 break;
             case 'right':
-                if (_dataIndex < columnKeys.length) {
+                if (_dataIndex < columnKeys.length - 1) {
                     newDataIndex++;
                 }
                 break;
