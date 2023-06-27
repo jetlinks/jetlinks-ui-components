@@ -218,14 +218,13 @@ const ProTable = defineComponent<JTableProps>({
                             resp?.result?.pageIndex &&
                             resp?.result?.data?.length === 0
                         ) {
-                            pageIndex.value = pageIndex.value > 0
-                                ? pageIndex.value - 1
-                                : 0
-                            console.log(pageIndex.value)
+                            pageIndex.value =
+                                pageIndex.value > 0 ? pageIndex.value - 1 : 0;
+                            console.log(pageIndex.value);
                             handleSearch({
                                 ..._params,
                                 pageSize: pageSize.value,
-                                pageIndex: pageIndex.value
+                                pageIndex: pageIndex.value,
                             });
                         } else {
                             _dataSource.value = resp?.result?.data || [];
@@ -358,10 +357,14 @@ const ProTable = defineComponent<JTableProps>({
                                         }
                                         type="info"
                                         onClose={() => {
-                                            if (props.rowSelection?.onSelectNone) {
-                                                // 取消选择清空被选数据
-                                                props.rowSelection.onSelectNone();
-                                            }
+                                            // if (props.rowSelection?.onSelectNone) {
+                                            //     // 取消选择清空被选数据
+                                            // }
+                                            props.rowSelection?.onChange(
+                                                [],
+                                                [],
+                                            );
+                                            props.rowSelection?.onSelectNone();
                                         }}
                                         closeText={
                                             <Button type="link">
