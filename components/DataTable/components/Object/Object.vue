@@ -12,7 +12,8 @@
                         :serial="true"
                         :data-source="newSource"
                         :children="true"
-                    ></DataTable>
+                    >
+                    </DataTable>
                 </Scrollbar>
                 <Button
                     type="primary"

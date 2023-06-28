@@ -1,6 +1,26 @@
 @import 'ant-design-vue/lib/style/index.less';
 
 .j-data-table {
+    background-color: #fff;
+
+    &.j-data-table-fullscreen {
+        padding: 24px;
+    }
+
+    .j-data-table-tool {
+        display: flex;
+        margin-bottom: 24px;
+        justify-content: space-between;
+
+        .j-data-table-tool-left {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            .j-data-table-full {
+                font-size: 18px;
+            }
+        }
+    }
     .j-data-table-header {
         position: relative;
         &.required {
@@ -58,11 +78,11 @@
                     align-items: center;
                     position: relative;
                     z-index: 2;
+                }
 
-                    &.j-data-table-empty {
-                        justify-content: center;
-                        padding-top: 30px;
-                    }
+                .j-data-table-empty {
+                    justify-content: center;
+                    padding-top: 30px;
                 }
 
                 .j-row-selected {

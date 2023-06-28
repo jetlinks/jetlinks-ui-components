@@ -1,5 +1,32 @@
 <template>
-    <div class="j-data-table">
+    <div
+        ref="fullRef"
+        :class="['j-data-table', isFullscreen ? 'j-data-table-fullscreen' : '']"
+    >
+        <div class="j-data-table-tool">
+            <div class="j-data-table-tool-left">
+                <div v-if="showSearch" class="j-data-table-search">
+                    <InputSearch
+                        allow-clear
+                        style="width: 220px"
+                        @search="search"
+                    />
+                </div>
+                <div class="j-data-table-full">
+                    <AIcon
+                        :type="
+                            isFullscreen
+                                ? 'FullscreenExitOutlined'
+                                : 'FullscreenOutlined'
+                        "
+                        @click="toggle"
+                    />
+                </div>
+            </div>
+            <div class="j-data-table-expand">
+                <slot name="expand"> </slot>
+            </div>
+        </div>
         <div class="j-data-table-body">
             <Form
                 ref="formRef"
@@ -12,8 +39,9 @@
                         v-bind="props"
                         :columns="newColumns"
                         :pagination="false"
-                        :data-source="formData.table"
+                        :data-source="virtualDatas"
                         :row-key="props.rowKey || 'id'"
+                        :scroll="height ? { y: height } : undefined"
                     >
                         <template #headerCell="{ column }">
                             <span
@@ -32,7 +60,7 @@
                                 v-if="
                                     controlData(
                                         record,
-                                        index,
+                                        record.index,
                                         column.dataIndex,
                                         column.type,
                                     )
@@ -41,10 +69,14 @@
                             ></div>
                             <Popover
                                 :visible="
-                                    !!formErr[`td_${index}_${column.dataIndex}`]
+                                    !!formErr[
+                                        `td_${record.index}_${column.dataIndex}`
+                                    ]
                                 "
                                 :content="
-                                    formErr[`td_${index}_${column.dataIndex}`]
+                                    formErr[
+                                        `td_${record.index}_${column.dataIndex}`
+                                    ]
                                 "
                                 :get-popup-container="(e) => draggableRef || e"
                             >
@@ -53,21 +85,23 @@
                                         'j-row-selected',
                                         'j-row-click',
                                         selectedKey ===
-                                        `td_${index}_${column.dataIndex}`
+                                        `td_${record.index}_${column.dataIndex}`
                                             ? 'j-row-selected-active'
                                             : '',
                                     ]"
-                                    :data-index="
-                                        column.type ? index : undefined
+                                    :data-index="record.index"
+                                    :data-name="
+                                        column.type
+                                            ? column.dataIndex
+                                            : undefined
                                     "
-                                    :data-name="column.dataIndex"
                                 ></div>
                             </Popover>
                             <div
                                 v-if="column.dataIndex === 'index'"
                                 :class="draggableClassName"
                             >
-                                {{ index + 1 }}
+                                {{ record.index }}
                             </div>
                             <div
                                 v-else
@@ -77,18 +111,23 @@
                                         ? 'j-row-click'
                                         : '',
                                     editKey ===
-                                    `td_${index}_${column.dataIndex}`
+                                    `td_${record.index}_${column.dataIndex}`
                                         ? 'j-data-table--edit'
                                         : '',
                                 ]"
-                                :data-index="column.type ? index : undefined"
+                                :data-index="
+                                    column.type ? record.index : undefined
+                                "
                                 :data-name="column.dataIndex"
                             >
                                 <!--         不需要校验           -->
                                 <template v-if="!column.type">
                                     <slot
                                         :name="column.dataIndex"
-                                        :data="{ record, index }"
+                                        :data="{
+                                            record,
+                                            index: record.index - 1,
+                                        }"
                                     >
                                         <Ellipsis>
                                             {{ record[column.dataIndex] }}
@@ -98,7 +137,11 @@
                                 <!--         需要校验          -->
                                 <FormItem
                                     v-else
-                                    :name="['table', index, column.dataIndex]"
+                                    :name="[
+                                        'table',
+                                        record.index,
+                                        column.dataIndex,
+                                    ]"
                                     :rules="column.form?.rules"
                                     :required="!!column.form?.required"
                                     :validate-first="true"
@@ -109,12 +152,15 @@
                                     <template
                                         v-if="
                                             editKey !==
-                                            `td_${index}_${column.dataIndex}`
+                                            `td_${record.index}_${column.dataIndex}`
                                         "
                                     >
                                         <slot
                                             :name="column.dataIndex"
-                                            :data="{ record, index }"
+                                            :data="{
+                                                record,
+                                                index: record.index - 1,
+                                            }"
                                         >
                                             <Ellipsis>
                                                 {{ record[column.dataIndex] }}
@@ -126,9 +172,9 @@
                                         <Input
                                             v-if="column.type === 'text'"
                                             v-model:value="
-                                                formData.table[index][
-                                                    column.dataIndex
-                                                ]
+                                                formData.table[
+                                                    record.index - 1
+                                                ][column.dataIndex]
                                             "
                                             :placeholder="`请输入${column.title}`"
                                             maxlength="64"
@@ -137,9 +183,9 @@
                                         <InputNumber
                                             v-else-if="column.type === 'number'"
                                             v-model:value="
-                                                formData.table[index][
-                                                    column.dataIndex
-                                                ]
+                                                formData.table[
+                                                    record.index - 1
+                                                ][column.dataIndex]
                                             "
                                             style="width: 100%"
                                             :placeholder="`请输入${column.title}`"
@@ -149,7 +195,9 @@
                                                 column.type === 'TypeSelect'
                                             "
                                             v-model:value="
-                                                formData.table[index][
+                                                formData.table[
+                                                    record.index - 1
+                                                ][
                                                     newColumns.find(
                                                         (item) =>
                                                             item.type ===
@@ -167,7 +215,7 @@
                                                 column.components.name
                                             "
                                             v-model:value="
-                                                formData.table[index]
+                                                formData.table[record.index - 1]
                                             "
                                             :columns="newColumns"
                                             :extra="extra"
@@ -183,7 +231,9 @@
                                             >
                                                 <DataTableTypeSelect
                                                     v-model:value="
-                                                        formData.table[index][
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][
                                                             newColumns.find(
                                                                 (item) =>
                                                                     item.type ===
@@ -214,9 +264,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                                 <DataTableDouble
@@ -231,9 +281,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                                 <DataTableBoolean
@@ -245,9 +295,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                                 <DataTableEnum
@@ -259,9 +309,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                                 <DataTableArray
@@ -273,9 +323,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                                 <DataTableFile
@@ -287,9 +337,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                                 <DataTableDate
@@ -301,9 +351,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                                 <DataTableString
@@ -318,9 +368,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index - 1
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                                 <DataTableObject
@@ -332,9 +382,9 @@
                                                         )
                                                     "
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index
+                                                        ][column.dataIndex]
                                                     "
                                                     :columns="
                                                         newColumns.filter(
@@ -347,9 +397,9 @@
                                                 <Input
                                                     v-else
                                                     v-model:value="
-                                                        formData.table[index][
-                                                            column.dataIndex
-                                                        ]
+                                                        formData.table[
+                                                            record.index
+                                                        ][column.dataIndex]
                                                     "
                                                 />
                                             </div>
@@ -392,6 +442,7 @@ import {
     Ellipsis,
     Empty,
     Popover,
+    InputSearch,
 } from '../components';
 import {
     DataTableTypeSelect,
@@ -406,6 +457,7 @@ import {
     DataTableString,
 } from './components';
 import Sortable from 'sortablejs';
+import { useFullscreen } from '@vueuse/core';
 
 import { cloneDeep, isEqual } from 'lodash-es';
 import {
@@ -433,6 +485,18 @@ const props = defineProps({
         type: Number,
         default: undefined,
     },
+    showSearch: {
+        type: Boolean,
+        default: true,
+    },
+    searchKey: {
+        type: String,
+        default: 'name',
+    },
+    sortKey: {
+        type: String,
+        default: 'id',
+    },
 });
 
 const emit = defineEmits(['change']);
@@ -443,6 +507,19 @@ const draggableRef = ref<HTMLDivElement>(null);
 const formRef = ref();
 const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
 const formErr = ref({});
+const virtualDatas = ref([]);
+const virtualUpdate = ref();
+
+const fullRef = ref();
+const { isFullscreen, enter, exit, toggle } = useFullscreen(fullRef);
+
+//  表单值
+const formData = reactive<{ table: any[]; search: any[] }>({
+    table: [],
+    search: [],
+});
+
+const sortTable = ref();
 
 const { setControlData, getControlData } = initControlDataSource();
 
@@ -486,19 +563,33 @@ useDirection((code) => {
     }
 });
 
-//  表单值
-const formData = reactive<{ table: any[] }>({
-    table: [],
-});
+const sortTables = (data: any[]) => {
+    return data
+        .sort((a: any, b: any) => a[props.sortKey] - b[props.sortKey])
+        .map((item, index) => ({ ...item, index: index + 1 }));
+};
 
-const sortTable = ref();
-const initRevokeLock = ref(false);
-
-// const { updateState } = useRevoke(formData.table, {
-//     undo: (data) => {
-//         formData.table = data;
-//     },
-// });
+const search = (e) => {
+    const includeArr = [];
+    const filterArr = [];
+    selectedKey.value = '';
+    editKey.value = '';
+    if (e) {
+        formData.table.forEach((item) => {
+            if (item[props.searchKey].includes(e)) {
+                includeArr.push(item);
+            } else {
+                filterArr.push(item);
+            }
+        });
+        formData.table = [...includeArr, ...filterArr].map((item, index) => ({
+            ...item,
+            index: index + 1,
+        }));
+    } else {
+        formData.table = sortTables(formData.table);
+    }
+};
 
 const TypeSelectDataIndex = (row: any) =>
     row[
@@ -598,20 +689,46 @@ const sortTableHandle = () => {
         animation: 200,
         ghostClass: 'draggable-ghost',
         sort: true,
-        onEnd: ({ oldIndex, newIndex }) => {
-            const curr = formData.table.splice(oldIndex, 1)[0];
-            formData.table.splice(newIndex, 0, curr);
+        onEnd: ({ oldIndex, newIndex, to, from }) => {
+            console.log(to, from);
+            // 获取真正的index
+            const oldTarget = draggableRef.value
+                .querySelector('.ant-table-tbody')
+                .querySelectorAll('.ant-table-row')[oldIndex - 1];
+            const newTarget = draggableRef.value
+                .querySelector('.ant-table-tbody')
+                .querySelectorAll('.ant-table-row')[newIndex - 1];
+            console.log(newTarget);
+            const oldTargetPositions = getElData(
+                oldTarget.querySelectorAll('.j-row-click')?.[1],
+            );
+            const newTargetPositions = getElData(
+                newTarget.querySelectorAll('.j-row-click')?.[1],
+            );
+
+            const _oldIndex = oldTargetPositions[1];
+            const _newIndex = newTargetPositions[1];
+
+            const curr = formData.table.splice(_oldIndex - 1, 1)[0];
+
+            formData.table.splice(_newIndex - 1, 0, curr);
+
+            const [min, max] = [_oldIndex, _newIndex].sort((a, b) => a - b);
+            console.log(oldIndex, newIndex, min, max);
+            for (let i = min; i <= max; i++) {
+                console.log(i);
+                formData.table[i - 1].index = i;
+            }
             // 判断当前拖拽中是否有选中
             if (selectedKey.value) {
-                const [min, max] = [oldIndex, newIndex].sort((a, b) => a - b);
                 const [td, index, dataIndex] = selectedKey.value.split('_');
                 if (index >= min && index <= max) {
                     // 是否在拖拽范围内
                     const numIndex = Number(index);
-                    let _index = newIndex;
-                    if (numIndex < oldIndex) {
+                    let _index = _newIndex;
+                    if (numIndex < _oldIndex) {
                         _index = numIndex + 1;
-                    } else if (numIndex > oldIndex) {
+                    } else if (numIndex > _oldIndex) {
                         _index = numIndex - 1;
                     }
                     selectedKey.value = [td, _index, dataIndex].join('_');
@@ -643,7 +760,6 @@ const controlData = (record: any, index, dataIndex, type) => {
 const draggableClick = (e) => {
     const { target } = e;
     let position = getElData(target);
-
     if (position[0] !== undefined || position[0] !== 'undefined') {
         rowClick(position.join('_'));
     }
@@ -656,19 +772,6 @@ const draggableDblClick = (e) => {
     if (position[0] !== undefined || position[0] !== 'undefined') {
         editClick(position.join('_'));
     }
-};
-
-const customCell = (record, rowIndex, column) => {
-    return {
-        onClick(e: Event) {
-            e.stopPropagation();
-            rowClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
-        },
-        onDblclick(e: Event) {
-            e.stopPropagation();
-            editClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
-        },
-    };
 };
 
 //  重组columns
@@ -710,33 +813,47 @@ onBeforeUnmount(() => {
     }
 });
 
+// watch(
+//     () => [props.dataSource, selectedKey.value],
+//     () => {
+//         if (props.draggable !== false) {
+//             nextTick(() => {
+//                 sortTableHandle();
+//             });
+//         }
+//     },
+//     { immediate: true, deep: true },
+// );
+
 watch(
-    () => [props.dataSource, selectedKey.value],
+    () => props.dataSource,
     () => {
-        if (props.draggable !== false) {
-            nextTick(() => {
-                sortTableHandle();
-            });
-        }
+        const newData = sortTables(setUUIDbyDataSource(props.dataSource));
+        formData.table = newData;
+        formData.table = newData;
+        setControlData(cloneDeep(formData.table));
     },
     { immediate: true, deep: true },
 );
 
 watch(
-    () => props.dataSource,
+    () => formData.table,
     () => {
-        formData.table = setUUIDbyDataSource(props.dataSource);
-        setControlData(cloneDeep(formData.table));
-        // 模拟数据，计算总长度
-        if (props.height) {
-            nextTick(() => {
-                useVirtualScrolling(
+        nextTick(() => {
+            console.log(draggableRef.value);
+            if (virtualUpdate.value) {
+                virtualUpdate.value.update(formData.table);
+            } else {
+                virtualUpdate.value = useVirtualScrolling(
                     draggableRef.value!,
                     formData.table,
                     props.height,
+                    (data: any) => {
+                        virtualDatas.value = data;
+                    },
                 );
-            });
-        }
+            }
+        });
     },
     { immediate: true, deep: true },
 );

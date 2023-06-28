@@ -1,6 +1,13 @@
 import Sortable from 'sortablejs';
 import { cloneDeep, isArray, omit, uniqueId } from 'lodash-es';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import {
+    computed,
+    nextTick,
+    onBeforeUnmount,
+    onMounted,
+    ref,
+    watch,
+} from 'vue';
 import { useInfiniteScroll } from '@vueuse/core';
 import type { Ref } from 'vue';
 
@@ -65,9 +72,9 @@ export const useDirection = (
 
 export const setUUIDbyDataSource = (data: any[]) => {
     return isArray(data)
-        ? cloneDeep(data).map((item: any) => {
+        ? cloneDeep(data).map((item: any, index) => {
               const uuid = uniqueId('control');
-              return { ...item, _uuid: uuid };
+              return { ...item, index: index + 1, _uuid: uuid };
           })
         : data;
 };
@@ -143,20 +150,196 @@ export const useVirtualScrolling = (
     target: HTMLDivElement,
     dataSource: any[],
     height: number,
+    cb: (data: any[]) => void,
 ) => {
-    // const renderTable = ref([])
-    // const index = ref(0)
-    // const virtualEl = document.createElement('div')
-    // const bodyEl = target.querySelector('.ant-table-tbody') as HTMLElement
-    // bodyEl.style.position = 'absolute'
-    // const cellHeight = (target.querySelector('.ant-table-cell') as HTMLElement ).offsetHeight || 44
-    // virtualEl.style.height = dataSource.length * cellHeight + 'px'
-    // bodyEl.appendChild(virtualEl)
-    // console.log(virtualEl);
-    // const scroll = () => {
-    //     let scrollTop = bodyEl.scrollTop
-    //     index.value = Math.floor(scrollTop / cellHeight)
-    //     bodyEl.style.transform = `translateY(${index.value * cellHeight}px)`
-    // }
-    // bodyEl.addEventListener('scroll', scroll, {passive: true})
+    const buffer = 200;
+    const renderTable = ref([]);
+    const currentData = ref(dataSource || []);
+    const top = ref();
+    const bottom = ref();
+
+    const start = ref(0);
+    const end = ref();
+
+    const toTop = ref(0);
+
+    const scrollBox = ref();
+    const sizes = ref({});
+    const itemHeight = 46;
+
+    const offsetMap = computed(() => {
+        let total = 0;
+
+        const res = currentData.value.reduce((prev, current) => {
+            const key = current['_uuid'];
+            prev[key] = total;
+            const curSize = sizes.value[key] || itemHeight;
+            total += curSize;
+            return prev;
+        }, {});
+        return res;
+    });
+
+    const setTop = () => {
+        toTop.value =
+            target.getBoundingClientRect().top -
+            scrollBox.value?.getBoundingClientRect().top +
+            scrollBox.value.offsetTop;
+    };
+
+    const getItemOffsetTop = (index) => {
+        const item = currentData.value[index];
+        if (item) {
+            const key = item['_uuid'];
+            return offsetMap.value[key] || 0;
+        }
+        return 0;
+    };
+
+    const updateSizes = () => {
+        const rows = target.querySelectorAll('.ant-table-row');
+
+        Array.from(rows).forEach((row: HTMLElement, index) => {
+            const item = renderTable.value[index];
+            if (!item) return;
+
+            // 计算表格行的高度
+
+            let offsetHeight = row.offsetHeight;
+            const key = item['_uuid'];
+            if (sizes.value[key] !== offsetHeight) {
+                sizes.value[key] = offsetHeight;
+            }
+        });
+    };
+
+    const calcRenderData = () => {
+        const _top = scrollBox.value.scrollTop - toTop.value - buffer;
+        let _bottom =
+            scrollBox.value.scrollTop +
+            scrollBox.value.offsetHeight +
+            buffer -
+            toTop.value;
+
+        if (_bottom < height) {
+            _bottom = height;
+        }
+        let _start;
+        let _end;
+
+        let l = 0;
+        let r = currentData.value.length - 1;
+        let mid = 0;
+        while (l <= r) {
+            mid = Math.floor((l + r) / 2);
+            const mindVal = getItemOffsetTop(mid);
+            if (mindVal < _top) {
+                const mindNextVal = getItemOffsetTop(mid + 1);
+                if (mindNextVal > _top) break;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+
+        _start = mid;
+        _end = currentData.value.length - 1;
+        for (let i = _start + 1; i < currentData.value.length; i++) {
+            const offsetTop = getItemOffsetTop(i);
+            if (offsetTop >= _bottom) {
+                _end = i;
+                break;
+            }
+        }
+
+        if (_start % 2) {
+            _start = _start - 1;
+        }
+        top.value = _top;
+        bottom.value = _bottom;
+        start.value = _start;
+        end.value = _end;
+        console.log(currentData.value);
+        renderTable.value = currentData.value.slice(_start, _end + 1);
+
+        cb?.(renderTable.value);
+    };
+
+    const getItemSize = (index) => {
+        if (index <= -1) return 0;
+        const item = currentData.value[index];
+        if (item) {
+            const key = item['_uuid'];
+            return sizes.value[key] || itemHeight;
+        }
+        return itemHeight;
+    };
+
+    const calcPosition = () => {
+        const last = currentData.value.length - 1;
+        const warpHeight = getItemOffsetTop(last) + getItemSize(last);
+        const offsetTop = getItemOffsetTop(start.value);
+
+        const tableEl = target.querySelector('.ant-table-body') as any;
+
+        if (!tableEl) return;
+
+        if (!tableEl.warpEl) {
+            const warpEl = document.createElement('div');
+            const innerEl = document.createElement('div');
+            warpEl.appendChild(innerEl);
+            innerEl.appendChild(tableEl.children[0]);
+            tableEl.insertBefore(warpEl, tableEl.firstChild);
+            tableEl.warpEl = warpEl;
+            tableEl.innerEl = innerEl;
+        }
+        if (tableEl.warpEl) {
+            tableEl.warpEl.style.height = warpHeight + 'px';
+            tableEl.innerEl.style.transform = `translateY(${offsetTop}px)`;
+        }
+    };
+
+    const onScroll = () => {
+        // 移动选中状态项
+        // 删除编辑项
+        // 更新当前尺寸
+        updateSizes();
+        // 计算数据
+        calcRenderData();
+        // 计算位置
+        calcPosition();
+    };
+
+    const initScroll = () => {
+        scrollBox.value.addEventListener('scroll', onScroll);
+        setTop();
+        setTimeout(() => {
+            onScroll();
+        }, 2000);
+    };
+
+    const update = (newData: any[] = []) => {
+        console.log('update');
+        currentData.value = newData;
+        setTop();
+        onScroll();
+    };
+
+    if (height) {
+        scrollBox.value = target?.querySelector('.ant-table-body');
+        initScroll();
+    }
+
+    watch(
+        dataSource,
+        () => {
+            console.log('dataSource');
+            update(dataSource);
+        },
+        { deep: true },
+    );
+
+    return {
+        update,
+    };
 };

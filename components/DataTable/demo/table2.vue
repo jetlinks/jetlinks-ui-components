@@ -12,12 +12,11 @@ title: 基础
             :columns="columns"
             :serial="true"
             :dataSource="newSource"
-            :rowDraggable="(record) => record.age >= 20"
-            :height="200"
+            :height="600"
         >
-            <template #name="scope">
-                <div>支持通过实体{{ scope.data.index }}</div>
-            </template>
+            <!--            <template #name="scope">-->
+            <!--                <div>支持通过实体{{ scope.data.index }}</div>-->
+            <!--            </template>-->
             <template #action>
                 <a-tag color="pink">pink</a-tag>
                 <a-tag color="red">red</a-tag>
@@ -31,7 +30,7 @@ title: 基础
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { DataTableBoolean } from 'jetlinks-ui-components';
+import { DataTableBoolean, DataTableArray } from 'jetlinks-ui-components';
 
 const columns = ref([
     {
@@ -67,7 +66,13 @@ const columns = ref([
     {
         title: '其他配置',
         dataIndex: 'config',
-        type: 'config',
+        type: 'components',
+        form: {
+            name: [''],
+        },
+        components: {
+            name: DataTableArray,
+        },
     },
     {
         title: '布尔值',
@@ -85,11 +90,11 @@ const columns = ref([
     },
 ]);
 const newSource = ref(
-    new Array(100).fill('').map((_, index) => {
+    new Array(1000).fill('').map((_, index) => {
         return {
             id: new Date().getTime() + index,
             age: index + 1,
-            name: '测试文案' + index + 1,
+            name: '测试文案' + (index + 1),
             width: 10 + index,
             config: undefined,
             boolean: false,
