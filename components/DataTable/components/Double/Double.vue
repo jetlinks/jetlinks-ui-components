@@ -1,6 +1,6 @@
 <template>
     <PopconfirmModal
-        body-style="padding-top:4px;"
+        body-style="padding-top:4px; width: 260px;"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -12,14 +12,7 @@
                         :options="options"
                     />
                 </FormItem>
-                <FormItem name="degree" label="精度">
-                    <InputNumber
-                        v-model:value="formData.degree"
-                        :precision="0"
-                        min="0"
-                        :max="9999"
-                    />
-                </FormItem>
+                <ScaleItem v-model:value="formData.scale" />
             </Form>
         </template>
         <Icon />
@@ -29,12 +22,8 @@
 <script setup lang="ts">
 import UnitSelect, { UnitProps } from '../UnitSelect';
 import { reactive, ref, watch } from 'vue';
-import {
-    Form,
-    FormItem,
-    PopconfirmModal,
-    InputNumber,
-} from '../../../components';
+import { Form, FormItem, PopconfirmModal } from '../../../components';
+import ScaleItem from './ScaleItem.vue';
 import Icon from '../Icon.vue';
 
 const emit = defineEmits(['update:value', 'cancel']);
@@ -51,7 +40,7 @@ const formRef = ref();
 
 const formData = reactive({
     unit: props.value?.unit,
-    degree: props.value?.degree || 0, // 精度
+    scale: props.value?.scale || 0, // 精度
 });
 
 const confirm = () => {
@@ -67,7 +56,7 @@ watch(
     () => props.value,
     () => {
         formData.unit = props.value?.unit;
-        formData.degree = props.value?.degree;
+        formData.scale = props.value?.scale;
     },
     { deep: true },
 );

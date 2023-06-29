@@ -34,6 +34,8 @@ import {
     DataTableBoolean,
     DataTableArray,
     DataTableObject,
+    DataTableDate,
+    DataTableEnum,
 } from 'jetlinks-ui-components';
 
 const columns = ref([
@@ -83,7 +85,7 @@ const columns = ref([
         dataIndex: 'boolean',
         type: 'components',
         components: {
-            name: DataTableObject,
+            name: DataTableEnum,
         },
         width: 150,
     },
@@ -97,7 +99,7 @@ const newSource = ref([]);
 
 const initData = () => {
     setTimeout(() => {
-        newSource.value = new Array(1000).fill('').map((_, index) => {
+        newSource.value = new Array(10).fill('').map((_, index) => {
             return {
                 id: new Date().getTime() + index,
                 age: index + 1,
@@ -107,7 +109,7 @@ const initData = () => {
                 boolean: false,
             };
         });
-    }, 3000);
+    }, 10);
 };
 
 initData();

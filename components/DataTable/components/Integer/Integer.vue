@@ -1,6 +1,6 @@
 <template>
     <PopconfirmModal
-        body-style="padding-top:4px; width: 160px"
+        body-style="padding-top:4px; width: 260px;"
         @confirm="confirm"
     >
         <template #content>

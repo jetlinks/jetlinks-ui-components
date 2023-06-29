@@ -1,3 +1,5 @@
-import Date from './Date.vue'
+import Date from './Date.vue';
 
-export default Date
+export { default as DateItem } from './DataItem.vue';
+
+export default Date;

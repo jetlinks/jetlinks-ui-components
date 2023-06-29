@@ -4,6 +4,9 @@
             ref="tableRef"
             :data-source="source"
             :columns="columns"
+            :serial="true"
+            :show-tool="false"
+            item-key="value"
             @change="valueChange"
         >
             <template #action="{ data }">
@@ -40,7 +43,7 @@ const columns = [
         title: 'Value',
         dataIndex: 'value',
         type: 'text',
-        width: 100,
+        width: 150,
         form: {
             required: true,
             rules: [
@@ -55,7 +58,6 @@ const columns = [
         title: 'Text',
         dataIndex: 'text',
         type: 'text',
-        width: 100,
         form: {
             required: true,
             rules: [
@@ -83,14 +85,13 @@ const addItem = () => {
         value: undefined,
         text: undefined,
     });
-    nextTick(() => {
-        emit('add');
-        updateValue();
-    });
+    // nextTick(() => {
+    //     emit('add');
+    //     updateValue();
+    // });
 };
 
-const valueChange = (data: any) => {
-    source.value = data;
+const valueChange = () => {
     updateValue();
 };
 
@@ -101,9 +102,12 @@ const deleteItem = (index: number) => {
 
 const getData = () => {
     return new Promise((resolve, reject) => {
+        console.log('开始校验2');
         tableRef.value
             .getData()
-            .then(() => {
+            .then((data) => {
+                source.value = data;
+                updateValue();
                 resolve(true);
             })
             .catch((err) => reject(err));

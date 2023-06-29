@@ -4,29 +4,12 @@
         @confirm="confirm"
     >
         <template #content>
-            <Form ref="formRef" :model="formData" layout="vertical">
-                <FormItem
-                    label="枚举项"
-                    name="elements"
-                    required
-                    :rules="rules"
-                    :validate-first="true"
-                >
-                    <FormItemRest v-if="multiple">
-                        <RadioGroup
-                            v-model:value="formData.type"
-                            button-style="solid"
-                        >
-                            <RadioButton value="1">仅单选</RadioButton>
-                            <RadioButton value="2">支持多选</RadioButton>
-                        </RadioGroup>
-                    </FormItemRest>
-                    <Table
-                        ref="tableRef"
-                        v-model:value="formData.elements"
-                        @add="addItem"
-                    />
-                </FormItem>
+            <Form ref="formRef" :model="formData.value" layout="vertical">
+                <EnumItem
+                    ref="tableRef"
+                    v-model:value="formData.value"
+                    :multiple="multiple"
+                />
             </Form>
         </template>
         <Icon />
@@ -35,15 +18,8 @@
 
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue';
-import Table from './Table.vue';
-import {
-    Form,
-    FormItem,
-    FormItemRest,
-    PopconfirmModal,
-    RadioButton,
-    RadioGroup,
-} from '../../../components';
+import { Form, PopconfirmModal } from '../../../components';
+import EnumItem from './EnumItem.vue';
 import Icon from '../Icon.vue';
 
 const props = defineProps({
@@ -62,15 +38,13 @@ const emit = defineEmits(['update:value', 'cancel']);
 const formRef = ref();
 const tableRef = ref();
 const formData = reactive({
-    type: props.value?.type || '1',
-    elements: props.value?.elements || [],
+    value: {
+        type: props.value?.type || '1',
+        elements: props.value?.elements || [],
+    },
 });
 
 const source = ref([]);
-
-const addItem = () => {
-    formRef.value.validate();
-};
 
 const rules = [
     {
@@ -87,6 +61,7 @@ const rules = [
 const confirm = () => {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log('开始校验3');
             const tableData = await tableRef.value.getData();
             if (tableData) {
                 formRef.value
@@ -94,11 +69,11 @@ const confirm = () => {
                     .then(() => {
                         resolve(true);
                         const value: any = {
-                            elements: formData.elements,
+                            elements: formData.value.elements,
                         };
 
                         if (props.multiple) {
-                            value.type = formData.type;
+                            value.type = formData.value.type;
                         }
                         console.log('formRef.value', formData);
                         emit('update:value', value);
@@ -106,6 +81,7 @@ const confirm = () => {
                     .catch(() => reject(false));
             }
         } catch (e) {
+            console.log(e);
             reject(false);
         }
     });
@@ -114,8 +90,8 @@ const confirm = () => {
 watch(
     () => props.value,
     () => {
-        formData.type = props.value?.type;
-        formData.elements = props.value?.elements || [];
+        formData.value.type = props.value?.type;
+        formData.value.elements = props.value?.elements || [];
     },
     { deep: true },
 );

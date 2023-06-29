@@ -1,111 +1,48 @@
 <template>
     <PopconfirmModal
-        body-style="padding-top:4px;width:400px;"
+        body-style="padding-top:4px;width:600px;"
         @confirm="confirm"
         @cancel="cancel"
     >
         <template #content>
             <Form ref="formRef" :model="formData" layout="vertical">
-                <FormItem label="元素类型" required name="type" :rules="rules">
+                <FormItem
+                    label="元素类型"
+                    required
+                    name="type"
+                    :rules="rules"
+                    :validate-first="true"
+                >
                     <TypeSelect v-model:value="formData.type" />
                 </FormItem>
-                <FormItem
+                <ScaleItem
                     v-if="['float', 'double'].includes(formData.type)"
-                    label="精度"
-                    name="scale"
-                >
-                    <InputNumber
-                        v-model:value="formData.scale"
-                        :precision="0"
-                        min="0"
-                        :max="9999"
-                    />
-                </FormItem>
-                <FormItem
-                    v-else-if="['text', 'string'].includes(formData.type)"
-                    label="最大长度"
-                    name="scale"
-                >
-                    <InputNumber
-                        v-model:value="formData.maxLength"
-                        :precision="0"
-                        min="0"
-                        :max="9999"
-                    />
-                </FormItem>
-                <FormItem
+                    v-model:value="formData.scale"
+                />
+                <StringItem
+                    v-else-if="['text', 'password'].includes(formData.type)"
+                    v-model:value="formData.maxLength"
+                />
+                <BooleanItem
                     v-else-if="formData.type === 'boolean'"
-                    label="布尔值"
-                    required
-                    name="value"
-                    :rules="rules"
-                >
-                    <div
-                        class="data-table-boolean-item"
-                        style="margin-bottom: 12px"
-                    >
-                        <div class="data-table-boolean-item--value">
-                            <FormItem no-style name="trueText">
-                                <Input v-model:value="formData.trueText" />
-                            </FormItem>
-                        </div>
-                        <div>-</div>
-                        <div class="data-table-boolean-item--value">
-                            <FormItem no-style name="trueValue">
-                                <Input v-model:value="formData.trueValue" />
-                            </FormItem>
-                        </div>
-                    </div>
-                    <div class="data-table-boolean-item">
-                        <div class="data-table-boolean-item--value">
-                            <FormItem no-style name="falseText">
-                                <Input v-model:value="formData.falseText" />
-                            </FormItem>
-                        </div>
-                        <div>-</div>
-                        <div class="data-table-boolean-item--value">
-                            <FormItem no-style name="falseValue">
-                                <Input v-model:value="formData.falseValue" />
-                            </FormItem>
-                        </div>
-                    </div>
-                </FormItem>
-                <FormItem
+                    v-model:value="formData.boolean"
+                    name="boolean"
+                />
+                <DateItem
                     v-else-if="formData.type === 'date'"
-                    label="格式"
-                    required
-                >
-                    <Select
-                        v-model:value="formData.date"
-                        :options="options"
-                        mode="tags"
-                        placeholder="请选择时间格式"
-                    />
-                </FormItem>
-                <template v-else-if="formData.type === 'enum'">
-                    <FormItem
-                        label="枚举项"
-                        name="elements"
-                        required
-                        :rules="rules"
-                        :validate-first="true"
-                    >
-                        <FormItemRest v-if="enumMultiple">
-                            <RadioGroup
-                                v-model:value="formData.enumMultiple"
-                                button-style="solid"
-                            >
-                                <RadioButton value="1">仅单选</RadioButton>
-                                <RadioButton value="2">支持多选</RadioButton>
-                            </RadioGroup>
-                        </FormItemRest>
-                        <Table
-                            ref="tableRef"
-                            v-model:value="formData.elements"
-                            @add="addItem"
-                        />
-                    </FormItem>
-                </template>
+                    v-model:value="formData.date"
+                />
+                <FileType
+                    v-else-if="formData.type === 'file'"
+                    v-model:value="formData.fileType"
+                    name="fileType"
+                />
+                <EnumItem
+                    v-else-if="formData.type === 'enum'"
+                    ref="enumRef"
+                    v-model:value="formData.enum"
+                    :multiple="enumMultiple"
+                />
             </Form>
         </template>
         <Icon />
@@ -115,17 +52,13 @@
 <script setup lang="ts">
 import TypeSelect from '../Type';
 import { reactive, ref } from 'vue';
-import {
-    Form,
-    FormItem,
-    FormItemRest,
-    RadioGroup,
-    RadioButton,
-    PopconfirmModal,
-    InputNumber,
-    Input,
-    Select,
-} from '../../../components';
+import { Form, FormItem, PopconfirmModal } from '../../../components';
+import { FileType } from '../File';
+import { BooleanItem } from '../Boolean';
+import { DateItem } from '../Date';
+import { ScaleItem } from '../Double';
+import { StringItem } from '../String';
+import { EnumItem } from '../Enum';
 import Icon from '../Icon.vue';
 import { pick } from 'lodash-es';
 
@@ -140,30 +73,32 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    unitOptions: {
+        type: [Array, Function],
+        default: undefined,
+    },
 });
 
 const formRef = ref();
-const tableRef = ref();
+const enumRef = ref();
 
 const formData = reactive({
     type: props.value?.type,
     scale: props.value?.scale,
     maxLength: props.value?.maxLength,
-    trueText: props.value?.trueText,
-    trueValue: props.value?.trueValue,
-    falseText: props.value?.falseText,
-    falseValue: props.value?.falseValue,
+    boolean: {
+        trueText: props.value?.trueText || '是',
+        trueValue: props.value?.trueValue || 'true',
+        falseText: props.value?.falseText || '否',
+        falseValue: props.value?.falseValue || 'false',
+    },
     date: props.value?.date,
-    enumMultiple: props.value?.multiple,
-    elements: props.value?.elements,
+    enum: {
+        multiple: props.value?.multiple,
+        elements: props.value?.elements,
+    },
     fileType: props.value?.fileType,
 });
-
-const options = [
-    { label: 'yy-mm-dd hh:mm:ss', value: 'yy-mm-dd hh:mm:ss' },
-    { label: 'yy-mm-dd', value: 'yy-mm-dd' },
-    { label: 'hh:mm:ss', value: 'hh:mm:ss' },
-];
 
 const rules = [
     {
@@ -191,56 +126,38 @@ const handleValue = (type) => {
             keys.push('scale');
             break;
         case 'boolean':
-            keys = [
-                ...keys,
-                'trueText',
-                'trueValue',
-                'falseText',
-                'falseValue',
-            ];
+            keys.push('boolean');
             break;
         case 'enum':
+            keys.push('enum');
             break;
         case 'file':
             keys.push('fileType');
             break;
-        case 'enum':
+        case 'string':
+            keys.push('maxLength');
             break;
     }
     return pick(formData, keys);
 };
 
-const addItem = async () => {
-    await tableRef.value.getData();
-};
-
 const confirm = () => {
     return new Promise(async (resolve, reject) => {
         try {
+            let enumResult = true;
+            console.log('校验1', formData.type);
             if (formData.type === 'enum') {
-                const tableData = await tableRef.value.getData();
-                if (tableData) {
-                    formRef.value
-                        .validate()
-                        .then(() => {
-                            resolve(true);
-                            const value: any = {
-                                elements: formData.elements,
-                            };
+                await enumRef.value.getData();
+            }
 
-                            if (props.enumMultiple) {
-                                value.type = formData.enumMultiple;
-                            }
-                            console.log(
-                                'formRef.value',
-                                handleValue(formData.type),
-                            );
-                            emit('update:value', handleValue(formData.type));
-                        })
-                        .catch(() => reject(false));
-                }
-            } else {
-                emit('update:value', handleValue(formData.type));
+            if (enumResult) {
+                formRef.value
+                    .validate()
+                    .then(() => {
+                        resolve(true);
+                        emit('update:value', handleValue(formData.type));
+                    })
+                    .catch(() => reject(false));
             }
         } catch (e) {
             reject(false);

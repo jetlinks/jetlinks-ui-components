@@ -1,50 +1,12 @@
 <template>
     <PopconfirmModal
-        body-style="padding-top:4px;width: 200px;"
+        body-style="padding-top:4px;width: 260px;"
         @confirm="confirm"
         @cancel="cancel"
     >
         <template #content>
             <Form ref="formRef" :model="formData" layout="vertical">
-                <FormItem label="布尔值" required name="value" :rules="rules">
-                    <div
-                        class="data-table-boolean-item"
-                        style="margin-bottom: 12px"
-                    >
-                        <div class="data-table-boolean-item--value">
-                            <FormItem no-style name="trueText">
-                                <Input
-                                    v-model:value="formData.value.trueText"
-                                />
-                            </FormItem>
-                        </div>
-                        <div>-</div>
-                        <div class="data-table-boolean-item--value">
-                            <FormItem no-style name="trueValue">
-                                <Input
-                                    v-model:value="formData.value.trueValue"
-                                />
-                            </FormItem>
-                        </div>
-                    </div>
-                    <div class="data-table-boolean-item">
-                        <div class="data-table-boolean-item--value">
-                            <FormItem no-style name="falseText">
-                                <Input
-                                    v-model:value="formData.value.falseText"
-                                />
-                            </FormItem>
-                        </div>
-                        <div>-</div>
-                        <div class="data-table-boolean-item--value">
-                            <FormItem no-style name="falseValue">
-                                <Input
-                                    v-model:value="formData.value.falseValue"
-                                />
-                            </FormItem>
-                        </div>
-                    </div>
-                </FormItem>
+                <BooleanItem v-model:value="formData.value" />
             </Form>
         </template>
         <Icon />
@@ -52,7 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import { Form, FormItem, PopconfirmModal, Input } from '../../../components';
+import { Form, PopconfirmModal } from '../../../components';
+import BooleanItem from './BooleanItem.vue';
 import Icon from '../Icon.vue';
 import { reactive, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
@@ -77,24 +40,6 @@ const formData = reactive({
     },
 });
 
-const rules = [
-    {
-        validator(_, value) {
-            console.log(value);
-            if (
-                !value.trueText ||
-                !value.trueValue ||
-                !value.falseText ||
-                !value.falseValue
-            ) {
-                return Promise.reject('请输入布尔值');
-            }
-            return Promise.resolve();
-        },
-        trigger: 'change',
-    },
-];
-
 const cancel = () => {
     formRef.value?.resetFields();
     emit('cancel');
@@ -106,7 +51,7 @@ const confirm = () => {
             reject();
         });
         if (data) {
-            emit('update:value', cloneDeep(formData));
+            emit('update:value', cloneDeep(formData.value));
             resolve(true);
         }
     });

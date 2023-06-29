@@ -3,7 +3,7 @@
         ref="fullRef"
         :class="['j-data-table', isFullscreen ? 'j-data-table-fullscreen' : '']"
     >
-        <div class="j-data-table-tool">
+        <div v-if="showTool !== false" class="j-data-table-tool">
             <div class="j-data-table-tool-left">
                 <div v-if="showSearch" class="j-data-table-search">
                     <InputSearch
@@ -139,7 +139,7 @@
                                     v-else
                                     :name="[
                                         'table',
-                                        record.index,
+                                        record.index - 1,
                                         column.dataIndex,
                                     ]"
                                     :rules="column.form?.rules"
@@ -489,6 +489,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    showTool: {
+        type: Boolean,
+        default: true,
+    },
     searchKey: {
         type: String,
         default: 'name',
@@ -598,6 +602,7 @@ const TypeSelectDataIndex = (row: any) =>
 
 const getData = (quit = true) => {
     return new Promise((resolve, reject) => {
+        console.log('开始校验');
         formRef.value
             .validate()
             .then(() => {
@@ -844,6 +849,7 @@ const newColumns = computed(() => {
 watch(
     () => props.dataSource,
     () => {
+        console.log('watch1', props.dataSource);
         const newData = sortTables(setUUIDbyDataSource(props.dataSource));
         formData.table = cloneDeep(newData);
         setControlData(cloneDeep(formData.table));
