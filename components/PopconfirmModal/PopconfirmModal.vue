@@ -31,7 +31,7 @@
                 </div>
             </slot>
         </template>
-        <span @click="() => visibleChange(true)">
+        <span @click.stop="() => visibleChange(true)">
             <slot />
         </span>
     </j-popover>

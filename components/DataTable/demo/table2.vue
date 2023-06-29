@@ -30,7 +30,11 @@ title: 基础
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { DataTableBoolean, DataTableArray } from 'jetlinks-ui-components';
+import {
+    DataTableBoolean,
+    DataTableArray,
+    DataTableObject,
+} from 'jetlinks-ui-components';
 
 const columns = ref([
     {
@@ -89,16 +93,22 @@ const columns = ref([
         width: 140,
     },
 ]);
-const newSource = ref(
-    new Array(1000).fill('').map((_, index) => {
-        return {
-            id: new Date().getTime() + index,
-            age: index + 1,
-            name: '测试文案' + (index + 1),
-            width: 10 + index,
-            config: undefined,
-            boolean: false,
-        };
-    }),
-);
+const newSource = ref([]);
+
+const initData = () => {
+    setTimeout(() => {
+        newSource.value = new Array(1000).fill('').map((_, index) => {
+            return {
+                id: new Date().getTime() + index,
+                age: index + 1,
+                name: '测试文案' + (index + 1),
+                width: 10 + index,
+                config: undefined,
+                boolean: false,
+            };
+        });
+    }, 3000);
+};
+
+initData();
 </script>

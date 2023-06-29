@@ -13,6 +13,12 @@
                         :data-source="newSource"
                         :children="true"
                     >
+                        <template
+                            v-for="item in columns"
+                            #[item.dataIndex]="data"
+                        >
+                            <slot :name="item.dataIndex" :data="data" />
+                        </template>
                     </DataTable>
                 </Scrollbar>
                 <Button

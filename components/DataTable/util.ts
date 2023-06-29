@@ -120,6 +120,8 @@ export const getElData = (target: any) => {
     let currentEl = target;
     let off = true;
     let position = [];
+    if (!target || !target?.className || !target?.className?.includes)
+        return [];
     if (target.className.includes('ant-table-cell')) {
         let _dataset = target.querySelector('.j-row-click')?.dataset;
         position = ['td', Number(_dataset.index), _dataset.name];

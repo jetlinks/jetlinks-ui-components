@@ -100,6 +100,7 @@ import {
     Select,
 } from '../../../components';
 import Icon from '../Icon.vue';
+import { pick } from 'lodash-es';
 
 const emit = defineEmits(['update:value', 'cancel']);
 
@@ -145,6 +146,32 @@ const rules = [
 const cancel = () => {
     formRef.value?.resetFields();
     emit('cancel');
+};
+
+const handleValue = (type) => {
+    let keys: string[] = ['type'];
+    switch (type) {
+        case 'float':
+        case 'double':
+            keys.push('scale');
+            break;
+        case 'boolean':
+            keys = [
+                ...keys,
+                'trueText',
+                'trueValue',
+                'falseText',
+                'falseValue',
+            ];
+            break;
+        case 'enum':
+            break;
+        case 'file':
+            keys.push('');
+            break;
+        case 'enum':
+            break;
+    }
 };
 
 const confirm = () => {

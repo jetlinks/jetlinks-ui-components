@@ -829,8 +829,7 @@ watch(
     () => props.dataSource,
     () => {
         const newData = sortTables(setUUIDbyDataSource(props.dataSource));
-        formData.table = newData;
-        formData.table = newData;
+        formData.table = cloneDeep(newData);
         setControlData(cloneDeep(formData.table));
     },
     { immediate: true, deep: true },
