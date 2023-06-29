@@ -5,6 +5,7 @@
         :options="unitOptions"
         :size="size"
         placeholder="请选择单位"
+        style="width: 100%"
         @change="change"
     />
 </template>

@@ -39,7 +39,7 @@
                         v-bind="props"
                         :columns="newColumns"
                         :pagination="false"
-                        :data-source="virtualDatas"
+                        :data-source="height ? virtualDatas : formData.table"
                         :row-key="props.rowKey || 'id'"
                         :scroll="height ? { y: height } : undefined"
                     >
@@ -638,23 +638,23 @@ const getData = (quit = true) => {
  * @param key
  */
 const rowClick = async (key: string) => {
-    let data = true;
-    try {
-        //  校验当前编辑项，若表单校验失败，静止切换行
-        if (editKey.value) {
-            await getData(false);
-        }
-    } catch (err) {
-        const [td, index, dataIndex] = selectedKey.value?.split('_');
-        const names = err.errorFields?.[0]?.name;
-        if (names) {
-            data = names[1] !== Number(index) ? false : names[2] !== dataIndex;
-        } else {
-            data = false;
-        }
-    }
-    formRowValidate.value = data;
-    if (!data) return;
+    // let data = true;
+    // try {
+    //     //  校验当前编辑项，若表单校验失败，静止切换行
+    //     if (editKey.value) {
+    //         await getData(false);
+    //     }
+    // } catch (err) {
+    //     const [td, index, dataIndex] = selectedKey.value?.split('_');
+    //     const names = err.errorFields?.[0]?.name;
+    //     if (names) {
+    //         data = names[1] !== Number(index) ? false : names[2] !== dataIndex;
+    //     } else {
+    //         data = false;
+    //     }
+    // }
+    // formRowValidate.value = data;
+    // if (!data) return;
 
     if (key !== editKey.value) {
         editKey.value = '';
@@ -773,6 +773,22 @@ const draggableDblClick = (e) => {
         editClick(position.join('_'));
     }
 };
+const customCell = (record, rowIndex, column) => {
+    return {
+        onClick(e: Event) {
+            e.stopPropagation();
+            rowClick(
+                column.type ? `td_${record.index}_${column.dataIndex}` : '',
+            );
+        },
+        onDblclick(e: Event) {
+            e.stopPropagation();
+            editClick(
+                column.type ? `td_${record.index}_${column.dataIndex}` : '',
+            );
+        },
+    };
+};
 
 //  重组columns
 const newColumns = computed(() => {
@@ -784,34 +800,34 @@ const newColumns = computed(() => {
     };
     const propsColumns = cloneDeep(props.columns);
     const _columns = propsColumns.map((item: any) => {
-        // item.customCell = customCell;
+        item.customCell = customCell;
         return { ...item };
     });
     return hasSerial ? [serialItem, ..._columns] : _columns;
 });
 
-onMounted(() => {
-    nextTick(() => {
-        const scrollEl = draggableRef.value?.querySelector(
-            '.ant-table-tbody',
-        ) as HTMLElement;
-
-        if (scrollEl) {
-            scrollEl.addEventListener('click', draggableClick);
-            scrollEl.addEventListener('dblclick', draggableDblClick);
-        }
-    });
-});
-
-onBeforeUnmount(() => {
-    const scrollEl = draggableRef.value?.querySelector(
-        '.ant-table-tbody',
-    ) as HTMLElement;
-    if (scrollEl) {
-        scrollEl.removeEventListener('click', draggableClick);
-        scrollEl.removeEventListener('dblclick', draggableDblClick);
-    }
-});
+// onMounted(() => {
+//     nextTick(() => {
+//         const scrollEl = draggableRef.value?.querySelector(
+//             '.ant-table-tbody',
+//         ) as HTMLElement;
+//
+//         if (scrollEl) {
+//             scrollEl.addEventListener('click', draggableClick);
+//             scrollEl.addEventListener('dblclick', draggableDblClick);
+//         }
+//     });
+// });
+//
+// onBeforeUnmount(() => {
+//     const scrollEl = draggableRef.value?.querySelector(
+//         '.ant-table-tbody',
+//     ) as HTMLElement;
+//     if (scrollEl) {
+//         scrollEl.removeEventListener('click', draggableClick);
+//         scrollEl.removeEventListener('dblclick', draggableDblClick);
+//     }
+// });
 
 // watch(
 //     () => [props.dataSource, selectedKey.value],
@@ -840,17 +856,19 @@ watch(
     () => {
         nextTick(() => {
             console.log(draggableRef.value);
-            if (virtualUpdate.value) {
-                virtualUpdate.value.update(formData.table);
-            } else {
-                virtualUpdate.value = useVirtualScrolling(
-                    draggableRef.value!,
-                    formData.table,
-                    props.height,
-                    (data: any) => {
-                        virtualDatas.value = data;
-                    },
-                );
+            if (props.height) {
+                if (virtualUpdate.value) {
+                    virtualUpdate.value.update(formData.table);
+                } else {
+                    virtualUpdate.value = useVirtualScrolling(
+                        draggableRef.value!,
+                        formData.table,
+                        props.height,
+                        (data: any) => {
+                            virtualDatas.value = data;
+                        },
+                    );
+                }
             }
         });
     },

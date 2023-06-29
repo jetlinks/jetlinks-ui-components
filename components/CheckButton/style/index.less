@@ -1,0 +1,38 @@
+@import '../../style/variable.less';
+@import 'ant-design-vue/lib/style/index.less';
+
+.j-check-button {
+    display: flex;
+    gap: 16px;
+
+    .j-check-button-item {
+        flex: 1;
+        min-width: 0;
+        padding: 8px 54px;
+        border-radius: @border-radius-base;
+        background: #f2f3f5;
+        transition: all 0.3s;
+        color: #333;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(@primary-color, 0.8);
+            color: #fff;
+        }
+
+        &.selected {
+            background-color: @primary-color;
+            color: #fff;
+        }
+
+        &.disabled {
+            cursor: not-allowed;
+            color: #00000060;
+            &:hover {
+                background-color: #f2f3f5;
+                color: #00000060;
+            }
+        }
+    }
+}

@@ -259,3 +259,5 @@ export {
 } from './DataTable';
 
 export { default as PopconfirmModal } from './PopconfirmModal';
+
+export { default as CheckButton } from './CheckButton';

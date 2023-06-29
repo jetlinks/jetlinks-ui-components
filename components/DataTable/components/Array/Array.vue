@@ -82,6 +82,30 @@
                         placeholder="请选择时间格式"
                     />
                 </FormItem>
+                <template v-else-if="formData.type === 'enum'">
+                    <FormItem
+                        label="枚举项"
+                        name="elements"
+                        required
+                        :rules="rules"
+                        :validate-first="true"
+                    >
+                        <FormItemRest v-if="enumMultiple">
+                            <RadioGroup
+                                v-model:value="formData.enumMultiple"
+                                button-style="solid"
+                            >
+                                <RadioButton value="1">仅单选</RadioButton>
+                                <RadioButton value="2">支持多选</RadioButton>
+                            </RadioGroup>
+                        </FormItemRest>
+                        <Table
+                            ref="tableRef"
+                            v-model:value="formData.elements"
+                            @add="addItem"
+                        />
+                    </FormItem>
+                </template>
             </Form>
         </template>
         <Icon />
@@ -94,6 +118,9 @@ import { reactive, ref } from 'vue';
 import {
     Form,
     FormItem,
+    FormItemRest,
+    RadioGroup,
+    RadioButton,
     PopconfirmModal,
     InputNumber,
     Input,
@@ -109,9 +136,14 @@ const props = defineProps({
         type: Object,
         default: undefined,
     },
+    enumMultiple: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const formRef = ref();
+const tableRef = ref();
 
 const formData = reactive({
     type: props.value?.type,
@@ -122,6 +154,9 @@ const formData = reactive({
     falseText: props.value?.falseText,
     falseValue: props.value?.falseValue,
     date: props.value?.date,
+    enumMultiple: props.value?.multiple,
+    elements: props.value?.elements,
+    fileType: props.value?.fileType,
 });
 
 const options = [
@@ -167,15 +202,50 @@ const handleValue = (type) => {
         case 'enum':
             break;
         case 'file':
-            keys.push('');
+            keys.push('fileType');
             break;
         case 'enum':
             break;
     }
+    return pick(formData, keys);
+};
+
+const addItem = async () => {
+    await tableRef.value.getData();
 };
 
 const confirm = () => {
-    emit('update:value', formData);
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (formData.type === 'enum') {
+                const tableData = await tableRef.value.getData();
+                if (tableData) {
+                    formRef.value
+                        .validate()
+                        .then(() => {
+                            resolve(true);
+                            const value: any = {
+                                elements: formData.elements,
+                            };
+
+                            if (props.enumMultiple) {
+                                value.type = formData.enumMultiple;
+                            }
+                            console.log(
+                                'formRef.value',
+                                handleValue(formData.type),
+                            );
+                            emit('update:value', handleValue(formData.type));
+                        })
+                        .catch(() => reject(false));
+                }
+            } else {
+                emit('update:value', handleValue(formData.type));
+            }
+        } catch (e) {
+            reject(false);
+        }
+    });
 };
 </script>
 

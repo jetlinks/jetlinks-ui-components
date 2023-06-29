@@ -83,7 +83,7 @@ const columns = ref([
         dataIndex: 'boolean',
         type: 'components',
         components: {
-            name: DataTableBoolean,
+            name: DataTableObject,
         },
         width: 150,
     },

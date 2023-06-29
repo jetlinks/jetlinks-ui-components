@@ -70,4 +70,5 @@ import './AutoComplete/style';
 import './Message/style';
 import './Tree/style';
 import './DataTable/style';
-import './PopconfirmModal/style'
+import './PopconfirmModal/style';
+import './CheckButton/style';
