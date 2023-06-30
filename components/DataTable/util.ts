@@ -70,11 +70,18 @@ export const useDirection = (
     });
 };
 
+export const getUUID = () => {
+    return uniqueId('control');
+};
 export const setUUIDbyDataSource = (data: any[]) => {
     return isArray(data)
         ? cloneDeep(data).map((item: any, index) => {
-              const uuid = uniqueId('control');
-              return { ...item, index: index + 1, _uuid: uuid };
+              if (item._uuid) {
+                  return item;
+              } else {
+                  const uuid = getUUID();
+                  return { ...item, index: index + 1, _uuid: uuid };
+              }
           })
         : data;
 };

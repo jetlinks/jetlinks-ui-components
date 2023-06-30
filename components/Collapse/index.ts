@@ -7,7 +7,7 @@ export type {
 } from 'ant-design-vue/lib/collapse/index';
 
 Collapse.name = 'JCollapse';
-CollapsePanel.name = 'JCollapse';
+CollapsePanel.name = 'JCollapsePanel';
 
 Collapse.install = function (app: App) {
     app.component('JCollapse', Collapse);

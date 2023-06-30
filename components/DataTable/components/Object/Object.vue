@@ -2,29 +2,40 @@
     <PopconfirmModal
         body-style="padding-top:4px;width:600px;"
         @confirm="confirm"
+        @cancel="cancel"
     >
         <template #content>
             <div>
                 <Scrollbar height="280">
                     <DataTable
                         ref="tableRef"
+                        :data-source="newSource"
                         :columns="columns"
                         :serial="true"
-                        :data-source="newSource"
                         :children="true"
+                        :show-tool="false"
                     >
                         <template
                             v-for="item in columns"
-                            #[item.dataIndex]="data"
+                            #[item.dataIndex]="{ data }"
                         >
-                            <slot :name="item.dataIndex" :data="data" />
+                            <slot
+                                v-if="item.dataIndex === 'action'"
+                                :name="item.dataIndex"
+                                :data="data"
+                            >
+                                <Button
+                                    type="link"
+                                    @click="() => deleteItem(data.index)"
+                                >
+                                    <AIcon type="DeleteOutlined" />
+                                </Button>
+                            </slot>
+                            <slot v-else :name="item.dataIndex" :data="data" />
                         </template>
                     </DataTable>
                 </Scrollbar>
-                <Button
-                    type="primary"
-                    style="width: 100%; margin-top: 12px"
-                    @click="addItem"
+                <Button style="width: 100%; margin-top: 12px" @click="addItem"
                     >新增</Button
                 >
             </div>
@@ -36,7 +47,7 @@
 <script setup lang="ts" name="Object">
 import DataTable from '../../dataTable.vue';
 import { ref } from 'vue';
-import { Button, PopconfirmModal, Scrollbar } from '../../../components';
+import { Button, PopconfirmModal, Scrollbar, AIcon } from '../../../components';
 import Icon from '../Icon.vue';
 
 type Emits = {
@@ -68,8 +79,15 @@ const addItem = () => {
     props.columns.forEach((item: any) => {
         object[item!.dataIndex] = undefined;
     });
+    tableRef.value?.addItem(object);
+};
 
-    newSource.value.push(object);
+const deleteItem = (index) => {
+    tableRef.value?.removeItem(index);
+};
+
+const cancel = () => {
+    tableRef.value?.initItems();
 };
 
 const confirm = () => {

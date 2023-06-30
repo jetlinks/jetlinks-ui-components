@@ -23,7 +23,7 @@ title: 基础
                 <a-tag color="red">red</a-tag>
             </template>
             <template #config="{ data }">
-                {{ data }}
+                {{ data.record }}
             </template>
         </j-data-table>
         <j-button @click="save">保存</j-button>
@@ -109,7 +109,7 @@ const save = async () => {
 };
 
 const addItem = () => {
-    newSource.value.push({
+    tableRef.value?.addItem({
         name: undefined,
         id: '123123',
         age: undefined,

@@ -2,12 +2,14 @@
     <PopconfirmModal
         body-style="padding-top:4px; width: 450px;"
         @confirm="confirm"
+        @cancel="cancel"
     >
         <template #content>
-            <Form ref="formRef" :model="formData.value" layout="vertical">
+            <Form ref="formRef" :model="formData" layout="vertical">
                 <EnumItem
                     ref="tableRef"
-                    v-model:value="formData.value"
+                    v-model:value="formData.elements"
+                    v-model:type="formData.type"
                     :multiple="multiple"
                 />
             </Form>
@@ -38,10 +40,8 @@ const emit = defineEmits(['update:value', 'cancel']);
 const formRef = ref();
 const tableRef = ref();
 const formData = reactive({
-    value: {
-        type: props.value?.type || '1',
-        elements: props.value?.elements || [],
-    },
+    type: props.value?.type || '1',
+    elements: props.value?.elements || [],
 });
 
 const source = ref([]);
@@ -58,6 +58,10 @@ const rules = [
     },
 ];
 
+const cancel = () => {
+    tableRef.value?.cancel();
+};
+
 const confirm = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -69,11 +73,11 @@ const confirm = () => {
                     .then(() => {
                         resolve(true);
                         const value: any = {
-                            elements: formData.value.elements,
+                            elements: formData.elements,
                         };
 
                         if (props.multiple) {
-                            value.type = formData.value.type;
+                            value.type = formData.type;
                         }
                         console.log('formRef.value', formData);
                         emit('update:value', value);
@@ -90,8 +94,8 @@ const confirm = () => {
 watch(
     () => props.value,
     () => {
-        formData.value.type = props.value?.type;
-        formData.value.elements = props.value?.elements || [];
+        formData.type = props.value?.type;
+        formData.elements = props.value?.elements || [];
     },
     { deep: true },
 );

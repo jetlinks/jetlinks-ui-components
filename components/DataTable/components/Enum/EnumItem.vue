@@ -7,12 +7,19 @@
         :validate-first="true"
     >
         <FormItemRest v-if="multiple">
-            <ButtonGroup v-model:value="formData.type" />
+            <ButtonGroup
+                v-model:value="formData.type"
+                @change="
+                    () => {
+                        typeChange;
+                    }
+                "
+            />
         </FormItemRest>
         <div class="enum-table-warp">
             <DataTable
                 ref="tableRef"
-                :data-source="formData.elements"
+                v-model:data-source="formData.elements"
                 :columns="columns"
                 :serial="true"
                 :show-tool="false"
@@ -43,12 +50,15 @@ import {
     AIcon,
 } from '../../../components';
 import ButtonGroup from './ButtonGroup.vue';
-import Table from './Table.vue';
 
 const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
+    },
+    type: {
+        type: Boolean,
+        defaulta: false,
     },
     multiple: {
         type: Boolean,
@@ -56,12 +66,17 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['update:value', 'cancel', 'add']);
+const emit = defineEmits(['update:value', 'update:type', 'cancel', 'add']);
 
+const formRef = ref();
 const formData = reactive({
     type: props.value?.type || '1',
     elements: props.value?.elements || [],
 });
+
+const change = (data) => {
+    formData.elements = data;
+};
 
 const tableRef = ref();
 
@@ -105,6 +120,7 @@ const columns = [
 const rules = [
     {
         validator(_, value) {
+            console.log('enumItem - value', value);
             if (!value?.length) {
                 return Promise.reject('添加枚举项');
             }
@@ -124,27 +140,40 @@ const getData = () =>
     });
 
 const addItem = () => {
-    formData.elements?.push({
+    const newData = tableRef.value?.addItem({
         value: undefined,
         text: undefined,
     });
+    console.log('update', newData);
+    emit('update:value', newData);
 };
 
 const deleteItem = (index) => {
-    formData.elements?.splice(index, 1);
+    const newData = tableRef.value?.removeItem(index);
+    console.log('update', newData);
+    emit('update:value', newData);
+};
+
+const cancel = () => {
+    tableRef.value?.initItems();
+};
+
+const typeChange = () => {
+    emit('update:type', formData.type);
 };
 
 watch(
-    () => props.value,
+    () => [props.value, props.type],
     () => {
-        formData.type = props.value?.type;
-        formData.elements = props.value?.elements || [];
+        formData.type = props.type;
+        formData.elements = props.value || [];
     },
     { deep: true },
 );
 
 defineExpose({
     getData: getData,
+    cancel: cancel,
 });
 </script>
 

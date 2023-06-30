@@ -9,6 +9,7 @@
                     <InputSearch
                         allow-clear
                         style="width: 220px"
+                        v-bind="searchProps"
                         @search="search"
                     />
                 </div>
@@ -40,7 +41,7 @@
                         :columns="newColumns"
                         :pagination="false"
                         :data-source="height ? virtualDatas : formData.table"
-                        :row-key="props.rowKey || 'id'"
+                        :row-key="props.rowKey || '_uuid'"
                         :scroll="height ? { y: height } : undefined"
                     >
                         <template #headerCell="{ column }">
@@ -207,6 +208,31 @@
                                             "
                                             :placeholder="`请选择${column.title}`"
                                         />
+                                        <Select
+                                            v-else-if="column.type === 'select'"
+                                            v-model:value="
+                                                formData.table[
+                                                    record.index - 1
+                                                ][column.dataIndex]
+                                            "
+                                            style="width: 100%"
+                                            :options="column.options"
+                                            v-bind="column.components?.props"
+                                            :placeholder="`请选择${column.title}`"
+                                        />
+                                        <BooleanSelect
+                                            v-else-if="
+                                                column.type === 'booleanSelect'
+                                            "
+                                            v-model:value="
+                                                formData.table[
+                                                    record.index - 1
+                                                ][column.dataIndex]
+                                            "
+                                            style="width: 100%"
+                                            v-bind="column.components?.props"
+                                            :placeholder="`请选择${column.title}`"
+                                        />
                                         <component
                                             v-bind="column.components.props"
                                             :is="column.components.name"
@@ -220,7 +246,6 @@
                                             :columns="newColumns"
                                             :extra="extra"
                                             :record="record"
-                                            :data-source="formData.table"
                                         />
                                         <div
                                             v-else
@@ -429,8 +454,6 @@ import {
     watch,
     ref,
     defineExpose,
-    onMounted,
-    onBeforeUnmount,
 } from 'vue';
 import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
@@ -444,6 +467,7 @@ import {
     Popover,
     InputSearch,
 } from '../components';
+import BooleanSelect from '../Select/Boolean.vue';
 import {
     DataTableTypeSelect,
     DataTableInteger,
@@ -467,6 +491,7 @@ import {
     useDirection,
     getElData,
     useVirtualScrolling,
+    getUUID,
 } from './util';
 
 const draggableClassName = 'draggable-item';
@@ -501,9 +526,13 @@ const props = defineProps({
         type: String,
         default: 'id',
     },
+    searchProps: {
+        type: Object,
+        default: () => ({}),
+    },
 });
 
-const emit = defineEmits(['change']);
+const emit = defineEmits(['change', 'update:dataSource']);
 
 const selectedKey = ref(); // 选中标识
 const editKey = ref(); // 编辑标识
@@ -568,6 +597,7 @@ useDirection((code) => {
 });
 
 const sortTables = (data: any[]) => {
+    console.log(data);
     return data
         .sort((a: any, b: any) => a[props.sortKey] - b[props.sortKey])
         .map((item, index) => ({ ...item, index: index + 1 }));
@@ -811,29 +841,6 @@ const newColumns = computed(() => {
     return hasSerial ? [serialItem, ..._columns] : _columns;
 });
 
-// onMounted(() => {
-//     nextTick(() => {
-//         const scrollEl = draggableRef.value?.querySelector(
-//             '.ant-table-tbody',
-//         ) as HTMLElement;
-//
-//         if (scrollEl) {
-//             scrollEl.addEventListener('click', draggableClick);
-//             scrollEl.addEventListener('dblclick', draggableDblClick);
-//         }
-//     });
-// });
-//
-// onBeforeUnmount(() => {
-//     const scrollEl = draggableRef.value?.querySelector(
-//         '.ant-table-tbody',
-//     ) as HTMLElement;
-//     if (scrollEl) {
-//         scrollEl.removeEventListener('click', draggableClick);
-//         scrollEl.removeEventListener('dblclick', draggableDblClick);
-//     }
-// });
-
 // watch(
 //     () => [props.dataSource, selectedKey.value],
 //     () => {
@@ -846,23 +853,76 @@ const newColumns = computed(() => {
 //     { immediate: true, deep: true },
 // );
 
+const addItem = (_data: any, index?: number) => {
+    console.log('addItem', _data, index);
+    if (_data) {
+        const data = [...formData.table];
+
+        if (index !== undefined) {
+            data.splice(index - 1, 0, {
+                ..._data,
+                _uuid: getUUID(),
+            });
+        } else {
+            data.push({
+                ..._data,
+                _uuid: getUUID(),
+            });
+        }
+        formData.table = data.map((item, index) => {
+            return {
+                ...item,
+                index: index + 1,
+            };
+        });
+    }
+    return cleanUUIDbyData(formData.table);
+};
+
+const removeItem = (index: number) => {
+    if (index >= 0) {
+        const data = [...formData.table];
+        data.splice(index, 1);
+        formData.table = data.map((item, index) => {
+            return {
+                ...item,
+                index: index + 1,
+            };
+        });
+    }
+    return cleanUUIDbyData(formData.table);
+};
+
+const initItems = () => {
+    formData.table = sortTables(setUUIDbyDataSource(props.dataSource));
+    formRef.value?.clearValidate();
+    return cleanUUIDbyData(formData.table);
+};
+
+const stringify = (data: any[]) => {
+    return data ? JSON.stringify(data) : '';
+};
+
 watch(
     () => props.dataSource,
     () => {
-        console.log('watch1', props.dataSource);
-        const newData = sortTables(setUUIDbyDataSource(props.dataSource));
-        formData.table = cloneDeep(newData);
-        setControlData(cloneDeep(formData.table));
+        console.log('更新', formData.table.length, props.dataSource.length);
+        if (
+            props.dataSource &&
+            formData.table.length !== props.dataSource.length
+        ) {
+            formData.table = sortTables(setUUIDbyDataSource(props.dataSource));
+            setControlData(cloneDeep(formData.table));
+        }
     },
     { immediate: true, deep: true },
 );
 
 watch(
     () => formData.table,
-    () => {
+    (value, oldValue) => {
         nextTick(() => {
-            console.log(draggableRef.value);
-            if (props.height) {
+            if (props.height && value?.length !== oldValue?.length) {
                 if (virtualUpdate.value) {
                     virtualUpdate.value.update(formData.table);
                 } else {
@@ -886,12 +946,16 @@ watch(
     () => {
         // updateRevoke(formData.table);
         emit('change', formData.table);
+        emit('update:dataSource', formData.table);
     },
     { deep: true },
 );
 
 defineExpose({
     getData: getData,
+    addItem: addItem,
+    removeItem: removeItem,
+    initItems: initItems,
 });
 </script>
 

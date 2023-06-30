@@ -13,12 +13,21 @@ title: 基础
             :serial="true"
             :dataSource="newSource"
             :height="600"
+            ref="tableRef"
         >
             <!--            <template #name="scope">-->
             <!--                <div>支持通过实体{{ scope.data.index }}</div>-->
             <!--            </template>-->
-            <template #action>
-                <a-tag color="pink">pink</a-tag>
+            <template #action="{ data }">
+                <a-tag
+                    color="pink"
+                    @click="
+                        () => {
+                            addItem(data);
+                        }
+                    "
+                    >pink</a-tag
+                >
                 <a-tag color="red">red</a-tag>
             </template>
             <template #config="{ data }">
@@ -85,7 +94,7 @@ const columns = ref([
         dataIndex: 'boolean',
         type: 'components',
         components: {
-            name: DataTableEnum,
+            name: DataTableObject,
         },
         width: 150,
     },
@@ -96,6 +105,12 @@ const columns = ref([
     },
 ]);
 const newSource = ref([]);
+
+const tableRef = ref();
+
+const addItem = (data) => {
+    console.log(data);
+};
 
 const initData = () => {
     setTimeout(() => {
@@ -109,7 +124,7 @@ const initData = () => {
                 boolean: false,
             };
         });
-    }, 10);
+    }, 2000);
 };
 
 initData();

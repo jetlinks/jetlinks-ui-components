@@ -3,6 +3,8 @@
         trigger="click"
         :visible="myVisible"
         :overlay-class-name="modalWarpName"
+        :placement="placement"
+        :get-popup-container="getPopupContainer"
         @visibleChange="() => {}"
     >
         <template #title>
