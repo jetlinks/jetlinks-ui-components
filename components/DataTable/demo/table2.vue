@@ -34,6 +34,7 @@ title: 基础
                 {{ data.record.name }}
             </template>
         </j-data-table>
+        <j-button @click="save">保存</j-button>
     </div>
 </template>
 
@@ -94,7 +95,7 @@ const columns = ref([
         dataIndex: 'boolean',
         type: 'components',
         components: {
-            name: DataTableObject,
+            name: DataTableBoolean,
         },
         width: 150,
     },
@@ -112,9 +113,14 @@ const addItem = (data) => {
     console.log(data);
 };
 
+const save = async () => {
+    const data = await tableRef.value?.getData();
+    console.log(data);
+};
+
 const initData = () => {
     setTimeout(() => {
-        newSource.value = new Array(10).fill('').map((_, index) => {
+        newSource.value = new Array(100).fill('').map((_, index) => {
             return {
                 id: new Date().getTime() + index,
                 age: index + 1,

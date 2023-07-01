@@ -40,7 +40,7 @@
                         v-bind="props"
                         :columns="newColumns"
                         :pagination="false"
-                        :data-source="height ? virtualDatas : formData.table"
+                        :data-source="virtualDatas"
                         :row-key="props.rowKey || '_uuid'"
                         :scroll="height ? { y: height } : undefined"
                     >
@@ -57,11 +57,15 @@
                             </span>
                         </template>
                         <template #bodyCell="{ column, record, index }">
+                            <!-- 判断是否已修改 -->
                             <div
                                 v-if="
+                                    editKeys[
+                                        `td_${index}_${column.dataIndex}`
+                                    ] &&
                                     controlData(
                                         record,
-                                        record.index,
+                                        index,
                                         column.dataIndex,
                                         column.type,
                                     )
@@ -70,14 +74,10 @@
                             ></div>
                             <Popover
                                 :visible="
-                                    !!formErr[
-                                        `td_${record.index}_${column.dataIndex}`
-                                    ]
+                                    !!formErr[`td_${index}_${column.dataIndex}`]
                                 "
                                 :content="
-                                    formErr[
-                                        `td_${record.index}_${column.dataIndex}`
-                                    ]
+                                    formErr[`td_${index}_${column.dataIndex}`]
                                 "
                                 :get-popup-container="(e) => draggableRef || e"
                             >
@@ -86,11 +86,11 @@
                                         'j-row-selected',
                                         'j-row-click',
                                         selectedKey ===
-                                        `td_${record.index}_${column.dataIndex}`
+                                        `td_${index}_${column.dataIndex}`
                                             ? 'j-row-selected-active'
                                             : '',
                                     ]"
-                                    :data-index="record.index"
+                                    :data-index="index"
                                     :data-name="
                                         column.type
                                             ? column.dataIndex
@@ -102,7 +102,7 @@
                                 v-if="column.dataIndex === 'index'"
                                 :class="draggableClassName"
                             >
-                                {{ record.index }}
+                                {{ index + 1 }}
                             </div>
                             <div
                                 v-else
@@ -112,22 +112,27 @@
                                         ? 'j-row-click'
                                         : '',
                                     editKey ===
-                                    `td_${record.index}_${column.dataIndex}`
+                                    `td_${index}_${column.dataIndex}`
                                         ? 'j-data-table--edit'
                                         : '',
                                 ]"
-                                :data-index="
-                                    column.type ? record.index : undefined
-                                "
+                                :data-index="column.type ? index : undefined"
                                 :data-name="column.dataIndex"
                             >
-                                <!--         不需要校验           -->
-                                <template v-if="!column.type">
+                                <!--         不需要校验, 未编辑           -->
+                                <template
+                                    v-if="
+                                        !column.type ||
+                                        !editKeys[
+                                            `td_${index}_${column.dataIndex}`
+                                        ]
+                                    "
+                                >
                                     <slot
                                         :name="column.dataIndex"
                                         :data="{
                                             record,
-                                            index: record.index - 1,
+                                            index,
                                         }"
                                     >
                                         <Ellipsis>
@@ -138,11 +143,7 @@
                                 <!--         需要校验          -->
                                 <FormItem
                                     v-else
-                                    :name="[
-                                        'table',
-                                        record.index - 1,
-                                        column.dataIndex,
-                                    ]"
+                                    :name="['table', index, column.dataIndex]"
                                     :rules="column.form?.rules"
                                     :required="!!column.form?.required"
                                     :validate-first="true"
@@ -153,14 +154,14 @@
                                     <template
                                         v-if="
                                             editKey !==
-                                            `td_${record.index}_${column.dataIndex}`
+                                            `td_${index}_${column.dataIndex}`
                                         "
                                     >
                                         <slot
                                             :name="column.dataIndex"
                                             :data="{
                                                 record,
-                                                index: record.index - 1,
+                                                index,
                                             }"
                                         >
                                             <Ellipsis>
@@ -173,20 +174,20 @@
                                         <Input
                                             v-if="column.type === 'text'"
                                             v-model:value="
-                                                formData.table[
-                                                    record.index - 1
-                                                ][column.dataIndex]
+                                                formData.table[index][
+                                                    column.dataIndex
+                                                ]
                                             "
                                             :placeholder="`请输入${column.title}`"
-                                            maxlength="64"
+                                            :maxlength="64"
                                             style="width: 100%"
                                         />
                                         <InputNumber
                                             v-else-if="column.type === 'number'"
                                             v-model:value="
-                                                formData.table[
-                                                    record.index - 1
-                                                ][column.dataIndex]
+                                                formData.table[index][
+                                                    column.dataIndex
+                                                ]
                                             "
                                             style="width: 100%"
                                             :placeholder="`请输入${column.title}`"
@@ -196,9 +197,7 @@
                                                 column.type === 'TypeSelect'
                                             "
                                             v-model:value="
-                                                formData.table[
-                                                    record.index - 1
-                                                ][
+                                                formData.table[index][
                                                     newColumns.find(
                                                         (item) =>
                                                             item.type ===
@@ -211,9 +210,9 @@
                                         <Select
                                             v-else-if="column.type === 'select'"
                                             v-model:value="
-                                                formData.table[
-                                                    record.index - 1
-                                                ][column.dataIndex]
+                                                formData.table[index][
+                                                    column.dataIndex
+                                                ]
                                             "
                                             style="width: 100%"
                                             :options="column.options"
@@ -225,9 +224,9 @@
                                                 column.type === 'booleanSelect'
                                             "
                                             v-model:value="
-                                                formData.table[
-                                                    record.index - 1
-                                                ][column.dataIndex]
+                                                formData.table[index][
+                                                    column.dataIndex
+                                                ]
                                             "
                                             style="width: 100%"
                                             v-bind="column.components?.props"
@@ -241,194 +240,12 @@
                                                 column.components.name
                                             "
                                             v-model:value="
-                                                formData.table[record.index - 1]
+                                                formData.table[index]
                                             "
                                             :columns="newColumns"
                                             :extra="extra"
                                             :record="record"
                                         />
-                                        <div
-                                            v-else
-                                            class="j-data-table-row--config"
-                                        >
-                                            <div
-                                                class="j-data-table-config--text"
-                                            >
-                                                <DataTableTypeSelect
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][
-                                                            newColumns.find(
-                                                                (item) =>
-                                                                    item.type ===
-                                                                    'TypeSelect',
-                                                            )?.dataIndex
-                                                        ]
-                                                    "
-                                                    :filter-option="
-                                                        children
-                                                            ? ['object']
-                                                            : undefined
-                                                    "
-                                                    :placeholder="`请选择${column.title}`"
-                                                />
-                                            </div>
-                                            <div
-                                                class="j-data-table-config--icon"
-                                            >
-                                                <DataTableInteger
-                                                    v-if="
-                                                        [
-                                                            'int',
-                                                            'long',
-                                                        ].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                                <DataTableDouble
-                                                    v-else-if="
-                                                        [
-                                                            'float',
-                                                            'double',
-                                                        ].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                                <DataTableBoolean
-                                                    v-else-if="
-                                                        ['boolean'].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                                <DataTableEnum
-                                                    v-else-if="
-                                                        ['enum'].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                                <DataTableArray
-                                                    v-else-if="
-                                                        ['array'].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                                <DataTableFile
-                                                    v-else-if="
-                                                        ['file'].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                                <DataTableDate
-                                                    v-else-if="
-                                                        ['date'].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                                <DataTableString
-                                                    v-else-if="
-                                                        [
-                                                            'password',
-                                                            'string',
-                                                        ].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index - 1
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                                <DataTableObject
-                                                    v-else-if="
-                                                        ['object'].includes(
-                                                            TypeSelectDataIndex(
-                                                                record,
-                                                            ),
-                                                        )
-                                                    "
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index
-                                                        ][column.dataIndex]
-                                                    "
-                                                    :columns="
-                                                        newColumns.filter(
-                                                            (item) =>
-                                                                item.dataIndex !==
-                                                                'index',
-                                                        )
-                                                    "
-                                                />
-                                                <Input
-                                                    v-else
-                                                    v-model:value="
-                                                        formData.table[
-                                                            record.index
-                                                        ][column.dataIndex]
-                                                    "
-                                                />
-                                            </div>
-                                        </div>
                                     </template>
                                 </FormItem>
                             </div>
@@ -454,6 +271,7 @@ import {
     watch,
     ref,
     defineExpose,
+    onMounted,
 } from 'vue';
 import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
@@ -481,16 +299,15 @@ import {
     DataTableString,
 } from './components';
 import Sortable from 'sortablejs';
-import { useFullscreen } from '@vueuse/core';
+import { useFullscreen, useInfiniteScroll } from '@vueuse/core';
 
-import { cloneDeep, isEqual } from 'lodash-es';
+import { cloneDeep } from 'lodash-es';
 import {
     cleanUUIDbyData,
     initControlDataSource,
     setUUIDbyDataSource,
     useDirection,
     getElData,
-    useVirtualScrolling,
     getUUID,
 } from './util';
 
@@ -542,6 +359,10 @@ const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
 const formErr = ref({});
 const virtualDatas = ref([]);
 const virtualUpdate = ref();
+const countNumber = ref(0);
+const maxLength = 30;
+
+const editKeys = ref({});
 
 const fullRef = ref();
 const { isFullscreen, enter, exit, toggle } = useFullscreen(fullRef);
@@ -553,8 +374,6 @@ const formData = reactive<{ table: any[]; search: any[] }>({
 });
 
 const sortTable = ref();
-
-const { setControlData, getControlData } = initControlDataSource();
 
 useDirection((code) => {
     if (selectedKey.value && formRowValidate.value) {
@@ -598,9 +417,7 @@ useDirection((code) => {
 
 const sortTables = (data: any[]) => {
     console.log(data);
-    return data
-        .sort((a: any, b: any) => a[props.sortKey] - b[props.sortKey])
-        .map((item, index) => ({ ...item, index: index + 1 }));
+    return data.sort((a: any, b: any) => a[props.sortKey] - b[props.sortKey]);
 };
 
 const search = (e) => {
@@ -704,6 +521,7 @@ const rowClick = async (key: string) => {
 const editClick = (key: string) => {
     if (key === selectedKey.value) {
         editKey.value = key;
+        editKeys.value[key] = true;
     }
 };
 
@@ -777,50 +595,33 @@ const sortTableHandle = () => {
     return sortTable;
 };
 
+/**
+ * 对比数据是否修改
+ * @param record
+ * @param index
+ * @param dataIndex
+ * @param type
+ */
 const controlData = (record: any, index, dataIndex, type) => {
     if (!type || !record) {
         return false;
     }
-    const data = getControlData(record);
+    const oldData = props.dataSource[index]?.[dataIndex];
     // 该数据是否支持编辑
-    return data ? !isEqual(data[dataIndex], record[dataIndex]) : true;
+    return oldData
+        ? JSON.stringify(oldData) !== JSON.stringify(record[dataIndex])
+        : true;
 };
 
-/**
- * 停止连续输入时，才更新操作记录
- */
-// const updateRevoke = debounce((newData: any) => {
-//     updateState(newData);
-// }, 500);
-const draggableClick = (e) => {
-    const { target } = e;
-    let position = getElData(target);
-    if (position[0] !== undefined || position[0] !== 'undefined') {
-        rowClick(position.join('_'));
-    }
-};
-
-const draggableDblClick = (e) => {
-    const { target } = e;
-    let position = getElData(target);
-
-    if (position[0] !== undefined || position[0] !== 'undefined') {
-        editClick(position.join('_'));
-    }
-};
 const customCell = (record, rowIndex, column) => {
     return {
         onClick(e: Event) {
             e.stopPropagation();
-            rowClick(
-                column.type ? `td_${record.index}_${column.dataIndex}` : '',
-            );
+            rowClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
         },
         onDblclick(e: Event) {
             e.stopPropagation();
-            editClick(
-                column.type ? `td_${record.index}_${column.dataIndex}` : '',
-            );
+            editClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
         },
     };
 };
@@ -903,6 +704,30 @@ const stringify = (data: any[]) => {
     return data ? JSON.stringify(data) : '';
 };
 
+onMounted(() => {
+    nextTick(() => {
+        useInfiniteScroll(
+            draggableRef.value!.querySelector('.ant-table-body') as HTMLElement,
+            () => {
+                console.log('滑动到底部');
+
+                //  滑动到底部
+                if (countNumber.value * maxLength <= formData.table.length) {
+                    countNumber.value++;
+                    const datas = formData.table.slice(
+                        countNumber.value * maxLength,
+                        (countNumber.value + 1) * maxLength,
+                    );
+                    virtualDatas.value = [...virtualDatas.value, ...datas];
+                }
+            },
+            {
+                distance: 10,
+            },
+        );
+    });
+});
+
 watch(
     () => props.dataSource,
     () => {
@@ -912,31 +737,11 @@ watch(
             formData.table.length !== props.dataSource.length
         ) {
             formData.table = sortTables(setUUIDbyDataSource(props.dataSource));
-            setControlData(cloneDeep(formData.table));
-        }
-    },
-    { immediate: true, deep: true },
-);
 
-watch(
-    () => formData.table,
-    (value, oldValue) => {
-        nextTick(() => {
-            if (props.height && value?.length !== oldValue?.length) {
-                if (virtualUpdate.value) {
-                    virtualUpdate.value.update(formData.table);
-                } else {
-                    virtualUpdate.value = useVirtualScrolling(
-                        draggableRef.value!,
-                        formData.table,
-                        props.height,
-                        (data: any) => {
-                            virtualDatas.value = data;
-                        },
-                    );
-                }
+            if (!virtualDatas.value.length) {
+                virtualDatas.value = formData.table.slice(0, maxLength);
             }
-        });
+        }
     },
     { immediate: true, deep: true },
 );
