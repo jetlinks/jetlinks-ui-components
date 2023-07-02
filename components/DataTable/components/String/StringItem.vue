@@ -1,5 +1,5 @@
 <template>
-    <FormItem label="精度" :name="name">
+    <FormItem label="最大长度" :name="name">
         <InputNumber
             v-model:value="maxLength"
             style="width: 100%"
