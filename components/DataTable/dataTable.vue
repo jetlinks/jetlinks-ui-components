@@ -621,10 +621,15 @@ const customCell = (record, rowIndex, column) => {
     return {
         onClick(e: Event) {
             e.stopPropagation();
-            rowClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
+            rowClick(
+                !['index', 'action'].includes(column.dataIndex)
+                    ? `td_${rowIndex}_${column.dataIndex}`
+                    : '',
+            );
         },
         onDblclick(e: Event) {
             e.stopPropagation();
+            // 判断哪些不需要编辑
             editClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
         },
     };

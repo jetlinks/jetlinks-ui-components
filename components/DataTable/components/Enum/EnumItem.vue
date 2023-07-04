@@ -1,7 +1,7 @@
 <template>
     <FormItem
         label="枚举项"
-        name="elements"
+        :name="name"
         required
         :rules="rules"
         :validate-first="true"
@@ -19,11 +19,12 @@
         <div class="enum-table-warp">
             <DataTable
                 ref="tableRef"
-                v-model:data-source="formData.elements"
+                :data-source="formData.elements"
                 :columns="columns"
                 :serial="true"
                 :show-tool="false"
                 item-key="value"
+                @change="changeValue"
             >
                 <template #action="{ data }">
                     <j-button type="link" @click="() => deleteItem(data.index)">
@@ -58,11 +59,15 @@ const props = defineProps({
     },
     type: {
         type: Boolean,
-        defaulta: false,
+        default: false,
     },
     multiple: {
         type: Boolean,
         default: false,
+    },
+    name: {
+        type: String,
+        default: 'elements',
     },
 });
 
@@ -136,7 +141,10 @@ const getData = () =>
             ?.then((data) => {
                 resolve(data);
             })
-            .catch(() => reject(false));
+            .catch((err) => {
+                console.log(err);
+                reject(false);
+            });
     });
 
 const addItem = () => {
@@ -145,15 +153,27 @@ const addItem = () => {
         text: undefined,
     });
     console.log('update', newData);
-    emit('update:value', newData);
+    emit('update:value', {
+        ...formData,
+        elements: newData,
+    });
 };
 
 const deleteItem = (index) => {
     const newData = tableRef.value?.removeItem(index);
     console.log('update', newData);
-    emit('update:value', newData);
+    emit('update:value', {
+        ...formData,
+        elements: newData,
+    });
 };
 
+const changeValue = (newData) => {
+    emit('update:value', {
+        ...formData,
+        elements: newData,
+    });
+};
 const cancel = () => {
     tableRef.value?.initItems();
 };
@@ -165,8 +185,8 @@ const typeChange = () => {
 watch(
     () => [props.value, props.type],
     () => {
-        formData.type = props.type;
-        formData.elements = props.value || [];
+        formData.type = props.value.type;
+        formData.elements = props.value.elements || [];
     },
     { deep: true },
 );

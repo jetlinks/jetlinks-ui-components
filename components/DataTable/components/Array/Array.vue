@@ -30,17 +30,13 @@
                 />
                 <DateItem
                     v-else-if="formData.type === 'date'"
-                    v-model:value="formData.date"
-                />
-                <FileType
-                    v-else-if="formData.type === 'file'"
-                    v-model:value="formData.fileType"
-                    name="fileType"
+                    v-model:value="formData.format"
                 />
                 <EnumItem
                     v-else-if="formData.type === 'enum'"
                     ref="enumRef"
                     v-model:value="formData.enum"
+                    :name="['enum', 'elements']"
                     :multiple="enumMultiple"
                 />
             </Form>
@@ -51,7 +47,7 @@
 
 <script setup lang="ts">
 import TypeSelect from '../Type';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { Form, FormItem, PopconfirmModal } from '../../../components';
 import { FileType } from '../File';
 import { BooleanItem } from '../Boolean';
@@ -92,12 +88,11 @@ const formData = reactive({
         falseText: props.value?.falseText || '否',
         falseValue: props.value?.falseValue || 'false',
     },
-    date: props.value?.date,
+    format: props.value?.format,
     enum: {
         multiple: props.value?.multiple,
         elements: props.value?.elements,
     },
-    fileType: props.value?.fileType,
 });
 
 const rules = [
@@ -119,26 +114,30 @@ const cancel = () => {
 };
 
 const handleValue = (type) => {
-    let keys: string[] = ['type'];
+    let newObject = {};
     switch (type) {
         case 'float':
         case 'double':
-            keys.push('scale');
+            newObject = pick(formData, 'scale');
             break;
         case 'boolean':
-            keys.push('boolean');
+            newObject = { ...formData.boolean };
             break;
         case 'enum':
-            keys.push('enum');
-            break;
-        case 'file':
-            keys.push('fileType');
+            newObject = { ...formData.enum };
             break;
         case 'string':
-            keys.push('maxLength');
+            newObject = pick(formData, 'maxLength');
+            break;
+        case 'date':
+            newObject = pick(formData, 'format');
             break;
     }
-    return pick(formData, keys);
+
+    return {
+        type: type,
+        ...newObject,
+    };
 };
 
 const confirm = () => {
@@ -158,13 +157,37 @@ const confirm = () => {
                         emit('update:value', handleValue(formData.type));
                         emit('confirm', handleValue(formData.type));
                     })
-                    .catch(() => reject(false));
+                    .catch((e) => {
+                        console.log(e);
+                        reject(false);
+                    });
             }
         } catch (e) {
+            console.log(e);
             reject(false);
         }
     });
 };
+
+watch(
+    () => JSON.stringify(props.value),
+    () => {
+        formData.type = props.value?.type;
+        formData.scale = props.value?.scale;
+        formData.maxLength = props.value?.maxLength;
+        formData.boolean = {
+            trueText: props.value?.trueText || '是',
+            trueValue: props.value?.trueValue || 'true',
+            falseText: props.value?.falseText || '否',
+            falseValue: props.value?.falseValue || 'false',
+        };
+        formData.format = props.value?.format;
+        formData.enum = {
+            multiple: props.value?.multiple,
+            elements: props.value?.elements,
+        };
+    },
+);
 </script>
 
 <style scoped></style>

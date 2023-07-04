@@ -89,7 +89,7 @@ export const setUUIDbyDataSource = (data: any[]) => {
 export const cleanUUIDbyData = (data: any) => {
     return isArray(data)
         ? cloneDeep(data).map((item: any) => {
-              const { _uuid, ...extra } = item;
+              const { _uuid, index, ...extra } = item;
               return extra;
           })
         : data;

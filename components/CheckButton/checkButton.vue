@@ -1,5 +1,5 @@
 <template>
-    <div class="j-check-button">
+    <div :class="['j-check-button', props.class]" :style="style">
         <div
             v-for="item in _options"
             :key="item.value"
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, CSSProperties, PropType, ref, watch } from 'vue';
 import { isArray } from 'lodash-es';
 
 const props = defineProps({
@@ -39,6 +39,14 @@ const props = defineProps({
     disabled: {
         type: Boolean,
         default: false,
+    },
+    class: {
+        type: String,
+        default: undefined,
+    },
+    style: {
+        type: Object as PropType<CSSProperties>,
+        default: () => ({}),
     },
 });
 const emit = defineEmits(['update:value', 'change', 'selecte']);

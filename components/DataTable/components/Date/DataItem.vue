@@ -36,6 +36,8 @@ const options = [
 const date = ref<string>();
 
 const change = (v: string[]) => {
+    console.log(v, date.value);
+    debugger;
     emit('update:value', date.value);
 };
 
