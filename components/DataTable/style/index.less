@@ -1,0 +1,148 @@
+@import 'ant-design-vue/lib/style/index.less';
+
+.j-data-table {
+    background-color: #fff;
+
+    &.j-data-table-fullscreen {
+        padding: 24px;
+    }
+
+    .j-data-table-tool {
+        display: flex;
+        margin-bottom: 24px;
+        justify-content: space-between;
+
+        .j-data-table-tool-left {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            .j-data-table-full {
+                font-size: 18px;
+            }
+        }
+    }
+    .j-data-table-header {
+        position: relative;
+        &.required {
+            padding-right: 12px;
+
+            &::after {
+                content: '*';
+                position: absolute;
+                color: @error-color;
+                top: 0;
+                right: 0;
+            }
+        }
+    }
+
+    .j-data-table-body {
+        .ant-table-tbody {
+            tr {
+                height: 100%;
+            }
+            .ant-table-cell,
+            & td {
+                padding: 0;
+                position: relative;
+
+                .j-row-update {
+                    &::after {
+                        position: absolute;
+                        content: ' ';
+                        top: -5px;
+                        right: -1px;
+                        padding: 0;
+                        width: 0;
+                        height: 0;
+                        border-top: 8px solid transparent;
+                        border-bottom: 8px solid transparent;
+                        border-left: 8px solid @error-color;
+                        transform: rotate(-45deg);
+                        z-index: 4;
+                        transition: all 0.3s;
+                    }
+
+                    &.update::after {
+                        border-top: 8px solid transparent;
+                        border-bottom: 8px solid transparent;
+                        border-left: 8px solid @error-color;
+                    }
+                }
+
+                & .draggable-item {
+                    height: 100%;
+                    padding: 6px 14px;
+                    border: 1px solid transparent;
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+                    z-index: 2;
+                }
+
+                .j-data-table-empty {
+                    justify-content: center;
+                    padding-top: 30px;
+                }
+
+                .j-row-selected {
+                    position: absolute;
+                    z-index: 1;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: transparent;
+                    transition: background-color 0.3s;
+
+                    &.j-row-selected-active {
+                        background-color: rgba(@primary-color, 0.1);
+                    }
+                }
+
+                .j-data-table--edit {
+                    padding: 0;
+                }
+                .ant-form-item {
+                    margin-bottom: 0;
+                    width: 100%;
+                    flex-direction: row;
+
+                    &.ant-form-item-has-error {
+                        padding-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .j-data-table-footer {
+        .j-data-table-footer--add {
+            width: 100%;
+            margin-top: 12px;
+        }
+    }
+
+    .data-table--text {
+        padding: 6px 4px;
+    }
+
+    .j-data-table-row--config {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        gap: 8px;
+
+        .j-data-table-config--text {
+            flex: 1;
+            height: 100%;
+        }
+
+        .j-data-table-config--icon {
+            font-size: 16px;
+            padding-right: 4px;
+            border-radius: 4px;
+        }
+    }
+}

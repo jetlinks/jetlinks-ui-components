@@ -11,13 +11,14 @@ const props = defineProps({
     modelValue: [String, Number],
     theme: { type: String, default: 'vs-dark' },
     language: { type: String, default: 'json' },
-    codeTips: { type: Array, default: () => []}
+    codeTips: { type: Array, default: () => [] },
+    init: { type: Function, default: undefined },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'blur']);
 
 const dom = ref();
-const codeTipsMap = ref(new Map())
+const codeTipsMap = ref(new Map());
 
 let instance;
 
@@ -39,6 +40,12 @@ onMounted(() => {
         const value = instance.getValue();
         emit('update:modelValue', value);
     });
+
+    instance.onDidBlurEditorText(() => {
+        emit('blur');
+    });
+
+    props.init?.(instance);
 });
 
 /**

@@ -216,6 +216,14 @@ const matchComponents: IMatcher[] = [
         pattern: /^Notification/,
         styleDir: 'Notification',
     },
+    {
+        pattern: /^PopconfirmModal/,
+        styleDir: 'PopconfirmModal',
+    },
+    {
+        pattern: /^DataTable/,
+        styleDir: 'DataTable',
+    },
 ];
 
 export interface JetlinksVueResolverOptions {
@@ -433,6 +441,18 @@ const primitiveNames = [
     'Scrollbar',
     'CardSelect',
     'ColorPicker',
+    'PopconfirmModal',
+    'DataTable',
+    'DataTableTypeSelect',
+    'DataTableInteger',
+    'DataTableDouble',
+    'DataTableArray',
+    'DataTableDate',
+    'DataTableObject',
+    'DataTableBoolean',
+    'DataTableFile',
+    'DataTableEnum',
+    'DataTableString',
 ];
 const prefix = 'J';
 

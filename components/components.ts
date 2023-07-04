@@ -242,4 +242,22 @@ export { default as Card, CardGrid, CardMeta } from './Card';
 export type { CollapseProps, CollapsePanelProps } from './Collapse';
 export { default as Collapse, CollapsePanel } from './Collapse';
 
-export { default as ConfigProvider } from './ConfigProvider'
+export { default as ConfigProvider } from './ConfigProvider';
+
+export {
+    default as DataTable,
+    DataTableArray,
+    DataTableString,
+    DataTableInteger,
+    DataTableDouble,
+    DataTableBoolean,
+    DataTableEnum,
+    DataTableFile,
+    DataTableDate,
+    DataTableTypeSelect,
+    DataTableObject,
+} from './DataTable';
+
+export { default as PopconfirmModal } from './PopconfirmModal';
+
+export { default as CheckButton } from './CheckButton';
