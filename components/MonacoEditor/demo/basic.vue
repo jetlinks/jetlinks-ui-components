@@ -8,17 +8,22 @@ title: 基本用法
 
 </docs>
 <template>
-    <j-monaco-editor v-model:value="value" />
+    <j-monaco-editor v-model:value="value" :init="init" />
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
-  setup() {
-    const value = ref<string>(`{ "message": "Hello World" }`)
+    setup() {
+        const value = ref<string>(`{ "message": "Hello World" }`);
 
-    return {
-        value
-    }
-  }
-})
+        const init = (instance) => {
+            console.log(instance);
+        };
+
+        return {
+            value,
+            init,
+        };
+    },
+});
 </script>

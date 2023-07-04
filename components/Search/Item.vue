@@ -149,7 +149,7 @@ import type { PropType } from 'vue';
 import { ref, reactive, watchEffect, nextTick } from 'vue';
 import type { SearchItemData, SearchProps } from './typing';
 import { cloneDeep, isArray, isFunction, omit } from 'lodash-es';
-import {filterTreeSelectNode, filterSelectNode, getTermTypeFn} from './util';
+import { filterTreeSelectNode, filterSelectNode, getTermTypeFn } from './util';
 import {
     TreeSelect as JTreeSelect,
     Select as JSelect,
@@ -241,19 +241,19 @@ const optionLoading = ref(false);
 const getTermType = (type?: ItemType, column?: string) => {
     termTypeOptions.option = termType;
 
-    const termTypeKey = getTermTypeFn(type, column)
+    const termTypeKey = getTermTypeFn(type, column);
 
     if (['date', 'time'].includes(type)) {
-      termTypeOptions.option = termType.filter((item) =>
-          ['gt', 'lt'].includes(item.value),
-      );
+        termTypeOptions.option = termType.filter((item) =>
+            ['gt', 'lt'].includes(item.value),
+        );
     } else if (['timeRange', 'rangePicker'].includes(type)) {
-      termTypeOptions.option = termType.filter((item) =>
-          ['btw', 'nbtw'].includes(item.value),
-      );
+        termTypeOptions.option = termType.filter((item) =>
+            ['btw', 'nbtw'].includes(item.value),
+        );
     }
 
-    return termTypeKey
+    return termTypeKey;
 };
 
 /**
@@ -396,15 +396,14 @@ const reset = () => {
     termsModel.value = undefined;
 };
 
-
 const handleColumnChange = (key: string) => {
-  nextTick(() => {
-    if(key === 'column' && props.termsItem[key] !== termsModel[key]) {
-      columnChange(props.termsItem[key] as string, false, false);
-    }
-    termsModel[key] = props.termsItem[key];
-  })
-}
+    nextTick(() => {
+        if (key === 'column' && props.termsItem[key] !== termsModel[key]) {
+            columnChange(props.termsItem[key] as string, false, false);
+        }
+        termsModel[key] = props.termsItem[key];
+    });
+};
 
 // handleItem();
 
@@ -417,9 +416,10 @@ watchEffect(() => {
 watchEffect(() => {
     if (props.termsItem) {
         Object.keys(props.termsItem).forEach((key) => {
-            handleColumnChange(key)
-
+            handleColumnChange(key);
         });
+    } else {
+        termsModel.value = undefined;
     }
 });
 </script>

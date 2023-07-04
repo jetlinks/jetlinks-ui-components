@@ -40,7 +40,7 @@
                         v-bind="props"
                         :columns="newColumns"
                         :pagination="false"
-                        :data-source="virtualDatas"
+                        :data-source="virtualData"
                         :row-key="props.rowKey || '_uuid'"
                         :scroll="height ? { y: height } : undefined"
                     >
@@ -284,6 +284,7 @@ import {
     Empty,
     Popover,
     InputSearch,
+    Select,
 } from '../components';
 import BooleanSelect from '../Select/Boolean.vue';
 import {
@@ -325,7 +326,7 @@ const props = defineProps({
     extra: Object,
     height: {
         type: Number,
-        default: undefined,
+        default: 200,
     },
     showSearch: {
         type: Boolean,
@@ -357,7 +358,6 @@ const draggableRef = ref<HTMLDivElement>(null);
 const formRef = ref();
 const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
 const formErr = ref({});
-const virtualDatas = ref([]);
 const virtualUpdate = ref();
 const countNumber = ref(0);
 const maxLength = 30;
@@ -371,6 +371,10 @@ const { isFullscreen, enter, exit, toggle } = useFullscreen(fullRef);
 const formData = reactive<{ table: any[]; search: any[] }>({
     table: [],
     search: [],
+});
+
+const virtualData = computed(() => {
+    return formData.table.slice(0, (countNumber.value + 1) * maxLength);
 });
 
 const sortTable = ref();
@@ -660,7 +664,7 @@ const addItem = (_data: any, index?: number) => {
         const data = [...formData.table];
 
         if (index !== undefined) {
-            data.splice(index - 1, 0, {
+            data.splice(index + 1, 0, {
                 ..._data,
                 _uuid: getUUID(),
             });
@@ -670,26 +674,28 @@ const addItem = (_data: any, index?: number) => {
                 _uuid: getUUID(),
             });
         }
-        formData.table = data.map((item, index) => {
-            return {
-                ...item,
-                index: index + 1,
-            };
-        });
+        formData.table = data;
+        // if (countNumber.value * maxLength <= formData.table.length || index <= countNumber.value * maxLength) {
+        //   virtualDatas.value = formData.table.slice(
+        //       countNumber.value * maxLength,
+        //       (countNumber.value + 1) * maxLength,
+        //   );
+        // }
     }
     return cleanUUIDbyData(formData.table);
 };
 
 const removeItem = (index: number) => {
+    console.log(index);
     if (index >= 0) {
         const data = [...formData.table];
         data.splice(index, 1);
-        formData.table = data.map((item, index) => {
-            return {
-                ...item,
-                index: index + 1,
-            };
-        });
+        formData.table = data;
+
+        // virtualDatas.value = formData.table.slice(
+        //     countNumber.value * maxLength,
+        //     (countNumber.value + 1) * maxLength,
+        // );
     }
     return cleanUUIDbyData(formData.table);
 };
@@ -697,6 +703,7 @@ const removeItem = (index: number) => {
 const initItems = () => {
     formData.table = sortTables(setUUIDbyDataSource(props.dataSource));
     formRef.value?.clearValidate();
+    countNumber.value = 0;
     return cleanUUIDbyData(formData.table);
 };
 
@@ -710,15 +717,17 @@ onMounted(() => {
             draggableRef.value!.querySelector('.ant-table-body') as HTMLElement,
             () => {
                 console.log('滑动到底部');
-
+                console.log(
+                    countNumber.value * maxLength,
+                    formData.table.length,
+                );
                 //  滑动到底部
-                if (countNumber.value * maxLength <= formData.table.length) {
+                if (
+                    countNumber.value * maxLength <= formData.table.length &&
+                    formData.table[(countNumber.value + 1) * maxLength + 1]
+                ) {
+                    //  有多余数据时，进行添加
                     countNumber.value++;
-                    const datas = formData.table.slice(
-                        countNumber.value * maxLength,
-                        (countNumber.value + 1) * maxLength,
-                    );
-                    virtualDatas.value = [...virtualDatas.value, ...datas];
                 }
             },
             {
@@ -729,21 +738,12 @@ onMounted(() => {
 });
 
 watch(
-    () => props.dataSource,
+    () => JSON.stringify(props.dataSource),
     () => {
         console.log('更新', formData.table.length, props.dataSource.length);
-        if (
-            props.dataSource &&
-            formData.table.length !== props.dataSource.length
-        ) {
-            formData.table = sortTables(setUUIDbyDataSource(props.dataSource));
-
-            if (!virtualDatas.value.length) {
-                virtualDatas.value = formData.table.slice(0, maxLength);
-            }
-        }
+        formData.table = sortTables(setUUIDbyDataSource(props.dataSource));
     },
-    { immediate: true, deep: true },
+    { immediate: true },
 );
 
 watch(

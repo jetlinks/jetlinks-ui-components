@@ -8,7 +8,12 @@ title: 基本
 
 </docs>
 <template>
-    <j-pro-table :columns="columns" :data-source="data" :noPagination="true" :gridColumn="3">
+    <j-pro-table
+        :columns="columns"
+        :data-source="data"
+        :noPagination="true"
+        :gridColumn="3"
+    >
         <template #headerTitle
             ><j-button type="primary">新增</j-button></template
         >
@@ -27,7 +32,6 @@ title: 基本
     </j-pro-table>
 </template>
 
-
 <script lang="ts">
 import { random } from 'lodash';
 import { defineComponent } from 'vue';
@@ -36,6 +40,8 @@ const columns = [
         title: '名称',
         dataIndex: 'name',
         key: 'name',
+        resizable: true,
+        width: 100,
     },
     {
         title: '年龄',
@@ -51,7 +57,7 @@ const columns = [
     {
         title: '状态',
         dataIndex: 'status.text',
-        key: 'status.text'
+        key: 'status.text',
     },
 ];
 
@@ -64,8 +70,8 @@ const data = Array(10)
             age: random(100),
             address: 'New York No. 1 Lake Park',
             status: {
-                text: "123"
-            }
+                text: '123',
+            },
         };
     });
 
@@ -78,6 +84,3 @@ export default defineComponent({
     },
 });
 </script>
-
-
-

@@ -20,7 +20,7 @@ import Icon from '../Icon.vue';
 import { reactive, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 
-const emit = defineEmits(['update:value', 'cancel']);
+const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 
 const props = defineProps({
     value: {
@@ -52,6 +52,7 @@ const confirm = () => {
         });
         if (data) {
             emit('update:value', cloneDeep(formData.value));
+            emit('confirm', cloneDeep(formData.value));
             resolve(true);
         }
     });

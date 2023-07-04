@@ -23,7 +23,7 @@ import {
 import FileType from './FileType.vue';
 import Icon from '../Icon.vue';
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value', 'confirm']);
 
 const props = defineProps({
     value: {
@@ -49,6 +49,7 @@ const formData = reactive({
 
 const confirm = () => {
     emit('update:value', formData.file);
+    emit('confirm', formData.file);
 };
 </script>
 

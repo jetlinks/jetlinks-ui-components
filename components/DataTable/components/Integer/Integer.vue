@@ -23,7 +23,7 @@ import { reactive, ref } from 'vue';
 import { Form, FormItem, PopconfirmModal } from '../../../components';
 import Icon from '../Icon.vue';
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value', 'confirm']);
 
 const props = defineProps({
     ...UnitProps,
@@ -39,5 +39,6 @@ const formData = reactive({
 
 const confirm = () => {
     emit('update:value', formData.unit);
+    emit('confirm', formData.unit);
 };
 </script>

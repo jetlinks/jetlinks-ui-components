@@ -21,7 +21,7 @@ import Icon from '../Icon.vue';
 
 type Emits = {
     (e: 'update:value', data: string | undefined): void;
-    (e: 'change', data: string | undefined): void;
+    (e: 'confirm', data: string | undefined): void;
     (e: 'cancel'): void;
 };
 
@@ -47,6 +47,7 @@ const cancel = () => {
 
 const confirm = () => {
     emit('update:value', formData.date);
+    emit('confirm', formData.date);
 };
 </script>
 

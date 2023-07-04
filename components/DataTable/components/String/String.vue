@@ -15,7 +15,7 @@ import { PopconfirmModal, Form } from '../../../components';
 import StringItem from './StringItem.vue';
 import Icon from '../Icon.vue';
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value', 'confirm']);
 
 const props = defineProps({
     value: {
@@ -30,6 +30,7 @@ const formData = reactive({
 
 const confirm = () => {
     emit('update:value', formData.maxLength);
+    emit('confirm', formData.maxLength);
 };
 
 watch(

@@ -52,6 +52,7 @@ import Icon from '../Icon.vue';
 
 type Emits = {
     (e: 'update:value', data: any): void;
+    (e: 'confirm', data: any): void;
 };
 
 const emit = defineEmits<Emits>();
@@ -97,6 +98,7 @@ const confirm = () => {
             .then((data) => {
                 resolve(true);
                 emit('update:value', data);
+                emit('confirm', data);
             })
             .catch(() => {
                 reject(false);

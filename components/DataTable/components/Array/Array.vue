@@ -62,7 +62,7 @@ import { EnumItem } from '../Enum';
 import Icon from '../Icon.vue';
 import { pick } from 'lodash-es';
 
-const emit = defineEmits(['update:value', 'cancel']);
+const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 
 const props = defineProps({
     value: {
@@ -156,6 +156,7 @@ const confirm = () => {
                     .then(() => {
                         resolve(true);
                         emit('update:value', handleValue(formData.type));
+                        emit('confirm', handleValue(formData.type));
                     })
                     .catch(() => reject(false));
             }

@@ -23,17 +23,26 @@ title: 基础
                     color="pink"
                     @click="
                         () => {
-                            addItem(data);
+                            remove(data.index);
                         }
                     "
                     >pink</a-tag
                 >
-                <a-tag color="red">red</a-tag>
+                <a-tag
+                    color="red"
+                    @click="
+                        () => {
+                            copy(data, data.index);
+                        }
+                    "
+                    >copy</a-tag
+                >
             </template>
             <template #config="{ data }">
                 {{ data.record.name }}
             </template>
         </j-data-table>
+        <j-button @click="addItem">新增</j-button>
         <j-button @click="save">保存</j-button>
     </div>
 </template>
@@ -77,6 +86,7 @@ const columns = ref([
         title: 'width',
         dataIndex: 'width',
         width: 200,
+        resizable: true,
         type: 'TypeSelect',
     },
     {
@@ -111,16 +121,33 @@ const tableRef = ref();
 
 const addItem = (data) => {
     console.log(data);
+    newSource.value.push({
+        id: new Date().getTime() + '00000000',
+        age: undefined,
+        name: undefined,
+        width: undefined,
+        config: undefined,
+        boolean: false,
+    });
+};
+
+const remove = (index) => {
+    tableRef.value.removeItem(index);
+};
+
+const copy = (data, index) => {
+    tableRef.value.addItem(data.record, index);
 };
 
 const save = async () => {
     const data = await tableRef.value?.getData();
+    newSource.value = data;
     console.log(data);
 };
 
 const initData = () => {
     setTimeout(() => {
-        newSource.value = new Array(100).fill('').map((_, index) => {
+        newSource.value = new Array(10).fill('').map((_, index) => {
             return {
                 id: new Date().getTime() + index,
                 age: index + 1,
@@ -130,7 +157,7 @@ const initData = () => {
                 boolean: false,
             };
         });
-    }, 2000);
+    }, 1000);
 };
 
 initData();

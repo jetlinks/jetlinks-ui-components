@@ -35,7 +35,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['update:value', 'cancel']);
+const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 
 const formRef = ref();
 const tableRef = ref();
@@ -49,7 +49,6 @@ const source = ref([]);
 const rules = [
     {
         validator(_, value) {
-            console.log('validator', value);
             if (!value?.length) {
                 return Promise.reject('添加枚举项');
             }
@@ -65,7 +64,6 @@ const cancel = () => {
 const confirm = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('开始校验3');
             const tableData = await tableRef.value.getData();
             if (tableData) {
                 formRef.value
@@ -79,8 +77,8 @@ const confirm = () => {
                         if (props.multiple) {
                             value.type = formData.type;
                         }
-                        console.log('formRef.value', formData);
                         emit('update:value', value);
+                        emit('confirm', value);
                     })
                     .catch(() => reject(false));
             }

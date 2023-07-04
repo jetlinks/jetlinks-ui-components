@@ -26,7 +26,7 @@ import { Form, FormItem, PopconfirmModal } from '../../../components';
 import ScaleItem from './ScaleItem.vue';
 import Icon from '../Icon.vue';
 
-const emit = defineEmits(['update:value', 'cancel']);
+const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 
 const props = defineProps({
     ...UnitProps,
@@ -45,6 +45,7 @@ const formData = reactive({
 
 const confirm = () => {
     emit('update:value', formData);
+    emit('confirm', formData);
 };
 
 const cancel = () => {
