@@ -645,7 +645,29 @@ const newColumns = computed(() => {
     };
     const propsColumns = cloneDeep(props.columns);
     const _columns = propsColumns.map((item: any) => {
-        item.customCell = customCell;
+        item.customCell = (record, rowIndex, column) => {
+            return {
+                onClick(e: Event) {
+                    e.stopPropagation();
+                    rowClick(
+                        column.type ? `td_${rowIndex}_${column.dataIndex}` : '',
+                    );
+                },
+                onDblclick(e: Event) {
+                    e.stopPropagation();
+                    let isEdit = item.doubleClikc
+                        ? item.doubleClikc(record, rowIndex, column.dataIndex)
+                        : true;
+                    if (isEdit) {
+                        editClick(
+                            column.type
+                                ? `td_${rowIndex}_${column.dataIndex}`
+                                : '',
+                        );
+                    }
+                },
+            };
+        };
         return { ...item };
     });
     return hasSerial ? [serialItem, ..._columns] : _columns;
