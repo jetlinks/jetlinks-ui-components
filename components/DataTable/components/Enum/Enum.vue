@@ -1,6 +1,7 @@
 <template>
     <PopconfirmModal
         body-style="padding-top:4px; width: 450px;"
+        :placement="placement"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -33,6 +34,10 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    placement: {
+      type: String,
+      default: 'top'
+    }
 });
 
 const emit = defineEmits(['update:value', 'cancel', 'confirm']);
@@ -49,8 +54,9 @@ const source = ref([]);
 const rules = [
     {
         validator(_, value) {
+          console.log(formData, value)
             if (!value?.length) {
-                return Promise.reject('添加枚举项');
+                return Promise.reject('请添加枚举项');
             }
             return Promise.resolve();
         },

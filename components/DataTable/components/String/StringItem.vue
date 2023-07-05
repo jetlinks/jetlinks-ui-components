@@ -6,6 +6,7 @@
             :precision="0"
             :min="0"
             :max="9999"
+            placeholder="请输入最大长度"
             @change="change"
         />
     </FormItem>

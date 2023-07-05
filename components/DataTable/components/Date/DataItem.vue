@@ -21,7 +21,7 @@ const props = defineProps({
     },
     name: {
         type: String,
-        default: 'date',
+        default: 'format',
     },
 });
 
@@ -33,11 +33,10 @@ const options = [
     { label: 'hh:mm:ss', value: 'hh:mm:ss' },
 ];
 
-const date = ref<string>();
+const date = ref<string>(props.value);
 
 const change = (v: string[]) => {
     console.log(v, date.value);
-    debugger;
     emit('update:value', date.value);
 };
 

@@ -18,6 +18,9 @@ title: 基础
             <!--            <template #name="scope">-->
             <!--                <div>支持通过实体{{ scope.data.index }}</div>-->
             <!--            </template>-->
+          <template #boolean="{ data }">
+            <DataTableEnum v-model:value="data.record.boolean" />
+          </template>
             <template #action="{ data }">
                 <a-tag
                     color="pink"
@@ -32,7 +35,7 @@ title: 基础
                     color="red"
                     @click="
                         () => {
-                            copy(data, data.index);
+                            addItem(data, data.index);
                         }
                     "
                     >copy</a-tag
@@ -70,6 +73,7 @@ const columns = ref([
         width: 200,
         type: 'number',
         form: {
+            required: true,
             rules: [
                 {
                     validator(_, value) {
@@ -103,10 +107,10 @@ const columns = ref([
     {
         title: '布尔值',
         dataIndex: 'boolean',
-        type: 'components',
-        components: {
-            name: DataTableBoolean,
-        },
+        // type: 'components',
+        // components: {
+        //     name: DataTableDate,
+        // },
         width: 150,
     },
     {
@@ -119,16 +123,25 @@ const newSource = ref([]);
 
 const tableRef = ref();
 
-const addItem = (data) => {
-    console.log(data);
-    newSource.value.push({
-        id: new Date().getTime() + '00000000',
-        age: undefined,
-        name: undefined,
-        width: undefined,
-        config: undefined,
-        boolean: false,
-    });
+const addItem = (data, index) => {
+    console.log(data, index);
+    if (index) {
+      tableRef.value.addEditor(index + 1, 'id')
+      tableRef.value.addEditor(index + 1, 'age')
+      tableRef.value.addEditor(index + 1, 'name')
+    } else {
+
+    }
+  newSource.value.push({
+    id: new Date().getTime() + '00000000',
+    age: undefined,
+    name: undefined,
+    width: undefined,
+    config: undefined,
+    boolean: false,
+  });
+
+
 };
 
 const remove = (index) => {

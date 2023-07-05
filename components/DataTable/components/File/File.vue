@@ -1,6 +1,7 @@
 <template>
     <PopconfirmModal
         body-style="padding-top:4px; width: 260px;"
+        :placement="placement"
         @confirm="confirm"
     >
         <template #content>
@@ -30,6 +31,10 @@ const props = defineProps({
         type: String,
         default: undefined,
     },
+  placement: {
+    type: String,
+    default: 'top'
+  }
 });
 
 const rules = [

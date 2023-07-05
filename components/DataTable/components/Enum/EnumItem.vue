@@ -125,9 +125,9 @@ const columns = [
 const rules = [
     {
         validator(_, value) {
-            console.log('enumItem - value', value);
-            if (!value?.length) {
-                return Promise.reject('添加枚举项');
+            console.log('enumItem - value', formData, value.elements, props);
+            if (!value.elements?.length) {
+                return Promise.reject('请添加枚举项');
             }
             return Promise.resolve();
         },

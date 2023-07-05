@@ -76,6 +76,9 @@ export const getUUID = () => {
 export const setUUIDbyDataSource = (data: any[]) => {
     return isArray(data)
         ? data.map((item: any, index) => {
+                if (!item._sortIndex) {
+                    item._sortIndex = index
+                }
               if (item._uuid) {
                   return item;
               } else {
@@ -89,7 +92,7 @@ export const setUUIDbyDataSource = (data: any[]) => {
 export const cleanUUIDbyData = (data: any) => {
     return isArray(data)
         ? cloneDeep(data).map((item: any) => {
-              const { _uuid, index, ...extra } = item;
+              const { _uuid, index, _sortIndex, ...extra } = item;
               return extra;
           })
         : data;

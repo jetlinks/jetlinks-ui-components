@@ -1,12 +1,13 @@
 <template>
     <PopconfirmModal
         body-style="padding-top:4px; width: 260px;"
+        :placement="placement"
         @confirm="confirm"
         @cancel="cancel"
     >
         <template #content>
             <Form ref="formRef" :model="formData" layout="vertical">
-                <DataItem v-model="formData.date" />
+                <DataItem v-model:value="formData.format" />
             </Form>
         </template>
         <Icon />
@@ -32,12 +33,16 @@ const props = defineProps({
         type: String,
         default: undefined,
     },
+    placement: {
+      type: String,
+      default: 'top'
+    }
 });
 
 const formRef = ref();
 
-const formData = reactive<{ date: any }>({
-    date: props.value ? [props.value] : [],
+const formData = reactive<{ format: any }>({
+  format: props.value,
 });
 
 const cancel = () => {
@@ -46,8 +51,9 @@ const cancel = () => {
 };
 
 const confirm = () => {
-    emit('update:value', formData.date);
-    emit('confirm', formData.date);
+  console.log(formData.format)
+    emit('update:value', formData.format);
+    emit('confirm', formData.format);
 };
 </script>
 

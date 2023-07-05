@@ -1,5 +1,5 @@
 <template>
-    <PopconfirmModal body-style="padding-top:4px;" @confirm="confirm">
+    <PopconfirmModal body-style="padding-top:4px;" :placement="placement" @confirm="confirm">
         <template #content>
             <Form layout="vertical" :model="formData">
                 <StringItem v-model:value="formData.maxLength" />
@@ -22,6 +22,10 @@ const props = defineProps({
         type: Number,
         default: undefined,
     },
+  placement: {
+    type: String,
+    default: 'top'
+  }
 });
 
 const formData = reactive({

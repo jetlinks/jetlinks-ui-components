@@ -1,6 +1,7 @@
 <template>
     <PopconfirmModal
         body-style="padding-top:4px;width:600px;"
+        :placement="placement"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -66,6 +67,10 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+  placement: {
+    type: String,
+    default: 'top'
+  }
 });
 interface obj {
     [idx: string]: any;

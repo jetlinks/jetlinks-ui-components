@@ -34,6 +34,7 @@
                 :model="formData"
                 layout="horizontal"
                 :scroll-to-first-error="true"
+                @validate="validate"
             >
                 <div ref="draggableRef" class="draggable-body">
                     <Table
@@ -145,7 +146,6 @@
                                     v-else
                                     :name="['table', index, column.dataIndex]"
                                     :rules="column.form?.rules"
-                                    :required="!!column.form?.required"
                                     :validate-first="true"
                                 >
                                     <template #help></template>
@@ -420,8 +420,17 @@ useDirection((code) => {
 });
 
 const sortTables = (data: any[]) => {
-    console.log(data);
-    return data.sort((a: any, b: any) => a[props.sortKey] - b[props.sortKey]);
+    console.log('排序',data);
+    const { sortKey } = props
+    return data.sort((a: any, b: any) => {
+      if (a[sortKey] > b[sortKey]){
+        return 1
+      } else if (a[sortKey] < b[sortKey]) {
+        return -1
+      } else {
+        return 0
+      }
+    });
 };
 
 const search = (e) => {
@@ -468,22 +477,22 @@ const getData = (quit = true) => {
             .catch((err) => {
                 const { errorFields } = err;
                 if (errorFields) {
-                    formErr.value = {};
-                    errorFields.forEach((item: any, index: number) => {
-                        const names = item.name;
-                        const key = `td_${names[1]}_${names[2]}`;
-                        formErr.value[key] = item.errors[0];
-                    });
-                    const firstKey = Object.keys(formErr.value)[0];
-                    // 未处于编辑模式时，强制第一个错误进入编辑模式
-                    if (!editKey.value) {
-                        editKey.value = firstKey;
-                    } else {
-                        //  处于编辑模式，并且编辑项在校验错误项中
-                        editKey.value = formErr.value[editKey.value]
-                            ? editKey.value
-                            : firstKey;
-                    }
+                  const obj = {};
+                  errorFields.forEach((item: any, index: number) => {
+                    const names = item.name;
+                    const key = `td_${names[1]}_${names[2]}`;
+                    obj[key] = item.errors[0];
+                  });
+                  const firstKey = Object.keys(obj)[0];
+                  // 未处于编辑模式时，强制第一个错误进入编辑模式
+                  if (!editKey.value) {
+                    editKey.value = firstKey;
+                  } else {
+                    //  处于编辑模式，并且编辑项在校验错误项中
+                    editKey.value = obj[editKey.value]
+                        ? editKey.value
+                        : firstKey;
+                  }
                 }
                 reject(err);
             });
@@ -511,6 +520,7 @@ const rowClick = async (key: string) => {
     // }
     // formRowValidate.value = data;
     // if (!data) return;
+    if (Object.keys(formErr.value).length  && !formErr.value[key] ) return
 
     if (key !== editKey.value) {
         editKey.value = '';
@@ -523,6 +533,7 @@ const rowClick = async (key: string) => {
  * @param key
  */
 const editClick = (key: string) => {
+    if (Object.keys(formErr.value).length  && !formErr.value[key] ) return
     if (key === selectedKey.value) {
         editKey.value = key;
         editKeys.value[key] = true;
@@ -650,13 +661,15 @@ const newColumns = computed(() => {
                 onClick(e: Event) {
                     e.stopPropagation();
                     rowClick(
-                        column.type ? `td_${rowIndex}_${column.dataIndex}` : '',
+                        !['index', 'action'].includes(column.dataIndex)
+                            ? `td_${rowIndex}_${column.dataIndex}`
+                            : '',
                     );
                 },
                 onDblclick(e: Event) {
                     e.stopPropagation();
-                    let isEdit = item.doubleClikc
-                        ? item.doubleClikc(record, rowIndex, column.dataIndex)
+                    let isEdit = item.doubleClick
+                        ? item.doubleClick(record, rowIndex, column.dataIndex)
                         : true;
                     if (isEdit) {
                         editClick(
@@ -713,7 +726,6 @@ const addItem = (_data: any, index?: number) => {
 };
 
 const removeItem = (index: number) => {
-    console.log(index);
     if (index >= 0) {
         const data = [...formData.table];
         data.splice(index, 1);
@@ -737,6 +749,21 @@ const initItems = () => {
 const stringify = (data: any[]) => {
     return data ? JSON.stringify(data) : '';
 };
+
+const validate = (name, status, errorMsgs) => {
+  const key = `td_${name[1]}_${name[2]}`
+  if (!status) {
+    formErr.value[key] = errorMsgs[0]
+  } else {
+    delete formErr.value[key]
+  }
+}
+
+const addEditor = (index: number, dataIndex: string) => {
+  const key = `td_${index}_${dataIndex}`
+  console.log(key)
+  editKeys.value[key] = true
+}
 
 onMounted(() => {
     nextTick(() => {
@@ -768,7 +795,7 @@ watch(
     () => JSON.stringify(props.dataSource),
     () => {
         console.log('更新', formData.table.length, props.dataSource.length);
-        formData.table = sortTables(setUUIDbyDataSource(props.dataSource));
+        formData.table = setUUIDbyDataSource(props.dataSource);
     },
     { immediate: true },
 );
@@ -788,6 +815,7 @@ defineExpose({
     addItem: addItem,
     removeItem: removeItem,
     initItems: initItems,
+    addEditor: addEditor,
 });
 </script>
 

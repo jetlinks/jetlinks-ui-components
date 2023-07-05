@@ -4,20 +4,22 @@
 .j-check-button {
     display: flex;
     gap: 16px;
+    width: 100%;
 
     .j-check-button-item {
         flex: 1;
         min-width: 0;
         padding: 8px;
         border-radius: @border-radius-base;
-        background: #f2f3f5;
+        background-color: #f2f3f5;
         transition: all 0.3s;
         color: #333;
         text-align: center;
         cursor: pointer;
 
         &:hover {
-            background-color: fadeout(@primary-color, 20%);
+            background-color: @primary-color;
+            opacity: 0.85;
             color: #fff;
         }
 

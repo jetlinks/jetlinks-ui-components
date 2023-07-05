@@ -1,6 +1,7 @@
 <template>
     <PopconfirmModal
         body-style="padding-top:4px; width: 260px;"
+        :placement="placement"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -34,6 +35,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+  placement: {
+    type: String,
+    default: 'top'
+  }
 });
 
 const formRef = ref();
