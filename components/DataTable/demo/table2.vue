@@ -18,9 +18,9 @@ title: 基础
             <!--            <template #name="scope">-->
             <!--                <div>支持通过实体{{ scope.data.index }}</div>-->
             <!--            </template>-->
-          <template #boolean="{ data }">
-            <DataTableEnum v-model:value="data.record.boolean" />
-          </template>
+            <template #boolean="{ data }">
+                <DataTableArray v-model:value="data.record.boolean" />
+            </template>
             <template #action="{ data }">
                 <a-tag
                     color="pink"
@@ -126,22 +126,19 @@ const tableRef = ref();
 const addItem = (data, index) => {
     console.log(data, index);
     if (index) {
-      tableRef.value.addEditor(index + 1, 'id')
-      tableRef.value.addEditor(index + 1, 'age')
-      tableRef.value.addEditor(index + 1, 'name')
+        tableRef.value.addEditor(index + 1, 'id');
+        tableRef.value.addEditor(index + 1, 'age');
+        tableRef.value.addEditor(index + 1, 'name');
     } else {
-
     }
-  newSource.value.push({
-    id: new Date().getTime() + '00000000',
-    age: undefined,
-    name: undefined,
-    width: undefined,
-    config: undefined,
-    boolean: false,
-  });
-
-
+    newSource.value.push({
+        id: new Date().getTime() + '00000000',
+        age: undefined,
+        name: undefined,
+        width: undefined,
+        config: undefined,
+        boolean: false,
+    });
 };
 
 const remove = (index) => {

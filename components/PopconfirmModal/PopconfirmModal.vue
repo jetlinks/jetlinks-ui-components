@@ -5,7 +5,11 @@
         :overlay-class-name="modalWarpName"
         :placement="placement || 'top'"
         :get-popup-container="getPopupContainer"
-        @visibleChange="() => {}"
+        @visibleChange="
+            (e) => {
+                console.log(e);
+            }
+        "
     >
         <template #title>
             <slot name="title" />
@@ -149,6 +153,7 @@ const createModal = () => {
 };
 
 const visibleChange = (e: boolean) => {
+    console.log('visibleChange', e);
     myVisible.value = e;
     if (e) {
         setTimeout(() => {

@@ -36,7 +36,7 @@
                 <EnumItem
                     v-else-if="formData.type === 'enum'"
                     ref="enumRef"
-                    v-model:value="formData.enum"
+                    v-model:value="formData.enum.elements"
                     :name="['enum', 'elements']"
                     :multiple="enumMultiple"
                 />
@@ -74,10 +74,10 @@ const props = defineProps({
         type: [Array, Function],
         default: undefined,
     },
-  placement: {
-    type: String,
-    default: 'top'
-  }
+    placement: {
+        type: String,
+        default: 'top',
+    },
 });
 
 const formRef = ref();
@@ -96,7 +96,7 @@ const formData = reactive({
     format: props.value?.format,
     enum: {
         multiple: props.value?.multiple,
-        elements: props.value?.elements,
+        elements: props.value?.elements || [],
     },
 });
 
@@ -119,7 +119,7 @@ const cancel = () => {
 };
 
 const handleValue = (type) => {
-    let newObject = {};
+    let newObject: any = {};
     switch (type) {
         case 'float':
         case 'double':
@@ -129,9 +129,13 @@ const handleValue = (type) => {
             newObject = { ...formData.boolean };
             break;
         case 'enum':
-            newObject = { ...formData.enum };
+            newObject.elements = formData.enum.elements;
+            if (props.enumMultiple) {
+                newObject.multiple = formData.enum.multiple;
+            }
             break;
         case 'string':
+        case 'password':
             newObject = pick(formData, 'maxLength');
             break;
         case 'date':
