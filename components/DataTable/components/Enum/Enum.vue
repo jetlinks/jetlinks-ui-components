@@ -35,9 +35,9 @@ const props = defineProps({
         default: false,
     },
     placement: {
-      type: String,
-      default: 'top'
-    }
+        type: String,
+        default: 'top',
+    },
 });
 
 const emit = defineEmits(['update:value', 'cancel', 'confirm']);
@@ -54,7 +54,7 @@ const source = ref([]);
 const rules = [
     {
         validator(_, value) {
-          console.log(formData, value)
+            console.log(formData, value);
             if (!value?.length) {
                 return Promise.reject('请添加枚举项');
             }
@@ -83,6 +83,7 @@ const confirm = () => {
                         if (props.multiple) {
                             value.type = formData.type;
                         }
+                        console.log(value);
                         emit('update:value', value);
                         emit('confirm', value);
                     })

@@ -125,8 +125,8 @@ const columns = [
 const rules = [
     {
         validator(_, value) {
-            console.log('enumItem - value', formData, value.elements, props);
-            if (!value.elements?.length) {
+            console.log('enumItem - value', formData, value, props);
+            if (!value?.length) {
                 return Promise.reject('请添加枚举项');
             }
             return Promise.resolve();
@@ -153,26 +153,17 @@ const addItem = () => {
         text: undefined,
     });
     console.log('update', newData);
-    emit('update:value', {
-        ...formData,
-        elements: newData,
-    });
+    emit('update:value', newData);
 };
 
 const deleteItem = (index) => {
     const newData = tableRef.value?.removeItem(index);
     console.log('update', newData);
-    emit('update:value', {
-        ...formData,
-        elements: newData,
-    });
+    emit('update:value', newData);
 };
 
 const changeValue = (newData) => {
-    emit('update:value', {
-        ...formData,
-        elements: newData,
-    });
+    emit('update:value', newData);
 };
 const cancel = () => {
     tableRef.value?.initItems();
