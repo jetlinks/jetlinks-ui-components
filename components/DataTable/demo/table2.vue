@@ -19,7 +19,10 @@ title: 基础
             <!--                <div>支持通过实体{{ scope.data.index }}</div>-->
             <!--            </template>-->
             <template #boolean="{ data }">
-                <DataTableArray v-model:value="data.record.boolean" />
+                <DataTableObject
+                    v-model:value="data.record.boolean"
+                    :onAdd="additems"
+                />
             </template>
             <template #action="{ data }">
                 <a-tag
@@ -101,7 +104,7 @@ const columns = ref([
             name: [''],
         },
         components: {
-            name: DataTableArray,
+            name: DataTableObject,
         },
     },
     {
@@ -139,6 +142,17 @@ const addItem = (data, index) => {
         config: undefined,
         boolean: false,
     });
+};
+
+const additems = () => {
+    return {
+        id: new Date().getTime() + '00000000',
+        age: undefined,
+        name: undefined,
+        width: undefined,
+        config: undefined,
+        boolean: false,
+    };
 };
 
 const remove = (index) => {

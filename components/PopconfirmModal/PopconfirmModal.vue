@@ -5,11 +5,7 @@
         :overlay-class-name="modalWarpName"
         :placement="placement || 'top'"
         :get-popup-container="getPopupContainer"
-        @visibleChange="
-            (e) => {
-                console.log(e);
-            }
-        "
+        @visibleChange="() => {}"
     >
         <template #title>
             <slot name="title" />

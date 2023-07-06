@@ -23,6 +23,12 @@
                         @click="toggle"
                     />
                 </div>
+                <div
+                    v-if="showResult.visible"
+                    class="j-data-table-search-result"
+                >
+                    已查询到<span>{{ showResult.msg }}</span> 条相关数据
+                </div>
             </div>
             <div class="j-data-table-expand">
                 <slot name="expand"> </slot>
@@ -367,6 +373,11 @@ const editKeys = ref({});
 const fullRef = ref();
 const { isFullscreen, enter, exit, toggle } = useFullscreen(fullRef);
 
+const showResult = reactive({
+    msg: 0,
+    visible: false,
+});
+
 //  表单值
 const formData = reactive<{ table: any[]; search: any[] }>({
     table: [],
@@ -420,16 +431,16 @@ useDirection((code) => {
 });
 
 const sortTables = (data: any[]) => {
-    console.log('排序',data);
-    const { sortKey } = props
+    console.log('排序', data);
+    const { sortKey } = props;
     return data.sort((a: any, b: any) => {
-      if (a[sortKey] > b[sortKey]){
-        return 1
-      } else if (a[sortKey] < b[sortKey]) {
-        return -1
-      } else {
-        return 0
-      }
+        if (a[sortKey] > b[sortKey]) {
+            return 1;
+        } else if (a[sortKey] < b[sortKey]) {
+            return -1;
+        } else {
+            return 0;
+        }
     });
 };
 
@@ -450,7 +461,11 @@ const search = (e) => {
             ...item,
             index: index + 1,
         }));
+        showResult.msg = includeArr.length;
+        showResult.visible = true;
     } else {
+        showResult.msg = 0;
+        showResult.visible = false;
         formData.table = sortTables(formData.table);
     }
 };
@@ -477,22 +492,22 @@ const getData = (quit = true) => {
             .catch((err) => {
                 const { errorFields } = err;
                 if (errorFields) {
-                  const obj = {};
-                  errorFields.forEach((item: any, index: number) => {
-                    const names = item.name;
-                    const key = `td_${names[1]}_${names[2]}`;
-                    obj[key] = item.errors[0];
-                  });
-                  const firstKey = Object.keys(obj)[0];
-                  // 未处于编辑模式时，强制第一个错误进入编辑模式
-                  if (!editKey.value) {
-                    editKey.value = firstKey;
-                  } else {
-                    //  处于编辑模式，并且编辑项在校验错误项中
-                    editKey.value = obj[editKey.value]
-                        ? editKey.value
-                        : firstKey;
-                  }
+                    const obj = {};
+                    errorFields.forEach((item: any, index: number) => {
+                        const names = item.name;
+                        const key = `td_${names[1]}_${names[2]}`;
+                        obj[key] = item.errors[0];
+                    });
+                    const firstKey = Object.keys(obj)[0];
+                    // 未处于编辑模式时，强制第一个错误进入编辑模式
+                    if (!editKey.value) {
+                        editKey.value = firstKey;
+                    } else {
+                        //  处于编辑模式，并且编辑项在校验错误项中
+                        editKey.value = obj[editKey.value]
+                            ? editKey.value
+                            : firstKey;
+                    }
                 }
                 reject(err);
             });
@@ -520,7 +535,7 @@ const rowClick = async (key: string) => {
     // }
     // formRowValidate.value = data;
     // if (!data) return;
-    if (Object.keys(formErr.value).length  && !formErr.value[key] ) return
+    if (Object.keys(formErr.value).length && !formErr.value[key]) return;
 
     if (key !== editKey.value) {
         editKey.value = '';
@@ -533,7 +548,7 @@ const rowClick = async (key: string) => {
  * @param key
  */
 const editClick = (key: string) => {
-    if (Object.keys(formErr.value).length  && !formErr.value[key] ) return
+    if (Object.keys(formErr.value).length && !formErr.value[key]) return;
     if (key === selectedKey.value) {
         editKey.value = key;
         editKeys.value[key] = true;
@@ -698,6 +713,18 @@ const newColumns = computed(() => {
 //     { immediate: true, deep: true },
 // );
 
+const addEditor = (index: number, dataIndex: string) => {
+    const key = `td_${index}_${dataIndex}`;
+    console.log(key);
+    editKeys.value[key] = true;
+};
+
+const addEditorAll = (index: number) => {
+    for (const item of props.columns) {
+        addEditor(index, (item as any).dataIndex);
+    }
+};
+
 const addItem = (_data: any, index?: number) => {
     console.log('addItem', _data, index);
     if (_data) {
@@ -751,19 +778,13 @@ const stringify = (data: any[]) => {
 };
 
 const validate = (name, status, errorMsgs) => {
-  const key = `td_${name[1]}_${name[2]}`
-  if (!status) {
-    formErr.value[key] = errorMsgs[0]
-  } else {
-    delete formErr.value[key]
-  }
-}
-
-const addEditor = (index: number, dataIndex: string) => {
-  const key = `td_${index}_${dataIndex}`
-  console.log(key)
-  editKeys.value[key] = true
-}
+    const key = `td_${name[1]}_${name[2]}`;
+    if (!status) {
+        formErr.value[key] = errorMsgs[0];
+    } else {
+        delete formErr.value[key];
+    }
+};
 
 onMounted(() => {
     nextTick(() => {
@@ -816,6 +837,7 @@ defineExpose({
     removeItem: removeItem,
     initItems: initItems,
     addEditor: addEditor,
+    addEditorAll: addEditorAll,
 });
 </script>
 
