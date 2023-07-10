@@ -1,6 +1,6 @@
 <template>
     <PopconfirmModal
-        body-style="padding-top:4px; width: 450px;"
+        :body-style="{ paddingTop: '4px', width: width }"
         :placement="placement"
         @confirm="confirm"
         @cancel="cancel"
@@ -15,7 +15,9 @@
                 />
             </Form>
         </template>
-        <Icon />
+        <slot>
+            <Icon />
+        </slot>
     </PopconfirmModal>
 </template>
 
@@ -24,6 +26,7 @@ import { reactive, ref, watch } from 'vue';
 import { Form, PopconfirmModal } from '../../../components';
 import EnumItem from './EnumItem.vue';
 import Icon from '../Icon.vue';
+import { cloneDeep } from 'lodash-es';
 
 const props = defineProps({
     value: {
@@ -38,6 +41,10 @@ const props = defineProps({
         type: String,
         default: 'top',
     },
+    width: {
+        type: String,
+        default: '480px',
+    },
 });
 
 const emit = defineEmits(['update:value', 'cancel', 'confirm']);
@@ -45,23 +52,11 @@ const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 const formRef = ref();
 const tableRef = ref();
 const formData = reactive({
-    type: props.value?.type || '1',
-    elements: props.value?.elements || [],
+    type: props.value?.type || false,
+    elements: cloneDeep(props.value?.elements) || [],
 });
 
 const source = ref([]);
-
-const rules = [
-    {
-        validator(_, value) {
-            console.log(formData, value);
-            if (!value?.length) {
-                return Promise.reject('请添加枚举项');
-            }
-            return Promise.resolve();
-        },
-    },
-];
 
 const cancel = () => {
     tableRef.value?.cancel();
@@ -77,13 +72,13 @@ const confirm = () => {
                     .then(() => {
                         resolve(true);
                         const value: any = {
-                            elements: formData.elements,
+                            elements: tableData,
                         };
 
                         if (props.multiple) {
                             value.type = formData.type;
                         }
-                        console.log(value);
+                        console.log('confirm', value);
                         emit('update:value', value);
                         emit('confirm', value);
                     })
@@ -97,12 +92,12 @@ const confirm = () => {
 };
 
 watch(
-    () => props.value,
+    () => JSON.stringify(props.value),
     () => {
         formData.type = props.value?.type;
-        formData.elements = props.value?.elements || [];
+        formData.elements = cloneDeep(props.value?.elements) || [];
     },
-    { deep: true },
+    { immediate: true },
 );
 </script>
 

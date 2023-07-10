@@ -125,6 +125,7 @@ const hideModal = () => {
 
 const hideModalAll = () => {
     const modalDivs = document.querySelectorAll(`.${modalName}.show`);
+    console.log();
     modalDivs.forEach((node) => {
         (node as HTMLDivElement).classList.replace('show', 'hide');
     });
@@ -153,7 +154,7 @@ const visibleChange = (e: boolean) => {
     myVisible.value = e;
     if (e) {
         setTimeout(() => {
-            hideModalAll();
+            // hideModalAll();
             createModal();
         }, 10);
     } else {
@@ -166,6 +167,7 @@ const visibleChange = (e: boolean) => {
 const cancel = () => {
     visibleChange(false);
     loading.value = false;
+    console.log('取消');
     emit('cancel');
 };
 

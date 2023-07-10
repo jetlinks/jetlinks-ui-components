@@ -75,10 +75,10 @@ export const getUUID = () => {
 };
 export const setUUIDbyDataSource = (data: any[]) => {
     return isArray(data)
-        ? data.map((item: any, index) => {
-                if (!item._sortIndex) {
-                    item._sortIndex = index
-                }
+        ? cloneDeep(data).map((item: any, index) => {
+              if (item._sortIndex === undefined) {
+                  item['_sortIndex'] = index;
+              }
               if (item._uuid) {
                   return item;
               } else {

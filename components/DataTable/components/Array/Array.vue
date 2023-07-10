@@ -14,14 +14,17 @@
                     :rules="rules"
                     :validate-first="true"
                 >
-                    <TypeSelect v-model:value="formData.type" />
+                    <TypeSelect
+                        v-model:value="formData.type"
+                        @change="typeChange"
+                    />
                 </FormItem>
                 <ScaleItem
                     v-if="['float', 'double'].includes(formData.type)"
                     v-model:value="formData.scale"
                 />
                 <StringItem
-                    v-else-if="['text', 'password'].includes(formData.type)"
+                    v-else-if="['string', 'password'].includes(formData.type)"
                     v-model:value="formData.maxLength"
                 />
                 <BooleanItem
@@ -42,7 +45,9 @@
                 />
             </Form>
         </template>
-        <Icon />
+        <slot>
+            <Icon />
+        </slot>
     </PopconfirmModal>
 </template>
 
@@ -100,6 +105,12 @@ const formData = reactive({
     },
 });
 
+const typeChange = (e) => {
+    if (['float', 'double'].includes(e)) {
+        formData.scale = 2;
+    }
+};
+
 const rules = [
     {
         validator(_, value) {
@@ -118,7 +129,7 @@ const cancel = () => {
     emit('cancel');
 };
 
-const handleValue = (type) => {
+const handleValue = (type, data: any) => {
     let newObject: any = {};
     switch (type) {
         case 'float':
@@ -129,9 +140,9 @@ const handleValue = (type) => {
             newObject = { ...formData.boolean };
             break;
         case 'enum':
-            newObject.elements = formData.enum.elements;
+            newObject.elements = data;
             if (props.enumMultiple) {
-                newObject.multiple = formData.enum.multiple;
+                newObject.multiple = data;
             }
             break;
         case 'string':
@@ -155,7 +166,7 @@ const confirm = () => {
             let enumResult = true;
             console.log('校验1', formData.type);
             if (formData.type === 'enum') {
-                await enumRef.value.getData();
+                enumResult = await enumRef.value.getData();
             }
 
             if (enumResult) {
@@ -163,8 +174,11 @@ const confirm = () => {
                     .validate()
                     .then(() => {
                         resolve(true);
-                        emit('update:value', handleValue(formData.type));
-                        emit('confirm', handleValue(formData.type));
+                        emit(
+                            'update:value',
+                            handleValue(formData.type, enumResult),
+                        );
+                        emit('confirm', handleValue(formData.type, enumResult));
                     })
                     .catch((e) => {
                         console.log(e);

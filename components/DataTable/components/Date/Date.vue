@@ -10,7 +10,9 @@
                 <DataItem v-model:value="formData.format" />
             </Form>
         </template>
-        <Icon />
+        <slot>
+            <Icon />
+        </slot>
     </PopconfirmModal>
 </template>
 
@@ -34,15 +36,15 @@ const props = defineProps({
         default: undefined,
     },
     placement: {
-      type: String,
-      default: 'top'
-    }
+        type: String,
+        default: 'top',
+    },
 });
 
 const formRef = ref();
 
 const formData = reactive<{ format: any }>({
-  format: props.value,
+    format: props.value,
 });
 
 const cancel = () => {
@@ -51,7 +53,7 @@ const cancel = () => {
 };
 
 const confirm = () => {
-  console.log(formData.format)
+    console.log(formData.format);
     emit('update:value', formData.format);
     emit('confirm', formData.format);
 };

@@ -2,8 +2,8 @@
     <CheckButton
         v-model:value="myValue"
         :options="[
-            { label: '仅单选', value: '1' },
-            { label: '支持多选', value: '2' },
+            { label: '仅单选', value: false },
+            { label: '支持多选', value: true },
         ]"
         @change="change"
     />

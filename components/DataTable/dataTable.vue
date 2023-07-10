@@ -37,8 +37,8 @@
         <div class="j-data-table-body">
             <Form
                 ref="formRef"
-                :model="formData"
                 layout="horizontal"
+                :model="formData"
                 :scroll-to-first-error="true"
                 @validate="validate"
             >
@@ -49,7 +49,11 @@
                         :pagination="false"
                         :data-source="virtualData"
                         :row-key="props.rowKey || '_uuid'"
-                        :scroll="height ? { y: height } : undefined"
+                        :scroll="
+                            height
+                                ? { y: height < 120 ? 120 : height }
+                                : undefined
+                        "
                     >
                         <template #headerCell="{ column }">
                             <span
@@ -67,44 +71,43 @@
                             <!-- 判断是否已修改 -->
                             <div
                                 v-if="
-                                    editKeys[
+                                    (editKeys[
                                         `td_${index}_${column.dataIndex}`
-                                    ] &&
+                                    ] ||
+                                        column.control) &&
                                     controlData(
                                         record,
-                                        index,
+                                        record._sortIndex,
                                         column.dataIndex,
                                         column.type,
                                     )
                                 "
                                 class="j-row-update"
                             ></div>
-                            <Popover
+                            <FormError
+                                :id="`td_${index}_${column.dataIndex}`"
+                                :index="index"
                                 :visible="
                                     !!formErr[`td_${index}_${column.dataIndex}`]
                                 "
                                 :content="
                                     formErr[`td_${index}_${column.dataIndex}`]
                                 "
-                                :get-popup-container="(e) => draggableRef || e"
-                            >
-                                <div
-                                    :class="[
-                                        'j-row-selected',
-                                        'j-row-click',
-                                        selectedKey ===
-                                        `td_${index}_${column.dataIndex}`
-                                            ? 'j-row-selected-active'
-                                            : '',
-                                    ]"
-                                    :data-index="index"
-                                    :data-name="
-                                        column.type
-                                            ? column.dataIndex
-                                            : undefined
-                                    "
-                                ></div>
-                            </Popover>
+                                :is-edit="
+                                    editKeys[`td_${index}_${column.dataIndex}`]
+                                "
+                                :selected="
+                                    selectedKey ===
+                                    `td_${index}_${column.dataIndex}`
+                                "
+                                :name="
+                                    column.type ? column.dataIndex : undefined
+                                "
+                                :get-popup-container="(e) => e.parentNode"
+                                :placement="
+                                    formData.table.length > 1 ? 'top' : 'bottom'
+                                "
+                            />
                             <div
                                 v-if="column.dataIndex === 'index'"
                                 :class="draggableClassName"
@@ -304,11 +307,12 @@ import {
     DataTableFile,
     DataTableEnum,
     DataTableString,
+    FormError,
 } from './components';
 import Sortable from 'sortablejs';
 import { useFullscreen, useInfiniteScroll } from '@vueuse/core';
 
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep, debounce, isFunction, throttle } from 'lodash-es';
 import {
     cleanUUIDbyData,
     initControlDataSource,
@@ -372,6 +376,7 @@ const editKeys = ref({});
 
 const fullRef = ref();
 const { isFullscreen, enter, exit, toggle } = useFullscreen(fullRef);
+const formErrorCache = ref({});
 
 const showResult = reactive({
     msg: 0,
@@ -385,7 +390,9 @@ const formData = reactive<{ table: any[]; search: any[] }>({
 });
 
 const virtualData = computed(() => {
-    return formData.table.slice(0, (countNumber.value + 1) * maxLength);
+    return (
+        formData.table?.slice?.(0, (countNumber.value + 1) * maxLength) || []
+    );
 });
 
 const sortTable = ref();
@@ -426,12 +433,10 @@ useDirection((code) => {
                 break;
         }
         selectedKey.value = `td_${newIndex}_${columnKeys[newDataIndex]}`;
-        console.log(newDataIndex, newIndex, columnKeys[newDataIndex]);
     }
 });
 
 const sortTables = (data: any[]) => {
-    console.log('排序', data);
     const { sortKey } = props;
     return data.sort((a: any, b: any) => {
         if (a[sortKey] > b[sortKey]) {
@@ -451,7 +456,7 @@ const search = (e) => {
     editKey.value = '';
     if (e) {
         formData.table.forEach((item) => {
-            if (item[props.searchKey].includes(e)) {
+            if (item[props.searchKey]?.includes(e)) {
                 includeArr.push(item);
             } else {
                 filterArr.push(item);
@@ -470,14 +475,11 @@ const search = (e) => {
     }
 };
 
-const TypeSelectDataIndex = (row: any) =>
-    row[
-        newColumns.value?.find((item) => item.type === 'TypeSelect')?.dataIndex
-    ];
-
+const cleanEditStatus = () => {
+    editKeys.value = {};
+};
 const getData = (quit = true) => {
     return new Promise((resolve, reject) => {
-        console.log('开始校验');
         formRef.value
             .validate()
             .then(() => {
@@ -490,25 +492,6 @@ const getData = (quit = true) => {
                 }
             })
             .catch((err) => {
-                const { errorFields } = err;
-                if (errorFields) {
-                    const obj = {};
-                    errorFields.forEach((item: any, index: number) => {
-                        const names = item.name;
-                        const key = `td_${names[1]}_${names[2]}`;
-                        obj[key] = item.errors[0];
-                    });
-                    const firstKey = Object.keys(obj)[0];
-                    // 未处于编辑模式时，强制第一个错误进入编辑模式
-                    if (!editKey.value) {
-                        editKey.value = firstKey;
-                    } else {
-                        //  处于编辑模式，并且编辑项在校验错误项中
-                        editKey.value = obj[editKey.value]
-                            ? editKey.value
-                            : firstKey;
-                    }
-                }
                 reject(err);
             });
     });
@@ -518,22 +501,6 @@ const getData = (quit = true) => {
  * @param key
  */
 const rowClick = async (key: string) => {
-    // let data = true;
-    // try {
-    //     //  校验当前编辑项，若表单校验失败，静止切换行
-    //     if (editKey.value) {
-    //         await getData(false);
-    //     }
-    // } catch (err) {
-    //     const [td, index, dataIndex] = selectedKey.value?.split('_');
-    //     const names = err.errorFields?.[0]?.name;
-    //     if (names) {
-    //         data = names[1] !== Number(index) ? false : names[2] !== dataIndex;
-    //     } else {
-    //         data = false;
-    //     }
-    // }
-    // formRowValidate.value = data;
     // if (!data) return;
     if (Object.keys(formErr.value).length && !formErr.value[key]) return;
 
@@ -573,7 +540,6 @@ const sortTableHandle = () => {
         ghostClass: 'draggable-ghost',
         sort: true,
         onEnd: ({ oldIndex, newIndex, to, from }) => {
-            console.log(to, from);
             // 获取真正的index
             const oldTarget = draggableRef.value
                 .querySelector('.ant-table-tbody')
@@ -581,7 +547,6 @@ const sortTableHandle = () => {
             const newTarget = draggableRef.value
                 .querySelector('.ant-table-tbody')
                 .querySelectorAll('.ant-table-row')[newIndex - 1];
-            console.log(newTarget);
             const oldTargetPositions = getElData(
                 oldTarget.querySelectorAll('.j-row-click')?.[1],
             );
@@ -597,9 +562,7 @@ const sortTableHandle = () => {
             formData.table.splice(_newIndex - 1, 0, curr);
 
             const [min, max] = [_oldIndex, _newIndex].sort((a, b) => a - b);
-            console.log(oldIndex, newIndex, min, max);
             for (let i = min; i <= max; i++) {
-                console.log(i);
                 formData.table[i - 1].index = i;
             }
             // 判断当前拖拽中是否有选中
@@ -633,32 +596,19 @@ const sortTableHandle = () => {
  * @param type
  */
 const controlData = (record: any, index, dataIndex, type) => {
+    const item: any = props.columns.find((a: any) => a.dataIndex === dataIndex);
+    if (item?.control) {
+        return item.control(record, props.dataSource[index]);
+    }
     if (!type || !record) {
         return false;
     }
     const oldData = props.dataSource[index]?.[dataIndex];
+
     // 该数据是否支持编辑
     return oldData
         ? JSON.stringify(oldData) !== JSON.stringify(record[dataIndex])
         : true;
-};
-
-const customCell = (record, rowIndex, column) => {
-    return {
-        onClick(e: Event) {
-            e.stopPropagation();
-            rowClick(
-                !['index', 'action'].includes(column.dataIndex)
-                    ? `td_${rowIndex}_${column.dataIndex}`
-                    : '',
-            );
-        },
-        onDblclick(e: Event) {
-            e.stopPropagation();
-            // 判断哪些不需要编辑
-            editClick(column.type ? `td_${rowIndex}_${column.dataIndex}` : '');
-        },
-    };
 };
 
 //  重组columns
@@ -671,6 +621,20 @@ const newColumns = computed(() => {
     };
     const propsColumns = cloneDeep(props.columns);
     const _columns = propsColumns.map((item: any) => {
+        if (item.form?.rules) {
+            const index = item.form.rules.findIndex(
+                (item) => item.callback && isFunction(item.callback),
+            );
+            if (index >= 0) {
+                const { callback } = item.form.rules[index];
+                item.form.rules[index] = {
+                    validator(rule, value) {
+                        return callback(rule, value, formData.table);
+                    },
+                };
+            }
+        }
+
         item.customCell = (record, rowIndex, column) => {
             return {
                 onClick(e: Event) {
@@ -701,21 +665,8 @@ const newColumns = computed(() => {
     return hasSerial ? [serialItem, ..._columns] : _columns;
 });
 
-// watch(
-//     () => [props.dataSource, selectedKey.value],
-//     () => {
-//         if (props.draggable !== false) {
-//             nextTick(() => {
-//                 sortTableHandle();
-//             });
-//         }
-//     },
-//     { immediate: true, deep: true },
-// );
-
 const addEditor = (index: number, dataIndex: string) => {
     const key = `td_${index}_${dataIndex}`;
-    console.log(key);
     editKeys.value[key] = true;
 };
 
@@ -725,11 +676,12 @@ const addEditorAll = (index: number) => {
     }
 };
 
-const addItem = (_data: any, index?: number) => {
-    console.log('addItem', _data, index);
+const addItem = async (_data: any, index?: number) => {
     if (_data) {
+        // 先进行校验
+        const vail = await getData();
         const data = [...formData.table];
-
+        let editIndex = index + 1;
         if (index !== undefined) {
             data.splice(index + 1, 0, {
                 ..._data,
@@ -740,16 +692,28 @@ const addItem = (_data: any, index?: number) => {
                 ..._data,
                 _uuid: getUUID(),
             });
+            editIndex = data.length - 1;
         }
         formData.table = data;
-        // if (countNumber.value * maxLength <= formData.table.length || index <= countNumber.value * maxLength) {
-        //   virtualDatas.value = formData.table.slice(
-        //       countNumber.value * maxLength,
-        //       (countNumber.value + 1) * maxLength,
-        //   );
-        // }
+        //新增项进入编辑模式
+
+        newColumns.value.forEach((item, _index) => {
+            const _key = `td_${editIndex}_${item.dataIndex}`;
+            editKeys.value[_key] = true;
+            if (_index === 0) {
+                editKey.value = _key;
+            }
+        });
     }
     return cleanUUIDbyData(formData.table);
+};
+
+const removeEditKeysByIndex = (editIndex: number) => {
+    newColumns.value.forEach((item, _index) => {
+        const _key = `td_${editIndex}_${item.dataIndex}`;
+        delete editKeys.value[_key];
+        delete formErr.value[_key];
+    });
 };
 
 const removeItem = (index: number) => {
@@ -758,10 +722,7 @@ const removeItem = (index: number) => {
         data.splice(index, 1);
         formData.table = data;
 
-        // virtualDatas.value = formData.table.slice(
-        //     countNumber.value * maxLength,
-        //     (countNumber.value + 1) * maxLength,
-        // );
+        removeEditKeysByIndex(index);
     }
     return cleanUUIDbyData(formData.table);
 };
@@ -777,25 +738,54 @@ const stringify = (data: any[]) => {
     return data ? JSON.stringify(data) : '';
 };
 
-const validate = (name, status, errorMsgs) => {
+const firstValidate = debounce(() => {
+    const key = Object.keys(formErrorCache.value)[0];
+    if (key) {
+        const errorNode = draggableRef.value.querySelector(
+            `.${key}`,
+        ) as HTMLElement;
+        const bodyNode = draggableRef.value.querySelector(
+            `.ant-table-body`,
+        ) as HTMLElement;
+        if (errorNode) {
+            bodyNode.scrollTop = errorNode.getBoundingClientRect().top;
+        }
+        const { errorMsg } = formErrorCache.value[key];
+        formErr.value[key] = errorMsg;
+        if (!editKey.value) {
+            editKey.value = key;
+        } else {
+            //  处于编辑模式，并且编辑项在校验错误项中
+            editKey.value = formErrorCache.value[editKey.value]
+                ? editKey.value
+                : key;
+        }
+    }
+    formErrorCache.value = {};
+}, 10);
+
+const validate = (name, status, errorMsg) => {
     const key = `td_${name[1]}_${name[2]}`;
     if (!status) {
-        formErr.value[key] = errorMsgs[0];
+        formErrorCache.value[key] = {
+            errorMsg: errorMsg[0],
+            status: status,
+        };
     } else {
         delete formErr.value[key];
     }
+    firstValidate();
 };
 
 onMounted(() => {
     nextTick(() => {
+        const bodyNode = draggableRef.value.querySelector(
+            '.ant-table-body',
+        ) as HTMLElement;
+        bodyNode.style.minHeight = '120px';
         useInfiniteScroll(
             draggableRef.value!.querySelector('.ant-table-body') as HTMLElement,
             () => {
-                console.log('滑动到底部');
-                console.log(
-                    countNumber.value * maxLength,
-                    formData.table.length,
-                );
                 //  滑动到底部
                 if (
                     countNumber.value * maxLength <= formData.table.length &&
@@ -815,7 +805,6 @@ onMounted(() => {
 watch(
     () => JSON.stringify(props.dataSource),
     () => {
-        console.log('更新', formData.table.length, props.dataSource.length);
         formData.table = setUUIDbyDataSource(props.dataSource);
     },
     { immediate: true },
@@ -825,8 +814,9 @@ watch(
     () => formData.table,
     () => {
         // updateRevoke(formData.table);
-        emit('change', formData.table);
-        emit('update:dataSource', formData.table);
+        const data = cleanUUIDbyData(formData.table);
+        emit('change', data);
+        emit('update:dataSource', data);
     },
     { deep: true },
 );
@@ -838,6 +828,7 @@ defineExpose({
     initItems: initItems,
     addEditor: addEditor,
     addEditorAll: addEditorAll,
+    cleanEditStatus: cleanEditStatus,
 });
 </script>
 

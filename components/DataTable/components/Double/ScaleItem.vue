@@ -5,7 +5,8 @@
             style="width: 100%"
             :precision="0"
             :min="0"
-            :max="9999"
+            :max="99"
+            placeholder="请输入0-99以内的整数"
             @change="change"
         />
     </FormItem>

@@ -10,11 +10,12 @@
                 <Scrollbar height="280">
                     <DataTable
                         ref="tableRef"
-                        v-model:data-source="newSource"
+                        :data-source="newSource"
                         :columns="columns"
                         :serial="true"
                         :children="true"
                         :show-tool="false"
+                        :height="220"
                     >
                         <template
                             v-for="item in columns"
@@ -23,7 +24,10 @@
                             <slot
                                 v-if="item.dataIndex === 'action'"
                                 :name="item.dataIndex"
-                                :data="data"
+                                :data="{
+                                    record: data.record,
+                                    index: data.index,
+                                }"
                             >
                                 <Button
                                     type="link"
@@ -32,7 +36,14 @@
                                     <AIcon type="DeleteOutlined" />
                                 </Button>
                             </slot>
-                            <slot v-else :name="item.dataIndex" :data="data" />
+                            <slot
+                                v-else
+                                :name="item.dataIndex"
+                                :data="{
+                                    record: data.record,
+                                    index: data.index,
+                                }"
+                            />
                         </template>
                     </DataTable>
                 </Scrollbar>
@@ -41,7 +52,9 @@
                 >
             </div>
         </template>
-        <Icon />
+        <slot>
+            <Icon />
+        </slot>
     </PopconfirmModal>
 </template>
 
@@ -101,13 +114,15 @@ const addItem = () => {
         });
     }
 
-    // tableRef.value?.addItem(object);
-    newSource.value.push(object);
+    tableRef.value?.addItem(object);
+    // emit('update:value', newSource.value);
+    // newSource.value.push(object);
 };
 
 const deleteItem = (index) => {
-    // tableRef.value?.removeItem(index);
-    newSource.value.splice(index, 1);
+    tableRef.value?.removeItem(index);
+    // emit('update:value', newSource.value);
+    // newSource.value.splice(index, 1);
 };
 
 const cancel = () => {
@@ -115,9 +130,9 @@ const cancel = () => {
 };
 
 watch(
-    () => JSON.stringify(newSource.value),
+    () => JSON.stringify(props.value),
     () => {
-        emit('update:value', newSource.value);
+        newSource.value = props.value;
     },
 );
 
@@ -127,8 +142,12 @@ const confirm = () => {
             ?.getData()
             .then((data) => {
                 resolve(true);
-                emit('update:value', data);
-                emit('confirm', data);
+                const newData = data.map((item) => {
+                    const { _sortIndex, ...extra } = item;
+                    return extra;
+                });
+                emit('update:value', newData);
+                emit('confirm', newData);
             })
             .catch(() => {
                 reject(false);

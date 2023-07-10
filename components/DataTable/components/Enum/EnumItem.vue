@@ -1,14 +1,14 @@
 <template>
-    <FormItem
-        label="枚举项"
-        :name="name"
-        required
-        :rules="rules"
-        :validate-first="true"
-    >
+    <FormItem :name="name" :rules="rules" :validate-first="true">
+        <template #label>
+            <span style="color: #ff4d4f; padding-right: 4px; padding-top: 2px"
+                >*</span
+            >
+            枚举项
+        </template>
         <FormItemRest v-if="multiple">
             <ButtonGroup
-                v-model:value="formData.type"
+                v-model:value="typeRef"
                 @change="
                     () => {
                         typeChange;
@@ -23,8 +23,7 @@
                 :columns="columns"
                 :serial="true"
                 :show-tool="false"
-                item-key="value"
-                @change="changeValue"
+                @change="change"
             >
                 <template #action="{ data }">
                     <j-button type="link" @click="() => deleteItem(data.index)">
@@ -42,6 +41,7 @@
 
 <script setup>
 import { reactive, defineExpose, watch, ref } from 'vue';
+import { Form } from 'ant-design-vue';
 
 import {
     FormItem,
@@ -52,10 +52,12 @@ import {
 } from '../../../components';
 import ButtonGroup from './ButtonGroup.vue';
 
+const formItemContext = Form.useInjectFormItemContext();
+
 const props = defineProps({
     value: {
-        type: Object,
-        default: () => ({}),
+        type: Array,
+        default: () => [],
     },
     type: {
         type: Boolean,
@@ -75,13 +77,9 @@ const emit = defineEmits(['update:value', 'update:type', 'cancel', 'add']);
 
 const formRef = ref();
 const formData = reactive({
-    type: props.value?.type || '1',
-    elements: props.value?.elements || [],
+    elements: props.value || [],
 });
-
-const change = (data) => {
-    formData.elements = data;
-};
+const typeRef = ref(props.type || false);
 
 const tableRef = ref();
 
@@ -95,9 +93,26 @@ const columns = [
             required: true,
             rules: [
                 {
-                    required: true,
-                    message: '请输入value',
+                    callback: (rule, value, dataSource) => {
+                        if (value) {
+                            const { field } = rule;
+                            const keys = field.split('.');
+                            const index = Number(keys[1]);
+                            // 排除自身
+                            const hasValue =
+                                dataSource?.some(
+                                    (item, i) =>
+                                        item.value === value && i !== index,
+                                ) || false;
+                            if (hasValue) {
+                                return Promise.reject('该Value值已存在');
+                            }
+                            return Promise.resolve();
+                        }
+                        return Promise.reject('请输入Value');
+                    },
                 },
+                { max: 64, message: '最多可输入64个字符' },
             ],
         },
     },
@@ -105,6 +120,7 @@ const columns = [
         title: 'Text',
         dataIndex: 'text',
         type: 'text',
+        width: 150,
         form: {
             required: true,
             rules: [
@@ -112,6 +128,7 @@ const columns = [
                     required: true,
                     message: '请输入Text',
                 },
+                { max: 64, message: '最多可输入64个字符' },
             ],
         },
     },
@@ -122,11 +139,12 @@ const columns = [
     },
 ];
 
+const enumLength = ref(0);
+
 const rules = [
     {
         validator(_, value) {
-            console.log('enumItem - value', formData, value, props);
-            if (!value?.length) {
+            if (!enumLength.value) {
                 return Promise.reject('请添加枚举项');
             }
             return Promise.resolve();
@@ -148,38 +166,50 @@ const getData = () =>
     });
 
 const addItem = () => {
-    const newData = tableRef.value?.addItem({
+    // formData.elements.push({
+    //   value: undefined,
+    //   text: undefined
+    // })
+    tableRef.value?.addItem({
         value: undefined,
         text: undefined,
     });
-    console.log('update', newData);
-    emit('update:value', newData);
+    formItemContext.onFieldChange();
 };
 
 const deleteItem = (index) => {
-    const newData = tableRef.value?.removeItem(index);
-    console.log('update', newData);
-    emit('update:value', newData);
+    tableRef.value?.removeItem(index);
+    formItemContext.onFieldChange();
+    // const newData = tableRef.value?.removeItem(index);
+    // formData.elements.splice(index, 1)
+    // console.log('update', newData);
 };
 
-const changeValue = (newData) => {
-    emit('update:value', newData);
-};
 const cancel = () => {
     tableRef.value?.initItems();
 };
 
 const typeChange = () => {
-    emit('update:type', formData.type);
+    emit('update:type', typeRef.value);
+};
+
+const change = (data) => {
+    enumLength.value = data.length;
 };
 
 watch(
-    () => [props.value, props.type],
+    () => JSON.stringify(props.value),
     () => {
-        formData.type = props.value.type;
-        formData.elements = props.value.elements || [];
+        formData.elements = props.value || [];
     },
-    { deep: true },
+    { immediate: true },
+);
+
+watch(
+    () => props.type,
+    () => {
+        typeRef.value = props.type;
+    },
 );
 
 defineExpose({

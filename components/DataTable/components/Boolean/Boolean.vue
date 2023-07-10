@@ -10,7 +10,9 @@
                 <BooleanItem v-model:value="formData.value" />
             </Form>
         </template>
-        <Icon />
+        <slot>
+            <Icon />
+        </slot>
     </PopconfirmModal>
 </template>
 
@@ -28,10 +30,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-  placement: {
-    type: String,
-    default: 'top'
-  }
+    placement: {
+        type: String,
+        default: 'top',
+    },
 });
 
 const formRef = ref();

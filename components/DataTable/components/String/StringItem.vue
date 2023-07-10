@@ -6,7 +6,7 @@
             :precision="0"
             :min="0"
             :max="9999"
-            placeholder="请输入最大长度"
+            placeholder="请输入0-9999以内的整数"
             @change="change"
         />
     </FormItem>

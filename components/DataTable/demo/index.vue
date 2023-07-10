@@ -1,9 +1,9 @@
 <template>
     <demo-sort :cols="1">
         <Table2 />
-        <Table />
-        <PopconfirmModal />
-        <Components />
+        <!--        <Table />-->
+        <!--        <PopconfirmModal />-->
+        <!--        <Components />-->
     </demo-sort>
 </template>
 

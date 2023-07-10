@@ -360,11 +360,11 @@ const ProTable = defineComponent<JTableProps>({
                                             // if (props.rowSelection?.onSelectNone) {
                                             //     // 取消选择清空被选数据
                                             // }
-                                            props.rowSelection?.onChange(
+                                            props.rowSelection?.onChange?.(
                                                 [],
                                                 [],
                                             );
-                                            props.rowSelection?.onSelectNone();
+                                            props.rowSelection?.onSelectNone?.();
                                         }}
                                         closeText={
                                             <Button type="link">

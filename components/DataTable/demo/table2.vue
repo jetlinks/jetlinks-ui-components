@@ -12,17 +12,24 @@ title: 基础
             :columns="columns"
             :serial="true"
             :dataSource="newSource"
-            :height="600"
+            :height="200"
             ref="tableRef"
         >
-            <!--            <template #name="scope">-->
-            <!--                <div>支持通过实体{{ scope.data.index }}</div>-->
-            <!--            </template>-->
+            <template #name="scope">
+                <j-tooltip title="测试">
+                    <div>支持通过实体{{ scope.data.index }}</div>
+                </j-tooltip>
+            </template>
             <template #boolean="{ data }">
-                <DataTableObject
-                    v-model:value="data.record.boolean"
-                    :onAdd="additems"
-                />
+                <DataTableArray v-model:value="data.record.boolean">
+                    <template #name="{ data }">
+                        <j-input v-model:value="data.record.name" />
+                    </template>
+                    <template #id="{ data }">
+                        <DataTableEnum v-model:value="data.record.id" />
+                    </template>
+                    <j-button> 测试 </j-button>
+                </DataTableArray>
             </template>
             <template #action="{ data }">
                 <a-tag
@@ -93,18 +100,14 @@ const columns = ref([
         title: 'width',
         dataIndex: 'width',
         width: 200,
-        resizable: true,
-        type: 'TypeSelect',
+        type: 'text',
     },
     {
         title: '其他配置',
         dataIndex: 'config',
         type: 'components',
-        form: {
-            name: [''],
-        },
         components: {
-            name: DataTableObject,
+            name: DataTableEnum,
         },
     },
     {
@@ -134,7 +137,8 @@ const addItem = (data, index) => {
         tableRef.value.addEditor(index + 1, 'name');
     } else {
     }
-    newSource.value.push({
+
+    tableRef.value.addItem({
         id: new Date().getTime() + '00000000',
         age: undefined,
         name: undefined,
@@ -142,6 +146,7 @@ const addItem = (data, index) => {
         config: undefined,
         boolean: false,
     });
+    // newSource.value.push();
 };
 
 const additems = () => {
@@ -170,18 +175,23 @@ const save = async () => {
 };
 
 const initData = () => {
-    setTimeout(() => {
-        newSource.value = new Array(10).fill('').map((_, index) => {
-            return {
-                id: new Date().getTime() + index,
-                age: index + 1,
-                name: '测试文案' + (index + 1),
-                width: 10 + index,
-                config: undefined,
-                boolean: false,
-            };
-        });
-    }, 1000);
+    newSource.value = new Array(10).fill('').map((_, index) => {
+        return {
+            id: new Date().getTime() + index,
+            age: index + 1,
+            name: '测试文案' + (index + 1),
+            width: 10 + index,
+            config: {
+                elements: [
+                    {
+                        value: '123',
+                        text: '123',
+                    },
+                ],
+            },
+            boolean: [],
+        };
+    });
 };
 
 initData();

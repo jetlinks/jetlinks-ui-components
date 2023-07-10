@@ -7,7 +7,7 @@
     >
         <template #content>
             <Form ref="formRef" :model="formData" layout="vertical">
-                <FormItem name="unit" label="单位">
+                <FormItem v-if="showUnit" name="unit" label="单位">
                     <UnitSelect
                         v-model:value="formData.unit"
                         :options="options"
@@ -16,7 +16,9 @@
                 <ScaleItem v-model:value="formData.scale" />
             </Form>
         </template>
-        <Icon />
+        <slot>
+            <Icon />
+        </slot>
     </PopconfirmModal>
 </template>
 
@@ -35,10 +37,14 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-  placement: {
-    type: String,
-    default: 'top'
-  }
+    showUnit: {
+        type: Boolean,
+        default: true,
+    },
+    placement: {
+        type: String,
+        default: 'top',
+    },
 });
 
 const formRef = ref();
@@ -49,6 +55,10 @@ const formData = reactive({
 });
 
 const confirm = () => {
+    const obj = { ...formData };
+    if (!props.showUnit) {
+        delete obj.unit;
+    }
     emit('update:value', formData);
     emit('confirm', formData);
 };

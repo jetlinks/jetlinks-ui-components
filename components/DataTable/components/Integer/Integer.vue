@@ -14,7 +14,9 @@
                 </FormItem>
             </Form>
         </template>
-        <Icon />
+        <slot>
+            <Icon />
+        </slot>
     </PopconfirmModal>
 </template>
 
@@ -32,10 +34,10 @@ const props = defineProps({
         type: String,
         default: undefined,
     },
-  placement: {
-    type: String,
-    default: 'top'
-  }
+    placement: {
+        type: String,
+        default: 'top',
+    },
 });
 
 const formData = reactive({
