@@ -2,7 +2,7 @@
     <demo-sort :cols="1">
         <!--        <Basic />-->
         <AdvancedSearch />
-        <!--        <AdvancedLow />-->
+        <AdvancedLow />
         <!--        <Component />-->
     </demo-sort>
 </template>

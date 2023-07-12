@@ -31,7 +31,7 @@ const handleItemValue = (item, columnOptionMap) => {
     }
 
     if (_item.handleValue && isFunction(_item.handleValue)) {
-        item.value = _item.handleValue(item.value);
+        item.value = _item.handleValue(item.value, item);
     }
 
     if (['like', 'nlike'].includes(item.termType) && !!item.value) {
@@ -157,9 +157,7 @@ export const hasExpand = (terms): boolean => {
     return itemCount >= 2;
 };
 
-export const compatibleOldTerms = (
-    q: string = '{"terms":[{"terms":[{"column":"name","termType":"like","value":"111","type":"and"}]}]}',
-) => {
+export const compatibleOldTerms = (q: string) => {
     const _terms = [
         { terms: [null, null, null] },
         { terms: [null, null, null], type: 'and' },
@@ -233,7 +231,7 @@ export const getTermOptions = (type?: SearchProps['type'], column?: string) => {
     switch (type) {
         case 'select':
         case 'treeSelect':
-            keys = column?.includes('state') ? ['not'] : ['eq'];
+            keys = ['not', 'eq'];
             break;
         case 'time':
         case 'date':
@@ -244,7 +242,7 @@ export const getTermOptions = (type?: SearchProps['type'], column?: string) => {
             keys = ['btw', 'nbtw'];
             break;
         case 'number':
-            keys = ['eq'];
+            keys = ['eq', 'not', 'gt', 'lt', 'gte', 'lte'];
             break;
         default:
             keys =

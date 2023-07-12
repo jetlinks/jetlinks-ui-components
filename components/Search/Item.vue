@@ -257,7 +257,9 @@ const getTermType = (
         ? getTermTypes(options)
         : getTermOptions(type, column);
 
-    return defaultTermType || getTermTypeFn(type, column);
+    return defaultTermType || options?.length
+        ? termTypeOptions.option[0].value
+        : getTermTypeFn(type, column);
 };
 
 /**

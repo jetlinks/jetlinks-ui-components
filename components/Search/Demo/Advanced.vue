@@ -45,10 +45,7 @@ export default {
                 dataIndex: 'name',
                 search: {
                     type: 'string',
-                    first: true,
-                    componentProps: {
-                        placeholder: '请输入名称',
-                    },
+                    termOptions: ['eq'],
                 },
             },
             {
@@ -84,35 +81,6 @@ export default {
                 dataIndex: 'time1',
                 search: {
                     type: 'date',
-                },
-            },
-            {
-                title: '时间2',
-                dataIndex: 'time2',
-                search: {
-                    type: 'date',
-                },
-            },
-            {
-                title: '时间3',
-                dataIndex: 'time3',
-                search: {
-                    type: 'date',
-                },
-            },
-            {
-                title: '类型2',
-                dataIndex: 'type2',
-                search: {
-                    type: 'select',
-                    termOptions: ['eq', 'not'],
-                    options: async () => {
-                        console.log('刷新');
-                        return [
-                            { label: '类型1', value: 1 },
-                            { label: '类型2', value: 2 },
-                        ];
-                    },
                 },
             },
         ]);

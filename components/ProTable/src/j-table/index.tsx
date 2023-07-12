@@ -375,7 +375,18 @@ const ProTable = defineComponent<JTableProps>({
                                 </div>
                             ) : null}
                             {_model.value === ModelEnum.CARD ? (
-                                <div class={'jtable-card'}>
+                                <div
+                                    class={'jtable-card'}
+                                    style={
+                                        props.scroll && props.scroll.y
+                                            ? {
+                                                  maxHeight:
+                                                      props.scroll.y + 'px',
+                                                  overflow: 'auto',
+                                              }
+                                            : undefined
+                                    }
+                                >
                                     {_dataSource.value.length ? (
                                         <div
                                             class={'jtable-card-items'}

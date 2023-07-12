@@ -9,13 +9,14 @@ title: 远程加载数据
 </docs>
 <template>
     <!-- <j-button @click="onChange">改变params</j-button> -->
-    <div style="height: 600px;">
+    <div style="height: 600px">
         <j-pro-table
             :columns="columns"
             :request="query"
             :params="params"
             :defaultParams="{ sorts: [{ name: 'createTime', order: 'desc' }] }"
             ref="instanceRef"
+            :scroll="{ y: 600 }"
             :pagination="{
                 pageSizeOptions: ['10', '20'],
             }"
