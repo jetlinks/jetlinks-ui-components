@@ -148,7 +148,7 @@ import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
 import { ref, reactive, nextTick, watch } from 'vue';
 import type { SearchItemData, SearchProps } from './typing';
-import { cloneDeep, isArray, isFunction, omit } from 'lodash-es';
+import { cloneDeep, debounce, isArray, isFunction, omit } from 'lodash-es';
 import {
     filterTreeSelectNode,
     filterSelectNode,
@@ -306,7 +306,7 @@ const removeOptionByKey = (options: any[]): any[] => {
     });
 };
 
-const handleItemOptions = (option?: any[] | Function) => {
+const handleItemOptions = debounce((option?: any[] | Function) => {
     options.value = [];
     if (isArray(option)) {
         options.value = option;
@@ -321,7 +321,7 @@ const handleItemOptions = (option?: any[] | Function) => {
                 optionLoading.value = false;
             });
     }
-};
+}, 100);
 
 const initModel = () => {
     termsModel.type = 'or';
@@ -336,7 +336,6 @@ const columnChange = (
     changeValue: boolean = true,
 ) => {
     const item = columnOptionMap.get(value);
-
     if (!item) {
         initModel();
         return;

@@ -1,9 +1,9 @@
 <template>
     <demo-sort :cols="1">
-        <Basic />
+        <!--        <Basic />-->
         <AdvancedSearch />
-        <AdvancedLow />
-        <Component />
+        <!--        <AdvancedLow />-->
+        <!--        <Component />-->
     </demo-sort>
 </template>
 

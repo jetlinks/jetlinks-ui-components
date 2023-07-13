@@ -38,7 +38,6 @@ export default {
                 dataIndex: 'id',
                 search: {
                     type: 'string',
-                    defaultTermType: 'eq',
                 },
             },
             {
@@ -46,25 +45,70 @@ export default {
                 dataIndex: 'name',
                 search: {
                     type: 'string',
+                    first: true,
+                },
+            },
+            {
+                title: '接入方式',
+                dataIndex: 'provider',
+                search: {
+                    type: 'select',
+                    options: [
+                        { label: 'GB/T28181', value: 'gb28181-2016' },
+                        { label: '固定地址', value: 'fixed-media' },
+                    ],
+                },
+            },
+            {
+                title: '通道数量',
+                dataIndex: 'channelNumber',
+                key: 'channelNumber',
+                scopedSlots: true,
+                width: 100,
+            },
+            {
+                title: '厂商',
+                dataIndex: 'manufacturer',
+                key: 'manufacturer',
+                search: {
+                    type: 'string',
+                },
+                ellipsis: true,
+            },
+
+            {
+                title: '产品名称',
+                dataIndex: 'product',
+                search: {
+                    type: 'select',
+                    options: () => {
+                        return new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                resolve([
+                                    { label: '产品1', value: 'product1' },
+                                    { label: '产品2', value: 'product2' },
+                                    { label: '产品3', value: 'product3' },
+                                ]);
+                            }, 3000);
+                        });
+                    },
+                },
+            },
+            {
+                title: '状态',
+                dataIndex: 'state',
+                search: {
+                    type: 'select',
+                    options: [
+                        { label: '禁用', value: 'notActive' },
+                        { label: '离线', value: 'offline' },
+                        { label: '在线', value: 'online' },
+                    ],
                 },
             },
             {
                 title: '备注',
                 dataIndex: 'description',
-                search: {
-                    type: 'string',
-                },
-            },
-            {
-                title: '状态',
-                dataIndex: 'status',
-                search: {
-                    type: 'select',
-                    options: [
-                        { label: '测试1', value: '1' },
-                        { label: '测试2', value: '2' },
-                    ],
-                },
             },
         ]);
 
@@ -124,34 +168,24 @@ export default {
                 success: true,
                 result: [
                     {
-                        id: 'cb3c8bda833c79ba0808bb7426efa0fd',
+                        id: 'ceb26e40e37453ec9722fd4b79fd566c',
                         userId: '1199596756811550720',
-                        type: 'system-role',
-                        key: 'ff260831bd7c91786e7dfb032ade5635',
-                        name: '333333333',
+                        type: 'notice-config',
+                        key: '3b5fc4f8f7052dc8f8396f68e52499f4',
+                        name: '123',
                         content:
-                            '{"terms":[{"terms":[{"type":"or","value":"1231","termType":"eq","column":"id"},null,null]},{"terms":[{"type":"or","value":"123","termType":"like","column":"name"},null,null],"type":"and"}]}',
-                        createTime: 1689063477221,
+                            '{"terms":[{"terms":[{"type":"or","value":"1678607191739809792","termType":"eq","column":"id"},{"type":"and","value":"1","termType":"like","column":"name"},{"type":"and","value":"fixed-media","termType":"eq","column":"provider"}]},{"terms":[{"type":"or","value":"123","termType":"like","column":"manufacturer"},{"type":"and","value":"online","termType":"eq","column":"state"},{"type":"and","value":"fixed-media","termType":"eq","column":"provider"}],"type":"and"}]}',
+                        createTime: 1689046714380,
                     },
                     {
-                        id: 'b1b503ae439b3d7feb8c5451e3ea1c73',
+                        id: '908f7b26ee9588aaae9a21f52518c29e',
                         userId: '1199596756811550720',
-                        type: 'system-role',
-                        key: 'ecfb81dfcd25ba7b760fbfe09249fbef',
-                        name: '前端测试',
+                        type: 'notice-config',
+                        key: 'e73874e24ff5e68bb6dd28187627bb85',
+                        name: '34020000001000000040',
                         content:
-                            '{"terms":[{"terms":[{"type":"or","value":"1231","termType":"eq","column":"id"},{"type":"or","value":"231","termType":"like","column":"name"},{"type":"or","value":"11","termType":"like","column":"description"}]},{"terms":[{"type":"or","value":"123","termType":"like","column":"name"},{"type":"or","value":"213","termType":"like","column":"description"},{"type":"or","value":"1","termType":"eq","column":"status"}],"type":"and"}]}',
-                        createTime: 1689148363454,
-                    },
-                    {
-                        id: '14b5e655e2b3fc2037f89ec1869ec159',
-                        userId: '1199596756811550720',
-                        type: 'system-role',
-                        key: 'dc3d77fd7bb33794d05e398f9af8028b',
-                        name: '前端测试2',
-                        content:
-                            '{"terms":[{"terms":[{"type":"or","value":"11111111","termType":"eq","column":"id"},{"type":"or","value":"22222222","termType":"like","column":"name"},{"type":"or","value":"33333333","termType":"like","column":"description"}]},{"terms":[{"type":"or","value":"44444444","termType":"like","column":"name"},{"type":"or","value":"55555555","termType":"like","column":"description"},{"type":"or","value":"6666666","termType":"like","column":"name"}],"type":"and"}]}',
-                        createTime: 1689151365096,
+                            '{"terms":[{"terms":[{"type":"or","value":"34020000001000000040","termType":"like","column":"name"},null,null]},{"terms":[null,null,null],"type":"and"}]}',
+                        createTime: 1689149964863,
                     },
                 ],
             };
