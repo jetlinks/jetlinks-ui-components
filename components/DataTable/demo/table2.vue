@@ -101,7 +101,6 @@ const columns = ref([
         title: 'width',
         dataIndex: 'width',
         width: 200,
-        type: 'TypeSelect',
     },
     {
         title: '其他配置',
@@ -118,6 +117,9 @@ const columns = ref([
         // components: {
         //     name: DataTableDate,
         // },
+        form: {
+            required: true,
+        },
         width: 150,
     },
     {

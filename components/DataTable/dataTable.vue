@@ -132,10 +132,11 @@
                                 <!--         不需要校验, 未编辑           -->
                                 <template
                                     v-if="
-                                        !column.type ||
-                                        !editKeys[
-                                            `td_${index}_${column.dataIndex}`
-                                        ]
+                                        (!column.type && !column.form) ||
+                                        (!!column.type &&
+                                            !editKeys[
+                                                `td_${index}_${column.dataIndex}`
+                                            ])
                                     "
                                 >
                                     <slot
@@ -479,6 +480,7 @@ const search = (e) => {
 
 const cleanEditStatus = () => {
     editKeys.value = {};
+    updateStatus.value.clear();
 };
 const getData = (quit = true) => {
     return new Promise((resolve, reject) => {
