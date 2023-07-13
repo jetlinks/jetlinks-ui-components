@@ -13,6 +13,7 @@ title: 基础
             :serial="true"
             :dataSource="newSource"
             :height="200"
+            @editStatus="editStatus"
             ref="tableRef"
         >
             <template #name="scope">
@@ -100,7 +101,7 @@ const columns = ref([
         title: 'width',
         dataIndex: 'width',
         width: 200,
-        type: 'text',
+        type: 'TypeSelect',
     },
     {
         title: '其他配置',
@@ -172,6 +173,10 @@ const save = async () => {
     const data = await tableRef.value?.getData();
     newSource.value = data;
     console.log(data);
+};
+
+const editStatus = (status) => {
+    console.log(status);
 };
 
 const initData = () => {

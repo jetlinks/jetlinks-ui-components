@@ -321,6 +321,7 @@ import {
     getElData,
     getUUID,
 } from './util';
+import is from '../../site/src/directives/clipboard/is';
 
 const draggableClassName = 'draggable-item';
 
@@ -360,7 +361,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['change', 'update:dataSource']);
+const emit = defineEmits(['change', 'update:dataSource', 'editStatus']);
 
 const selectedKey = ref(); // 选中标识
 const editKey = ref(); // 编辑标识
@@ -368,6 +369,7 @@ const draggableRef = ref<HTMLDivElement>(null);
 const formRef = ref();
 const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
 const formErr = ref({});
+const updateStatus = ref<Set<string>>(new Set());
 const virtualUpdate = ref();
 const countNumber = ref(0);
 const maxLength = 30;
@@ -597,18 +599,33 @@ const sortTableHandle = () => {
  */
 const controlData = (record: any, index, dataIndex, type) => {
     const item: any = props.columns.find((a: any) => a.dataIndex === dataIndex);
+    const key = `td_${index}_${dataIndex}`;
+
     if (item?.control) {
-        return item.control(record, props.dataSource[index]);
+        const isControl = item.control(record, props.dataSource[index]);
+        if (isControl) {
+            updateStatus.value.add(key);
+        } else {
+            updateStatus.value.delete(key);
+        }
+
+        return isControl;
     }
     if (!type || !record) {
         return false;
     }
     const oldData = props.dataSource[index]?.[dataIndex];
 
-    // 该数据是否支持编辑
-    return oldData
+    const isControl = oldData
         ? JSON.stringify(oldData) !== JSON.stringify(record[dataIndex])
         : true;
+    if (isControl) {
+        updateStatus.value.add(key);
+    } else {
+        updateStatus.value.delete(key);
+    }
+    // 该数据是否支持编辑
+    return isControl;
 };
 
 //  重组columns
@@ -723,6 +740,7 @@ const removeItem = (index: number) => {
         formData.table = data;
 
         removeEditKeysByIndex(index);
+        updateStatus.value.add('delete_' + index);
     }
     return cleanUUIDbyData(formData.table);
 };
@@ -819,6 +837,13 @@ watch(
         emit('update:dataSource', data);
     },
     { deep: true },
+);
+
+watch(
+    () => JSON.stringify([...updateStatus.value.values()]),
+    () => {
+        emit('editStatus', !![...updateStatus.value.values()].length);
+    },
 );
 
 defineExpose({

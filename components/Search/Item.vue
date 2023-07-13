@@ -134,8 +134,8 @@
                     v-else-if="
                         component === componentType.component && componentName
                     "
-                    v-model:value="termsModel.value"
                     v-bind="cProps"
+                    v-model:value="termsModel.value"
                     @change="valueChange"
                 />
             </FormItem>
@@ -146,7 +146,7 @@
 <script setup lang="ts" name="SearchItem">
 import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
-import { ref, reactive, watchEffect, nextTick, watch } from 'vue';
+import { ref, reactive, nextTick, watch } from 'vue';
 import type { SearchItemData, SearchProps } from './typing';
 import { cloneDeep, isArray, isFunction, omit } from 'lodash-es';
 import {
@@ -256,7 +256,6 @@ const getTermType = (
     termTypeOptions.option = options?.length
         ? getTermTypes(options)
         : getTermOptions(type, column);
-
     return defaultTermType || options?.length
         ? termTypeOptions.option[0].value
         : getTermTypeFn(type, column);
@@ -324,6 +323,13 @@ const handleItemOptions = (option?: any[] | Function) => {
     }
 };
 
+const initModel = () => {
+    termsModel.type = 'or';
+    termsModel.column = undefined;
+    termsModel.value = undefined;
+    termsModel.termType = undefined;
+    termTypeOptions.option = termType;
+};
 const columnChange = (
     value: string,
     isChange: boolean,
@@ -331,7 +337,10 @@ const columnChange = (
 ) => {
     const item = columnOptionMap.get(value);
 
-    if (!item) return;
+    if (!item) {
+        initModel();
+        return;
+    }
     cProps.value = item.componentProps;
     optionLoading.value = false;
     // 设置value为undefined
@@ -383,9 +392,12 @@ const handleItem = () => {
             props.index > sortColumn.length
                 ? sortColumn.length - 1
                 : props.index;
+
         if (props.index <= sortColumn.length) {
             const _itemColumn = sortColumn[_index - 1];
             columnChange(_itemColumn.column as string, false);
+        } else {
+            columnChange(null, false);
         }
     } else {
         columnChange(props.columns[0]?.column as string, false);
@@ -411,9 +423,9 @@ const reset = () => {
 
 const handleColumnChange = (key: string) => {
     nextTick(() => {
-        if (key === 'column' && props.termsItem[key] !== termsModel[key]) {
-            columnChange(props.termsItem[key] as string, false, false);
-        }
+        // if (key === 'column') {
+        //     columnChange(props.termsItem[key] as string, false, false);
+        // }
         termsModel[key] = props.termsItem[key];
     });
 };
@@ -421,7 +433,6 @@ const handleColumnChange = (key: string) => {
 watch(
     () => props.columns,
     () => {
-        console.log(props.columns, props.index);
         if (props.columns) {
             handleItem();
         }
@@ -432,10 +443,19 @@ watch(
 watch(
     () => props.termsItem,
     () => {
-        console.log('value', props.termsItem, props.index);
         if (props.termsItem) {
-            Object.keys(props.termsItem).forEach((key) => {
-                handleColumnChange(key);
+            nextTick(() => {
+                Object.keys(props.termsItem).forEach((key) => {
+                    // handleColumnChange(key);
+                    termsModel[key] = props.termsItem[key];
+                    if (key === 'column' && props.termsItem.column) {
+                        columnChange(
+                            props.termsItem.column as string,
+                            false,
+                            false,
+                        );
+                    }
+                });
             });
         } else {
             // 重置

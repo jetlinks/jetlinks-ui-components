@@ -25,22 +25,22 @@ export default {
         const paramsStr = ref();
         const columns = [
             {
-                title: '名称',
-                dataIndex: 'name',
-                search: {
-                    type: 'string',
-                    componentProps: {
-                        placeholder: '请输入名称',
-                    },
-                },
-            },
-            {
                 title: '年龄',
                 dataIndex: 'age',
                 search: {
                     type: 'number',
                     componentProps: {
                         placeholder: '请输入真实年龄',
+                    },
+                },
+            },
+            {
+                title: '名称',
+                dataIndex: 'name',
+                search: {
+                    type: 'string',
+                    componentProps: {
+                        placeholder: '请输入名称',
                     },
                 },
             },

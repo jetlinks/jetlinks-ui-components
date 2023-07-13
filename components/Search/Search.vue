@@ -124,8 +124,9 @@ const handleItems = (reset: boolean = false) => {
             ) {
                 const _value =
                     search.defaultValue || reset
-                        ? undefined
+                        ? search.defaultValue
                         : search.defaultOnceValue;
+
                 defaultTerms = {
                     type: 'and',
                     value: _value,
