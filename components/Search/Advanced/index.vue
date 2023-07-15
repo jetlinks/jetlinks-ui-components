@@ -268,7 +268,7 @@ const expandChange = () => {
         const firstItem = termsData.terms[0].terms[0];
         termsData.terms = [
             { terms: [firstItem, null, null] },
-            { terms: [null, null, null] },
+            { type: 'or', terms: [null, null, null] },
         ];
     }
 };

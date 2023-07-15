@@ -51,7 +51,7 @@
                         :row-key="props.rowKey || '_uuid'"
                         :scroll="
                             height
-                                ? { y: height < 120 ? 120 : height }
+                                ? { y: height < 140 ? 140 : height }
                                 : undefined
                         "
                     >
@@ -94,7 +94,7 @@
                                     formErr[`td_${index}_${column.dataIndex}`]
                                 "
                                 :is-edit="
-                                    editKeys[`td_${index}_${column.dataIndex}`]
+                                    formErr[`td_${index}_${column.dataIndex}`]
                                 "
                                 :selected="
                                     selectedKey ===
@@ -104,9 +104,7 @@
                                     column.type ? column.dataIndex : undefined
                                 "
                                 :get-popup-container="(e) => e.parentNode"
-                                :placement="
-                                    formData.table.length > 1 ? 'top' : 'bottom'
-                                "
+                                :placement="index > 1 ? 'top' : 'bottom'"
                             />
                             <div
                                 v-if="column.dataIndex === 'index'"
@@ -122,7 +120,8 @@
                                         ? 'j-row-click'
                                         : '',
                                     editKey ===
-                                    `td_${index}_${column.dataIndex}`
+                                        `td_${index}_${column.dataIndex}` &&
+                                    column.type
                                         ? 'j-data-table--edit'
                                         : '',
                                 ]"
@@ -132,11 +131,10 @@
                                 <!--         不需要校验, 未编辑           -->
                                 <template
                                     v-if="
-                                        (!column.type && !column.form) ||
-                                        (!!column.type &&
-                                            !editKeys[
-                                                `td_${index}_${column.dataIndex}`
-                                            ])
+                                        !column.form &&
+                                        !editKeys[
+                                            `td_${index}_${column.dataIndex}`
+                                        ]
                                     "
                                 >
                                     <slot
@@ -151,10 +149,36 @@
                                         </Ellipsis>
                                     </slot>
                                 </template>
+                                <FormItem
+                                    v-else-if="!column.type && column.form"
+                                    :name="
+                                        ['table', index].concat(
+                                            column.form?.name ||
+                                                column.dataIndex,
+                                        )
+                                    "
+                                    :rules="column.form?.rules"
+                                    :validate-first="true"
+                                >
+                                    <template #help></template>
+                                    <slot
+                                        :name="column.dataIndex"
+                                        :data="{
+                                            record,
+                                            index,
+                                        }"
+                                    >
+                                    </slot>
+                                </FormItem>
                                 <!--         需要校验          -->
                                 <FormItem
                                     v-else
-                                    :name="['table', index, column.dataIndex]"
+                                    :name="
+                                        ['table', index].concat(
+                                            column.form?.name ||
+                                                column.dataIndex,
+                                        )
+                                    "
                                     :rules="column.form?.rules"
                                     :validate-first="true"
                                 >
@@ -191,6 +215,8 @@
                                             :placeholder="`请输入${column.title}`"
                                             :maxlength="64"
                                             style="width: 100%"
+                                            @focus="inputFocus = true"
+                                            @blur="inputFocus = false"
                                         />
                                         <InputNumber
                                             v-else-if="column.type === 'number'"
@@ -201,6 +227,8 @@
                                             "
                                             style="width: 100%"
                                             :placeholder="`请输入${column.title}`"
+                                            @focus="inputFocus = true"
+                                            @blur="inputFocus = false"
                                         />
                                         <DataTableTypeSelect
                                             v-else-if="
@@ -255,6 +283,8 @@
                                             :columns="newColumns"
                                             :extra="extra"
                                             :record="record"
+                                            @focus="inputFocus = true"
+                                            @blur="inputFocus = false"
                                         />
                                     </template>
                                 </FormItem>
@@ -282,6 +312,7 @@ import {
     ref,
     defineExpose,
     onMounted,
+    provide,
 } from 'vue';
 import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
@@ -297,19 +328,7 @@ import {
     Select,
 } from '../components';
 import BooleanSelect from '../Select/Boolean.vue';
-import {
-    DataTableTypeSelect,
-    DataTableInteger,
-    DataTableDouble,
-    DataTableArray,
-    DataTableDate,
-    DataTableObject,
-    DataTableBoolean,
-    DataTableFile,
-    DataTableEnum,
-    DataTableString,
-    FormError,
-} from './components';
+import { DataTableTypeSelect, FormError } from './components';
 import Sortable from 'sortablejs';
 import { useFullscreen, useInfiniteScroll } from '@vueuse/core';
 
@@ -380,6 +399,7 @@ const editKeys = ref({});
 const fullRef = ref();
 const { isFullscreen, enter, exit, toggle } = useFullscreen(fullRef);
 const formErrorCache = ref({});
+const inputFocus = ref(false);
 
 const showResult = reactive({
     msg: 0,
@@ -401,7 +421,7 @@ const virtualData = computed(() => {
 const sortTable = ref();
 
 useDirection((code) => {
-    if (selectedKey.value && formRowValidate.value) {
+    if (selectedKey.value && formRowValidate.value && !inputFocus.value) {
         const columnKeys = newColumns.value
             .map((item: any) => item.dataIndex)
             .filter((key) => key !== 'action');
@@ -768,7 +788,9 @@ const firstValidate = debounce(() => {
             `.ant-table-body`,
         ) as HTMLElement;
         if (errorNode) {
-            bodyNode.scrollTop = errorNode.getBoundingClientRect().top;
+            const index = Number(key.split('_')[1]);
+            bodyNode.scrollTop =
+                errorNode.getBoundingClientRect().height * index;
         }
         const { errorMsg } = formErrorCache.value[key];
         formErr.value[key] = errorMsg;
@@ -780,6 +802,7 @@ const firstValidate = debounce(() => {
                 ? editKey.value
                 : key;
         }
+        updateStatus.value.add(editKey.value);
     }
     formErrorCache.value = {};
 }, 10);

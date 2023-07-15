@@ -22,7 +22,7 @@ title: 基础
                 </j-tooltip>
             </template>
             <template #boolean="{ data }">
-                <DataTableArray v-model:value="data.record.boolean">
+                <DataTableArray v-model:value="data.record.config.boolean">
                     <template #name="{ data }">
                         <j-input v-model:value="data.record.name" />
                     </template>
@@ -58,6 +58,7 @@ title: 基础
         </j-data-table>
         <j-button @click="addItem">新增</j-button>
         <j-button @click="save">保存</j-button>
+        <span>当前修改状态{{ editStatusRef }}</span>
     </div>
 </template>
 
@@ -106,9 +107,9 @@ const columns = ref([
         title: '其他配置',
         dataIndex: 'config',
         type: 'components',
-        components: {
-            name: DataTableEnum,
-        },
+        // components: {
+        //     name: DataTableEnum,
+        // },
     },
     {
         title: '布尔值',
@@ -117,9 +118,19 @@ const columns = ref([
         // components: {
         //     name: DataTableDate,
         // },
-        form: {
-            required: true,
-        },
+        // form: {
+        //   required: true,
+        //   name: ['config','boolean'],
+        //   rules: [{
+        //     callback(_: any, value: any) {
+        //       // if (!value?.type) {
+        //       console.log(value)
+        //       return Promise.reject('请选择数据类型')
+        //       // }
+        //       // return Promise.resolve()
+        //     }
+        //   }]
+        // },
         width: 150,
     },
     {
@@ -131,6 +142,7 @@ const columns = ref([
 const newSource = ref([]);
 
 const tableRef = ref();
+const editStatusRef = ref(false);
 
 const addItem = (data, index) => {
     console.log(data, index);
@@ -146,7 +158,9 @@ const addItem = (data, index) => {
         age: undefined,
         name: undefined,
         width: undefined,
-        config: undefined,
+        config: {
+            boolean: false,
+        },
         boolean: false,
     });
     // newSource.value.push();
@@ -179,6 +193,7 @@ const save = async () => {
 
 const editStatus = (status) => {
     console.log(status);
+    editStatusRef.value = status;
 };
 
 const initData = () => {

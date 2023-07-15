@@ -3,10 +3,12 @@
         <Popover
             :visible="visible"
             :placement="placement"
-            :content="content"
             :get-popup-container="getPopupContainer"
             :auto-adjust-overflow="false"
         >
+            <template #content>
+                <div style="white-space: nowrap">{{ content }}</div>
+            </template>
             <div :class="className" :data-index="index" :data-name="name"></div>
         </Popover>
     </template>

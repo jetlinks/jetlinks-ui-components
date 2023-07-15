@@ -409,7 +409,7 @@ const termTypeChange = () => {
 
 const valueChange = () => {
     emit('change', {
-        type: props.onlyValue ? 'and' : termsModel.type,
+        type: props.onlyValue ? 'and' : termsModel.type || 'or',
         value: termsModel.value,
         termType: termsModel.termType || 'like',
         column: termsModel.column,
