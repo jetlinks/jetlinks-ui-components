@@ -15,6 +15,7 @@ title: 基础
             :height="200"
             @editStatus="editStatus"
             ref="tableRef"
+            :showTool="{ left: false }"
         >
             <template #name="scope">
                 <j-tooltip title="测试">
@@ -107,9 +108,9 @@ const columns = ref([
         title: '其他配置',
         dataIndex: 'config',
         type: 'components',
-        // components: {
-        //     name: DataTableEnum,
-        // },
+        components: {
+            name: DataTableEnum,
+        },
     },
     {
         title: '布尔值',

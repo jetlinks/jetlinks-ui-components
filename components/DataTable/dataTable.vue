@@ -4,7 +4,7 @@
         :class="['j-data-table', isFullscreen ? 'j-data-table-fullscreen' : '']"
     >
         <div v-if="showTool !== false" class="j-data-table-tool">
-            <div class="j-data-table-tool-left">
+            <div v-if="showToolLeft" class="j-data-table-tool-left">
                 <div v-if="showSearch" class="j-data-table-search">
                     <InputSearch
                         allow-clear
@@ -332,7 +332,13 @@ import { DataTableTypeSelect, FormError } from './components';
 import Sortable from 'sortablejs';
 import { useFullscreen, useInfiniteScroll } from '@vueuse/core';
 
-import { cloneDeep, debounce, isFunction, throttle } from 'lodash-es';
+import {
+    cloneDeep,
+    debounce,
+    isBoolean,
+    isFunction,
+    throttle,
+} from 'lodash-es';
 import {
     cleanUUIDbyData,
     initControlDataSource,
@@ -364,7 +370,7 @@ const props = defineProps({
         default: true,
     },
     showTool: {
-        type: Boolean,
+        type: [Boolean, Object],
         default: true,
     },
     searchKey: {
@@ -419,6 +425,12 @@ const virtualData = computed(() => {
 });
 
 const sortTable = ref();
+
+const showToolLeft = computed(() => {
+    return isBoolean(props.showTool)
+        ? props.showTool
+        : props.showTool.left !== false;
+});
 
 useDirection((code) => {
     if (selectedKey.value && formRowValidate.value && !inputFocus.value) {
