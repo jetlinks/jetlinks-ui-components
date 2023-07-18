@@ -166,13 +166,15 @@ const insert = (val) => {
 watch(
     () => props.modelValue,
     (val) => {
+        console.log(val, !instance.value);
         if (!instance.value) return;
         // setValue之前获取光标位置
         const position = instance.value.getPosition();
+
         // setValue之后光标位置改变
-        instance.value.setValue(val);
+        toRaw(instance.value).setValue(val);
         // 设置光标位置为setValue之前的位置
-        instance.value.setPosition(position);
+        toRaw(instance.value).setPosition(position);
     },
 );
 
