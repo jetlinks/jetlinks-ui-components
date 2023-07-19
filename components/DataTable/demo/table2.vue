@@ -15,7 +15,6 @@ title: 基础
             :height="200"
             @editStatus="editStatus"
             ref="tableRef"
-            :showTool="{ left: false }"
         >
             <template #name="scope">
                 <j-tooltip title="测试">
@@ -198,7 +197,7 @@ const editStatus = (status) => {
 };
 
 const initData = () => {
-    newSource.value = new Array(10).fill('').map((_, index) => {
+    newSource.value = new Array(1).fill('').map((_, index) => {
         return {
             id: new Date().getTime() + index,
             age: index + 1,

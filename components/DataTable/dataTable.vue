@@ -51,7 +51,13 @@
                         :row-key="props.rowKey || '_uuid'"
                         :scroll="
                             height
-                                ? { y: height < 140 ? 140 : height }
+                                ? {
+                                      y: !isFullscreen
+                                          ? height < 200
+                                              ? 200
+                                              : height
+                                          : `calc(100vh - 160px)`,
+                                  }
                                 : undefined
                         "
                     >
@@ -837,7 +843,7 @@ onMounted(() => {
         const bodyNode = draggableRef.value.querySelector(
             '.ant-table-body',
         ) as HTMLElement;
-        bodyNode.style.minHeight = '120px';
+        bodyNode.style.minHeight = '200px';
         useInfiniteScroll(
             draggableRef.value!.querySelector('.ant-table-body') as HTMLElement,
             () => {
