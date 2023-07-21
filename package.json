@@ -1,6 +1,6 @@
 {
   "name": "jetlinks-ui-components",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "main": "lib/index.js",
   "module": "es/index.js",
   "keywords": [
@@ -52,7 +52,7 @@
     "colorpicker-v3": "^2.10.2",
     "jetlinks-ui-components": "^1.0.23",
     "lodash-es": "^4.17.21",
-    "monaco-editor": "^0.35.0",
+    "monaco-editor": "^0.40.0",
     "sortablejs": "^1.15.0",
     "vuedraggable": "^4.1.0"
   },

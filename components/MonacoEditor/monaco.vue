@@ -12,6 +12,7 @@ import {
     defineExpose,
     onUnmounted,
     toRaw,
+    nextTick,
 } from 'vue';
 import * as monaco from 'monaco-editor';
 
@@ -103,14 +104,16 @@ onMounted(() => {
     instance.value.onDidChangeModelContent(() => {
         //
         const value = toRaw(instance.value).getValue();
-        emit('update:modelValue', value);
+        nextTick(() => {
+            emit('update:modelValue', value);
+        });
     });
 
     instance.value.onDidBlurEditorText(() => {
         emit('blur');
     });
 
-    props.init?.(instance);
+    props.init?.(instance, monaco);
 });
 
 /**
@@ -166,8 +169,12 @@ const insert = (val) => {
 watch(
     () => props.modelValue,
     (val) => {
-        console.log(val, !instance.value);
-        if (!instance.value) return;
+        if (
+            !instance.value ||
+            (instance.value &&
+                props.modelValue === toRaw(instance.value).getValue())
+        )
+            return;
         // setValue之前获取光标位置
         const position = instance.value.getPosition();
 

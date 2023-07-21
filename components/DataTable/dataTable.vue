@@ -353,7 +353,6 @@ import {
     getElData,
     getUUID,
 } from './util';
-import is from '../../site/src/directives/clipboard/is';
 
 const draggableClassName = 'draggable-item';
 
@@ -402,7 +401,6 @@ const formRef = ref();
 const formRowValidate = ref(true); // 行校验，用于上下左右操作控制
 const formErr = ref({});
 const updateStatus = ref<Set<string>>(new Set());
-const virtualUpdate = ref();
 const countNumber = ref(0);
 const maxLength = 30;
 

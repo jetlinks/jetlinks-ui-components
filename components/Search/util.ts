@@ -64,6 +64,7 @@ export const termsParamsFormat = (
                                     (iItem) =>
                                         iItem &&
                                         iItem.value !== undefined &&
+                                        iItem.value !== null &&
                                         iItem.value !== '' &&
                                         iItem.termType !== undefined &&
                                         iItem.column !== undefined,
