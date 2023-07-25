@@ -24,6 +24,7 @@ const props = defineProps({
     init: { type: Function, default: undefined },
     registrationTips: { type: Object, default: () => ({}) },
     registrationTypescript: { type: Object, default: () => ({}) },
+    blurFormat: { type: Boolean, default: true },
 });
 
 const emit = defineEmits(['update:modelValue', 'blur']);
@@ -89,6 +90,14 @@ const registerTypescript = () => {
     }
 };
 
+/**
+ * 代码格式化
+ */
+const editorFormat = () => {
+    if (!instance.value) return;
+    toRaw(instance.value).getAction('editor.action.formatDocument')?.run();
+};
+
 onMounted(() => {
     const _model = monaco.editor.createModel(props.modelValue, props.language);
 
@@ -111,40 +120,19 @@ onMounted(() => {
 
     instance.value.onDidBlurEditorText(() => {
         emit('blur');
+        if (props.blurFormat) {
+            editorFormat();
+        }
     });
 
-    props.init?.(instance, monaco);
+    if (props.modelValue) {
+        setTimeout(() => {
+            editorFormat();
+        }, 200);
+    }
+
+    props.init?.(instance.value, monaco);
 });
-
-/**
- * 代码格式化
- */
-const editorFormat = () => {
-    if (!instance.value) return;
-    instance.value.getAction('editor.action.formatDocument')?.run();
-};
-
-watchEffect(() => {
-    setTimeout(() => {
-        editorFormat();
-    }, 300);
-});
-
-watch(
-    () => JSON.stringify(props.registrationTips),
-    () => {
-        registerCompletionItemProvider();
-    },
-    { immediate: true },
-);
-
-watch(
-    () => JSON.stringify(props.registrationTypescript),
-    () => {
-        registerTypescript();
-    },
-    { immediate: true },
-);
 
 /**
  * 光标位置插入内容
@@ -152,8 +140,9 @@ watch(
  */
 const insert = (val) => {
     if (!instance.value) return;
-    const position = instance.value.getPosition();
-    instance.value.executeEdits(instance.value.getValue(), [
+    const position = toRaw(instance.value).getPosition();
+    const value = toRaw(instance.value).getValue();
+    toRaw(instance.value).executeEdits(value, [
         {
             range: new monaco.Range(
                 position?.lineNumber,
@@ -176,19 +165,37 @@ watch(
         )
             return;
         // setValue之前获取光标位置
-        const position = instance.value.getPosition();
+        const position = toRaw(instance.value).getPosition();
 
         // setValue之后光标位置改变
         toRaw(instance.value).setValue(val);
         // 设置光标位置为setValue之前的位置
         toRaw(instance.value).setPosition(position);
+
+        editorFormat();
     },
+);
+
+watch(
+    () => JSON.stringify(props.registrationTips),
+    () => {
+        registerCompletionItemProvider();
+    },
+    { immediate: true },
+);
+
+watch(
+    () => JSON.stringify(props.registrationTypescript),
+    () => {
+        registerTypescript();
+    },
+    { immediate: true },
 );
 
 onUnmounted(() => {
     disposeRegister();
     disposeTypescript();
-    instance.value?.editor?.dispose?.();
+    toRaw(instance.value).editor?.dispose?.();
 });
 
 defineExpose({

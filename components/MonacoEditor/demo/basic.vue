@@ -19,10 +19,7 @@ export default defineComponent({
         const init = (instance) => {
             console.log(instance);
             setTimeout(() => {
-                value.value = `{
-    "message": "success",
-    "result": {
-        "code": 200,
+                value.value = `{ "message": "success", "result": { "code": 200,
         "data": {
             "message": "success",
             "result": {
