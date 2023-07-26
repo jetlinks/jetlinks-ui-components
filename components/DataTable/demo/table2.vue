@@ -77,7 +77,7 @@ const columns = ref([
         title: '名称',
         dataIndex: 'name',
         width: 200,
-        type: 'text',
+        type: 'TypeSelect',
     },
     {
         title: '年龄',

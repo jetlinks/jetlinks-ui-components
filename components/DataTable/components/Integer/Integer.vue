@@ -2,6 +2,7 @@
     <PopconfirmModal
         body-style="padding-top:4px; width: 260px;"
         :placement="placement"
+        :get-popup-container="(node) => fullRef || node"
         @confirm="confirm"
     >
         <template #content>
@@ -22,9 +23,10 @@
 
 <script setup lang="ts">
 import UnitSelect, { UnitProps } from '../UnitSelect';
-import { reactive, ref } from 'vue';
+import { inject, reactive, ref } from 'vue';
 import { Form, FormItem, PopconfirmModal } from '../../../components';
 import Icon from '../Icon.vue';
+import { FULL_CODE } from '../../index';
 
 const emit = defineEmits(['update:value', 'confirm']);
 
@@ -43,7 +45,7 @@ const props = defineProps({
 const formData = reactive({
     unit: props.value,
 });
-
+const fullRef = inject(FULL_CODE);
 const confirm = () => {
     emit('update:value', formData.unit);
     emit('confirm', formData.unit);

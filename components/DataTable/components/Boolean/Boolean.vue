@@ -2,6 +2,7 @@
     <PopconfirmModal
         body-style="padding-top:4px;width: 260px;"
         :placement="placement"
+        :get-popup-container="(node) => fullRef || node"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -20,8 +21,9 @@
 import { Form, PopconfirmModal } from '../../../components';
 import BooleanItem from './BooleanItem.vue';
 import Icon from '../Icon.vue';
-import { reactive, ref } from 'vue';
+import { inject, reactive, ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
+import { FULL_CODE } from '../../index';
 
 const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 
@@ -37,7 +39,7 @@ const props = defineProps({
 });
 
 const formRef = ref();
-
+const fullRef = inject(FULL_CODE);
 const formData = reactive({
     value: {
         trueText: props.value?.trueText || '是',

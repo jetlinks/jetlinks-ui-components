@@ -2,6 +2,7 @@
     <PopconfirmModal
         :body-style="{ paddingTop: '4px', width: width }"
         :placement="placement"
+        :get-popup-container="(node) => fullRef || node"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -22,11 +23,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue';
+import { inject, reactive, ref, watch } from 'vue';
 import { Form, PopconfirmModal } from '../../../components';
 import EnumItem from './EnumItem.vue';
 import Icon from '../Icon.vue';
 import { cloneDeep } from 'lodash-es';
+import { FULL_CODE } from '../../index';
 
 const props = defineProps({
     value: {
@@ -49,6 +51,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 
+const fullRef = inject(FULL_CODE);
 const formRef = ref();
 const tableRef = ref();
 const formData = reactive({

@@ -6,6 +6,7 @@
         :size="size"
         placeholder="请选择单位"
         style="width: 100%"
+        :get-popup-container="(node) => fullRef || node"
         @change="change"
     />
 </template>
@@ -13,9 +14,10 @@
 <script setup lang="ts" name="UnitSelect">
 import { UnitProps } from './defaultSetting';
 import type { PropType } from 'vue';
-import { ref, watch } from 'vue';
+import { inject, ref, watch } from 'vue';
 import { isArray, isFunction } from 'lodash-es';
 import { Select as JSelect } from '../../../components';
+import { FULL_CODE } from '../../index';
 
 type valueType = string | number;
 
@@ -37,6 +39,10 @@ const props = defineProps({
         default: undefined,
     },
 });
+
+const fullRef = inject(FULL_CODE);
+
+console.log(fullRef);
 
 const value = ref<valueType[]>(props.value ? [props.value] : []);
 const unitOptions = ref([]);

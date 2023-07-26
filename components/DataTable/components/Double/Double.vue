@@ -2,6 +2,7 @@
     <PopconfirmModal
         body-style="padding-top:4px; width: 260px;"
         :placement="placement"
+        :get-popup-container="(node) => fullRef || node"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -24,10 +25,11 @@
 
 <script setup lang="ts">
 import UnitSelect, { UnitProps } from '../UnitSelect';
-import { reactive, ref, watch } from 'vue';
+import { inject, reactive, ref, watch } from 'vue';
 import { Form, FormItem, PopconfirmModal } from '../../../components';
 import ScaleItem from './ScaleItem.vue';
 import Icon from '../Icon.vue';
+import { FULL_CODE } from '../../index';
 
 const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 
@@ -48,7 +50,7 @@ const props = defineProps({
 });
 
 const formRef = ref();
-
+const fullRef = inject(FULL_CODE);
 const formData = reactive({
     unit: props.value?.unit,
     scale: props.value?.scale || 0, // 精度

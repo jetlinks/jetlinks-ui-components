@@ -2,6 +2,7 @@
     <PopconfirmModal
         :body-style="{ paddingTop: '4px', width: width }"
         :placement="placement"
+        :get-popup-container="(node) => fullRef || node"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -60,10 +61,11 @@
 
 <script setup lang="ts" name="Object">
 import DataTable from '../../dataTable.vue';
-import { ref, watch } from 'vue';
+import { inject, ref, watch } from 'vue';
 import { Button, PopconfirmModal, Scrollbar, AIcon } from '../../../components';
 import Icon from '../Icon.vue';
 import { isFunction } from 'lodash-es';
+import { FULL_CODE } from '../../index';
 
 type Emits = {
     (e: 'update:value', data: any): void;
@@ -71,6 +73,8 @@ type Emits = {
 };
 
 const emit = defineEmits<Emits>();
+
+const fullRef = inject(FULL_CODE);
 
 const props = defineProps({
     value: {

@@ -353,6 +353,7 @@ import {
     getElData,
     getUUID,
 } from './util';
+import { FULL_CODE } from './index';
 
 const draggableClassName = 'draggable-item';
 
@@ -407,6 +408,9 @@ const maxLength = 30;
 const editKeys = ref({});
 
 const fullRef = ref();
+
+provide(FULL_CODE, fullRef);
+
 const { isFullscreen, enter, exit, toggle } = useFullscreen(fullRef);
 const formErrorCache = ref({});
 const inputFocus = ref(false);

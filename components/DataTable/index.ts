@@ -16,6 +16,8 @@ import {
 
 export * from './components';
 
+export const FULL_CODE = 'DATA_EDITOR_FULL_REF';
+
 DataTable.install = function (app: App) {
     app.component('JDataTable', DataTable);
     app.component('JDataTables', DataTable2);

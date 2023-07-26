@@ -2,6 +2,7 @@
     <PopconfirmModal
         body-style="padding-top:4px;width:600px;"
         :placement="placement"
+        :get-popup-container="(node) => fullRef || node"
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -53,7 +54,7 @@
 
 <script setup lang="ts">
 import TypeSelect from '../Type';
-import { reactive, ref, watch } from 'vue';
+import { inject, reactive, ref, watch } from 'vue';
 import { Form, FormItem, PopconfirmModal } from '../../../components';
 import { FileType } from '../File';
 import { BooleanItem } from '../Boolean';
@@ -63,6 +64,7 @@ import { StringItem } from '../String';
 import { EnumItem } from '../Enum';
 import Icon from '../Icon.vue';
 import { pick } from 'lodash-es';
+import { FULL_CODE } from '../../index';
 
 const emit = defineEmits(['update:value', 'cancel', 'confirm']);
 
@@ -87,7 +89,7 @@ const props = defineProps({
 
 const formRef = ref();
 const enumRef = ref();
-
+const fullRef = inject(FULL_CODE);
 const formData = reactive({
     type: props.value?.type,
     scale: props.value?.scale,

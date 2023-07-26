@@ -5,16 +5,18 @@
         style="width: 100%"
         placeholder="请选择数据类型"
         :options="_options"
+        :get-popup-container="(node) => fullRef || node"
         @change="change"
     />
 </template>
 
 <script setup lang="ts" name="TypeSelect">
 import type { PropType } from 'vue';
-import { computed, defineEmits, ref, watch } from 'vue';
+import { computed, defineEmits, inject, ref, watch } from 'vue';
 import defaultOptions from './data';
 import { selectProps } from 'ant-design-vue/lib/select';
 import { Select as JSelect } from '../../../components';
+import { FULL_CODE } from '../../index';
 
 const emit = defineEmits(['update:value']);
 
@@ -35,6 +37,8 @@ const _options = computed(() => {
           )
         : defaultOptions;
 });
+
+const fullRef = inject(FULL_CODE);
 
 const change = (key) => {
     _value.value = key;
