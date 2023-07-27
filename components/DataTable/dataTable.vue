@@ -319,6 +319,7 @@ import {
     defineExpose,
     onMounted,
     provide,
+    getCurrentInstance,
 } from 'vue';
 import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
@@ -356,6 +357,7 @@ import {
 import { FULL_CODE } from './index';
 
 const draggableClassName = 'draggable-item';
+const { ctx } = getCurrentInstance();
 
 const props = defineProps({
     ...tableProps(),
@@ -891,6 +893,16 @@ watch(
     },
 );
 
+watch(
+    () => isFullscreen.value,
+    () => {
+        if (!isFullscreen.value) {
+            console.log('重新渲染');
+            ctx.$forceUpdate();
+        }
+    },
+);
+
 defineExpose({
     getData: getData,
     addItem: addItem,
@@ -899,6 +911,7 @@ defineExpose({
     addEditor: addEditor,
     addEditorAll: addEditorAll,
     cleanEditStatus: cleanEditStatus,
+    fullRef: fullRef.value,
 });
 </script>
 

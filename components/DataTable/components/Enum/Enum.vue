@@ -59,6 +59,8 @@ const formData = reactive({
     elements: cloneDeep(props.value?.elements) || [],
 });
 
+const formItemContext = Form.useInjectFormItemContext();
+
 const source = ref([]);
 
 const cancel = () => {
@@ -84,6 +86,7 @@ const confirm = () => {
                         console.log('confirm', value);
                         emit('update:value', value);
                         emit('confirm', value);
+                        formItemContext.onFieldChange();
                     })
                     .catch(() => reject(false));
             }
