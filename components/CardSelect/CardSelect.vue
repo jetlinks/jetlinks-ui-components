@@ -146,13 +146,19 @@ const props = defineProps({
         type: [String, Array],
         default: undefined,
     },
+    allowClear: {
+        type: Boolean,
+        default: false,
+    },
 });
 const { multiple, type, disabled, float } = toRefs(props);
 
 const emits = defineEmits(['update:value', 'change']);
 const activeKeys = ref<Array<string | number>>([]);
 const itemOptions = computed(() => props.options);
-
+const isAllowClear = computed(() => {
+    return props.allowClear !== false;
+});
 const getOptions = (keys: Array<string | number>): CardOption[] => {
     return itemOptions.value.filter((item) => {
         return keys.includes(item.value);
@@ -162,9 +168,14 @@ const getOptions = (keys: Array<string | number>): CardOption[] => {
 const handleSelect = (key: string | number, item: CardOption) => {
     if (disabled.value || item.disabled) return;
     let cloneActiveKeys = new Set(activeKeys.value);
+
     const isActive = cloneActiveKeys.has(key);
 
+    // 已选中，并且单选，allowClear为false，则return
+    if (isActive && !multiple.value && isAllowClear.value === false) return;
+
     if (isActive) {
+        // 选中
         cloneActiveKeys.delete(key);
     } else {
         // 添加
@@ -172,6 +183,7 @@ const handleSelect = (key: string | number, item: CardOption) => {
             ? cloneActiveKeys.add(key)
             : (cloneActiveKeys = new Set([key]));
     }
+
     activeKeys.value = [...cloneActiveKeys.keys()];
     const options = multiple.value ? getOptions(activeKeys.value) : item;
     emits('update:value', activeKeys.value);
