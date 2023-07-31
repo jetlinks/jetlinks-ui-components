@@ -288,7 +288,7 @@ const itemValueChange = (value: SearchItemData, index: number) => {
 };
 
 const addUrlParams = () => {
-    q.value = JSON.stringify(termsData);
+    q.value = encodeURI(JSON.stringify(termsData));
     target.value = props.target;
 };
 
@@ -356,8 +356,8 @@ const historyItemClick = (content: string) => {
 const handleUrlParams = (_params: UrlParam) => {
     // URL中的target和props的一致，则还原查询参数
     if (props.target && _params.target === props.target && _params.q) {
-        termsData.terms =
-            handleQData(compatibleOldTerms(_params.q))?.terms || [];
+        const qStr = decodeURI(_params.q);
+        termsData.terms = handleQData(compatibleOldTerms(qStr))?.terms || [];
         expand.value = hasExpand(termsData.terms);
         emit('search', termsParamsFormat(termsData, columnOptionMap));
     }
