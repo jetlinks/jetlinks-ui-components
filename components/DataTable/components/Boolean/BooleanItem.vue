@@ -2,13 +2,13 @@
     <FormItem label="布尔值" required :name="name" :rules="rules">
         <div class="data-table-boolean-item" style="margin-bottom: 12px">
             <div class="data-table-boolean-item--value">
-                <FormItem no-style name="trueText">
+                <FormItem no-style name="trueText" :rules="rules">
                     <Input v-model:value="formData.trueText" @change="change" />
                 </FormItem>
             </div>
             <div>-</div>
             <div class="data-table-boolean-item--value">
-                <FormItem no-style name="trueValue">
+                <FormItem no-style name="trueValue" :rules="rules">
                     <Input
                         v-model:value="formData.trueValue"
                         @change="change"
@@ -18,7 +18,7 @@
         </div>
         <div class="data-table-boolean-item">
             <div class="data-table-boolean-item--value">
-                <FormItem no-style name="falseText">
+                <FormItem no-style name="falseText" :rules="rules">
                     <Input
                         v-model:value="formData.falseText"
                         @change="change"
@@ -27,7 +27,7 @@
             </div>
             <div>-</div>
             <div class="data-table-boolean-item--value">
-                <FormItem no-style name="falseValue">
+                <FormItem no-style name="falseValue" :rules="rules">
                     <Input
                         v-model:value="formData.falseValue"
                         @change="change"
@@ -62,23 +62,7 @@ const formData = reactive({
     falseValue: props.value?.falseValue || 'false',
 });
 
-const rules = [
-    {
-        validator(_, value) {
-            console.log(value);
-            if (
-                !value.trueText ||
-                !value.trueValue ||
-                !value.falseText ||
-                !value.falseValue
-            ) {
-                return Promise.reject('请输入布尔值');
-            }
-            return Promise.resolve();
-        },
-        trigger: 'change',
-    },
-];
+const rules = [{ max: 64, message: '最多可输入64个字符' }];
 
 const change = () => {
     emit('update:value', formData);
