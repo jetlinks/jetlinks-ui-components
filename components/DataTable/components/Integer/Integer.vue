@@ -7,7 +7,11 @@
     >
         <template #content>
             <Form :model="form" layout="vertical">
-                <FormItem label="单位" name="unit">
+                <FormItem
+                    label="单位"
+                    name="unit"
+                    :rules="[{ max: 64, message: '最多可输入64个字符' }]"
+                >
                     <UnitSelect
                         v-model:value="formData.unit"
                         :options="options"

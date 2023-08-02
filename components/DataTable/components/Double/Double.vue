@@ -8,7 +8,12 @@
     >
         <template #content>
             <Form ref="formRef" :model="formData" layout="vertical">
-                <FormItem v-if="showUnit" name="unit" label="单位">
+                <FormItem
+                    v-if="showUnit"
+                    name="unit"
+                    label="单位"
+                    :rules="[{ max: 64, message: '最多可输入64个字符' }]"
+                >
                     <UnitSelect
                         v-model:value="formData.unit"
                         :options="options"
