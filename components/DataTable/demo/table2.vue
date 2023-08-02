@@ -16,22 +16,6 @@ title: 基础
             @editStatus="editStatus"
             ref="tableRef"
         >
-            <template #name="scope">
-                <j-tooltip title="测试">
-                    <div>支持通过实体{{ scope.data.index }}</div>
-                </j-tooltip>
-            </template>
-            <template #boolean="{ data }">
-                <DataTableArray v-model:value="data.record.config.boolean">
-                    <template #name="{ data }">
-                        <j-input v-model:value="data.record.name" />
-                    </template>
-                    <template #id="{ data }">
-                        <DataTableEnum v-model:value="data.record.id" />
-                    </template>
-                    <j-button> 测试 </j-button>
-                </DataTableArray>
-            </template>
             <template #action="{ data }">
                 <a-tag
                     color="pink"
@@ -46,7 +30,7 @@ title: 基础
                     color="red"
                     @click="
                         () => {
-                            addItem(data, data.index);
+                            copy(data, data.index);
                         }
                     "
                     >copy</a-tag
@@ -85,6 +69,7 @@ const columns = ref([
         width: 200,
         type: 'number',
         form: {
+            isVerify: true,
             required: true,
             rules: [
                 {
@@ -182,7 +167,9 @@ const remove = (index) => {
 };
 
 const copy = (data, index) => {
-    tableRef.value.addItem(data.record, index);
+    const object = data;
+    object.id = new Date().getTime();
+    tableRef.value.addItem(object, index);
 };
 
 const save = async () => {
@@ -197,7 +184,7 @@ const editStatus = (status) => {
 };
 
 const initData = () => {
-    newSource.value = new Array(100).fill('').map((_, index) => {
+    newSource.value = new Array(10).fill('').map((_, index) => {
         return {
             id: new Date().getTime() + index,
             age: index + 1,

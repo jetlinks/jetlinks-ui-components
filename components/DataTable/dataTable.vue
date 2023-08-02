@@ -137,7 +137,7 @@
                                 <!--         不需要校验, 未编辑           -->
                                 <template
                                     v-if="
-                                        !column.form &&
+                                        !column.form?.isVerify &&
                                         !editKeys[
                                             `td_${index}_${column.dataIndex}`
                                         ]
@@ -219,7 +219,6 @@
                                                 ]
                                             "
                                             :placeholder="`请输入${column.title}`"
-                                            :maxlength="64"
                                             style="width: 100%"
                                             @focus="inputFocus = true"
                                             @blur="inputFocus = false"
@@ -411,7 +410,9 @@ const editKeys = ref({});
 
 const fullRef = ref();
 
-provide(FULL_CODE, fullRef);
+if (props.showTool) {
+    provide(FULL_CODE, fullRef);
+}
 
 const { isFullscreen, enter, exit, toggle } = useFullscreen(fullRef);
 const formErrorCache = ref({});
@@ -757,7 +758,6 @@ const addItem = async (_data: any, index?: number) => {
         }
         formData.table = data;
         //新增项进入编辑模式
-
         newColumns.value.forEach((item, _index) => {
             const _key = `td_${editIndex}_${item.dataIndex}`;
             editKeys.value[_key] = true;
