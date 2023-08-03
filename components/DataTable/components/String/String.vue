@@ -4,9 +4,10 @@
         :placement="placement"
         :get-popup-container="(node) => fullRef || node"
         @confirm="confirm"
+        @cancel="cancel"
     >
         <template #content>
-            <Form layout="vertical" :model="formData">
+            <Form ref="formRef" layout="vertical" :model="formData">
                 <StringItem v-model:value="formData.maxLength" />
             </Form>
         </template>
@@ -17,13 +18,13 @@
 </template>
 
 <script setup lang="ts" name="String">
-import { watch, reactive, inject } from 'vue';
+import { watch, reactive, inject, ref } from 'vue';
 import { PopconfirmModal, Form } from '../../../components';
 import StringItem from './StringItem.vue';
 import Icon from '../Icon.vue';
 import { FULL_CODE } from '../../index';
 
-const emit = defineEmits(['update:value', 'confirm']);
+const emit = defineEmits(['update:value', 'confirm', 'cancel']);
 
 const props = defineProps({
     value: {
@@ -37,7 +38,7 @@ const props = defineProps({
 });
 
 const fullRef = inject(FULL_CODE);
-
+const formRef = ref();
 const formData = reactive({
     maxLength: props.value,
 });
@@ -45,6 +46,12 @@ const formData = reactive({
 const confirm = () => {
     emit('update:value', formData.maxLength);
     emit('confirm', formData.maxLength);
+};
+
+const cancel = () => {
+    formRef.value?.resetFields();
+    formData.maxLength = props.value;
+    emit('cancel');
 };
 
 watch(

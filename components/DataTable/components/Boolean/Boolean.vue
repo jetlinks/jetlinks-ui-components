@@ -21,7 +21,7 @@
 import { Form, PopconfirmModal } from '../../../components';
 import BooleanItem from './BooleanItem.vue';
 import Icon from '../Icon.vue';
-import { inject, reactive, ref } from 'vue';
+import { inject, reactive, ref, watch } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { FULL_CODE } from '../../index';
 
@@ -51,6 +51,12 @@ const formData = reactive({
 
 const cancel = () => {
     formRef.value?.resetFields();
+    formData.value = {
+        trueText: props.value?.trueText || '是',
+        trueValue: props.value?.trueValue || 'true',
+        falseText: props.value?.falseText || '否',
+        falseValue: props.value?.falseValue || 'false',
+    };
     emit('cancel');
 };
 
@@ -66,4 +72,16 @@ const confirm = () => {
         }
     });
 };
+
+watch(
+    () => JSON.stringify(props.value),
+    () => {
+        formData.value = {
+            trueText: props.value?.trueText || '是',
+            trueValue: props.value?.trueValue || 'true',
+            falseText: props.value?.falseText || '否',
+            falseValue: props.value?.falseValue || 'false',
+        };
+    },
+);
 </script>

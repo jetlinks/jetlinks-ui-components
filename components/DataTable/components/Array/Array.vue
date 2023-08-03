@@ -3,6 +3,7 @@
         body-style="padding-top:4px;width:600px;"
         :placement="placement"
         :get-popup-container="(node) => fullRef || node"
+        destroy-on-close
         @confirm="confirm"
         @cancel="cancel"
     >
@@ -126,8 +127,26 @@ const rules = [
     },
 ];
 
+const initValue = () => {
+    formData.type = props.value?.type;
+    formData.scale = props.value?.scale;
+    formData.maxLength = props.value?.maxLength;
+    formData.boolean = {
+        trueText: props.value?.trueText || '是',
+        trueValue: props.value?.trueValue || 'true',
+        falseText: props.value?.falseText || '否',
+        falseValue: props.value?.falseValue || 'false',
+    };
+    formData.format = props.value?.format;
+    formData.enum = {
+        multiple: props.value?.multiple,
+        elements: props.value?.elements,
+    };
+};
+
 const cancel = () => {
     formRef.value?.resetFields();
+    initValue();
     emit('cancel');
 };
 
@@ -197,20 +216,7 @@ const confirm = () => {
 watch(
     () => JSON.stringify(props.value),
     () => {
-        formData.type = props.value?.type;
-        formData.scale = props.value?.scale;
-        formData.maxLength = props.value?.maxLength;
-        formData.boolean = {
-            trueText: props.value?.trueText || '是',
-            trueValue: props.value?.trueValue || 'true',
-            falseText: props.value?.falseText || '否',
-            falseValue: props.value?.falseValue || 'false',
-        };
-        formData.format = props.value?.format;
-        formData.enum = {
-            multiple: props.value?.multiple,
-            elements: props.value?.elements,
-        };
+        initValue();
     },
 );
 </script>

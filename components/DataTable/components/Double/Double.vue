@@ -72,6 +72,8 @@ const confirm = () => {
 
 const cancel = () => {
     formRef.value?.resetFields();
+    formData.unit = props.value?.unit;
+    formData.scale = props.value?.scale;
     emit('cancel');
 };
 

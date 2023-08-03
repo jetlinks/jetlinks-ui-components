@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, reactive, ref } from 'vue';
+import { inject, reactive, ref, watch } from 'vue';
 import { Form, PopconfirmModal } from '../../../components';
 import DataItem from './DataItem.vue';
 import Icon from '../Icon.vue';
@@ -51,14 +51,21 @@ const formData = reactive<{ format: any }>({
 
 const cancel = () => {
     formRef.value?.resetFields();
+    formData.format = props.value;
     emit('cancel');
 };
 
 const confirm = () => {
-    console.log(formData.format);
     emit('update:value', formData.format);
     emit('confirm', formData.format);
 };
+
+watch(
+    () => props.value,
+    () => {
+        formData.format = props.value;
+    },
+);
 </script>
 
 <style scoped></style>

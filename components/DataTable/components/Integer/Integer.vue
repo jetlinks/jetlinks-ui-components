@@ -4,9 +4,10 @@
         :placement="placement"
         :get-popup-container="(node) => fullRef || node"
         @confirm="confirm"
+        @cancel="cancel"
     >
         <template #content>
-            <Form :model="form" layout="vertical">
+            <Form ref="formRef" :model="form" layout="vertical">
                 <FormItem
                     label="单位"
                     name="unit"
@@ -32,7 +33,7 @@ import { Form, FormItem, PopconfirmModal } from '../../../components';
 import Icon from '../Icon.vue';
 import { FULL_CODE } from '../../index';
 
-const emit = defineEmits(['update:value', 'confirm']);
+const emit = defineEmits(['update:value', 'confirm', 'cancel']);
 
 const props = defineProps({
     ...UnitProps,
@@ -45,7 +46,7 @@ const props = defineProps({
         default: 'top',
     },
 });
-
+const formRef = ref();
 const formData = reactive({
     unit: props.value,
 });
@@ -53,5 +54,11 @@ const fullRef = inject(FULL_CODE);
 const confirm = () => {
     emit('update:value', formData.unit);
     emit('confirm', formData.unit);
+};
+
+const cancel = () => {
+    formRef.value?.resetFields();
+    formData.unit = props.value;
+    emit('cancel');
 };
 </script>

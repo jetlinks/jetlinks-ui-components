@@ -1,5 +1,6 @@
 <template>
     <PopconfirmModal
+        destroy-on-close
         :body-style="{ paddingTop: '4px', width: width }"
         :placement="placement"
         :get-popup-container="(node) => fullRef || node"
@@ -70,6 +71,7 @@ import { FULL_CODE } from '../../index';
 type Emits = {
     (e: 'update:value', data: any): void;
     (e: 'confirm', data: any): void;
+    (e: 'cancel'): void;
 };
 
 const emit = defineEmits<Emits>();
@@ -131,6 +133,8 @@ const deleteItem = (index) => {
 
 const cancel = () => {
     tableRef.value?.initItems();
+    newSource.value = props.value;
+    emit('cancel');
 };
 
 watch(

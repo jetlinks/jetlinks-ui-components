@@ -11,7 +11,11 @@
             <slot name="title" />
         </template>
         <template #content>
-            <div class="popconfirm-modal-body" :style="bodyStyle">
+            <div
+                v-if="destroy"
+                class="popconfirm-modal-body"
+                :style="bodyStyle"
+            >
                 <slot name="content" />
             </div>
             <slot name="footer">
@@ -41,11 +45,12 @@
 
 <script setup lang="ts" name="JPopconfirmModal">
 import { popoverProps } from 'ant-design-vue/lib/popover';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import type { CSSProperties, PropType } from 'vue';
 import { updateStyle } from '../util/document';
 import { Button, Popover as JPopover } from '../components';
 import { isPromise } from '../util/comm';
+import { compute } from 'compute-scroll-into-view';
 type Emit = {
     (e: 'update:visible', data: Boolean): void;
     (e: 'visibleChange', data: Boolean): void;
@@ -83,6 +88,10 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    destroyOnClose: {
+        type: Boolean,
+        default: false,
+    },
     onConfirm: Function as PropType<(e: MouseEvent) => void | Promise<any>>,
 });
 
@@ -98,6 +107,14 @@ let modalMaskDom: HTMLDivElement = null;
 const bodyHasScrollbar = () => {
     return document.body.scrollHeight > document.body.clientHeight;
 };
+
+const destroy = computed(() => {
+    if (props.destroyOnClose !== false) {
+        return myVisible.value;
+    }
+
+    return true;
+});
 
 const showModal = () => {
     const hasScrollbar = bodyHasScrollbar();

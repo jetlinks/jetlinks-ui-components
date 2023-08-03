@@ -1,5 +1,6 @@
 <template>
     <PopconfirmModal
+        destroy-on-close
         :body-style="{ paddingTop: '4px', width: width }"
         :placement="placement"
         :get-popup-container="(node) => fullRef || node"
@@ -65,6 +66,10 @@ const source = ref([]);
 
 const cancel = () => {
     tableRef.value?.cancel();
+    formRef.value?.resetFields();
+    formData.type = props.value?.type;
+    formData.elements = cloneDeep(props.value?.elements) || [];
+    emit('cancel');
 };
 
 const confirm = () => {
