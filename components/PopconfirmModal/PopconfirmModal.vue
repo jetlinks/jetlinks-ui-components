@@ -102,7 +102,7 @@ const loading = ref(false);
 
 const modalName = 'popconfirm-modal-mask';
 const modalWarpName = 'popconfirm-modal-warp';
-let modalMaskDom: HTMLDivElement = null;
+const modalMaskDom = ref<HTMLDivElement>();
 
 const bodyHasScrollbar = () => {
     return document.body.scrollHeight > document.body.clientHeight;
@@ -132,7 +132,7 @@ const hideModal = () => {
         `.${modalName}.hide`,
     );
     const hideModal = modalDivs.length ? modalDivs[modalDivs.length - 1] : null;
-    modalMaskDom?.classList?.replace?.('show', 'close');
+    modalMaskDom.value?.classList?.replace?.('show', 'close'); // 关闭自身Mask遮罩
     if (!hideModal) {
         document.body.removeAttribute('style');
     } else {
@@ -148,25 +148,24 @@ const hideModalAll = () => {
 };
 
 const createModal = () => {
-    if (!modalMaskDom) {
+    if (!modalMaskDom.value) {
         const modalDiv = document.createElement('div') as HTMLDivElement;
         const modalWarps = document.querySelectorAll(`.${modalWarpName}`);
-        modalMaskDom = modalDiv;
+        modalMaskDom.value = modalDiv; // 创建mask遮罩
 
-        modalDiv.setAttribute('class', `${modalName} show`);
+        modalDiv.setAttribute('class', `${modalName} show`); // 添加class
         // modalDiv.style.zIndex = `${zIndex}`
         modalWarps[modalWarps.length - 1]?.insertAdjacentElement(
             'beforebegin',
             modalDiv,
         );
     } else {
-        modalMaskDom.classList.replace('close', 'show');
+        modalMaskDom.value.classList.replace('close', 'show'); // 替换class为show
     }
     showModal();
 };
 
 const visibleChange = (e: boolean) => {
-    console.log('visibleChange', e);
     myVisible.value = e;
     if (e) {
         setTimeout(() => {
@@ -183,7 +182,6 @@ const visibleChange = (e: boolean) => {
 const cancel = () => {
     visibleChange(false);
     loading.value = false;
-    console.log('取消');
     emit('cancel');
 };
 
