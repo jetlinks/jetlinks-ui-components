@@ -7,7 +7,7 @@
         @cancel="cancel"
     >
         <template #content>
-            <Form ref="formRef" :model="form" layout="vertical">
+            <Form ref="formRef" :model="formData" layout="vertical">
                 <FormItem
                     label="单位"
                     name="unit"
@@ -52,8 +52,18 @@ const formData = reactive({
 });
 const fullRef = inject(FULL_CODE);
 const confirm = () => {
-    emit('update:value', formData.unit);
-    emit('confirm', formData.unit);
+    return new Promise(async (resolve, reject) => {
+        formRef.value
+            .validate()
+            .then(() => {
+                resolve(true);
+                emit('update:value', formData.unit);
+                emit('confirm', formData.unit);
+            })
+            .catch((e) => {
+                reject(false);
+            });
+    });
 };
 
 const cancel = () => {

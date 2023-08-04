@@ -16,6 +16,9 @@ title: 基础
             @editStatus="editStatus"
             ref="tableRef"
         >
+            <template #width="{ data }">
+                <DataTableDouble v-model:value="data.record.width" />
+            </template>
             <template #action="{ data }">
                 <a-tag
                     color="pink"
@@ -30,7 +33,7 @@ title: 基础
                     color="red"
                     @click="
                         () => {
-                            copy(data, data.index);
+                            copy(data.record, data.index);
                         }
                     "
                     >copy</a-tag
@@ -54,6 +57,9 @@ import {
     DataTableObject,
     DataTableDate,
     DataTableEnum,
+    DataTableFile,
+    DataTableInteger,
+    DataTableDouble,
 } from 'jetlinks-ui-components';
 
 const columns = ref([
@@ -87,22 +93,23 @@ const columns = ref([
         title: 'width',
         dataIndex: 'width',
         width: 200,
+        type: 'components',
+        components: {
+            name: DataTableInteger,
+        },
     },
     {
         title: '其他配置',
         dataIndex: 'config',
         type: 'components',
-        components: {
-            name: DataTableEnum,
-        },
     },
     {
         title: '布尔值',
         dataIndex: 'boolean',
-        // type: 'components',
-        // components: {
-        //     name: DataTableDate,
-        // },
+        type: 'components',
+        components: {
+            name: DataTableBoolean,
+        },
         // form: {
         //   required: true,
         //   name: ['config','boolean'],
@@ -130,7 +137,6 @@ const tableRef = ref();
 const editStatusRef = ref(false);
 
 const addItem = (data, index) => {
-    console.log(data, index);
     if (index) {
         tableRef.value.addEditor(index + 1, 'id');
         tableRef.value.addEditor(index + 1, 'age');
@@ -169,6 +175,7 @@ const remove = (index) => {
 const copy = (data, index) => {
     const object = data;
     object.id = new Date().getTime();
+    console.log(object);
     tableRef.value.addItem(object, index);
 };
 
@@ -176,6 +183,7 @@ const save = async () => {
     const data = await tableRef.value?.getData();
     newSource.value = data;
     console.log(data);
+    tableRef.value.cleanEditStatus();
 };
 
 const editStatus = (status) => {
@@ -184,12 +192,12 @@ const editStatus = (status) => {
 };
 
 const initData = () => {
-    newSource.value = new Array(10).fill('').map((_, index) => {
+    newSource.value = new Array(1).fill('').map((_, index) => {
         return {
             id: new Date().getTime() + index,
             age: index + 1,
             name: '测试文案' + (index + 1),
-            width: 10 + index,
+            width: 'base64',
             config: {
                 elements: [
                     {
@@ -198,7 +206,7 @@ const initData = () => {
                     },
                 ],
             },
-            boolean: [],
+            boolean: undefined,
         };
     });
 };

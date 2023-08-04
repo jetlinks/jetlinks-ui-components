@@ -110,7 +110,9 @@
                                     column.type ? column.dataIndex : undefined
                                 "
                                 :get-popup-container="(e) => e.parentNode"
-                                :placement="index > 1 ? 'top' : 'bottom'"
+                                :placement="
+                                    handlePlacement(index, column.placement)
+                                "
                             />
                             <div
                                 v-if="column.dataIndex === 'index'"
@@ -543,6 +545,8 @@ const getData = (quit = true) => {
             });
     });
 };
+
+const getList = () => formData.table;
 /**
  * 单个选中
  * @param key
@@ -747,11 +751,13 @@ const addItem = async (_data: any, index?: number) => {
         if (index !== undefined) {
             data.splice(index + 1, 0, {
                 ..._data,
+                _sortIndex: index + 1,
                 _uuid: getUUID(),
             });
         } else {
             data.push({
                 ..._data,
+                _sortIndex: index,
                 _uuid: getUUID(),
             });
             editIndex = data.length - 1;
@@ -829,6 +835,13 @@ const firstValidate = debounce(() => {
     formErrorCache.value = {};
 }, 10);
 
+const handlePlacement = (index, placement) => {
+    if (placement) {
+        return index > 1 ? 'top' + placement : 'bottom' + placement;
+    }
+    return index > 1 ? 'top' : 'bottom';
+};
+
 const validate = (name, status, errorMsg) => {
     const key = `td_${name[1]}_${name[2]}`;
     if (!status) {
@@ -897,7 +910,6 @@ watch(
     () => isFullscreen.value,
     () => {
         if (!isFullscreen.value) {
-            console.log('重新渲染');
             ctx.$forceUpdate();
         }
     },
@@ -905,13 +917,14 @@ watch(
 
 defineExpose({
     getData: getData,
+    getList: getList,
     addItem: addItem,
     removeItem: removeItem,
     initItems: initItems,
     addEditor: addEditor,
     addEditorAll: addEditorAll,
     cleanEditStatus: cleanEditStatus,
-    fullRef: fullRef.value,
+    fullRef: () => fullRef.value,
 });
 </script>
 

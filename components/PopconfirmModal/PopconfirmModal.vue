@@ -142,7 +142,6 @@ const hideModal = () => {
 
 const hideModalAll = () => {
     const modalDivs = document.querySelectorAll(`.${modalName}.show`);
-    console.log();
     modalDivs.forEach((node) => {
         (node as HTMLDivElement).classList.replace('show', 'hide');
     });

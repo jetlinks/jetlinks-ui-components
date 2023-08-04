@@ -16,7 +16,7 @@ import { UnitProps } from './defaultSetting';
 import type { PropType } from 'vue';
 import { inject, ref, watch } from 'vue';
 import { isArray, isFunction } from 'lodash-es';
-import { Select as JSelect } from '../../../components';
+import { Form, Select as JSelect } from '../../../components';
 import { FULL_CODE } from '../../index';
 
 type valueType = string | number;
@@ -42,16 +42,17 @@ const props = defineProps({
 
 const fullRef = inject(FULL_CODE);
 
-console.log(fullRef);
-
 const value = ref<valueType[]>(props.value ? [props.value] : []);
 const unitOptions = ref([]);
+
+const formItemContext = Form.useInjectFormItemContext();
 
 const change = (v: valueType[]) => {
     const newValue = v.length > 1 ? v.pop() : v?.[0];
     value.value = [newValue];
     emit('update:value', newValue);
     emit('change', newValue);
+    formItemContext.onFieldChange();
 };
 
 const initOptions = async () => {

@@ -62,12 +62,22 @@ const formData = reactive({
 });
 
 const confirm = () => {
-    const obj = { ...formData };
-    if (!props.showUnit) {
-        delete obj.unit;
-    }
-    emit('update:value', formData);
-    emit('confirm', formData);
+    return new Promise(async (resolve, reject) => {
+        formRef.value
+            .validate()
+            .then(() => {
+                resolve(true);
+                const obj = { ...formData };
+                if (!props.showUnit) {
+                    delete obj.unit;
+                }
+                emit('update:value', formData);
+                emit('confirm', formData);
+            })
+            .catch((e) => {
+                reject(false);
+            });
+    });
 };
 
 const cancel = () => {

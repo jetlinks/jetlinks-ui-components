@@ -8,7 +8,7 @@
     >
         <template #content>
             <Form ref="formRef" :model="formData" layout="vertical">
-                <BooleanItem v-model:value="formData.value" />
+                <BooleanItem v-model:value="formData.value" @change="change" />
             </Form>
         </template>
         <slot>
@@ -48,6 +48,10 @@ const formData = reactive({
         falseValue: props.value?.falseValue || 'false',
     },
 });
+
+const change = () => {
+    formRef.value.validateFields('value');
+};
 
 const cancel = () => {
     formRef.value?.resetFields();

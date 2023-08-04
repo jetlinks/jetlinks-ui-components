@@ -41,7 +41,7 @@ const change = () => {
 };
 
 watch(
-    props.value,
+    () => props.value,
     () => {
         myValue.value = props.value;
     },
