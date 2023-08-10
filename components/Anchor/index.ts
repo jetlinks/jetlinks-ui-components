@@ -18,4 +18,4 @@ Anchor.install = function (app: App) {
 
 export default Anchor;
 
-export { AnchorLink };
+export { AnchorLink, AnchorLink as Link };
