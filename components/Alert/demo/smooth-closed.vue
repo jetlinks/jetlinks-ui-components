@@ -11,7 +11,7 @@ title: 平滑地卸载
 </docs>
 
 <template>
-  <a-alert
+  <j-alert
     v-if="visible"
     message="Alert Message Text"
     type="success"

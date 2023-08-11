@@ -11,7 +11,7 @@ title: 含有辅助性文字介绍
 </docs>
 
 <template>
-  <a-alert message="Success Text" type="success">
+  <j-alert message="Success Text" type="success">
     <template #description>
       <p>
         Success Description
@@ -19,18 +19,18 @@ title: 含有辅助性文字介绍
         Description Success Description
       </p>
     </template>
-  </a-alert>
-  <a-alert
+  </j-alert>
+  <j-alert
     message="Info Text"
     description="Info Description Info Description Info Description Info Description"
     type="info"
   />
-  <a-alert
+  <j-alert
     message="Warning Text"
     description="Warning Description Warning Description Warning Description Warning Description"
     type="warning"
   />
-  <a-alert
+  <j-alert
     message="Error Text"
     description="Error Description Error Description Error Description Error Description"
     type="error"
