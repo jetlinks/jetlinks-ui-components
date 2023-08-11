@@ -17,20 +17,20 @@ Generate a group of checkboxes from an array
 </docs>
 
 <template>
-  <a-checkbox-group v-model:value="value1" name="checkboxgroup" :options="plainOptions" />
+  <j-checkbox-group v-model:value="value1" name="checkboxgroup" :options="plainOptions" />
   <br />
   <br />
-  <a-checkbox-group v-model:value="value2" :options="plainOptions" />
+  <j-checkbox-group v-model:value="value2" :options="plainOptions" />
   <br />
   <br />
-  <a-checkbox-group v-model:value="value3" :options="options" />
+  <j-checkbox-group v-model:value="value3" :options="options" />
   <br />
   <br />
-  <a-checkbox-group v-model:value="value4" :options="optionsWithDisabled" disabled>
+  <j-checkbox-group v-model:value="value4" :options="optionsWithDisabled" disabled>
     <template #label="{ value }">
       <span style="color: red">{{ value }}</span>
     </template>
-  </a-checkbox-group>
+  </j-checkbox-group>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue';
