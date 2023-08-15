@@ -31,7 +31,7 @@ cover: https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg
 
 ```html
 <template>
-    <a-date-picker v-model:value="value" :locale="locale" />
+    <j-date-picker v-model:value="value" :locale="locale" />
 </template>
 <script>
     import locale from 'ant-design-vue/lib/date-picker/locale/zh_CN';
@@ -49,9 +49,9 @@ cover: https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg
 
 ```html
 <template>
-    <a-config-provider :locale="locale">
-        <a-date-picker v-model:value="value" />
-    </a-config-provider>
+    <j-config-provider :locale="locale">
+        <j-date-picker v-model:value="value" />
+    </j-config-provider>
 </template>
 <script>
     // 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
@@ -186,6 +186,17 @@ cover: https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg
 | change         | 日期范围发生变化的回调 | function(dates: \[dayjs, dayjs] \| \[string, string], dateStrings: \[string, string])                                 |
 | ok             | 点击确定按钮的回调     | function(dates: \[dayjs, dayjs] \| \[string, string])                                                                 |
 
+#### formatType
+
+```typescript
+import type { Dayjs } from 'dayjs';
+
+type Generic = string;
+type GenericFn = (value: Dayjs) => string;
+
+export type FormatType = Generic | GenericFn | Array<Generic | GenericFn>;
+```
+
 ## FAQ
 
 ### 如何在 DatePicker 中使用自定义日期库（如 moment.js \| dayjs \| date-fns）？
@@ -195,3 +206,18 @@ cover: https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg
 ### 为何全局修改 dayjs.locale 不生效？
 
 DatePicker 默认 `locale` 为 `en`。你可以通过 DatePicker 的 `locale` 属性来单独设置，也可以通过 [ConfigProvider `locale`](/components/config-provider-cn) 属性来配置。
+
+### 如何修改周的起始日？
+
+请使用正确的[语言包](/docs/vue/i18n-cn)（[#5605](https://github.com/ant-design/ant-design/issues/5605)），或者修改 dayjs 的 `locale` 配置：<https://codesandbox.io/s/dayjs-day-of-week-x9tuj2?file=/demo.tsx>
+
+```js
+import dayjs from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import 'dayjs/locale/zh-cn';
+
+dayjs.extend(updateLocale);
+dayjs.updateLocale('zh-cn', {
+  weekStart: 0,
+});
+```
