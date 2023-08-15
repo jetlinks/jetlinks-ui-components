@@ -5,6 +5,8 @@ export const baseProps = {
     ...colProps(),
 };
 
+export type { ColSize, ColProps } from 'ant-design-vue/lib/grid/Col';
+
 export default defineComponent({
     name: 'JSpace',
     props: baseProps,

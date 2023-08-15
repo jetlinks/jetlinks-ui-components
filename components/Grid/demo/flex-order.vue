@@ -9,15 +9,15 @@ title: 排序
 </docs>
 
 <template>
-  <a-divider orientation="left">Normal</a-divider>
-  <a-row type="flex">
+  <j-divider orientation="left">Normal</j-divider>
+  <j-row type="flex">
     <j-col :span="6" :order="4">1 col-order-4</j-col>
     <j-col :span="6" :order="3">2 col-order-3</j-col>
     <j-col :span="6" :order="2">3 col-order-2</j-col>
     <j-col :span="6" :order="1">4 col-order-1</j-col>
-  </a-row>
-  <a-divider orientation="left">Responsive</a-divider>
-  <a-row type="flex">
+  </j-row>
+  <j-divider orientation="left">Responsive</j-divider>
+  <j-row type="flex">
     <j-col :span="6" :xs="{ order: 1 }" :sm="{ order: 2 }" :md="{ order: 3 }" :lg="{ order: 4 }">
       1 col-order-responsive
     </j-col>
@@ -30,5 +30,5 @@ title: 排序
     <j-col :span="6" :xs="{ order: 4 }" :sm="{ order: 3 }" :md="{ order: 1 }" :lg="{ order: 1 }">
       4 col-order-responsive
     </j-col>
-  </a-row>
+  </j-row>
 </template>
