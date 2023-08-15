@@ -11,6 +11,7 @@ export type {
     MenuTheme,
     SubMenuProps,
     MenuItemProps,
+    MenuItemGroupProps,
     MenuMode,
     MenuDividerProps,
 } from 'ant-design-vue/lib/menu/index';
