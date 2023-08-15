@@ -15,7 +15,7 @@ message.config({
 </docs>
 
 <template>
-    <a-space>
+    <j-space>
         <Button @click="openMessage(configs[0])">open</Button>
         <Button type="primary" @click="openMessage(configs[1])">success</Button>
         <Button type="primary" danger @click="openMessage(configs[2])"
@@ -26,7 +26,7 @@ message.config({
             >warning</Button
         >
         <Button type="primary" @click="openMessage(configs[5])">loading</Button>
-    </a-space>
+    </j-space>
 </template>
 
 <script setup>
@@ -63,6 +63,6 @@ const configs = [
 ];
 
 const openMessage = (config) => {
-    message.success(config.content);
+    message[config.type](config.content);
 };
 </script>
