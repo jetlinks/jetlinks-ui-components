@@ -3,6 +3,9 @@ import Descriptions, {
     DescriptionsItem,
 } from 'ant-design-vue/lib/descriptions';
 
+export { DescriptionsItemProps, descriptionsProps, descriptionsContext } from 'ant-design-vue/lib/descriptions';
+export type { DescriptionsItemProp, DescriptionsProps, DescriptionsContextProp } from 'ant-design-vue/lib/descriptions';
+
 Descriptions.name = 'JDescriptions';
 DescriptionsItem.name = 'JDescriptionsItem';
 
