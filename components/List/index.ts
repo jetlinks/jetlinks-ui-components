@@ -7,7 +7,15 @@ export type {
     ListProps,
     ListItemProps,
     ListItemMetaProps,
+    ColumnType,
+    ColumnCount,
+    ListGridType,
+    ListSize,
+    ListItemLayout,
+    ListLocale
 } from 'ant-design-vue/lib/list/index';
+
+export { listProps } from 'ant-design-vue/lib/list/index';
 
 List.name = 'JList';
 ListItem.name = 'JListItem';
