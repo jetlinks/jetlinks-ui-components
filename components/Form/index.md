@@ -104,21 +104,21 @@ cover: https://gw.alipayobjects.com/zos/alicdn/ORmcdeaoO/Form.svg
 2、一个 Form.Item 只能收集一个表单项的数据，如果有多个表单项，会导致收集错乱，例如，
 
 ```html
-<a-form-item>
-  <a-input name="a"></a-input>
-  <a-input name="b"></a-input>
-</a-form-item>
+<j-form-item>
+  <j-input name="a"></j-input>
+  <j-input name="b"></j-input>
+</j-form-item>
 ```
 
 如上 Form.Item 并不知道需要收集 `name="a"` 还是 `name="b"`，你可以通过如下三种方式去解决此类问题：
 
-第一种，使用多个 `a-form-item`:
+第一种，使用多个 `j-form-item`:
 
 ```html
-<a-form-item>
-  <a-input name="a"></a-input>
-  <a-form-item><a-input name="b"></a-input></a-form-item>
-</a-form-item>
+<j-form-item>
+  <j-input name="a"></j-input>
+  <j-form-item><j-input name="b"></j-input></j-form-item>
+</j-form-item>
 ```
 
 第二种，使用自定义组件包裹，并在自定义组件中调用 `useInjectFormItemContext`，相当于把多个表单项合并成了一个
@@ -136,21 +136,21 @@ cover: https://gw.alipayobjects.com/zos/alicdn/ORmcdeaoO/Form.svg
 ```
 
 ```html
-<a-form-item>
+<j-form-item>
   <custom-com>
-    <a-input name="a"></a-input>
-    <a-input name="b"></a-input>
+    <j-input name="a"></j-input>
+    <j-input name="b"></j-input>
   </custom-com>
-</a-form-item>
+</j-form-item>
 ```
 
-第三种，组件库提供了一个 `a-form-item-rest` 组件，它会阻止数据的收集，你可以将不需要收集校验的表单项放到这个组件中即可，它和第一种方式很类似，但它不会产生额外的 dom 节点。
+第三种，组件库提供了一个 `j-form-item-rest` 组件，它会阻止数据的收集，你可以将不需要收集校验的表单项放到这个组件中即可，它和第一种方式很类似，但它不会产生额外的 dom 节点。
 
 ```html
-<a-form-item>
-  <a-input name="a"></a-input>
-  <a-form-item-rest><a-input name="b"></a-input></a-form-item-rest>
-</a-form-item>
+<j-form-item>
+  <j-input name="a"></j-input>
+  <j-form-item-rest><j-input name="b"></j-input></j-form-item-rest>
+</j-form-item>
 ```
 
 #### 2.x
@@ -160,17 +160,17 @@ Form.Item 会对唯一子元素进行劫持，并监听 `blur` 和 `change` 事�
 如果要监听的表单域不满足自动监听的条件，可以通过如下方式关联表单域：
 
 ```html
-<a-form-item name="form.name" ref="name" :autoLink="false">
-  <a-input v-model:value="other" />
+<j-form-item name="form.name" ref="name" :autoLink="false">
+  <j-input v-model:value="other" />
   <span>hahha</span>
   <div>
-    <a-input
+    <j-input
       v-model:value="form.name"
       @blur="() => {$refs.name.onFieldBlur()}"
       @change="() => {$refs.name.onFieldChange()}"
     />
   </div>
-</a-form-item>
+</j-form-item>
 ```
 
 ### 校验规则
