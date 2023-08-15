@@ -1,7 +1,8 @@
 import type { App } from 'vue';
 import Mentions, { MentionsOption } from 'ant-design-vue/lib/mentions/index';
 
-export type { MentionsProps } from 'ant-design-vue/lib/mentions/index';
+export type { MentionsProps, MentionPlacement, MentionsOptionProps } from 'ant-design-vue/lib/mentions/index';
+export { mentionsProps } from 'ant-design-vue/lib/mentions/index';
 
 Mentions.name = 'JMentions';
 MentionsOption.name = 'JMentionsOption';
