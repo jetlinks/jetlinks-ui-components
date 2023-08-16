@@ -28,7 +28,7 @@ export default {
     name: 'Basic',
     setup() {
         const paramsStr = ref();
-        const value = ref('terms');
+        const value = ref('object');
         const columns = [
             {
                 title: '名称名称名称1',
@@ -38,7 +38,7 @@ export default {
                     componentProps: {
                         placeholder: '请输入名称',
                     },
-                    defaultOnceValue: '123123',
+                    defaultValue: '111111111',
                 },
             },
             {

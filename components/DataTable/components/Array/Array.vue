@@ -2,7 +2,6 @@
     <PopconfirmModal
         body-style="padding-top:4px;width:600px;"
         :placement="placement"
-        :get-popup-container="(node) => fullRef || node"
         destroy-on-close
         @confirm="confirm"
         @cancel="cancel"

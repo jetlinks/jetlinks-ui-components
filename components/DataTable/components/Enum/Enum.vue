@@ -3,7 +3,7 @@
         destroy-on-close
         :body-style="{ paddingTop: '4px', width: width }"
         :placement="placement"
-        :get-popup-container="(node) => fullRef || node"
+        :get-popup-container="(node) => fullRef || document.body"
         @confirm="confirm"
         @cancel="cancel"
     >

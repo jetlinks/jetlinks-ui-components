@@ -5,7 +5,6 @@
         style="width: 100%"
         placeholder="请选择数据类型"
         :options="_options"
-        :get-popup-container="(node) => fullRef || node"
         @change="change"
     />
 </template>

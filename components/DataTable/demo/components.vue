@@ -42,7 +42,7 @@ title: 组件
         <j-divider />
 
         <p>Array</p>
-        <j-data-table-array />
+        <j-data-table-array v-model:value="value" />
         <j-divider />
 
         <p>Metrics</p>
@@ -52,8 +52,15 @@ title: 组件
 </template>
 
 <script>
+import { ref } from 'vue';
 export default {
     name: 'components',
+    setup() {
+        const value = ref(null);
+        return {
+            value,
+        };
+    },
 };
 </script>
 

@@ -6,7 +6,7 @@
         :size="size"
         placeholder="请选择单位"
         style="width: 100%"
-        :get-popup-container="(node) => fullRef || node"
+        :get-popup-container="(node) => fullRef || document.body"
         @change="change"
     />
 </template>
