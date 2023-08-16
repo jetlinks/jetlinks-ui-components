@@ -27,7 +27,7 @@ const props = defineProps({
     blurFormat: { type: Boolean, default: true },
 });
 
-const emit = defineEmits(['update:modelValue', 'blur']);
+const emit = defineEmits(['update:modelValue', 'blur', 'change']);
 
 const dom = ref();
 
@@ -115,6 +115,7 @@ onMounted(() => {
         const value = toRaw(instance.value).getValue();
         nextTick(() => {
             emit('update:modelValue', value);
+            emit('change', value);
         });
     });
 
