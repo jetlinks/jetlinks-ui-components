@@ -1,5 +1,7 @@
 import { withInstall } from '../util/type';
-import Comment from 'ant-design-vue/lib/comment/index';
+import Comment, { commentProps } from 'ant-design-vue/lib/comment/index';
+
+export { commentProps };
 
 export type { CommentProps } from 'ant-design-vue/lib/comment/index';
 
