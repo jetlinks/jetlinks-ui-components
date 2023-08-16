@@ -22,7 +22,7 @@ yarn
 yarn dev
 
 # 打包组件示例页面
-yarn build
+yarn site
 
 # 打包组件库
 yarn compile
