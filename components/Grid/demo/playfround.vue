@@ -15,7 +15,7 @@ title: 栅格配置器
     <div style="margin-bottom: 16px">
       <span style="margin-right: 6px">Horizontal Gutter (px):</span>
       <div style="width: 50%">
-        <a-slider
+        <j-slider
           v-model:value="gutterKey"
           :min="0"
           :max="Object.keys(gutters).length - 1"
@@ -25,7 +25,7 @@ title: 栅格配置器
       </div>
       <span style="margin-right: 6px">Vertical Gutter (px):</span>
       <div style="width: 50%">
-        <a-slider
+        <j-slider
           v-model:value="vgutterKey"
           :min="0"
           :max="Object.keys(vgutters).length - 1"
@@ -35,7 +35,7 @@ title: 栅格配置器
       </div>
       <span style="margin-right: 6px">Column Count:</span>
       <div style="width: 50%">
-        <a-slider
+        <j-slider
           v-model:value="colCountKey"
           :min="0"
           :max="Object.keys(colCounts).length - 1"
