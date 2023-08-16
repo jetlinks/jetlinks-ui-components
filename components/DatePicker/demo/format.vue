@@ -11,14 +11,14 @@ title: 日期格式
 </docs>
 
 <template>
-  <a-space direction="vertical" :size="12">
-    <a-date-picker v-model:value="value1" :format="dateFormat" />
-    <a-date-picker v-model:value="value2" :format="dateFormatList" />
-    <a-date-picker v-model:value="value3" :format="monthFormat" picker="month" />
-    <a-range-picker v-model:value="value4" :format="dateFormat" />
-    <a-date-picker v-model:value="value5" :format="customFormat" />
-    <a-date-picker v-model:value="value6" :format="customWeekStartEndFormat" picker="week" />
-  </a-space>
+  <j-space direction="vertical" :size="12">
+    <j-date-picker v-model:value="value1" :format="dateFormat" />
+    <j-date-picker v-model:value="value2" :format="dateFormatList" />
+    <j-date-picker v-model:value="value3" :format="monthFormat" picker="month" />
+    <j-range-picker v-model:value="value4" :format="dateFormat" />
+    <j-date-picker v-model:value="value5" :format="customFormat" />
+    <j-date-picker v-model:value="value6" :format="customWeekStartEndFormat" picker="week" />
+  </j-space>
 </template>
 <script lang="ts">
 import dayjs, { Dayjs } from 'dayjs';

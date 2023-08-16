@@ -1,5 +1,4 @@
 import type { App } from 'vue';
-import type { Dayjs } from 'dayjs';
 import DatePicker, {
     MonthPicker,
     WeekPicker,
@@ -7,10 +6,7 @@ import DatePicker, {
     QuarterPicker,
 } from 'ant-design-vue/lib/date-picker/dayjs';
 
-import type { PickerProps } from 'ant-design-vue/lib/date-picker/generatePicker';
-import type { ExtraDatePickerProps } from 'ant-design-vue/lib/date-picker/generatePicker/props';
-
-export type DatePickerProps = PickerProps<Dayjs> & ExtraDatePickerProps<Dayjs>;
+export type {DatePickerProps, MonthPickerProps, WeekPickerProps, RangePickerProps} from 'ant-design-vue/lib/date-picker/dayjs';
 
 DatePicker.name = 'JDatePicker';
 RangePicker.name = 'JRangePicker';
