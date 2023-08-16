@@ -11,5 +11,5 @@ title: 基本用法
 </docs>
 
 <template>
-  <a-alert message="Success Text" type="success" />
+  <j-alert message="Success Text" type="success" />
 </template>

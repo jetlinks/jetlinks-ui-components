@@ -11,8 +11,8 @@ title: 四种样式
 </docs>
 
 <template>
-  <a-alert message="Success Text" type="success" />
-  <a-alert message="Info Text" type="info" />
-  <a-alert message="Warning Text" type="warning" />
-  <a-alert message="Error Text" type="error" />
+  <j-alert message="Success Text" type="success" />
+  <j-alert message="Info Text" type="info" />
+  <j-alert message="Warning Text" type="warning" />
+  <j-alert message="Error Text" type="error" />
 </template>
