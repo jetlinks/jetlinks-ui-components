@@ -10,6 +10,15 @@ export type {
     FormItemProps,
     FormInstance,
     FormItemInstance,
+    Rule,
+    RuleObject
+} from 'ant-design-vue/lib/form/index';
+
+export { 
+    formItemProps, 
+    formProps, 
+    useForm, 
+    useInjectFormItemContext 
 } from 'ant-design-vue/lib/form/index';
 
 Form.name = 'JForm';
