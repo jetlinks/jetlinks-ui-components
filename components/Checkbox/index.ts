@@ -8,6 +8,8 @@ export type {
     CheckboxOptionType,
 } from 'ant-design-vue/lib/checkbox/interface';
 
+export { checkboxProps, checkboxGroupProps } from 'ant-design-vue/lib/checkbox/interface';
+
 CheckboxGroup.name = 'JCheckboxGroup';
 
 Checkbox.name = 'JCheckbox';
