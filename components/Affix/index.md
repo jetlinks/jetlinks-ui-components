@@ -31,7 +31,7 @@ cover: https://gw.alipayobjects.com/zos/alicdn/tX6-md4H6/Affix.svg
 **注意：**`Affix` 内的元素不要使用绝对定位，如需要绝对定位的效果，可以直接设置 `Affix` 为绝对定位：
 
 ```html
-<a-affix :style="{ position: 'absolute', top: y, left: x}">...</a-affix>
+<j-affix :style="{ position: 'absolute', top: y, left: x}">...</j-affix>
 ```
 
 ## FAQ
