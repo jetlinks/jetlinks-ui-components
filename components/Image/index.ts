@@ -6,7 +6,7 @@ export type { ImageProps } from 'ant-design-vue/lib/image/index';
 export {  imageProps } from 'ant-design-vue/lib/image/index';
 
 Image.name = 'JImage';
-ImagePreviewGroup.name = 'JImageRibbon';
+ImagePreviewGroup.name = 'JImagePreviewGroup';
 
 Image.install = function (app: App) {
     app.component(Image.name, Image);
