@@ -11,5 +11,5 @@ title: 自定义关闭
 </docs>
 
 <template>
-  <a-alert message="Info Text" type="info" close-text="Close Now" />
+  <j-alert message="Info Text" type="info" close-text="Close Now" />
 </template>
