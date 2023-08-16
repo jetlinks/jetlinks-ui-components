@@ -11,7 +11,7 @@ title: 搜索
 
 </docs>
 <template>
-    <a-cascader
+    <j-cascader
         v-model:value="value"
         :options="options"
         :show-search="{ filter }"
