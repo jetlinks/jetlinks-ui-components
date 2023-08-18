@@ -3,6 +3,8 @@ import Space from 'ant-design-vue/lib/space/index';
 
 export const JSpace = withInstall(Space, 'JSpace');
 
-export type { SpaceProps } from 'ant-design-vue/lib/space/index';
+export { spaceProps } from 'ant-design-vue/lib/space/index';
+
+export type { SpaceProps, SpaceSize } from 'ant-design-vue/lib/space/index';
 
 export default JSpace;

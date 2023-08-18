@@ -12,14 +12,14 @@ title: 自定义尺寸
 
 <template>
   <div>
-    <a-slider v-model:value="size" />
+    <j-slider v-model:value="size" />
     <br />
     <br />
     <j-space :size="size">
-      <a-button type="primary">Primary</a-button>
-      <a-button>Default</a-button>
-      <a-button type="dashed">Dashed</a-button>
-      <a-button type="link">Link</a-button>
+      <j-button type="primary">Primary</j-button>
+      <j-button>Default</j-button>
+      <j-button type="dashed">Dashed</j-button>
+      <j-button type="link">Link</j-button>
     </j-space>
   </div>
 </template>

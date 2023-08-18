@@ -13,19 +13,19 @@ title: 间距大小
 
 <template>
   <div>
-    <a-radio-group v-model:value="size">
-      <a-radio value="small">Small</a-radio>
-      <a-radio value="middle">Middle</a-radio>
-      <a-radio value="large">Large</a-radio>
-    </a-radio-group>
+    <j-radio-group v-model:value="size">
+      <j-radio value="small">Small</j-radio>
+      <j-radio value="middle">Middle</j-radio>
+      <j-radio value="large">Large</j-radio>
+    </j-radio-group>
     <br />
     <br />
-    <a-space :size="size">
-      <a-button type="primary">Primary</a-button>
-      <a-button>Default</a-button>
-      <a-button type="dashed">Dashed</a-button>
-      <a-button type="link">Link</a-button>
-    </a-space>
+    <j-space :size="size">
+      <j-button type="primary">Primary</j-button>
+      <j-button>Default</j-button>
+      <j-button type="dashed">Dashed</j-button>
+      <j-button type="link">Link</j-button>
+    </j-space>
   </div>
 </template>
 <script>
