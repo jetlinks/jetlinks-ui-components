@@ -15,28 +15,28 @@ title: 对齐
     <div class="space-align-block">
       <j-space align="center">
         center
-        <a-button type="primary">Primary</a-button>
+        <j-button type="primary">Primary</j-button>
         <span class="mock-block">Block</span>
       </j-space>
     </div>
     <div class="space-align-block">
       <j-space align="start">
         start
-        <a-button type="primary">Primary</a-button>
+        <j-button type="primary">Primary</j-button>
         <span class="mock-block">Block</span>
       </j-space>
     </div>
     <div class="space-align-block">
       <j-space align="end">
         end
-        <a-button type="primary">Primary</a-button>
+        <j-button type="primary">Primary</j-button>
         <span class="mock-block">Block</span>
       </j-space>
     </div>
     <div class="space-align-block">
       <j-space align="baseline">
         baseline
-        <a-button type="primary">Primary</a-button>
+        <j-button type="primary">Primary</j-button>
         <span class="mock-block">Block</span>
       </j-space>
     </div>
