@@ -1,23 +1,17 @@
 <docs>
 ---
 order: 3
-title:
-  zh-CN: 带面包屑页头
-  en-US: Use with breadcrumbs
+title: 带面包屑页头
 ---
 
 ## zh-CN
 
 带面包屑页头，适合层级比较深的页面，让用户可以快速导航。
 
-## en-US
-
-With breadcrumbs, it is suitable for deeper pages, allowing users to navigate quickly.
-
 </docs>
 
 <template>
-  <a-page-header
+  <j-page-header
     style="border: 1px solid rgb(235, 237, 240)"
     title="Title"
     :breadcrumb="{ routes }"
