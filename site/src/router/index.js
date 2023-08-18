@@ -31,6 +31,23 @@ const routes = [
                     subtitle: '布局',
                     type: '布局',
                     cols: 1,
+                    title: 'Layout',
+                },
+                props: (route) => {
+                    const hash = route.hash.replace('#', '');
+                    console.log('hash', hash);
+                    return { iframeName: hash };
+                },
+                component: () =>
+                    import('../../../components/Layout/demo/index.vue'),
+            },
+            {
+                path: 'proLayout',
+                meta: {
+                    category: 'Components',
+                    subtitle: '布局',
+                    type: '高阶组件',
+                    cols: 1,
                     title: 'ProLayout',
                 },
                 props: (route) => {
