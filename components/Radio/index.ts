@@ -7,6 +7,7 @@ export type {
     RadioProps,
     RadioChangeEvent,
     RadioGroupProps,
+    RadioChangeEventTarget
 } from 'ant-design-vue/lib/radio/index';
 
 Radio.name = 'JRadio';
