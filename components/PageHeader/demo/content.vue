@@ -1,24 +1,18 @@
 <docs>
 ---
 order: 4
-title:
-  zh-CN: 组合示例
-  en-US: Complete example
+title: 组合示例
 ---
 
 ## zh-CN
 
 使用了 PageHeader 提供的所有能力。
 
-## en-US
-
-Show all props provided by PageHeader.
-
 </docs>
 
 <template>
   <div class="components-page-header-demo-content">
-    <a-page-header
+    <j-page-header
       title="Title"
       class="site-page-header"
       sub-title="This is a subtitle"
@@ -26,38 +20,38 @@ Show all props provided by PageHeader.
       :breadcrumb="{ routes }"
     >
       <template #tags>
-        <a-tag color="blue">Running</a-tag>
+        <j-tag color="blue">Running</j-tag>
       </template>
       <template #extra>
-        <a-button key="3">Operation</a-button>
-        <a-button key="2">Operation</a-button>
-        <a-button key="1" type="primary">Primary</a-button>
-        <a-dropdown key="more">
-          <a-button :style="{ border: 'none', padding: 0 }">
+        <j-button key="3">Operation</j-button>
+        <j-button key="2">Operation</j-button>
+        <j-button key="1" type="primary">Primary</j-button>
+        <j-dropdown key="more">
+          <j-button :style="{ border: 'none', padding: 0 }">
             <EllipsisOutlined :style="{ fontSize: '20px', verticalAlign: 'top' }" />
-          </a-button>
+          </j-button>
           <template #overlay>
-            <a-menu>
-              <a-menu-item>
+            <j-menu>
+              <j-menu-item>
                 <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
                   1st menu item
                 </a>
-              </a-menu-item>
-              <a-menu-item>
+              </j-menu-item>
+              <j-menu-item>
                 <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
                   2nd menu item
                 </a>
-              </a-menu-item>
-              <a-menu-item>
+              </j-menu-item>
+              <j-menu-item>
                 <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
                   3rd menu item
                 </a>
-              </a-menu-item>
-            </a-menu>
+              </j-menu-item>
+            </j-menu>
           </template>
-        </a-dropdown>
+        </j-dropdown>
       </template>
-      <a-row class="content">
+      <j-row class="content">
         <div style="flex: 1">
           <p>
             Ant Design interprets the color system into two levels: a system-level color system and
@@ -84,8 +78,8 @@ Show all props provided by PageHeader.
             style="width: 100%"
           />
         </div>
-      </a-row>
-    </a-page-header>
+      </j-row>
+    </j-page-header>
   </div>
 </template>
 
