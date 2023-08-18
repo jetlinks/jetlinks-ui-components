@@ -10,9 +10,9 @@ title: 迷你版
 
 </docs>
 <template>
-  <a-steps :current="1" size="small">
-    <a-step title="Finished" />
-    <a-step title="In Progress" />
-    <a-step title="Waiting" />
-  </a-steps>
+  <j-steps :current="1" size="small">
+    <j-step title="Finished" />
+    <j-step title="In Progress" />
+    <j-step title="Waiting" />
+  </j-steps>
 </template>
