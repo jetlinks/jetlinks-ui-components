@@ -7,6 +7,8 @@ export type {
     TimelineItemProps,
 } from 'ant-design-vue/lib/timeline/index';
 
+export { timelineProps, timelineItemProps } from 'ant-design-vue/lib/timeline/index';
+
 Timeline.name = 'JTimeline';
 TimelineItem.name = 'JTimelineItem';
 
