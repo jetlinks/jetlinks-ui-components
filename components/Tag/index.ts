@@ -4,6 +4,8 @@ import CheckableTag from 'ant-design-vue/lib/tag/CheckableTag';
 
 export type { TagProps } from 'ant-design-vue/lib/tag/index';
 
+export { tagProps } from 'ant-design-vue/lib/tag/index';
+
 Tag.name = 'JTag';
 CheckableTag.name = 'JCheckableTag';
 
