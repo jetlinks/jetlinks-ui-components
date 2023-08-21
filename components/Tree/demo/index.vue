@@ -1,18 +1,53 @@
 <template>
-    <demo-sort>
-        <Basic />
-        <digData></digData>
-    </demo-sort>
+  <demo-sort>
+    <basic />
+    <draggable />
+    <dynamic />
+    <custom-icon />
+    <search />
+    <show-line />
+    <directory />
+    <switcher-icon />
+    <replace-fields />
+    <context-menu />
+    <virtual-scroll />
+    <accordion />
+  </demo-sort>
 </template>
 <script lang="ts">
 import Basic from './basic.vue';
-import digData from './digData.vue';
+import Draggable from './draggable.vue';
+import Dynamic from './dynamic.vue';
+import Search from './search.vue';
+import Line from './line.vue';
+import CustomIcon from './customized-icon.vue';
+import Directory from './directory.vue';
+import SwitcherIcon from './switcher-icon.vue';
+import ReplaceFields from './replaceFields.vue';
+import ContextMenu from './context-menu.vue';
+import VirtualScroll from './virtual-scroll.vue';
+import Accordion from './accordion.vue';
 import CN from '../index.md';
-export default {
-    CN,
-    components: {
-        Basic,
-        digData
-    },
-};
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  CN,
+  components: {
+    Basic,
+    Draggable,
+    Dynamic,
+    Search,
+    ShowLine: Line,
+    CustomIcon,
+    Directory,
+    SwitcherIcon,
+    ReplaceFields,
+    ContextMenu,
+    VirtualScroll,
+    Accordion,
+  },
+  setup() {
+    return {};
+  },
+});
 </script>
