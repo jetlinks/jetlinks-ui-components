@@ -74,7 +74,7 @@ Transfer 支持接收 `children` 自定义渲染列表，并返回以下参数�
 #### 参考示例
 
 ```html
-<a-transfer>
+<j-transfer>
   <template
     #children="{
       direction,
@@ -87,7 +87,7 @@ Transfer 支持接收 `children` 自定义渲染列表，并返回以下参数�
   >
     <your-component />
   <template>
-</a-transfer>
+</j-transfer>
 ```
 
 ## 注意
