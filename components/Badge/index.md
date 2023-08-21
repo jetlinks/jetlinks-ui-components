@@ -15,13 +15,13 @@ cover: https://gw.alipayobjects.com/zos/antfincdn/6%26GF9WHwvY/Badge.svg
 ## API
 
 ```html
-<a-badge :count="5">
+<j-badge :count="5">
   <a href="#" class="head-example" />
-</a-badge>
+</j-badge>
 ```
 
 ```html
-<a-badge :count="5" />
+<j-badge :count="5" />
 ```
 
 ### Badge
