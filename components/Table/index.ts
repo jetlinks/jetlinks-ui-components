@@ -17,6 +17,8 @@ export type {
     ColumnsType,
 } from 'ant-design-vue/lib/table/index';
 
+export { tableProps} from 'ant-design-vue/lib/table/index';
+
 Table.name = 'JTable';
 TableColumn.name = 'JTableColumn';
 TableColumnGroup.name = 'JTableColumnGroup';
