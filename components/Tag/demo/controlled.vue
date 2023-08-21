@@ -1,18 +1,12 @@
 <docs>
 ---
 order: 4
-title:
-  zh-CN: 控制关闭状态
-  en-US: Controlled
+title: 控制关闭状态
 ---
 
 ## zh-CN
 
 通过 `visible` 属性控制关闭状态。
-
-## en-US
-
-By using the `visible` prop, you can control the close state of Tag.
 
 </docs>
 
