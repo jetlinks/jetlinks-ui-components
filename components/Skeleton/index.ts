@@ -15,6 +15,8 @@ export type {
     SkeletonTitleProps,
 } from 'ant-design-vue/lib/skeleton/index';
 
+export { skeletonProps } from 'ant-design-vue/lib/skeleton/index';
+
 Skeleton.name = 'JSkeleton';
 SkeletonButton.name = 'JSkeletonButton';
 SkeletonAvatar.name = 'JSkeletonAvatar';

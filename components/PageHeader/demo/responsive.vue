@@ -2,48 +2,42 @@
 ---
 order: 6
 iframe: 228
-title:
-  zh-CN: 响应式
-  en-US: responsive
+title: 响应式
 ---
 
 ## zh-CN
 
 在不同大小的屏幕下，应该有不同的表现。
 
-## en-US
-
-Under different screen sizes, there should be different performance
-
 </docs>
 
 <template>
   <div class="components-page-header-demo-responsive" style="border: 1px solid rgb(235, 237, 240)">
-    <a-page-header title="Title" sub-title="This is a subtitle" @back="() => $router.go(-1)">
+    <j-page-header title="Title" sub-title="This is a subtitle" @back="() => $router.go(-1)">
       <template #extra>
-        <a-button key="3">Operation</a-button>
-        <a-button key="2">Operation</a-button>
-        <a-button key="1" type="primary">Primary</a-button>
+        <j-button key="3">Operation</j-button>
+        <j-button key="2">Operation</j-button>
+        <j-button key="1" type="primary">Primary</j-button>
       </template>
       <template #footer>
-        <a-tabs>
-          <a-tab-pane key="1" tab="Details" />
-          <a-tab-pane key="2" tab="Rule" />
-        </a-tabs>
+        <j-tabs>
+          <j-tab-pane key="1" tab="Details" />
+          <j-tab-pane key="2" tab="Rule" />
+        </j-tabs>
       </template>
       <div class="content">
         <div class="main">
-          <a-descriptions size="small" :column="2">
-            <a-descriptions-item label="Created">Lili Qu</a-descriptions-item>
-            <a-descriptions-item label="Association">
+          <j-descriptions size="small" :column="2">
+            <j-descriptions-item label="Created">Lili Qu</j-descriptions-item>
+            <j-descriptions-item label="Association">
               <a>421421</a>
-            </a-descriptions-item>
-            <a-descriptions-item label="Creation Time">2017-01-10</a-descriptions-item>
-            <a-descriptions-item label="Effective Time">2017-10-10</a-descriptions-item>
-            <a-descriptions-item label="Remarks">
+            </j-descriptions-item>
+            <j-descriptions-item label="Creation Time">2017-01-10</j-descriptions-item>
+            <j-descriptions-item label="Effective Time">2017-10-10</j-descriptions-item>
+            <j-descriptions-item label="Remarks">
               Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
-            </a-descriptions-item>
-          </a-descriptions>
+            </j-descriptions-item>
+          </j-descriptions>
         </div>
         <div class="extra">
           <div
@@ -53,18 +47,18 @@ Under different screen sizes, there should be different performance
               justifyContent: 'flex-end',
             }"
           >
-            <a-statistic
+            <j-statistic
               title="Status"
               value="Pending"
               :style="{
                 marginRight: '32px',
               }"
             />
-            <a-statistic title="Price" prefix="$" :value="568.08" />
+            <j-statistic title="Price" prefix="$" :value="568.08" />
           </div>
         </div>
       </div>
-    </a-page-header>
+    </j-page-header>
   </div>
 </template>
 <style>

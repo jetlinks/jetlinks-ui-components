@@ -24,7 +24,7 @@ cover: https://gw.alipayobjects.com/zos/alicdn/f-SbcX2Lx/Table.svg
 
 ```html
 <template>
-  <a-table :dataSource="dataSource" :columns="columns" />
+  <j-table :dataSource="dataSource" :columns="columns" />
 </template>
 <script>
   export default {

@@ -2,6 +2,7 @@ import type { App } from 'vue';
 import Steps, { Step } from 'ant-design-vue/lib/steps/index';
 
 export type { StepProps, StepsProps } from 'ant-design-vue/lib/steps/index';
+export { stepsProps, stepProps } from 'ant-design-vue/lib/steps/index';
 
 Steps.name = 'JSteps';
 Step.name = 'JStep';

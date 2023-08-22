@@ -38,9 +38,9 @@ export default defineComponent({
             'iframeDemo',
             !props.iframeName
                 ? {
-                      Basic: '/iframe/layout/#Basic',
-                      Top: '/iframe/layout/#Top',
-                      Side: '/iframe/layout/#Side',
+                      Basic: '/iframe/proLayout/#Basic',
+                      Top: '/iframe/proLayout/#Top',
+                      Side: '/iframe/proLayout/#Side',
                   }
                 : {},
         );

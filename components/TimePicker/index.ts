@@ -6,6 +6,7 @@ import TimePicker, {
 export type {
     TimePickerProps,
     TimeRangePickerProps,
+    TimePickerLocale
 } from 'ant-design-vue/lib/time-picker/index';
 
 TimePicker.name = 'JTimePicker';

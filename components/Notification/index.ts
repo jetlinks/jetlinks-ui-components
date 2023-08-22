@@ -1,6 +1,13 @@
 import { notification } from 'ant-design-vue';
 
-export type { NotificationPlacement } from 'ant-design-vue/lib/notification/index';
+export type {
+    NotificationPlacement,
+    IconType,
+    ConfigProps,
+    NotificationArgsProps,
+    NotificationInstance,
+    NotificationApi
+} from 'ant-design-vue/lib/notification/index';
 
 export const JNotification = notification;
 
