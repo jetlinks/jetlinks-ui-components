@@ -14,10 +14,6 @@ import { computed } from 'vue';
 
 const props = defineProps({
     ...buttonProps(),
-    iconDanger: {
-        type: Boolean,
-        default: false,
-    },
     myIcon: {
         type: String,
         default: '',
