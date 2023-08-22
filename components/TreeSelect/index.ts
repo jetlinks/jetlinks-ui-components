@@ -3,7 +3,14 @@ import TreeSelect, {
     TreeSelectNode,
 } from 'ant-design-vue/lib/tree-select/index';
 
-export type { TreeSelectProps } from 'ant-design-vue/lib/tree-select/index';
+export type {
+    TreeSelectProps,
+    LabeledValue,
+    SelectValue,
+    RefTreeSelectProps
+} from 'ant-design-vue/lib/tree-select/index';
+
+export { treeSelectProps } from 'ant-design-vue/lib/tree-select/index';
 
 TreeSelect.name = 'JTreeSelect';
 
