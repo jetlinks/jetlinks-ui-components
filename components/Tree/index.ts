@@ -1,5 +1,5 @@
 import { withInstall } from '../util/type';
-import Tree from 'ant-design-vue/lib/tree';
+import Tree, { TreeNode, DirectoryTree } from 'ant-design-vue/lib/tree';
 export { treeFilter } from '../util/filterNodeMethod';
 
 export type {
@@ -18,9 +18,12 @@ export type {
     DirectoryTreeProps
 } from 'ant-design-vue/lib/tree';
 
-export { DirectoryTree, TreeNode } from 'ant-design-vue/lib/tree';
-
 Tree.name = 'JTree';
+TreeNode.name = 'JTreeNode'
+DirectoryTree.name = 'JDirectoryTree'
+
+export { TreeNode, DirectoryTree }
+
 export const JLTree = withInstall(Tree, 'JTree');
 
 export default JLTree;
