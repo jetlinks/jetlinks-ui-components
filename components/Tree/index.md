@@ -40,3 +40,52 @@ cover: https://gw.alipayobjects.com/zos/alicdn/Xh-oWqg9k/Tree.svg
 | title | 自定义标题 | slot |  | 2.0.0 |  |
 | treeData | treeNodes 数据，如果设置则不需要手动构造 TreeNode 节点（key 在整个树范围内唯一） | [TreeNode\[\]](#TreeNode) | -- |  |  |
 | virtual | 设置 false 时关闭虚拟滚动 | boolean | true | 3.0 |  |
+
+### 事件
+
+| 事件名称 | 说明 | 回调参数 |
+| --- | --- | --- |
+| check | 点击复选框触发 | function(checkedKeys, e:{checked: bool, checkedNodes, node, event}) |
+| dragend | dragend 触发时调用 | function({event, node}) |
+| dragenter | dragenter 触发时调用 | function({event, node, expandedKeys}) |
+| dragleave | dragleave 触发时调用 | function({event, node}) |
+| dragover | dragover 触发时调用 | function({event, node}) |
+| dragstart | 开始拖拽时调用 | function({event, node}) |
+| drop | drop 触发时调用 | function({event, node, dragNode, dragNodesKeys}) |
+| expand | 展开/收起节点时触发 | function(expandedKeys, {expanded: bool, node}) |
+| load | 节点加载完毕时触发 | function(loadedKeys, {event, node}) |
+| rightClick | 响应右键点击 | function({event, node}) |
+| select | 点击树节点触发 | function(selectedKeys, e:{selected: bool, selectedNodes, node, event}) |
+
+### Tree 方法
+
+| 名称 | 说明 |
+| --- | --- |
+| scrollTo({ key: string \| number; align?: 'top' \| 'bottom' \| 'auto'; offset?: number }) | 虚拟滚动下，滚动到指定 key 条目 |
+
+### TreeNode
+
+| 参数 | 说明 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | --- | --- |
+| checkable | 当树为 checkable 时，设置独立节点是否展示 Checkbox | boolean | - |  |
+| class | 节点的 class | string | - |  |
+| disableCheckbox | 禁掉 checkbox | boolean | false |  |
+| disabled | 禁掉响应 | boolean | false |  |
+| icon | 自定义图标。可接收组件，props 为当前节点 props | slot\|slot-scope | - |  |
+| isLeaf | 设置为叶子节点(设置了`loadData`时有效) | boolean | false |  |
+| key | 被树的 (default)ExpandedKeys / (default)CheckedKeys / (default)SelectedKeys 属性所用。注意：整个树范围内的所有节点的 key 值不能重复！ | string \| number | 内部计算出的节点位置 |  |
+| selectable | 设置节点是否可被选中 | boolean | true |  |
+| style | 节点的 style | string\|object | - |  |
+| title | 标题 | string | '---' |  |
+
+### DirectoryTree props
+
+| 参数         | 说明                                              | 类型   | 默认值 |
+| ------------ | ------------------------------------------------- | ------ | ------ |
+| expandAction | 目录展开逻辑，可选 `false` `'click'` `'dblclick'` | string | click  |
+
+## FAQ
+
+### 在 showLine 时，如何隐藏子节点图标？
+
+文件图标通过 switcherIcon 来实现，如果不需要你可以覆盖对应的样式

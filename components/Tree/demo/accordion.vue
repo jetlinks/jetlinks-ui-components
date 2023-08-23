@@ -1,21 +1,20 @@
 <docs>
 ---
 order: 0
-title: 基本用法
+title: 手风琴模式
 ---
 
 ## zh-CN
 
-最简单的用法，展示可勾选，可选中，禁用，默认展开等功能。
+同一级的节点，每次只能展开一个
 
 </docs>
 <template>
   <j-tree
-    v-model:expandedKeys="expandedKeys"
     v-model:selectedKeys="selectedKeys"
-    v-model:checkedKeys="checkedKeys"
-    checkable
+    :expanded-keys="expandedKeys"
     :tree-data="treeData"
+    @expand="handleExpand"
   >
     <template #title="{ title, key }">
       <span v-if="key === '0-0-1-0'" style="color: #1890ff">{{ title }}</span>
@@ -25,6 +24,7 @@ title: 基本用法
 </template>
 <script lang="ts">
 import type { TreeProps } from 'ant-design-vue';
+import _ from 'lodash';
 import { defineComponent, ref, watch } from 'vue';
 
 const treeData: TreeProps['treeData'] = [
@@ -35,9 +35,8 @@ const treeData: TreeProps['treeData'] = [
       {
         title: 'parent 1-0',
         key: '0-0-0',
-        disabled: true,
         children: [
-          { title: 'leaf', key: '0-0-0-0', disableCheckbox: true },
+          { title: 'leaf', key: '0-0-0-0' },
           { title: 'leaf', key: '0-0-0-1' },
         ],
       },
@@ -48,11 +47,25 @@ const treeData: TreeProps['treeData'] = [
       },
     ],
   },
+  {
+    title: 'parent 2',
+    key: '1-0',
+    children: [
+      {
+        title: 'parent 2-0',
+        key: '1-0-0',
+      },
+      {
+        title: 'parent 2-1',
+        key: '2-0-1',
+      },
+    ],
+  },
 ];
 
 export default defineComponent({
   setup() {
-    const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    const expandedKeys = ref<string[]>([]);
     const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
     const checkedKeys = ref<string[]>(['0-0-0', '0-0-1']);
     watch(expandedKeys, () => {
@@ -64,12 +77,23 @@ export default defineComponent({
     watch(checkedKeys, () => {
       console.log('checkedKeys', checkedKeys);
     });
-
+    const handleExpand = (keys: string[], { expanded, node }) => {
+      // node.parent add from 3.0.0-alpha.10
+      const tempKeys = ((node.parent ? node.parent.children : treeData) || []).map(
+        ({ key }) => key,
+      );
+      if (expanded) {
+        expandedKeys.value = _.difference(keys, tempKeys).concat(node.key);
+      } else {
+        expandedKeys.value = keys;
+      }
+    };
     return {
       treeData,
       expandedKeys,
       selectedKeys,
       checkedKeys,
+      handleExpand,
     };
   },
 });
