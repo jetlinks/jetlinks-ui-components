@@ -17,7 +17,10 @@ title: 基础
             ref="tableRef"
         >
             <template #width="{ data }">
-                <DataTableDouble v-model:value="data.record.width" />
+                <DataTableEnum
+                    v-model:value="data.record.width"
+                    :multiple="true"
+                />
             </template>
             <template #action="{ data }">
                 <a-tag

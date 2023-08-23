@@ -7,14 +7,7 @@
             枚举项
         </template>
         <FormItemRest v-if="multiple">
-            <ButtonGroup
-                v-model:value="typeRef"
-                @change="
-                    () => {
-                        typeChange;
-                    }
-                "
-            />
+            <ButtonGroup v-model:value="typeRef" @change="typeChange" />
         </FormItemRest>
         <div class="enum-table-warp">
             <DataTable
