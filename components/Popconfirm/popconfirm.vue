@@ -5,25 +5,31 @@
         @visibleChange="visibleChange"
     >
         <template #title>
-            <div class="popconfirm-title">
-                {{ props.title || '是否确定删除？' }}
-            </div>
+            <slot name="title">
+                <div class="popconfirm-title">
+                    {{ props.title || '是否确定删除？' }}
+                </div>
+            </slot>
         </template>
         <template #cancelButton>
-            <Button size="small" class="popconfirm-button" @click="cancel">
-                {{ props.cancelText || '取消' }}
-            </Button>
+            <slot name="cancelButton">
+                <Button size="small" class="popconfirm-button" @click="cancel">
+                    {{ props.cancelText || '取消' }}
+                </Button>
+            </slot>
         </template>
         <template #okButton>
-            <Button
+            <slot name="okButton">
+                <Button
                 :loading="loading"
                 type="primary"
                 size="small"
                 class="popconfirm-button"
                 @click="ok"
             >
-                {{ props.okText || '确定' }}
-            </Button>
+                    {{ props.okText || '确定' }}
+                </Button>
+            </slot>
         </template>
         <slot></slot>
     </Popconfirm>
