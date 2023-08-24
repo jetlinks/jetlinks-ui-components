@@ -3,11 +3,10 @@
     <div ref="dom" class="editor"></div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
     ref,
     onMounted,
-    watchEffect,
     watch,
     defineExpose,
     onUnmounted,
@@ -15,7 +14,6 @@ import {
     nextTick,
 } from 'vue';
 import * as monaco from 'monaco-editor';
-import { ref, onMounted, PropType  } from 'vue';
 
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
@@ -44,7 +42,7 @@ self.MonacoEnvironment = {
             return new tsWorker();
         }
         if (label === 'vue') {
-          return new vueWorker();
+            return new vueWorker();
         }
         return new editorWorker();
     },
@@ -52,11 +50,6 @@ self.MonacoEnvironment = {
 
 const props = defineProps({
     modelValue: [String, Number],
-    /*主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色) */
-    theme: {
-        type: String as PropType<'vs' | 'vs-dark' | 'hc-black'>,
-        default: 'vs-dark',
-    },
     theme: { type: String, default: 'vs-dark' },
     language: { type: String, default: 'json' },
     codeTips: { type: Array, default: () => [] },
@@ -73,63 +66,63 @@ const monacoProviderRef = ref();
 const monacoTypescriptProviderRef = ref();
 
 const handleSuggestions = (suggestions, range) => {
-  return Array.isArray(suggestions)
-      ? suggestions.map((item) => ({ ...item, range }))
-      : [];
+    return Array.isArray(suggestions)
+        ? suggestions.map((item) => ({ ...item, range }))
+        : [];
 };
 
 const disposeRegister = () => {
-  monacoProviderRef.value?.dispose();
-  monacoProviderRef.value = null;
+    monacoProviderRef.value?.dispose();
+    monacoProviderRef.value = null;
 };
 /**
  * 代码提示注册
  */
 const registerCompletionItemProvider = () => {
-  disposeRegister();
-  if (monaco.languages && props.registrationTips?.suggestions) {
-    const { name, suggestions } = props.registrationTips;
-    monacoProviderRef.value =
-        monaco.languages.registerCompletionItemProvider(name || 'json', {
-          provideCompletionItems: function (model, position) {
-            const word = model.getWordUntilPosition(position); // 获取提示代码范围位置
-            const range = {
-              startLineNumber: position.lineNumber,
-              endLineNumber: position.lineNumber,
-              startColumn: word.startColumn,
-              endColumn: word.endColumn,
-            };
+    disposeRegister();
+    if (monaco.languages && props.registrationTips?.suggestions) {
+        const { name, suggestions } = props.registrationTips;
+        monacoProviderRef.value =
+            monaco.languages.registerCompletionItemProvider(name || 'json', {
+                provideCompletionItems: function (model, position) {
+                    const word = model.getWordUntilPosition(position); // 获取提示代码范围位置
+                    const range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn,
+                    };
 
-            return {
-              suggestions: handleSuggestions(suggestions, range),
-            };
-          },
-        });
-  }
+                    return {
+                        suggestions: handleSuggestions(suggestions, range),
+                    };
+                },
+            });
+    }
 };
 
 const disposeTypescript = () => {
-  monacoTypescriptProviderRef.value?.dispose();
-  monacoTypescriptProviderRef.value = null;
+    monacoTypescriptProviderRef.value?.dispose();
+    monacoTypescriptProviderRef.value = null;
 };
 
 const registerTypescript = () => {
-  disposeTypescript();
-  if (monaco.languages && props.registrationTypescript?.typescript) {
-    const { name, typescript } = props.registrationTypescript;
-    monacoTypescriptProviderRef.value =
-        monaco.languages.typescript.javascriptDefaults.addExtraLib(
-            typescript,
-        );
-  }
+    disposeTypescript();
+    if (monaco.languages && props.registrationTypescript?.typescript) {
+        const { name, typescript } = props.registrationTypescript;
+        monacoTypescriptProviderRef.value =
+            monaco.languages.typescript.javascriptDefaults.addExtraLib(
+                typescript,
+            );
+    }
 };
 
 /**
  * 代码格式化
  */
 const editorFormat = () => {
-  if (!instance.value) return;
-  toRaw(instance.value).getAction('editor.action.formatDocument')?.run();
+    if (!instance.value) return;
+    toRaw(instance.value).getAction('editor.action.formatDocument')?.run();
 };
 
 const getTheme = async () => {
@@ -146,49 +139,40 @@ const getTheme = async () => {
 };
 
 onMounted(async () => {
-  const _model = monaco.editor.createModel(props.modelValue, props.language);
+    const _model = monaco.editor.createModel(props.modelValue, props.language);
 
-  instance.value = monaco.editor.create(dom.value, {
-    model: _model,
-    tabSize: 2,
-    automaticLayout: true,
-    scrollBeyondLastLine: false,
-    theme: props.theme, // 主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色)
-    formatOnPaste: true,
-  });
-    const model = monaco.editor.createModel(props.value, props.language);
-    instance = monaco.editor.create(dom.value, {
-        model: model,
+    instance.value = monaco.editor.create(dom.value, {
+        model: _model,
         tabSize: 2,
         automaticLayout: true,
         scrollBeyondLastLine: false,
-        theme: await getTheme(),
+        theme: await getTheme(), // 主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色)
         formatOnPaste: true,
     });
 
-  instance.value.onDidChangeModelContent(() => {
-    //
-    const value = toRaw(instance.value).getValue();
-    nextTick(() => {
-      emit('update:modelValue', value);
-      emit('change', value);
+    instance.value.onDidChangeModelContent(() => {
+        //
+        const value = toRaw(instance.value).getValue();
+        nextTick(() => {
+            emit('update:modelValue', value);
+            emit('change', value);
+        });
     });
-  });
 
-  instance.value.onDidBlurEditorText(() => {
-    emit('blur');
-    if (props.blurFormat) {
-      editorFormat();
+    instance.value.onDidBlurEditorText(() => {
+        emit('blur');
+        if (props.blurFormat) {
+            editorFormat();
+        }
+    });
+
+    if (props.modelValue) {
+        setTimeout(() => {
+            editorFormat();
+        }, 200);
     }
-  });
 
-  if (props.modelValue) {
-    setTimeout(() => {
-      editorFormat();
-    }, 200);
-  }
-
-  props.init?.(instance.value, monaco);
+    props.init?.(instance.value, monaco);
 
     if (props.language === 'vue') {
         onigasm.loadWASM(onigasmWasm);
