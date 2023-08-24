@@ -13,12 +13,12 @@ title: 脚本编辑
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
-  setup() {
-    const value = ref<string>(`const message = "Hello World"`)
+    setup() {
+        const value = ref<string>(`const message = "Hello World"`);
 
-    return {
-        value
-    }
-  }
-})
+        return {
+            value,
+        };
+    },
+});
 </script>
