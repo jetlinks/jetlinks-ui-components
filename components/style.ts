@@ -16,6 +16,7 @@ import './Result/style';
 import './Modal/style';
 import './AIcon/style';
 import './Input/style';
+import './Textarea/style';
 import './MonacoEditor/style';
 import './Affix/style';
 import './Alert/style';
