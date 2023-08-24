@@ -1,20 +1,27 @@
 import { computed, ref } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
-import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
-import type { VueNode } from 'ant-design-vue/es/_util/type'
-import type { SiderMenuProps } from '../SiderMenu/SiderMenu'
+import { default as ResizeObserver } from 'ant-design-vue/lib/vc-resize-observer';
+import type { VueNode } from 'ant-design-vue/lib/_util/type';
+import type { SiderMenuProps } from '../SiderMenu/SiderMenu';
 import {
     defaultRenderLogo,
     defaultRenderLogoAndTitle,
-    defaultRenderCollapsedButton, siderMenuProps,
+    defaultRenderCollapsedButton,
+    siderMenuProps,
 } from '../SiderMenu/SiderMenu';
-import PropTypes from "ant-design-vue/es/_util/vue-types";
-import type {MenuDataItem, ProProps, RightContentRender, WithFalse, Theme} from "../typings";
-import {defaultSettingProps} from "../defaultSettings";
-import type {PropType, FunctionalComponent, ExtractPropTypes} from "vue";
-import {defaultPrefixCls, useRouteContext} from "../RouteContext";
-import BaseMenu from "../SiderMenu/BaseMenu";
-import { clearMenuItem } from '../util'
+import PropTypes from 'ant-design-vue/lib/_util/vue-types';
+import type {
+    MenuDataItem,
+    ProProps,
+    RightContentRender,
+    WithFalse,
+    Theme,
+} from '../typings';
+import { defaultSettingProps } from '../defaultSettings';
+import type { PropType, FunctionalComponent, ExtractPropTypes } from 'vue';
+import { defaultPrefixCls, useRouteContext } from '../RouteContext';
+import BaseMenu from '../SiderMenu/BaseMenu';
+import { clearMenuItem } from '../util';
 
 export const baseHeaderProps = {
     ...defaultSettingProps,
@@ -33,8 +40,13 @@ export const baseHeaderProps = {
     splitMenus: siderMenuProps.splitMenus,
     menuRender: {
         type: [Object, Function] as PropType<
-            WithFalse<(props: ProProps /* HeaderViewProps */, defaultDom: VueNode) => VueNode>
-            >,
+            WithFalse<
+                (
+                    props: ProProps /* HeaderViewProps */,
+                    defaultDom: VueNode,
+                ) => VueNode
+            >
+        >,
         default: () => undefined,
     },
     menuHeaderRender: siderMenuProps.menuHeaderRender,
@@ -58,9 +70,15 @@ export type BaseHeaderPropsType = ExtractPropTypes<typeof baseHeaderProps>;
 
 export const topNavHeaderProps = { ...siderMenuProps, ...baseHeaderProps };
 
-export type TopNavHeaderProps = Partial<ExtractPropTypes<typeof topNavHeaderProps>> & Partial<SiderMenuProps>;
+export type TopNavHeaderProps = Partial<
+    ExtractPropTypes<typeof topNavHeaderProps>
+> &
+    Partial<SiderMenuProps>;
 
-const RightContent: FunctionalComponent<TopNavHeaderProps> = ({ rightContentRender, ...props }) => {
+const RightContent: FunctionalComponent<TopNavHeaderProps> = ({
+    rightContentRender,
+    ...props
+}) => {
     const rightSize = ref<number | string>('auto');
 
     return (
@@ -79,7 +97,8 @@ const RightContent: FunctionalComponent<TopNavHeaderProps> = ({ rightContentRend
                         rightSize.value = width;
                     }}
                 >
-                    {rightContentRender && typeof rightContentRender === 'function' ? (
+                    {rightContentRender &&
+                    typeof rightContentRender === 'function' ? (
                         <div>
                             {rightContentRender({
                                 ...props,
@@ -108,37 +127,50 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
         mode,
     } = props;
     const context = useRouteContext();
-    const prefixCls = `${propPrefixCls || defaultPrefixCls }-top-nav-header`;
+    const prefixCls = `${propPrefixCls || defaultPrefixCls}-top-nav-header`;
     const headerDom = defaultRenderLogoAndTitle(
         { ...props, collapsed: false } as SiderMenuProps,
         // REMARK:: Any time render header title
         // layout === 'mix' ? 'headerTitleRender' : undefined,
-        layout !== 'side' ? 'headerTitleRender' : undefined
+        // layout !== 'side' ? 'headerTitleRender' : undefined,
+        'headerTitleRender',
     );
-
-    let MenusData = menuData
-    if ( props.layout === 'mix' && props.splitMenus) {
+    //
+    let MenusData = props.layout === 'side' ? [] : menuData;
+    if (props.layout === 'mix' && props.splitMenus) {
         const noChildrenMenuData = (menuData || []).map((item) => ({
             ...item,
             children: undefined,
+            component: undefined,
         })) as RouteRecordRaw[];
         MenusData = clearMenuItem(noChildrenMenuData);
     }
 
-    const _mode = computed(() => props.layout === 'mix' && props.splitMenus ? 'horizontal' : mode)
+    const _mode = computed(() =>
+        props.layout === 'mix' && props.splitMenus ? 'horizontal' : mode,
+    );
 
     const className = computed(() => {
         return {
             [prefixCls]: true,
             light: props.theme === 'light',
+            dark: props.theme === 'dark',
         };
     });
 
     return (
         <div class={className.value}>
-            <div ref={headerRef} class={`${prefixCls}-main ${contentWidth === 'Fixed' ? 'wide' : ''}`}>
+            <div
+                ref={headerRef}
+                class={`${prefixCls}-main ${
+                    contentWidth === 'Fixed' ? 'wide' : ''
+                }`}
+            >
                 {headerDom && (
-                    <div class={`${prefixCls}-main-left`} onClick={onMenuHeaderClick}>
+                    <div
+                        class={`${prefixCls}-main-left`}
+                        onClick={onMenuHeaderClick}
+                    >
                         <div class={`${prefixCls}-logo`} key="logo" id="logo">
                             {headerDom}
                         </div>
@@ -157,16 +189,24 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
                         subMenuItemRender={props.subMenuItemRender}
                         openKeys={context.openKeys}
                         selectedKeys={context.selectedKeys}
-                        class={{ 'top-nav-menu': props.mode === 'horizontal' }}
+                        class={{
+                            'top-nav-menu': props.mode === 'horizontal',
+                        }}
                         {...{
-                            'onUpdate:openKeys': ($event: string[]) => onOpenKeys && onOpenKeys($event),
-                            'onUpdate:selectedKeys': ($event: string[]) => onSelect && onSelect($event),
+                            'onUpdate:openKeys': ($event: string[]) =>
+                                onOpenKeys && onOpenKeys($event),
+                            'onUpdate:selectedKeys': ($event: string[]) =>
+                                onSelect && onSelect($event),
                         }}
                     />
                 </div>
-                {rightContentRender && <RightContent rightContentRender={rightContentRender} {...props} />}
+                {rightContentRender && (
+                    <RightContent
+                        rightContentRender={rightContentRender}
+                        {...props}
+                    />
+                )}
             </div>
         </div>
     );
-}
-
+};

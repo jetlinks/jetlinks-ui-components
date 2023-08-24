@@ -1,12 +1,23 @@
-import type { ColumnType } from 'ant-design-vue/es/table';
+import type { ColumnType } from 'ant-design-vue/lib/table';
 
 export interface SearchBaseProps {
     rename?: string;
-    type?: 'select' | 'number' | 'string' | 'treeSelect' | 'date' | 'time';
+    type?:
+        | 'select'
+        | 'number'
+        | 'string'
+        | 'treeSelect'
+        | 'date'
+        | 'time'
+        | 'rangePicker'
+        | 'component'
+        | 'timeRange';
     format?: string;
     options?: any[] | Function;
     first?: boolean;
     defaultTermType?: string; // 默认 eq
+    defaultValue?: any; // 默认值
+    defaultOnceValue?: any; // 会被重置掉的默认值
     title?: ColumnType['title'];
     sortIndex?: number;
     componentProps?: any;
@@ -28,6 +39,7 @@ export interface SearchItemData {
 
 export interface TermsItem {
     terms: SearchItemData[];
+    type?: string;
 }
 
 export interface Terms {

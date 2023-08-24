@@ -1,7 +1,5 @@
 <template>
-    <div class="custom-input">
-        <Input v-bind="props" />
-    </div>
+    <Input v-bind="props" />
 </template>
 
 <script lang="ts" setup name="JInput">

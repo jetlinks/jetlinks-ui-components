@@ -1,6 +1,15 @@
-import { withInstall } from '../util/type';
 import CardSelect from './CardSelect.vue';
+import CardSelectOption from './Option.vue';
+import type { App } from 'vue';
 
-export const JLCard = withInstall(CardSelect, 'JCardSelect');
+CardSelect.name = 'JCardSelect';
+CardSelect.Option = CardSelectOption;
 
-export default JLCard;
+CardSelect.install = function (app: App) {
+    app.component('JCardSelect', CardSelect);
+    app.component('JCardSelectOption', CardSelectOption);
+    return app;
+};
+
+export { CardSelectOption };
+export default CardSelect;

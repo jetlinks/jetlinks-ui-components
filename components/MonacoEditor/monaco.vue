@@ -3,9 +3,19 @@
     <div ref="dom" class="editor"></div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+import {
+    ref,
+    onMounted,
+    watchEffect,
+    watch,
+    defineExpose,
+    onUnmounted,
+    toRaw,
+    nextTick,
+} from 'vue';
 import * as monaco from 'monaco-editor';
-import { ref, onMounted, PropType } from 'vue';
+import { ref, onMounted, PropType  } from 'vue';
 
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
@@ -24,7 +34,7 @@ self.MonacoEnvironment = {
         if (label === 'json') {
             return new jsonWorker();
         }
-        if (label === 'css' || label === 'scss' || label === 'less') {
+        if (label === 'css') {
             return new cssWorker();
         }
         if (label === 'html') {
@@ -34,25 +44,93 @@ self.MonacoEnvironment = {
             return new tsWorker();
         }
         if (label === 'vue') {
-            return new vueWorker();
+          return new vueWorker();
         }
         return new editorWorker();
     },
 };
 
 const props = defineProps({
-    value: { type: String, default: '' },
+    modelValue: [String, Number],
     /*主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色) */
     theme: {
         type: String as PropType<'vs' | 'vs-dark' | 'hc-black'>,
         default: 'vs-dark',
     },
+    theme: { type: String, default: 'vs-dark' },
     language: { type: String, default: 'json' },
+    codeTips: { type: Array, default: () => [] },
+    init: { type: Function, default: undefined },
+    registrationTips: { type: Object, default: () => ({}) },
+    registrationTypescript: { type: Object, default: () => ({}) },
+    blurFormat: { type: Boolean, default: true },
 });
 
-const emit = defineEmits(['update:value', 'change']);
+const emit = defineEmits(['update:modelValue', 'blur', 'change']);
 const dom = ref();
 let instance: any;
+const monacoProviderRef = ref();
+const monacoTypescriptProviderRef = ref();
+
+const handleSuggestions = (suggestions, range) => {
+  return Array.isArray(suggestions)
+      ? suggestions.map((item) => ({ ...item, range }))
+      : [];
+};
+
+const disposeRegister = () => {
+  monacoProviderRef.value?.dispose();
+  monacoProviderRef.value = null;
+};
+/**
+ * 代码提示注册
+ */
+const registerCompletionItemProvider = () => {
+  disposeRegister();
+  if (monaco.languages && props.registrationTips?.suggestions) {
+    const { name, suggestions } = props.registrationTips;
+    monacoProviderRef.value =
+        monaco.languages.registerCompletionItemProvider(name || 'json', {
+          provideCompletionItems: function (model, position) {
+            const word = model.getWordUntilPosition(position); // 获取提示代码范围位置
+            const range = {
+              startLineNumber: position.lineNumber,
+              endLineNumber: position.lineNumber,
+              startColumn: word.startColumn,
+              endColumn: word.endColumn,
+            };
+
+            return {
+              suggestions: handleSuggestions(suggestions, range),
+            };
+          },
+        });
+  }
+};
+
+const disposeTypescript = () => {
+  monacoTypescriptProviderRef.value?.dispose();
+  monacoTypescriptProviderRef.value = null;
+};
+
+const registerTypescript = () => {
+  disposeTypescript();
+  if (monaco.languages && props.registrationTypescript?.typescript) {
+    const { name, typescript } = props.registrationTypescript;
+    monacoTypescriptProviderRef.value =
+        monaco.languages.typescript.javascriptDefaults.addExtraLib(
+            typescript,
+        );
+  }
+};
+
+/**
+ * 代码格式化
+ */
+const editorFormat = () => {
+  if (!instance.value) return;
+  toRaw(instance.value).getAction('editor.action.formatDocument')?.run();
+};
 
 const getTheme = async () => {
     if (props.language === 'vue') {
@@ -68,6 +146,16 @@ const getTheme = async () => {
 };
 
 onMounted(async () => {
+  const _model = monaco.editor.createModel(props.modelValue, props.language);
+
+  instance.value = monaco.editor.create(dom.value, {
+    model: _model,
+    tabSize: 2,
+    automaticLayout: true,
+    scrollBeyondLastLine: false,
+    theme: props.theme, // 主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色)
+    formatOnPaste: true,
+  });
     const model = monaco.editor.createModel(props.value, props.language);
     instance = monaco.editor.create(dom.value, {
         model: model,
@@ -78,14 +166,108 @@ onMounted(async () => {
         formatOnPaste: true,
     });
 
-    instance.onDidChangeModelContent(() => {
-        const value = instance.getValue();
-        emit('update:value', value);
-        emit('change', value);
+  instance.value.onDidChangeModelContent(() => {
+    //
+    const value = toRaw(instance.value).getValue();
+    nextTick(() => {
+      emit('update:modelValue', value);
+      emit('change', value);
     });
+  });
+
+  instance.value.onDidBlurEditorText(() => {
+    emit('blur');
+    if (props.blurFormat) {
+      editorFormat();
+    }
+  });
+
+  if (props.modelValue) {
+    setTimeout(() => {
+      editorFormat();
+    }, 200);
+  }
+
+  props.init?.(instance.value, monaco);
+
     if (props.language === 'vue') {
         onigasm.loadWASM(onigasmWasm);
         loadGrammars(monaco, instance);
     }
 });
+
+/**
+ * 光标位置插入内容
+ * @param {String} val
+ */
+const insert = (val) => {
+    if (!instance.value) return;
+    const position = toRaw(instance.value).getPosition();
+    const value = toRaw(instance.value).getValue();
+    toRaw(instance.value).executeEdits(value, [
+        {
+            range: new monaco.Range(
+                position?.lineNumber,
+                position?.column,
+                position?.lineNumber,
+                position?.column,
+            ),
+            text: val,
+        },
+    ]);
+};
+
+watch(
+    () => props.modelValue,
+    (val) => {
+        if (
+            !instance.value ||
+            (instance.value &&
+                props.modelValue === toRaw(instance.value).getValue())
+        )
+            return;
+        // setValue之前获取光标位置
+        const position = toRaw(instance.value).getPosition();
+
+        // setValue之后光标位置改变
+        toRaw(instance.value).setValue(val);
+        // 设置光标位置为setValue之前的位置
+        toRaw(instance.value).setPosition(position);
+
+        editorFormat();
+    },
+);
+
+watch(
+    () => JSON.stringify(props.registrationTips),
+    () => {
+        registerCompletionItemProvider();
+    },
+    { immediate: true },
+);
+
+watch(
+    () => JSON.stringify(props.registrationTypescript),
+    () => {
+        registerTypescript();
+    },
+    { immediate: true },
+);
+
+onUnmounted(() => {
+    disposeRegister();
+    disposeTypescript();
+    toRaw(instance.value).editor?.dispose?.();
+});
+
+defineExpose({
+    editorFormat,
+    insert,
+});
 </script>
+
+<style lang="less" scoped>
+.editor {
+    height: 100%;
+}
+</style>

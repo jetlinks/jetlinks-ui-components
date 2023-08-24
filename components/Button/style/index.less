@@ -1,10 +1,12 @@
+// @import 'ant-design-vue/lib/style/index.less';
+@import 'ant-design-vue/lib/button/style/index.less';
 @import '../../style/variable.less';
-@btn-denger: #e50012;
-.custom-button {
-    .stroke-btn {
-        color: @primary-color;
-        background-color: #f6f6f6;
 
+@btn-danger: #e50012;
+.custom-button {
+    &.stroke-btn {
+        background-color: #f1f1f1;
+        border-color: #e6e6e6;
         &:hover {
             color: #ffffff;
             border-color: @primary-color;
@@ -17,14 +19,14 @@
         }
     }
 
-    .icon-danger {
-        color: @btn-denger;
+    &.icon-danger {
+        color: @btn-danger;
         border: none;
         background-color: #f1f1f1;
 
         &:hover {
             color: #ffffff;
-            background-color: @btn-denger;
+            background-color: @btn-danger;
         }
 
         &:disabled {

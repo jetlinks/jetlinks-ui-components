@@ -1,3 +1,35 @@
+@import '../../style/variable.less';
+// @import 'ant-design-vue/lib/style/index.less';
+@import 'ant-design-vue/lib/tabs/style/index.less';
 .center-extra-coontent {
-  overflow: hidden;
+    overflow: hidden;
+}
+.@{ant-prefix}-tabs-card{
+    > .@{ant-prefix}-tabs-nav{
+        .@{ant-prefix}-tabs-tab{
+            border-radius: 6px 6px 0px 0px !important;
+            border: none;
+            margin-left: 4px !important;
+            background-color: #F3F4F4 !important;
+            border-bottom: 1px solid  @primary-color !important;
+            padding: 6px 12px !important;
+            &.@{ant-prefix}-tabs-tab-active {
+                background-color: @primary-color !important;
+
+                .@{ant-prefix}-tabs-tab-btn {
+                    color: #FFFFFF;
+                }
+            }
+        }
+        .@{ant-prefix}-tabs-nav {
+            &:before{
+                border-bottom: 1px solid  @primary-color !important;
+                z-index: 1;
+                font-size: 16px;
+            }
+            .@{ant-prefix}-tabs-tab-btn {
+                font-size: 16px;
+            }
+        }
+    }
 }

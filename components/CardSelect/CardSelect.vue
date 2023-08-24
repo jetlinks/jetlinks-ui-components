@@ -1,100 +1,204 @@
 <template>
-  <div class="j-card-panel">
-    <div class="j-card-item vertical" v-for="(item,i) in itemOptions" :key="i"
-         :class="{'active':getItemSelected(i) !== -1, 'disabled': disabled || item.disabled, 'horizontal': type === 'horizontal'}"
-         @click="handleSelect(i)">
-      <div class="j-card-content grid-item" :class="{'flex-item': type === 'horizontal'}">
-        <template v-if="type === 'horizontal' && float ==='right'">
-          <div class="desc" :style="{paddingRight: '10px'}">
-            <Ellipsis>
-              <span class="title">{{ item.label }}</span>
-            </Ellipsis>
-            <Ellipsis :line-clamp="2">
-              <span class="sub-title">{{ item.subLabel }}</span>
-            </Ellipsis>
-          </div>
-          <Avatar class="icon box-shadow" :src="item.iconUrl" :size="56"/>
-        </template>
+    <div :class="{ 'j-card-panel': true, 'no-column': noColumn }">
+        <Row v-if="!noColumn" :gutter="[16, 16]">
+            <Col
+                v-for="item in itemOptions"
+                :key="item.value"
+                :span="24 / column"
+            >
+                <div
+                    :class="{
+                        'j-card-item': true,
+                        active: activeKeys.includes(item.value),
+                        disabled: disabled || item.disabled,
+                        horizontal: type === 'horizontal',
+                        vertical: type === 'vertical',
+                        right: float === 'right',
+                        left: float === 'left',
+                    }"
+                    @click="() => handleSelect(item.value, item)"
+                >
+                    <div class="j-card-title-warp">
+                        <div class="title">
+                            <slot
+                                name="title"
+                                :title="item.label"
+                                :option="item"
+                            >
+                                {{ item.label }}
+                            </slot>
+                        </div>
+                        <div
+                            v-if="item.subLabel && showSubLabel"
+                            class="sub-title"
+                        >
+                            <slot
+                                name="subLabel"
+                                :sub-label="item.subLabel"
+                                :option="item"
+                            >
+                                {{ item.subLabel }}
+                            </slot>
+                        </div>
+                    </div>
+                    <div v-if="showImage" class="j-card-image">
+                        <slot name="image" :image="item.iconUrl" :option="item">
+                            <Avatar
+                                class="icon box-shadow"
+                                :src="item.iconUrl"
+                            />
+                        </slot>
+                    </div>
+                </div>
+            </Col>
+        </Row>
         <template v-else>
-          <Avatar class="icon" :class="{'box-shadow': type === 'horizontal'}" :src="item.iconUrl" :size="56"/>
-          <div class="desc" :style="[type === 'vertical' ? {paddingTop: '10px'}: {paddingLeft: '10px'}]">
-            <Ellipsis>
-              <span class="title">{{ item.label }}</span>
-            </Ellipsis>
-            <Ellipsis v-if="type === 'horizontal'" :line-clamp="2">
-              <span class="sub-title">{{ item.subLabel }}</span>
-            </Ellipsis>
-          </div>
+            <div
+                v-for="item in itemOptions"
+                :key="item.value"
+                :class="{
+                    'j-card-item': true,
+                    active: activeKeys.includes(item.value),
+                    disabled: disabled || item.disabled,
+                    horizontal: type === 'horizontal',
+                    vertical: type === 'vertical',
+                    right: float === 'right',
+                    left: float === 'left',
+                }"
+                @click="() => handleSelect(item.value, item)"
+            >
+                <div class="j-card-title-warp">
+                    <div class="title">
+                        <slot name="title" :title="item.label" :option="item">
+                            {{ item.label }}
+                        </slot>
+                    </div>
+                    <div v-if="item.subLabel && showSubLabel" class="sub-title">
+                        <slot
+                            name="subLabel"
+                            :sub-label="item.subLabel"
+                            :option="item"
+                        >
+                            {{ item.subLabel }}
+                        </slot>
+                    </div>
+                </div>
+                <div v-if="showImage" class="j-card-image">
+                    <slot name="image" :image="item.iconUrl" :option="item">
+                        <Avatar class="icon box-shadow" :src="item.iconUrl" />
+                    </slot>
+                </div>
+            </div>
         </template>
-      </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, PropType, ref, toRefs } from 'vue';
-import { Avatar } from 'ant-design-vue';
-import Ellipsis from '../Ellipsis/ellipsis.vue'
+import { computed, PropType, ref, toRefs, watch } from 'vue';
+import { Avatar, Row, Col } from '../components';
 
 interface CardOption {
-  value: string | number,
-  label: string,
-  subLabel?: string,
-  iconUrl: string,
-  disabled?: boolean
+    value: string | number;
+    label: string;
+    subLabel?: string;
+    iconUrl: string;
+    disabled?: boolean;
 }
 
 const props = defineProps({
-  type: {
-    type: String as PropType<'vertical' | 'horizontal'>,
-    default: 'vertical'
-  },
-  float: {
-    type: String as PropType<'left' | 'right'>,
-    default: 'left'
-  },
-  options: {
-    type: Array as PropType<Array<CardOption>>,
-    default: []
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  multiple: {
-    type: Boolean,
-    default: false
-  },
-})
-const {options, multiple, type, disabled, float} = toRefs(props);
+    type: {
+        type: String as PropType<'vertical' | 'horizontal'>,
+        default: 'horizontal',
+    },
+    float: {
+        type: String as PropType<'left' | 'right'>,
+        default: 'left',
+    },
+    options: {
+        type: Array as PropType<Array<CardOption>>,
+        default: () => [],
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
+    multiple: {
+        type: Boolean,
+        default: false,
+    },
+    column: {
+        type: Number,
+        default: 3,
+    },
+    noColumn: {
+        type: Boolean,
+        default: false,
+    },
+    showImage: {
+        type: Boolean,
+        default: true,
+    },
+    showSubLabel: {
+        type: Boolean,
+        default: true,
+    },
+    value: {
+        type: [String, Array],
+        default: undefined,
+    },
+    allowClear: {
+        type: Boolean,
+        default: false,
+    },
+});
+const { multiple, type, disabled, float } = toRefs(props);
 
-const sizeClassNameMap = {large: 'lg', small: 'sm', middle: undefined};
-const emits = defineEmits(['update:value'])
-const selectedItem = ref<any[]>([]);
-const itemOptions = computed(() => props.options)
+const emits = defineEmits(['update:value', 'change']);
+const activeKeys = ref<Array<string | number>>([]);
+const itemOptions = computed(() => props.options);
+const isAllowClear = computed(() => {
+    return props.allowClear !== false;
+});
+const getOptions = (keys: Array<string | number>): CardOption[] => {
+    return itemOptions.value.filter((item) => {
+        return keys.includes(item.value);
+    });
+};
 
-const handleSelect = (i) => {
-  if (disabled.value || itemOptions.value[i].disabled) return;
-  if (multiple.value) {
-    const index = getItemSelected(i);
-    index === -1 ? selectedItem.value?.push(i) : selectedItem.value?.splice(index, 1);
-    emits('update:value', selectedItem.value?.map(i => itemOptions.value[i]?.value));
-  } else {
-    selectedItem.value = [i];
-    emits('update:value', itemOptions.value[i]?.value);
-  }
-}
+const handleSelect = (key: string | number, item: CardOption) => {
+    if (disabled.value || item.disabled) return;
+    let cloneActiveKeys = new Set(activeKeys.value);
 
-function getItemSelected(i) {
-  return selectedItem.value?.findIndex(e => e === i);
-}
+    const isActive = cloneActiveKeys.has(key);
 
-function handleChange(value: any) {
-  emits('update:value', value);
-}
+    // 已选中，并且单选，allowClear为false，则return
+    if (isActive && !multiple.value && isAllowClear.value === false) return;
+
+    if (isActive) {
+        // 选中
+        cloneActiveKeys.delete(key);
+    } else {
+        // 添加
+        multiple.value
+            ? cloneActiveKeys.add(key)
+            : (cloneActiveKeys = new Set([key]));
+    }
+
+    activeKeys.value = [...cloneActiveKeys.keys()];
+    const options = multiple.value ? getOptions(activeKeys.value) : item;
+    emits('update:value', activeKeys.value);
+    emits('change', activeKeys.value, options);
+};
+
+watch(
+    () => props.value,
+    () => {
+        activeKeys.value = Array.isArray(props.value)
+            ? props.value
+            : [props.value];
+    },
+    { immediate: true },
+);
 </script>
 
-<style lang="less" scoped>
-@import "./style/index.less";
-
-</style>
+<style lang="less"></style>

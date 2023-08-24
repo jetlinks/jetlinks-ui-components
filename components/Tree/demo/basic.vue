@@ -1,49 +1,76 @@
 <docs>
 ---
 order: 0
-title: 树形控件
+title: 基本用法
 ---
 
-展示筛选，可勾选，可选中，禁用，默认展开等功能
-  
+## zh-CN
+
+最简单的用法，展示可勾选，可选中，禁用，默认展开等功能。
+
 </docs>
 <template>
-    <Input v-model="filterText" placeholder="请输入" @change="change" />
-    <j-tree checkable :tree-data="treeData" defaultExpandAll />
+  <j-tree
+    v-model:expandedKeys="expandedKeys"
+    v-model:selectedKeys="selectedKeys"
+    v-model:checkedKeys="checkedKeys"
+    checkable
+    :tree-data="treeData"
+  >
+    <template #title="{ title, key }">
+      <span v-if="key === '0-0-1-0'" style="color: #1890ff">{{ title }}</span>
+      <template v-else>{{ title }}</template>
+    </template>
+  </j-tree>
 </template>
-
-<script lang="ts" setup>
-import { Input } from 'ant-design-vue';
+<script lang="ts">
 import type { TreeProps } from 'ant-design-vue';
-import { ref } from 'vue';
-import { treeFilter } from 'JUI/Tree';
+import { defineComponent, ref, watch } from 'vue';
 
-const data: TreeProps['treeData'] = [
-    {
-        title: 'parent 1',
-        key: '0-0',
+const treeData: TreeProps['treeData'] = [
+  {
+    title: 'parent 1',
+    key: '0-0',
+    children: [
+      {
+        title: 'parent 1-0',
+        key: '0-0-0',
+        disabled: true,
         children: [
-            {
-                title: 'parent 1-0',
-                key: '0-0-0',
-                disabled: true,
-                children: [
-                    { title: 'leaf', key: '0-0-0-0', disableCheckbox: true },
-                    { title: 'leaf', key: '0-0-0-1' },
-                ],
-            },
-            {
-                title: 'parent 1-1',
-                key: '0-0-1',
-                children: [{ key: '0-0-1-0', title: 'sss' }],
-            },
+          { title: 'leaf', key: '0-0-0-0', disableCheckbox: true },
+          { title: 'leaf', key: '0-0-0-1' },
         ],
-    },
+      },
+      {
+        title: 'parent 1-1',
+        key: '0-0-1',
+        children: [{ key: '0-0-1-0', title: 'sss' }],
+      },
+    ],
+  },
 ];
-const treeData = ref<TreeProps[]>();
-const filterText = ref('');
-treeData.value = [...data];
-const change = (val) => {
-    treeData.value = treeFilter<TreeProps>(data, val.target.value, 'title');
-};
+
+export default defineComponent({
+  setup() {
+    const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    const checkedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    watch(expandedKeys, () => {
+      console.log('expandedKeys', expandedKeys);
+    });
+    watch(selectedKeys, () => {
+      console.log('selectedKeys', selectedKeys);
+    });
+    watch(checkedKeys, () => {
+      console.log('checkedKeys', checkedKeys);
+    });
+
+    return {
+      treeData,
+      expandedKeys,
+      selectedKeys,
+      checkedKeys,
+    };
+  },
+});
 </script>

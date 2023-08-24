@@ -15,29 +15,31 @@ title: 图标按钮
 <template>
     <Space>
         <j-button type="text" myIcon="ImportOutlined">导入</j-button>
-        <j-button type="primary"> <j-aIcon type="DownloadOutlined" />Primary </j-button>
+        <j-button type="primary">
+            <AIcon type="DownloadOutlined" />Primary
+        </j-button>
         <j-button danger type="primary">Primary</j-button>
         <j-button danger type="icon-danger" shape="circle">
             <template #icon>
-                <j-aIcon type="DeleteOutlined" />
+                <AIcon type="DeleteOutlined" />
             </template>
         </j-button>
         <j-button type="primary">
-            <j-aIcon type="ImportOutlined" />
+            <AIcon type="ImportOutlined" />
             导入
         </j-button>
         <j-button type="primary" shape="circle">
-            <j-aIcon type="SearchOutlined" />
+            <AIcon type="SearchOutlined" />
         </j-button>
         <j-button>
-          Search
-          <j-aIcon type="SearchOutlined" />
+            Search
+            <AIcon type="SearchOutlined" />
         </j-button>
         <j-button type="dashed" shape="circle">
-            <j-aIcon type="SearchOutlined" />
+            <AIcon type="SearchOutlined" />
         </j-button>
         <j-button type="dashed">
-            <j-aIcon type="SearchOutlined" />
+            <AIcon type="SearchOutlined" />
             Search
         </j-button>
         <j-button myIcon="StepBackwardFilled"></j-button>

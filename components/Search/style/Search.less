@@ -4,103 +4,176 @@
     background-color: #fff;
     margin-bottom: 24px;
 
-    .JSearch-content {
-        display: flex;
-        gap: 12px;
-
-        .JSearch-items,
-        & .JSearch-footer {
-            flex-grow: 1;
-        }
-
+    .pack-up {
         .JSearch-items {
-            display: flex;
-            gap: 16px;
+            flex: 1 1 auto;
 
-            .left,
-            & .right {
-                display: flex;
-                gap: 12px;
-                flex-direction: column;
-                width: 0;
-                flex-grow: 1;
-                min-width: 0;
-            }
-
-            .center {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                min-width: 80px;
-            }
-
-            &.vertical {
-                flex-direction: column;
-                .left,
-                & .right,
-                & .center {
-                    width: 100%;
-                }
-                .center {
-                    flex-direction: row;
-                }
-                .center-select {
-                    width: 120px;
-                }
+            .left {
+                min-width: 380px;
+                max-width: 580px;
             }
         }
-        .JSearch-footer {
-            display: flex;
-            gap: 64px;
-            position: relative;
+    }
 
-            &.expand {
-                margin-top: 12px;
-                width: 100%;
-                justify-content: center;
+    &.senior {
+        > .JSearch-content {
+            display: flex;
+            .JSearch-footer {
+                display: flex;
+                gap: 64px;
+                position: relative;
 
                 .more-btn {
-                    position: absolute;
-                    right: 0;
+                    .more-text {
+                        padding-right: 24px;
+                    }
+                    .more-icon {
+                        transition: transform 0.3s;
+                        transform: rotateZ(90deg);
+                        font-size: 14px;
+
+                        &.more-up {
+                            transform: rotateZ(-90deg);
+                        }
+                    }
+                }
+
+                &.expand {
+                    margin-top: 16px;
+                    width: 100%;
+                    justify-content: space-between;
+                }
+
+                .JSearch-footer--btns {
+                    display: flex;
+                    gap: 12px;
                 }
             }
 
+            .items-expand {
+                display: flex;
+                gap: 16px;
+
+                .left,
+                & .right {
+                    min-width: 0;
+                    flex: 1 1 0;
+                }
+
+                .left-items,
+                & .right-items {
+                    display: flex;
+                    gap: 16px;
+                    flex-direction: column;
+                }
+
+                .center {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                &.vertical {
+                    flex-direction: column;
+                    .center {
+                        flex-direction: row;
+                        justify-content: center;
+                    }
+                }
+            }
+
+            &.senior-expand {
+                flex-direction: column;
+            }
+
+            &.small {
+                gap: 12px;
+                .JSearch-footer {
+                    gap: 4px;
+                }
+            }
+        }
+    }
+
+    .JSearch-content {
+        &.simple {
             .JSearch-footer--btns {
                 display: flex;
+                gap: 12px;
+            }
+
+            .JSearch-item {
                 gap: 8px;
+
+                .JSearch-item--label {
+                    text-align: right;
+                }
             }
         }
+    }
 
-        &.senior-expand {
-            display: block;
+    .no-radius {
+        border-radius: 0;
+        border-color: #f1f1f1;
+    }
+
+    .search-history-warp {
+        position: relative;
+
+        .search-history-button {
+            padding-right: 32px;
         }
 
-        .more-up {
-            transform: rotate(-180deg);
-        }
-
-        &.big {
-            gap: 64px;
-        }
-
-        &.small {
-            flex-direction: column;
-        }
-
-        &.simple {
-            .JSearch-items {
-                flex-grow: 4;
-            }
-            .JSearch-footer {
-                flex-grow: 3;
-            }
-        }
-
-        &.no-flex {
-            flex-wrap: wrap;
-            .JSearch-items {
-                flex-grow: unset;
+        .search-history-button-icon {
+            position: absolute;
+            width: 24px;
+            height: 18px;
+            right: 6px;
+            top: 8px;
+            color: #fff;
+            line-height: 18px;
+            text-align: center;
+            font-weight: bold;
+            > span {
+                font-size: 14px;
             }
         }
+    }
+}
+
+.search-history-empty {
+    padding: 12px 12px 6px 12px;
+    background-color: #fff;
+}
+
+.search-history-items {
+    width: 120px;
+    max-height: 300px;
+    overflow-y: auto;
+    .search-history-item {
+        display: flex;
+        padding: 4px 0px 4px 4px;
+        align-items: center;
+        gap: 4px;
+
+        &:hover {
+            background-color: #f1f1f1;
+        }
+
+        .history-item--title {
+            width: calc(100% - 30px);
+            cursor: pointer;
+        }
+
+        .delete {
+            padding: 0 6px;
+            flex: 0 0 28px;
+        }
+    }
+}
+
+.search-history-list-pop {
+    .ant-popover-inner-content {
+        padding: 0;
     }
 }

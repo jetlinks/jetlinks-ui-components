@@ -1,8 +1,18 @@
 {
   "name": "jetlinks-ui-components",
-  "version": "1.0.0",
+  "version": "1.0.29",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "keywords": [
+    "vue",
+    "vue3",
+    "component",
+    "components",
+    "ui",
+    "framework",
+    "jetLinks",
+    "jetlinks-ui"
+  ],
   "scripts": {
     "predev": "node node_modules/esbuild/install.js",
     "dev": "yarn predev && yarn routes && vite serve site",
@@ -15,22 +25,39 @@
     "prettier": "prettier --write",
     "prepare": "husky install",
     "routes": "node site/scripts/genrateRoutes.js",
-    "site": "npm run routes && node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build site"
+    "site": "yarn predev && yarn routes && node --max_old_space_size=8192 ./node_modules/vite/bin/vite.js build site"
   },
   "files": [
     "lib",
     "es"
   ],
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "not IE 11"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jetlinks/jetlinks-ui-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jetlinks/jetlinks-ui-components/issues"
+  },
   "dependencies": {
     "@vueuse/core": "^9.12.0",
+    "@vueuse/router": "^9.13.0",
     "ant-design-vue": "^3.2.15",
     "colorpicker-v3": "^2.10.2",
     "lodash-es": "^4.17.21",
-    "monaco-editor": "^0.41.0",
+    "monaco-editor": "^0.40.0",
     "monaco-editor-core": "^0.41.0",
     "monaco-editor-textmate": "^4.0.0",
     "monaco-textmate": "^3.0.1",
     "monaco-volar": "^0.4.0",
+    "sortablejs": "^1.15.0",
+    "vuedraggable": "^4.1.0",
     "onigasm": "^2.2.5"
   },
   "devDependencies": {
@@ -58,6 +85,7 @@
     "@types/eslint": "^8.21.0",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.13.0",
+    "@types/sortablejs": "^1.15.1",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "@vitejs/plugin-vue": "^2.3.3",
@@ -77,6 +105,7 @@
     "colorful": "^2.1.0",
     "commander": "^6.1.0",
     "commitlint": "^17.4.2",
+    "compute-scroll-into-view": "^3.0.0",
     "css-loader": "^6.7.3",
     "css-minimizer-webpack-plugin": "^3.0.0",
     "dayjs": "^1.11.7",
@@ -130,6 +159,7 @@
     "slash": "^3.0.0",
     "string-replace-loader": "^3.1.0",
     "style-loader": "^3.3.1",
+    "sucrase": "^3.29.0",
     "terser-webpack-plugin": "^5.1.1",
     "through2": "^4.0.2",
     "ts-loader": "^9.1.0",
@@ -139,6 +169,7 @@
     "url": "^0.11.0",
     "url-loader": "^3.0.0",
     "vite": "^4.0.0",
+    "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-vue-setup-extend": "^0.4.0",
     "vue": "^3.2.45",
     "vue-eslint-parser": "^9.1.0",
@@ -152,5 +183,12 @@
     "webpack-dev-server": "^4.0.0",
     "webpack-merge": "^5.0.0",
     "webpackbar": "^5.0.2"
+  },
+  "volta": {
+    "node": "18.14.0",
+    "yarn": "1.22.0"
+  },
+  "engines": {
+    "node": ">=18.14.0"
   }
 }

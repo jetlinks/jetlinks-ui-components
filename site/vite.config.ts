@@ -4,7 +4,7 @@ import md from '../plugin/md';
 import docs from '../plugin/docs';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { additionalData } from './themeConfig';
-
+import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 
 const prefix = `monaco-editor/esm/vs`;
 
@@ -15,13 +15,15 @@ export default {
     resolve: {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
-            'JUI': path.resolve(__dirname, '../components'),
+            'jetlinks-ui-components': path.resolve(__dirname, '../components'),
         },
     },
     server: {
         host: true,
+        port: 8082,
     },
     plugins: [
+        monacoEditorPlugin({}),
         vueJsx({
             // options are passed on to @vue/babel-plugin-jsx
             mergeProps: false,
@@ -34,10 +36,7 @@ export default {
         }),
     ],
     optimizeDeps: {
-        include: [
-            'vue',
-            'vue-router',
-        ],
+        include: ['vue', 'vue-router'],
     },
     css: {
         preprocessorOptions: {
@@ -47,22 +46,21 @@ export default {
                 },
                 javascriptEnabled: true,
                 // includePaths: ["node_modules/"],
-                additionalData,
+                // additionalData,
             },
         },
     },
-    build: {
-        rollupOptions: {
-            output: {
-                manualChunks: {
-                    jsonWorker: [`${prefix}/language/json/json.worker`],
-                    cssWorker: [`${prefix}/language/css/css.worker`],
-                    htmlWorker: [`${prefix}/language/html/html.worker`],
-                    tsWorker: [`${prefix}/language/typescript/ts.worker`],
-                    editorWorker: [`${prefix}/editor/editor.worker`],
-                },
-            },
-        },
-    },
-
+    // build: {
+    //     rollupOptions: {
+    //         output: {
+    //             manualChunks: {
+    //                 jsonWorker: [`${prefix}/language/json/json.worker`],
+    //                 cssWorker: [`${prefix}/language/css/css.worker`],
+    //                 htmlWorker: [`${prefix}/language/html/html.worker`],
+    //                 tsWorker: [`${prefix}/language/typescript/ts.worker`],
+    //                 editorWorker: [`${prefix}/editor/editor.worker`],
+    //             },
+    //         },
+    //     },
+    // },
 };

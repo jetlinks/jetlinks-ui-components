@@ -1,48 +1,56 @@
 <template>
-    <a-popover
+    <Popover
         v-model:visible="visible"
         title="搜索名称"
         trigger="click"
+        placement="bottom"
         @visibleChange="visibleChange"
     >
         <template #content>
             <div style="width: 240px">
-                <a-form ref="formRef" :model="modelRef">
-                    <a-form-item
+                <j-form ref="formRef" :model="modelRef">
+                    <j-form-item
                         name="name"
-                        :rules="[{ required: true, message: '请输入名称' }]"
+                        :rules="[
+                            { required: true, message: '请输入名称' },
+                            { max: 64, message: '最多64个字符' },
+                        ]"
                     >
-                        <a-textarea
+                        <Textarea
                             v-model:value="modelRef.name"
                             :rows="3"
                             :maxlength="200"
                         />
-                    </a-form-item>
-                </a-form>
-                <a-button
+                    </j-form-item>
+                </j-form>
+                <j-button
                     :loading="saveHistoryLoading"
                     type="primary"
                     class="save-btn"
+                    style="width: 100%"
                     @click="saveHistory"
                 >
                     保存
-                </a-button>
+                </j-button>
             </div>
         </template>
-        <a-button>
-            <template #icon>
-                <SaveOutlined />
-            </template>
-            保存
-        </a-button>
-    </a-popover>
+        <j-button ghost type="primary"> 保存 </j-button>
+    </Popover>
 </template>
 
 <script setup lang="ts">
 import type { Terms } from '../typing';
 import type { PropType } from 'vue';
 import { ref, reactive } from 'vue';
-import { SaveOutlined } from '@ant-design/icons-vue';
+import {
+    Form as JForm,
+    Button as JButton,
+    FormItem as JFormItem,
+    AIcon,
+    Popover,
+    Textarea,
+    message,
+} from '../../components';
 import { isFunction } from 'lodash-es';
 
 const props = defineProps({
@@ -56,7 +64,7 @@ const props = defineProps({
         required: true,
     },
     request: {
-        type: Function,
+        type: Function as PropType<(data: any, target: string) => Promise<any>>,
         default: null,
     },
 });
@@ -71,6 +79,15 @@ const modelRef = reactive({
     name: undefined,
 });
 
+const visibleChange = (e: boolean) => {
+    visible.value = e;
+    if (!e) {
+        setTimeout(() => {
+            modelRef.name = undefined;
+        }, 100);
+    }
+};
+
 /**
  * 保存当前查询条件
  */
@@ -82,14 +99,13 @@ const saveHistory = async () => {
         saveHistoryLoading.value = true;
         const resp = await props.request(formData, props.target);
         saveHistoryLoading.value = false;
-        if (resp.status === 200) {
-            visible.value = false;
+        if (resp.success || resp.status === 200 || resp.code === 200) {
+            message.success('操作成功');
+            visibleChange(false);
+        } else {
+            message.error('操作失败');
         }
     }
-};
-
-const visibleChange = (e: boolean) => {
-    visible.value = e;
 };
 </script>
 

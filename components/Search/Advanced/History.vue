@@ -1,54 +1,80 @@
 <template>
-    <a-dropdown-button
-        type="primary"
-        placement="bottomLeft"
-        :visible="historyVisible"
-        @click="click"
-        @visibleChange="visibleChange"
-    >
-        搜索
-        <template #overlay>
-            <a-menu>
-                <template v-if="!showEmpty">
-                    <a-menu-item v-for="item in historyList" :key="item.id">
-                        <div class="history-item">
-                            <span @click.stop="itemClick(item.content)">{{
+    <div class="search-history-warp">
+        <FormItemRest>
+            <Button
+                class="search-history-button"
+                type="primary"
+                html-type="submit"
+            >
+                搜索
+            </Button>
+        </FormItemRest>
+        <Popover
+            placement="bottom"
+            trigger="click"
+            overlay-class-name="search-history-list-pop"
+            :visible="historyVisible"
+            @visibleChange="visibleChange"
+        >
+            <template #content>
+                <div v-if="!showEmpty" class="search-history-items">
+                    <div
+                        v-for="item in historyList"
+                        :key="item.id"
+                        class="search-history-item"
+                    >
+                        <div
+                            class="history-item--title"
+                            @click="itemClick(item.content)"
+                        >
+                            <Ellipsis style="width: 100%">{{
                                 item.name
-                            }}</span>
-                            <a-popconfirm
-                                title="确认删除吗？"
-                                placement="top"
-                                :ok-button-props="{
-                                    loading: deleteLoading,
-                                }"
-                                @confirm.stop="deleteHistory(item.id)"
-                            >
-                                <span class="delete">
-                                    <DeleteOutlined />
-                                </span>
-                            </a-popconfirm>
+                            }}</Ellipsis>
                         </div>
-                    </a-menu-item>
-                </template>
-                <template v-else>
-                    <div class="history-empty">
-                        <a-empty />
+                        <j-popconfirm
+                            title="确认删除吗？"
+                            placement="top"
+                            @confirm="deleteHistory(item)"
+                        >
+                            <span class="delete">
+                                <AIcon type="DeleteOutlined" />
+                            </span>
+                        </j-popconfirm>
                     </div>
-                </template>
-            </a-menu>
-        </template>
-        <template #icon>
-            <SearchOutlined />
-        </template>
-    </a-dropdown-button>
+                </div>
+                <div v-else class="search-history-empty">
+                    <j-empty />
+                </div>
+            </template>
+            <div
+                class="search-history-button-icon"
+                @click.stop="showHistoryList"
+            >
+                <AIcon type="DownOutlined" />
+            </div>
+        </Popover>
+    </div>
 </template>
 
 <script setup lang="ts" name="SearchHistory">
-import { SearchOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 import type { SearchHistoryList } from '../typing';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import type { PropType } from 'vue';
 import { isFunction } from 'lodash-es';
+import {
+    Menu as JMenu,
+    MenuItem as JMenuItem,
+    AIcon,
+    Empty as JEmpty,
+    Popconfirm as JPopconfirm,
+    Dropdown,
+    Button,
+    Input,
+    FormItemRest,
+    Popover,
+    Ellipsis,
+    message,
+} from '../../components';
 
 type Emit = {
     (event: 'click'): void;
@@ -63,31 +89,38 @@ const props = defineProps({
         required: true,
     },
     request: {
-        type: Function,
+        type: Function as PropType<(target: string) => Promise<any>>,
         default: null,
     },
     deleteRequest: {
-        type: Function,
+        type: Function as PropType<(target: string, item: any) => Promise<any>>,
         default: null,
+    },
+    deleteKey: {
+        type: String,
+        default: 'key',
     },
 });
 
 const historyList = ref<SearchHistoryList[]>([]);
 const historyVisible = ref(false);
-const deleteLoading = ref(false);
-const showEmpty = ref(false);
+const showEmpty = computed(() => {
+    return historyList.value.length === 0;
+});
 
-const visibleChange = async (visible: boolean) => {
-    historyVisible.value = visible;
-    if (visible && props.request) {
+const showHistoryList = async () => {
+    if (props.request) {
         const resp = await props.request(props.target);
         if (resp.success && resp.result.length) {
             historyList.value = resp.result.filter((item) => item.content);
-            showEmpty.value = false;
         } else {
-            showEmpty.value = true;
+            historyList.value = [];
         }
     }
+};
+
+const visibleChange = async (v: boolean) => {
+    historyVisible.value = v;
 };
 
 const click = () => {
@@ -99,41 +132,20 @@ const itemClick = (content: string) => {
     emit('itemClick', content);
 };
 
-const deleteHistory = async (id: string) => {
+const deleteHistory = async (item: any) => {
     if (props.deleteRequest && isFunction(props.deleteRequest)) {
-        deleteLoading.value = true;
-        const resp = await props.deleteRequest(props.target, id);
-        deleteLoading.value = false;
-        if (resp.success) {
-            historyVisible.value = false;
+        const resp = await props.deleteRequest(
+            props.target,
+            item[props.deleteKey],
+        );
+        historyVisible.value = false;
+        if (resp.success || resp.status === 200 || resp.code === 200) {
+            message.success('操作成功');
+        } else {
+            message.error('操作失败');
         }
     }
 };
 </script>
 
-<style scoped lang="less">
-@import '../../style/variable.less';
-.history-empty {
-    width: 200px;
-    background-color: #fff;
-    box-shadow: @box-shadow-base;
-    border-radius: 2px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 200px;
-}
-
-.history-item {
-    width: 200px;
-    display: flex;
-
-    > span {
-        flex: 1 1 auto;
-    }
-
-    .delete {
-        padding: 0 6px;
-        flex: 0 0 28px;
-    }
-}
-</style>
+<style scoped lang="less"></style>

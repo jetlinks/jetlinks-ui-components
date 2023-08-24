@@ -27,14 +27,13 @@ const esDir = getProjectPath('es');
 
 const tsConfig = getTSCommonConfig();
 
-
 function dist(done) {
     rimraf.sync(path.join(cwd, 'dist'));
     process.env.RUN_ENV = 'PRODUCTION';
     const webpackConfig = require(getProjectPath('webpack.build.conf.js'));
     webpack(webpackConfig, (err, stats) => {
         if (err) {
-            console.error(err.stack || err);
+            console.error('webpack-error', err.stack || err);
             if (err.details) {
                 console.error(err.details);
             }
@@ -90,6 +89,7 @@ function compileTs(stream) {
             through2.obj(function (file, encoding, next) {
                 // console.log(file.path, file.base);
                 file.path = file.path.replace(/\.[jt]sx$/, '.js');
+                console.log(file.path)
                 this.push(file);
                 next();
             }),
@@ -148,7 +148,12 @@ function babelify(js, modules) {
 
 function compile(modules) {
     const {
-        compile: { transformTSFile, transformFile, transformVue, includeLessFile = [] } = {},
+        compile: {
+            transformTSFile,
+            transformFile,
+            transformVue,
+            includeLessFile = [],
+        } = {},
     } = getConfig();
     rimraf.sync(modules !== false ? libDir : esDir);
 
@@ -159,13 +164,16 @@ function compile(modules) {
             through2.obj(function (file, encoding, next) {
                 // Replace content
                 const cloneFile = file.clone();
-                const content = file.contents.toString().replace(/^\uFEFF/, '');
+
+                const content = file.contents
+                    .toString()
+                    .replace(/^\uFEFF/, '')
+                    .replace(/\/lib\//g, modules === false ? '/es/' : '/lib/');
 
                 cloneFile.contents = Buffer.from(content);
 
                 // Clone for css here since `this.push` will modify file.path
                 const cloneCssFile = cloneFile.clone();
-
                 this.push(cloneFile);
 
                 // Transform less file
@@ -190,7 +198,11 @@ function compile(modules) {
                             next();
                         })
                         .catch((e) => {
-                            console.error(e);
+                            console.error(
+                                cloneCssFile.path,
+                                e,
+                                cloneCssFile.contents.toString(),
+                            );
                         });
                 } else {
                     next();
@@ -198,9 +210,11 @@ function compile(modules) {
             }),
         )
         .pipe(gulp.dest(modules === false ? esDir : libDir));
+
     const assets = gulp
         .src(['components/**/*.@(png|svg)'])
         .pipe(gulp.dest(modules === false ? esDir : libDir));
+
     let error = 0;
 
     // =============================== FILE ===============================
@@ -210,7 +224,7 @@ function compile(modules) {
             .src(['components/**/*.tsx'])
             .pipe(
                 through2.obj(function (file, encoding, next) {
-                    let nextFile = transformFile(file) || file;
+                    let nextFile = transformFile(file, modules) || file;
                     nextFile = Array.isArray(nextFile) ? nextFile : [nextFile];
                     nextFile.forEach((f) => this.push(f));
                     next();
@@ -228,13 +242,11 @@ function compile(modules) {
         'typings/**/*.d.ts',
     ];
 
-    const vueSource = [
-        'components/**/*.vue', '!components/**/demo/*'
-    ]
+    const vueSource = ['components/**/*.vue', '!components/**/demo/*.vue'];
 
     // Strip content if needed
     let sourceStream = gulp.src(source);
-    let sourceVueStream = gulp.src(vueSource)
+    let sourceVueStream = gulp.src(vueSource);
     if (modules === false) {
         sourceStream = sourceStream.pipe(
             stripCode({
@@ -248,6 +260,7 @@ function compile(modules) {
         sourceStream = sourceStream.pipe(
             through2.obj(function (file, encoding, next) {
                 let nextFile = transformTSFile(file) || file;
+                console.log(file.path);
                 nextFile = Array.isArray(nextFile) ? nextFile : [nextFile];
                 nextFile.forEach((f) => this.push(f));
                 next();
@@ -256,22 +269,25 @@ function compile(modules) {
     }
 
     if (transformVue) {
-        sourceVueStream = sourceVueStream.pipe(
-            through2.obj(function (file, encoding, next) {
-                let nextFile = transformVue(file) || file;
-                nextFile = Array.isArray(nextFile) ? nextFile : [nextFile];
-                nextFile.forEach((f) => this.push(f));
-                next();
-            }),
-        ).pipe(
-            ts(tsConfig, {
-                error(e) {
-                    tsDefaultReporter.error(e);
-                    error = 1;
-                },
-                finish: tsDefaultReporter.finish,
-            }),
-        ).pipe(gulp.dest(modules === false ? esDir : libDir))
+        sourceVueStream = sourceVueStream
+            .pipe(
+                through2.obj(function (file, encoding, next) {
+                    let nextFile = transformVue(file) || file;
+                    nextFile = Array.isArray(nextFile) ? nextFile : [nextFile];
+                    nextFile.forEach((f) => this.push(f));
+                    next();
+                }),
+            )
+            .pipe(
+                ts(tsConfig, {
+                    error(e) {
+                        tsDefaultReporter.error(e);
+                        error = 1;
+                    },
+                    finish: tsDefaultReporter.finish,
+                }),
+            )
+            .pipe(gulp.dest(modules === false ? esDir : libDir));
     }
 
     const tsResult = sourceStream.pipe(
@@ -298,9 +314,14 @@ function compile(modules) {
         gulp.dest(modules === false ? esDir : libDir),
     );
     return merge2(
-        [less, tsFilesStream, tsd, assets, sourceVueStream, transformFileStream].filter(
-            (s) => s,
-        ),
+        [
+            less,
+            tsFilesStream,
+            tsd,
+            assets,
+            sourceVueStream,
+            transformFileStream,
+        ].filter((s) => s),
     );
 }
 
@@ -376,16 +397,18 @@ gulp.task('compile-finalize', (done) => {
     done();
 });
 
-
 gulp.task(
     'compile',
-    gulp.series(gulp.parallel('compile-with-es', 'compile-with-lib'), 'compile-finalize', done => {
-        console.log('end compile at ', new Date());
-        console.log('compile time ', (new Date() - startTime) / 1000, 's');
-        done();
-    }),
+    gulp.series(
+        gulp.parallel('compile-with-es', 'compile-with-lib'),
+        'compile-finalize',
+        (done) => {
+            console.log('end compile at ', new Date());
+            console.log('compile time ', (new Date() - startTime) / 1000, 's');
+            done();
+        },
+    ),
 );
-
 
 gulp.task(
     'dist',

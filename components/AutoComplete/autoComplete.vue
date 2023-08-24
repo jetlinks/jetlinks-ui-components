@@ -1,49 +1,59 @@
 <template>
-  <div class="custom-auto-complete">
-    <AutoComplete v-bind="baseProps" :options="options" :style="{width: props.width}" @search="onSearch">
-      <slot name="default"/>
-
-      <template #option="{ value }">
-        <slot name="option" :value="value">
-          {{ value }}
-        </slot>
-      </template>
+    <AutoComplete
+        v-bind="props"
+        :options="options"
+        @search="onSearch"
+        @dropdownVisibleChange="dropdownVisibleChange"
+    >
+        <slot name="default" />
+        <template #option="{ value, label }">
+            <slot name="option" :value="value">
+                {{ label || value }}
+            </slot>
+        </template>
     </AutoComplete>
-  </div>
 </template>
 
 <script lang="ts" setup name="JAutoComplete">
-import { AutoComplete } from 'ant-design-vue'
-import type { DefaultOptionType } from 'ant-design-vue/lib/vc-select/Select'
-import { autoCompleteProps } from 'ant-design-vue/lib/auto-complete'
-import { ref, defineProps } from 'vue'
-import { omit } from 'lodash'
+import { AutoComplete } from 'ant-design-vue';
+import type { DefaultOptionType } from 'ant-design-vue/lib/vc-select/Select';
+import { autoCompleteProps } from 'ant-design-vue/lib/auto-complete';
+import { ref, defineProps } from 'vue';
+
+type Emit = {
+    (e: 'select', value, option): void;
+};
 
 const props = defineProps({
     ...autoCompleteProps(),
-    width: {
-      type: String,
-      default: '200px'
+    searchKey: {
+        type: String,
+        default: 'label',
     },
-})
+});
+const emit = defineEmits<Emit>();
 
-const baseProps = omit(props, ['options'])
-const propsOptions = props.options || []
-
-const options = ref<DefaultOptionType[]>(propsOptions)
+const options = ref<DefaultOptionType[]>(props.options);
 
 /**
  * 根据关键词提示
  * @param searchText 关键词
  */
 const onSearch = (searchText: string) => {
-  options.value =  propsOptions.filter(i => {
-    const str = i.label ? 'label' : 'value'
-    return i[str].includes(searchText)
-  })
-  if(searchText){
-    options.value.unshift({label: searchText, value: searchText})
-  }
-}
+    options.value = props.options.filter(
+        (item) => !!item[props.searchKey]?.includes(searchText),
+    );
+    if (!options.value.length) {
+        options.value.unshift({ label: searchText, value: searchText });
+    }
+};
 
+const dropdownVisibleChange = (open: boolean) => {
+    if (!open) {
+        // 关闭还原下拉options
+        setTimeout(() => {
+            options.value = props.options;
+        });
+    }
+};
 </script>

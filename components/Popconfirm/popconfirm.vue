@@ -5,27 +5,31 @@
         @visibleChange="visibleChange"
     >
         <template #title>
-            <div class="popconfirm-title">
-                {{ props.title || '是否确定删除？' }}
-            </div>
+            <slot name="title">
+                <div class="popconfirm-title">
+                    {{ props.title || '是否确定删除？' }}
+                </div>
+            </slot>
         </template>
         <template #cancelButton>
-            <Button size="small" class="popconfirm-button" @click="cancel"
-                ><j-aIcon type="RightOutlined" />
-                {{ props.cancelText || '取消' }}
-            </Button>
+            <slot name="cancelButton">
+                <Button size="small" class="popconfirm-button" @click="cancel">
+                    {{ props.cancelText || '取消' }}
+                </Button>
+            </slot>
         </template>
         <template #okButton>
-            <Button
+            <slot name="okButton">
+                <Button
                 :loading="loading"
                 type="primary"
                 size="small"
                 class="popconfirm-button"
                 @click="ok"
             >
-                <j-aIcon v-if="!loading" type="RightOutlined" />
-                {{ props.okText || '确定' }}
-            </Button>
+                    {{ props.okText || '确定' }}
+                </Button>
+            </slot>
         </template>
         <slot></slot>
     </Popconfirm>
@@ -33,8 +37,9 @@
 
 <script lang="ts" setup>
 import { Popconfirm, Button } from 'ant-design-vue';
-import { popconfirmProps } from 'ant-design-vue/es/popconfirm';
+import { popconfirmProps } from 'ant-design-vue/lib/popconfirm';
 import { ref } from 'vue';
+import { AIcon as JAIcon } from '../components';
 
 const props = defineProps({
     ...popconfirmProps(),
@@ -46,7 +51,8 @@ const props = defineProps({
 
 const visible = ref<boolean>(false);
 
-const cancel = () => {
+const cancel = async (e: MouseEvent) => {
+    await props.onCancel?.(e);
     visible.value = false;
 };
 

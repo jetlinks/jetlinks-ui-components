@@ -1,14 +1,12 @@
 import { baseHeaderProps, TopNavHeader } from '../TopHeader';
 import type { BaseHeaderPropsType } from '../TopHeader';
-import PropTypes from 'ant-design-vue/es/_util/vue-types';
+import PropTypes from 'ant-design-vue/lib/_util/vue-types';
+import type { VueNode } from 'ant-design-vue/lib/_util/type';
 import type { ExtractPropTypes, PropType } from 'vue';
-import type { WithFalse } from '../typings';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
 import { defineComponent, computed, toRefs } from 'vue';
-import type { RouteRecordRaw } from 'vue-router';
+import type { WithFalse } from '../typings';
 import { useRouteContext } from '../RouteContext';
 import { Layout } from 'ant-design-vue';
-import { clearMenuItem } from '../util';
 
 export const headerViewProps = {
     ...baseHeaderProps,
@@ -49,27 +47,19 @@ export default defineComponent({
             hasSiderMenu,
             headerHeight,
             layout,
-            navTheme,
+            theme,
             onCollapse,
         } = toRefs(props);
         const context = useRouteContext();
         const needFixedHeader = computed(
-            () =>
-                fixedHeader.value ||
-                context.fixedHeader ||
-                layout.value === 'mix',
+            () => fixedHeader.value || context.fixedHeader,
         );
         const isMix = computed(() => layout.value === 'mix');
         const isTop = computed(() => layout.value === 'top');
         const needSettingWidth = computed(
             () => needFixedHeader.value && hasSiderMenu.value && !isTop.value,
         );
-        const clearMenuData = computed(
-            () =>
-                (context.menuData &&
-                    clearMenuItem(context.menuData as RouteRecordRaw[])) ||
-                [],
-        );
+
         const className = computed(() => {
             return {
                 [`${prefixCls.value}-fixed-header`]: needFixedHeader.value,
@@ -78,13 +68,13 @@ export default defineComponent({
         });
 
         const renderContent = () => {
-            console.log('renderContent', clearMenuData.value);
             const defaultDom = (
                 <TopNavHeader
+                    theme={theme.value}
                     mode="horizontal"
                     {...props}
                     onCollapse={onCollapse.value}
-                    menuData={clearMenuData.value}
+                    menuData={context.menuData}
                 />
             );
             if (props.headerRender) {
@@ -93,11 +83,6 @@ export default defineComponent({
             return defaultDom;
         };
 
-        const width = computed(() => {
-            return layout.value !== 'mix' && needSettingWidth.value
-                ? `calc(100% - ${props.collapsed ? 48 : props.siderWidth}px)`
-                : '100%';
-        });
         const right = computed(() => (needFixedHeader.value ? 0 : undefined));
 
         return () => (
@@ -116,8 +101,8 @@ export default defineComponent({
                         padding: 0,
                         height: `${headerHeight.value}px`,
                         lineHeight: `${headerHeight.value}px`,
-                        width: width.value,
-                        zIndex: layout.value === 'mix' ? 100 : 19,
+                        width: '100%',
+                        zIndex: 100,
                         right: right.value,
                     }}
                     class={className.value}

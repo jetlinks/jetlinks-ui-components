@@ -1,84 +1,65 @@
+@import 'ant-design-vue/lib/style/themes/index.less';
 @import '../../style/variable.less';
 
-@card-border: #F0F0F0;
+@card-border: #e6e6e6;
 .j-card-panel {
-  display: flex;
-  flex-wrap: wrap;
+    .j-card-item {
+        border: 1px solid @card-border;
+        border-radius: 4px;
+        cursor: pointer;
+        color: @black;
+        display: flex;
+        width: 100%;
+        gap: 12px;
 
-  .j-card-item {
-    padding: 20px;
-    border: 1px solid @card-border;
-    margin: 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    color: @black;
-  }
+        .j-card-title-warp {
+            flex: 1 1 auto;
+        }
 
-  .vertical {
-    width: 130px;
-    height: 130px;
-  }
+        &.vertical {
+            flex-direction: column-reverse;
+            padding: 22px 4px;
+            align-items: center;
 
-  .horizontal {
-    width: 186px;
-    height: 100px;
-  }
+            .j-card-image {
+                margin-bottom: 4px;
+            }
+        }
 
-  .active {
-    border: 1px solid @primary-color !important;
-  }
+        &.horizontal {
+            padding: 20px;
+        }
 
-  .disabled {
-    cursor: not-allowed;
-    opacity: 0.75;
-  }
+        .sub-title {
+            color: rgba(0, 0, 0, 0.24);
+        }
 
-  .grid-item {
-    display: grid;
-    justify-items: center;
-
-    .icon {
-      border-radius: 8px;
-      width: 56px;
-      height: 56px;
-      &.box-shadow {
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
-      }
+        &.right {
+            flex-direction: row-reverse;
+        }
     }
 
+    &.no-column {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
 
+        .j-card-item {
+            min-width: 36px;
+            width: unset;
 
-    .desc {
-      display: grid;
-      justify-items: center;
-      align-items: flex-start;
-      width: 84px;
+            &.vertical {
+                padding: 14px 16px;
+            }
+        }
+    }
 
-      .title {
-        font-weight: 400;
-        font-size: 12px;
+    .active {
+        border: 1px solid @primary-color !important;
+    }
+
+    .disabled {
+        cursor: not-allowed;
         opacity: 0.75;
-      }
-
-      .sub-title {
-        font-weight: 400;
-        font-size: 8px;
-        opacity: 0.24;
-        transform: matrix(1, 0, -0.01, 1, 0, 0);
-      }
     }
-  }
-
-  .flex-item {
-    display: flex;
-    justify-content: space-around;
-  }
-}
-
-.j-card-lg {
-
-}
-
-.j-card-sm {
-
 }

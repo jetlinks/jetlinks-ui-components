@@ -1,6 +1,7 @@
 import { defineComponent, createVNode, watchEffect } from 'vue';
 import * as $Icon from '@ant-design/icons-vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
+import './iconfont';
 
 let MyIcon = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js', // 在 iconfont.cn 上生成
@@ -18,9 +19,11 @@ const Icon = (props) =>
     );
 
 export default defineComponent({
+    name: 'AIcon',
     // 传入组件配置
-    props: ['type', 'scriptUrl'],
-    setup(props) {
+    props: ['type', 'scriptUrl', 'class'],
+    emits: ['click'],
+    setup(props, { emit, attrs }) {
         watchEffect(() => {
             if (props.scriptUrl) {
                 MyIcon = createFromIconfontCN({
@@ -29,13 +32,13 @@ export default defineComponent({
             }
         });
 
-        const render = () => {
-            return (
-                <>
-                    <Icon {...props} />
-                </>
-            );
+        const click = () => {
+            emit('click');
         };
-        return render;
+
+        // const render = () => {
+        //     return
+        // };
+        return () => <Icon {...props} style={attrs.style} onClick={click} />;
     },
 });

@@ -255,7 +255,7 @@
     </div>
 </template>
 
-<script lang="ts" setup name="JUpload">
+<script lang="ts" setup>
 import { Upload, UploadDragger } from 'ant-design-vue';
 import { CloseCircleFilled, StarOutlined } from '@ant-design/icons-vue';
 import type { UploadProps } from 'ant-design-vue';
@@ -263,7 +263,7 @@ import { defineProps, useSlots } from 'vue';
 import {
     uploadProps,
     uploadListProps,
-} from 'ant-design-vue/es/upload/interface';
+} from 'ant-design-vue/lib/upload/interface';
 const props = defineProps({
     ...uploadProps(),
     ...uploadListProps(),
@@ -278,4 +278,3 @@ const preview = (url: string) => {
 };
 const $slots = useSlots();
 </script>
-

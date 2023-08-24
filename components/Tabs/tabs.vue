@@ -19,23 +19,39 @@
 <script lang="ts" setup>
 import { Tabs } from 'ant-design-vue';
 import { tabsProps } from './tabsTypes';
-import { useSlots, ref, onMounted, nextTick } from 'vue';
+import { useSlots, ref, watch } from 'vue';
+import type { PropType, CSSProperties } from 'vue';
+import { useElementSize } from '@vueuse/core';
 
 const slots = useSlots();
 const renderArr = Object.keys(slots).filter(
     (item) => !['centerExtra'].includes(item),
 );
-const props = defineProps(tabsProps);
+const props = defineProps({
+    ...tabsProps,
+    style: {
+        type: Object as PropType<CSSProperties>,
+        default: undefined,
+    },
+});
 const jetTabs = ref();
 const content = ref();
 const centerExtraWidth = ref();
-onMounted(() => {
-    nextTick(() => {
-        centerExtraWidth.value =
-            jetTabs.value.querySelector('.ant-tabs-nav-wrap').clientWidth -
-            jetTabs.value.querySelector('.ant-tabs-nav-list').clientWidth +
-            'px';
-        content.value = jetTabs.value.querySelector('.ant-tabs-nav-wrap');
-    });
-});
+
+const { width } = useElementSize(jetTabs);
+
+watch(
+    width,
+    () => {
+        if (jetTabs.value) {
+            centerExtraWidth.value =
+                jetTabs.value.querySelector('.ant-tabs-nav-wrap').clientWidth -
+                jetTabs.value.querySelector('.ant-tabs-nav-list').clientWidth -
+                10 +
+                'px';
+            content.value = jetTabs.value.querySelector('.ant-tabs-nav-wrap');
+        }
+    },
+    { immediate: true },
+);
 </script>

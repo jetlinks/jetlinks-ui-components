@@ -15,7 +15,7 @@ message.config({
 </docs>
 
 <template>
-    <a-space>
+    <j-space>
         <Button @click="openMessage(configs[0])">open</Button>
         <Button type="primary" @click="openMessage(configs[1])">success</Button>
         <Button type="primary" danger @click="openMessage(configs[2])"
@@ -26,15 +26,13 @@ message.config({
             >warning</Button
         >
         <Button type="primary" @click="openMessage(configs[5])">loading</Button>
-    </a-space>
+    </j-space>
 </template>
 
-<script lang="ts" setup>
-import { Button } from 'ant-design-vue';
-import type { MessageArgsProps } from 'ant-design-vue';
-import { Message as JMessage } from 'JUI';
+<script setup>
+import { message, Button } from 'jetlinks-ui-components';
 
-const configs: MessageArgsProps = [
+const configs = [
     {
         type: 'open',
         content: 'open测试',
@@ -64,7 +62,7 @@ const configs: MessageArgsProps = [
     },
 ];
 
-const openMessage = (config: MessageArgsProps) => {
-    JMessage(config);
+const openMessage = (config) => {
+    message.success(config.content);
 };
 </script>

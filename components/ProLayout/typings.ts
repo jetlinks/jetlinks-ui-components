@@ -1,6 +1,6 @@
 import type { VNode } from 'vue';
 import type { BreadcrumbProps } from './RouteContext';
-import type { VueNode } from 'ant-design-vue/es/_util/type'
+import type { VueNode } from 'ant-design-vue/lib/_util/type';
 
 export type Theme = 'dark' | 'light';
 export type LayoutType = 'side' | 'top' | 'mix';
@@ -64,11 +64,21 @@ export type HeaderContentRender = WithFalse<() => VueNode>;
 export type HeaderRender = WithFalse<(props: ProProps) => VueNode>;
 export type RightContentRender = WithFalse<(props: ProProps) => VueNode>;
 export type MenuItemRender = WithFalse<
-    (args: { item: MenuDataItem; title?: JSX.Element; icon?: JSX.Element }) => VueNode
-    >;
-export type SubMenuItemRender = WithFalse<(args: { item: MenuDataItem; children?: VueNode[] }) => VueNode>;
-export type MenuHeaderRender = WithFalse<(logo: VueNode, title: VueNode, props?: ProProps) => VueNode>;
-export type MenuContentRender = WithFalse<(props: ProProps, defaultDom: VueNode) => VueNode>;
+    (args: {
+        item: MenuDataItem;
+        title?: JSX.Element;
+        icon?: JSX.Element;
+    }) => VueNode
+>;
+export type SubMenuItemRender = WithFalse<
+    (args: { item: MenuDataItem; children?: VueNode[] }) => VueNode
+>;
+export type MenuHeaderRender = WithFalse<
+    (logo: VueNode, title: VueNode, props?: ProProps) => VueNode
+>;
+export type MenuContentRender = WithFalse<
+    (props: ProProps, defaultDom: VueNode) => VueNode
+>;
 export type MenuExtraRender = WithFalse<(props?: ProProps) => VueNode>;
 export type LogoRender = WithFalse<VueNode>;
 

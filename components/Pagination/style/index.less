@@ -1,7 +1,11 @@
 @import '../../style/variable.less';
+// @import 'ant-design-vue/lib/style/index.less';
+@import 'ant-design-vue/lib/pagination/style/index.less';
 
 .show-content {
-  .ant-pagination-item, & .ant-pagination-jump-prev, & .ant-pagination-jump-next{
-    display: none;
-  }
+    .@{ant-prefix}-pagination-item,
+    & .@{ant-prefix}-pagination-jump-prev,
+    & .@{ant-prefix}-pagination-jump-next {
+        display: none;
+    }
 }

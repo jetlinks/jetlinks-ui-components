@@ -14,8 +14,8 @@ title: success
         sub-title="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
     >
         <template #extra>
-            <a-button key="console" type="primary">Go Console</a-button>
-            <a-button key="buy">Buy Again</a-button>
+            <j-button key="console" type="primary">Go Console</j-button>
+            <j-button key="buy">Buy Again</j-button>
         </template>
     </j-result>
 </template>
