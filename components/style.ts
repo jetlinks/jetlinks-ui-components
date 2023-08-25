@@ -73,3 +73,4 @@ import './Tree/style';
 import './DataTable/style';
 import './PopconfirmModal/style';
 import './CheckButton/style';
+import './ColorPicker/style';
