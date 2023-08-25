@@ -3,7 +3,7 @@
     <div ref="dom" class="editor"></div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {
     ref,
     onMounted,
@@ -15,38 +15,10 @@ import {
 } from 'vue';
 import * as monaco from 'monaco-editor';
 
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
-import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
-
 // vue support
 import * as onigasm from 'onigasm';
 import onigasmWasm from 'onigasm/lib/onigasm.wasm?url';
 import { loadGrammars, loadTheme } from 'monaco-volar';
-import vueWorker from 'monaco-volar/vue.worker?worker';
-
-self.MonacoEnvironment = {
-    getWorker(_: string, label: string) {
-        if (label === 'json') {
-            return new jsonWorker();
-        }
-        if (label === 'css') {
-            return new cssWorker();
-        }
-        if (label === 'html') {
-            return new htmlWorker();
-        }
-        if (['typescript', 'javascript'].includes(label)) {
-            return new tsWorker();
-        }
-        if (label === 'vue') {
-            return new vueWorker();
-        }
-        return new editorWorker();
-    },
-};
 
 const props = defineProps({
     modelValue: [String, Number],
@@ -60,10 +32,15 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'blur', 'change']);
+
 const dom = ref();
-let instance: any;
+
+const instance = ref();
+
 const monacoProviderRef = ref();
 const monacoTypescriptProviderRef = ref();
+
+// codeTipItem.dispose() // 销毁自定义提示
 
 const handleSuggestions = (suggestions, range) => {
     return Array.isArray(suggestions)
@@ -176,7 +153,7 @@ onMounted(async () => {
 
     if (props.language === 'vue') {
         onigasm.loadWASM(onigasmWasm);
-        loadGrammars(monaco, instance);
+        loadGrammars(monaco, instance.value);
     }
 });
 
