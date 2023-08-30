@@ -15,11 +15,6 @@ import {
 } from 'vue';
 import * as monaco from 'monaco-editor';
 
-// vue support
-import * as onigasm from 'onigasm';
-import onigasmWasm from 'onigasm/lib/onigasm.wasm?url';
-import { loadGrammars, loadTheme } from 'monaco-volar';
-
 const props = defineProps({
     modelValue: [String, Number],
     theme: { type: String, default: 'vs-dark' },
@@ -102,19 +97,6 @@ const editorFormat = () => {
     toRaw(instance.value).getAction('editor.action.formatDocument')?.run();
 };
 
-const getTheme = async () => {
-    if (props.language === 'vue') {
-        const theme = await loadTheme(monaco.editor);
-        if (props.theme === 'vs') {
-            return theme.light;
-        } else if (props.theme === 'vs-dark') {
-            return theme.dark;
-        }
-        return theme.dark;
-    }
-    return props.theme;
-};
-
 onMounted(async () => {
     const _model = monaco.editor.createModel(props.modelValue, props.language);
 
@@ -123,7 +105,7 @@ onMounted(async () => {
         tabSize: 2,
         automaticLayout: true,
         scrollBeyondLastLine: false,
-        theme: await getTheme(), // 主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色)
+        theme: props.theme, // 主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色)
         formatOnPaste: true,
     });
 
@@ -150,11 +132,6 @@ onMounted(async () => {
     }
 
     props.init?.(instance.value, monaco);
-
-    if (props.language === 'vue') {
-        onigasm.loadWASM(onigasmWasm);
-        loadGrammars(monaco, instance.value);
-    }
 });
 
 /**
