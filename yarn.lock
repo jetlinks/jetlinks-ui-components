@@ -6714,18 +6714,6 @@ jest-worker@^27.0.2, jest-worker@^27.4.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-jetlinks-ui-components@^1.0.23:
-  version "1.0.23"
-  resolved "http://registry.jetlinks.cn/jetlinks-ui-components/-/jetlinks-ui-components-1.0.23.tgz#6bef8fe635867a226afbfee3af6e870e46b0bf54"
-  integrity sha512-TtJJgtvW2aRvfD1BMTOulefPq3BUyfE02UARRF/XMo9GaPzPq7eqDonH4yrvadEd71cMPj2CYvt/A6FdWJu9yA==
-  dependencies:
-    "@vueuse/core" "^9.12.0"
-    "@vueuse/router" "^9.13.0"
-    ant-design-vue "^3.2.15"
-    colorpicker-v3 "^2.10.2"
-    lodash-es "^4.17.21"
-    monaco-editor "^0.35.0"
-
 joycon@^3.0.1:
   version "3.1.1"
   resolved "https://registry.npmmirror.com/joycon/-/joycon-3.1.1.tgz"
@@ -7586,11 +7574,6 @@ mkdirp@^1.0.4:
   resolved "https://registry.jetlinks.cn/mkdirp/-/mkdirp-1.0.4.tgz"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-monaco-editor@^0.35.0:
-  version "0.35.0"
-  resolved "https://registry.npmmirror.com/monaco-editor/-/monaco-editor-0.35.0.tgz"
-  integrity sha512-BJfkAZ0EJ7JgrgWzqjfBNP9hPSS8NlfECEDMEIIiozV2UaPq22yeuOjgbd3TwMh3anH0krWZirXZfn8KUSxiOA==
-
 monaco-editor@^0.40.0:
   version "0.40.0"
   resolved "http://registry.jetlinks.cn/monaco-editor/-/monaco-editor-0.40.0.tgz#d10834e15ad50a15ec61fd01892e508464ebe2fe"
@@ -8000,6 +7983,13 @@ onetime@^6.0.0:
   integrity sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==
   dependencies:
     mimic-fn "^4.0.0"
+
+onigasm@^2.2.5:
+  version "2.2.5"
+  resolved "http://registry.jetlinks.cn/onigasm/-/onigasm-2.2.5.tgz#cc4d2a79a0fa0b64caec1f4c7ea367585a676892"
+  integrity sha512-F+th54mPc0l1lp1ZcFMyL/jTs2Tlq4SqIHKIXGZOR/VkHkF9A7Fr5rRr5+ZG/lWeRsyrClLYRq7s/yFQ/XhWCA==
+  dependencies:
+    lru-cache "^5.1.1"
 
 open@^6.3.0:
   version "6.4.0"
