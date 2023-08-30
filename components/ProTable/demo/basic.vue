@@ -13,6 +13,7 @@ title: 基本
         :data-source="data"
         :noPagination="true"
         :gridColumn="3"
+        v-model:modelValue="model"
     >
         <template #headerTitle
             ><j-button type="primary">新增</j-button></template
@@ -30,11 +31,15 @@ title: 基本
             <a>{{ slotProps?.address }}</a>
         </template>
     </j-pro-table>
+    <j-radio-group v-model:value="model" button-style="solid" @change="change">
+        <j-radio-button value="CARD">Card</j-radio-button>
+        <j-radio-button value="TABLE">Table</j-radio-button>
+    </j-radio-group>
 </template>
 
 <script lang="ts">
 import { random } from 'lodash';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 const columns = [
     {
         title: '名称',
@@ -77,9 +82,15 @@ const data = Array(10)
 
 export default defineComponent({
     setup() {
+        const model = ref('TABLE');
+        const change = (e) => {
+            console.log(e);
+        };
         return {
             data,
             columns,
+            model,
+            change,
         };
     },
 });

@@ -93,7 +93,10 @@ const matchComponents: IMatcher[] = [
         pattern: /^Menu|^SubMenu/,
         styleDir: 'Menu',
     },
-
+    {
+        pattern: /^TableCard/,
+        styleDir: 'TableCard',
+    },
     {
         pattern: /^Table/,
         styleDir: 'Table',
@@ -184,10 +187,6 @@ const matchComponents: IMatcher[] = [
         styleDir: 'ScrollTable',
     },
     {
-        pattern: /^TableCard/,
-        styleDir: 'TableCard',
-    },
-    {
         pattern: /^Scrollbar/,
         styleDir: 'Scrollbar',
     },
@@ -217,12 +216,8 @@ const matchComponents: IMatcher[] = [
         styleDir: 'Notification',
     },
     {
-        pattern: /^PopconfirmModal/,
-        styleDir: 'PopconfirmModal',
-    },
-    {
-        pattern: /^DataTable/,
-        styleDir: 'DataTable',
+        pattern: /^CheckButton/,
+        styleDir: 'CheckButton',
     },
 ];
 
@@ -276,7 +271,6 @@ function getStyleDir(compName: string, _isAntd = false): string {
         }
     }
     if (!styleDir) styleDir = _isAntd ? kebabCase(compName) : compName;
-
     return styleDir;
 }
 
@@ -300,8 +294,9 @@ function getSideEffects(
     }
 }
 
-const filterName = ['message', 'Notification', 'AIcon'];
+const filterName = ['message', 'Notification'];
 const primitiveNames = [
+    'AIcon',
     'Affix',
     'Anchor',
     'AnchorLink',
@@ -440,19 +435,7 @@ const primitiveNames = [
     'TableCard',
     'Scrollbar',
     'CardSelect',
-    'ColorPicker',
-    'PopconfirmModal',
-    'DataTable',
-    'DataTableTypeSelect',
-    'DataTableInteger',
-    'DataTableDouble',
-    'DataTableArray',
-    'DataTableDate',
-    'DataTableObject',
-    'DataTableBoolean',
-    'DataTableFile',
-    'DataTableEnum',
-    'DataTableString',
+    'CheckButton',
 ];
 const prefix = 'J';
 
@@ -481,8 +464,12 @@ function isJetlinks(compName: string): boolean {
 
 function isAntdv(compName: string): boolean {
     return antdvNames.has(compName);
+    // return false
 }
-function JetlinksVueResolver(options: JetlinksVueResolverOptions = {}): any {
+
+export function JetlinksVueResolver(
+    options: JetlinksVueResolverOptions = {},
+): any {
     return {
         type: 'component',
         resolve: (name: string) => {
@@ -497,6 +484,13 @@ function JetlinksVueResolver(options: JetlinksVueResolverOptions = {}): any {
             }
             const _isJetlinks = isJetlinks(name);
             const _isAntd = isAntdv(name);
+            console.log(
+                'stylePath ======',
+                name,
+                _isJetlinks,
+                _isAntd,
+                !options?.exclude?.includes(name),
+            );
             if ((_isJetlinks || _isAntd) && !options?.exclude?.includes(name)) {
                 const importName = filterName.includes(name)
                     ? name
@@ -508,9 +502,6 @@ function JetlinksVueResolver(options: JetlinksVueResolverOptions = {}): any {
                     options.cjs ? 'lib' : 'es'
                 }`;
                 const stylePath = getSideEffects(importName, options, _isAntd);
-                if (_isJetlinks) {
-                    console.log(name, importName, stylePath);
-                }
                 return {
                     name: importName,
                     from: path,
@@ -520,5 +511,3 @@ function JetlinksVueResolver(options: JetlinksVueResolverOptions = {}): any {
         },
     };
 }
-
-export default JetlinksVueResolver;
