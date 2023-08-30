@@ -33,6 +33,8 @@ export interface JTableProps extends TableProps {
     cardBodyClass?: string;
     columns: JColumnProps[];
     model?: keyof typeof ModelEnum | undefined; // 显示table还是card
+
+    modelValue?: keyof typeof ModelEnum | undefined;
     noPagination?: boolean;
     rowSelection?: TableProps['rowSelection'];
     dataSource?: Record<string, any>[];
@@ -74,6 +76,10 @@ const tableProps = () => {
         },
         model: {
             type: [String, undefined],
+            default: undefined,
+        },
+        modelValue: {
+            type: String,
             default: undefined,
         },
         noPagination: {
@@ -145,7 +151,8 @@ const ProTable = defineComponent<JTableProps>({
         'paginationRender', // 分页
     ],
     props: tableProps() as any,
-    setup(props: JTableProps, { slots, expose }) {
+    emits: ['update:modelValue', 'modelChange'],
+    setup(props: JTableProps, { slots, expose, emit }) {
         const _model = ref<keyof typeof ModelEnum>(
             props.model ? props.model : ModelEnum.CARD,
         ); // 模式切换
@@ -267,6 +274,16 @@ const ProTable = defineComponent<JTableProps>({
             { deep: true, immediate: true },
         );
 
+        watch(
+            () => props.modelValue,
+            () => {
+                if (props.modelValue) {
+                    _model.value = props.modelValue;
+                }
+            },
+            { immediate: true },
+        );
+
         /**
          * 刷新数据
          * @param _params
@@ -320,6 +337,14 @@ const ProTable = defineComponent<JTableProps>({
                                             value={_model.value}
                                             onChange={(e: RadioChangeEvent) => {
                                                 _model.value = e.target.value;
+                                                emit(
+                                                    'update:modelValue',
+                                                    e.target.value,
+                                                );
+                                                emit(
+                                                    'modelChange',
+                                                    e.target.value,
+                                                );
                                             }}
                                         >
                                             <RadioButton

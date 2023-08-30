@@ -9,11 +9,12 @@ title: 选择器
 </docs>
 <template>
     <j-select
-        width="200px"
+        style="width: 200px"
         v-model:value="value"
         showSearch
         :options="options"
-    />
+    >
+    </j-select>
 </template>
 
 <script lang="ts">
