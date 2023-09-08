@@ -1,1 +1,2 @@
-export { default as JetlinksVueResolver } from './jetlinks';
+import { JetlinksVueResolver } from './jetlinks';
+export { JetlinksVueResolver };
