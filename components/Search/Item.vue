@@ -40,19 +40,19 @@
             <FormItem no-style>
                 <j-input
                     v-if="component === componentType.input"
-                    v-bind="cProps"
                     v-model:value="termsModel.value"
                     allow-clear
+                    v-bind="cProps"
                     style="width: 100%"
                     @change="valueChange"
                 />
                 <j-select
                     v-else-if="component === componentType.select"
-                    v-bind="cProps"
                     v-model:value="termsModel.value"
                     allow-clear
-                    style="width: 100%; min-width: 80px"
                     show-search
+                    v-bind="cProps"
+                    style="width: 100%; min-width: 80px"
                     :loading="optionLoading"
                     :options="options"
                     :filter-option="
@@ -62,17 +62,17 @@
                 />
                 <j-input-number
                     v-else-if="component === componentType.inputNumber"
-                    v-bind="cProps"
                     v-model:value="termsModel.value"
                     allow-clear
+                    v-bind="cProps"
                     style="width: 100%"
                     @change="valueChange"
                 />
                 <j-input-password
                     v-else-if="component === componentType.password"
-                    v-bind="cProps"
                     v-model:value="termsModel.value"
                     allow-clear
+                    v-bind="cProps"
                     style="width: 100%"
                     @change="valueChange"
                 />

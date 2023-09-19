@@ -1,6 +1,6 @@
 <!-- 代码编辑器 -->
 <template>
-    <div ref="dom" class="editor"></div>
+    <div ref="dom" class="j-monaco-editor"></div>
 </template>
 
 <script setup>
@@ -26,7 +26,12 @@ const props = defineProps({
     blurFormat: { type: Boolean, default: true },
 });
 
-const emit = defineEmits(['update:modelValue', 'blur', 'change']);
+const emit = defineEmits([
+    'update:modelValue',
+    'blur',
+    'change',
+    'errorChange',
+]);
 
 const dom = ref();
 
@@ -96,6 +101,11 @@ const editorFormat = () => {
     if (!instance.value) return;
     toRaw(instance.value).getAction('editor.action.formatDocument')?.run();
 };
+
+monaco.editor.onDidChangeMarkers(([uri]) => {
+    const markers = monaco.editor.getModelMarkers({ resource: uri });
+    emit('errorChange', markers);
+});
 
 onMounted(async () => {
     const _model = monaco.editor.createModel(props.modelValue, props.language);
@@ -203,9 +213,3 @@ defineExpose({
     insert,
 });
 </script>
-
-<style lang="less" scoped>
-.editor {
-    height: 100%;
-}
-</style>
