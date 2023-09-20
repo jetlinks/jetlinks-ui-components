@@ -13,6 +13,7 @@ title: 基本用法
             v-model="value"
             :init="init"
             @errorChange="errorChange"
+            @focus="focus"
         />
     </div>
 </template>
@@ -22,6 +23,9 @@ export default defineComponent({
     setup() {
         const value = ref<string>();
 
+        const focus = () => {
+            console.log('focus');
+        };
         const init = (instance) => {
             console.log(instance);
             setTimeout(() => {
@@ -1088,6 +1092,7 @@ export default defineComponent({
             errorChange,
             value,
             init,
+            focus,
         };
     },
 });

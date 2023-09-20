@@ -203,10 +203,10 @@ export const handleParamsToString = (
 };
 
 export const getTermTypeFn = (type?: SearchProps['type'], column?: string) => {
-    if (column?.includes('id') && type === 'string') {
-        // 默认id为 eq
-        return 'eq';
-    }
+    // if (column?.includes('id') && type === 'string') {
+    //     // 默认id为 eq
+    //     return 'eq';
+    // }
 
     switch (type) {
         case 'select':
@@ -233,11 +233,11 @@ export const getTermOptions = (type?: SearchProps['type'], column?: string) => {
     switch (type) {
         case 'select':
         case 'treeSelect':
-            keys = ['not', 'eq'];
+            keys = ['not', 'eq', 'btw', 'nbtw'];
             break;
         case 'time':
         case 'date':
-            keys = ['gt', 'lt'];
+            keys = ['gt', 'lt', 'gte', 'lte'];
             break;
         case 'timeRange':
         case 'rangePicker':
@@ -247,10 +247,10 @@ export const getTermOptions = (type?: SearchProps['type'], column?: string) => {
             keys = ['eq', 'not', 'gt', 'lt', 'gte', 'lte'];
             break;
         default:
-            keys =
-                column?.includes('id') && type === 'string'
-                    ? ['eq']
-                    : ['like', 'nlike'];
+            keys = ['like', 'nlike'];
+            // column?.includes('id') && type === 'string'
+            //     ? ['eq']
+            //     : ['like', 'nlike'];
             break;
     }
     return keys.length ? getTermTypes(keys) : termType;

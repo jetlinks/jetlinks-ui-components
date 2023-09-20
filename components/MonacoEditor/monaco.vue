@@ -29,6 +29,7 @@ const props = defineProps({
 const emit = defineEmits([
     'update:modelValue',
     'blur',
+    'focus',
     'change',
     'errorChange',
 ]);
@@ -133,6 +134,10 @@ onMounted(async () => {
         if (props.blurFormat) {
             editorFormat();
         }
+    });
+
+    instance.value.onDidFocusEditorText(() => {
+        emit('focus');
     });
 
     if (props.modelValue) {
