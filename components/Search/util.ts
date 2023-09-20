@@ -37,7 +37,33 @@ const handleItemValue = (item, columnOptionMap) => {
     if (['like', 'nlike'].includes(item.termType) && !!item.value) {
         item.value = `%${handleLikeValue(item.value)}%`;
     }
+
     return item;
+};
+
+const isEmpty = (v) => {
+    return v === undefined || v === null || v === '';
+};
+
+const handleArrayToTerms = (terms: any[], columnOptionMap) => {
+    return terms
+        .map((item) => {
+            if (item.terms) {
+                const filterTerms = item.terms.filter((filterItem) => {
+                    return (
+                        filterItem &&
+                        !isEmpty(filterItem.value) &&
+                        filterItem.termType !== undefined &&
+                        filterItem.column !== undefined
+                    );
+                });
+                item.terms = filterTerms.map((result) =>
+                    handleItemValue(result, columnOptionMap),
+                );
+            }
+            return item;
+        })
+        .filter((item) => item.terms?.length);
 };
 
 /**
@@ -53,44 +79,19 @@ export const termsParamsFormat = (
 ) => {
     // 过滤掉terms中value无效的item
     const cloneParams = cloneDeep(terms);
-    if (searchType == 'terms') {
-        if (type === 'adv') {
-            return {
-                terms: cloneParams.terms
-                    .map((item) => {
-                        if (item.terms) {
-                            item.terms = item.terms
-                                .filter(
-                                    (iItem) =>
-                                        iItem &&
-                                        iItem.value !== undefined &&
-                                        iItem.value !== null &&
-                                        iItem.value !== '' &&
-                                        iItem.termType !== undefined &&
-                                        iItem.column !== undefined,
-                                )
-                                .map((iItem) =>
-                                    handleItemValue(iItem, columnOptionMap),
-                                );
-                        }
-                        return item;
-                    })
-                    .filter((item) => item.terms.length),
-            };
-        } else {
-            console.log('cloneParams', cloneParams);
-            return cloneParams
-                .filter(
-                    (iItem) =>
-                        iItem &&
-                        iItem.value !== undefined &&
-                        iItem.value !== '' &&
-                        iItem.column !== undefined,
-                )
-                .map((iItem) => handleItemValue(iItem, columnOptionMap));
-        }
+    if (searchType === 'terms') {
+        return type === 'adv'
+            ? { terms: handleArrayToTerms(cloneParams.terms, columnOptionMap) }
+            : cloneParams
+                  .filter(
+                      (item) =>
+                          item &&
+                          !isEmpty(item.value) &&
+                          item.column !== undefined,
+                  )
+                  .map((item) => handleItemValue(item, columnOptionMap));
     } else if (searchType == 'object') {
-        let result = {};
+        const result = {};
         cloneParams
             .filter(
                 (item) => item && item.value !== undefined && item.value !== '',

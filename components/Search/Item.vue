@@ -51,6 +51,7 @@
                     v-model:value="termsModel.value"
                     allow-clear
                     show-search
+                    :mode="isBtw ? 'multiple' : 'combobox'"
                     v-bind="cProps"
                     style="width: 100%; min-width: 80px"
                     :loading="optionLoading"
@@ -122,6 +123,7 @@
                     style="width: 100%"
                     :height="350"
                     :field-names="{ label: 'name', value: 'id' }"
+                    :multiple="isBtw"
                     v-bind="cProps"
                     :tree-data="options"
                     :filter-tree-node="
@@ -146,7 +148,7 @@
 <script setup lang="ts" name="SearchItem">
 import { typeOptions, termType, componentType } from './setting';
 import type { PropType } from 'vue';
-import { ref, reactive, nextTick, watch } from 'vue';
+import { ref, reactive, nextTick, watch, computed } from 'vue';
 import type { SearchItemData, SearchProps } from './typing';
 import { cloneDeep, debounce, isArray, isFunction, omit } from 'lodash-es';
 import {
@@ -225,6 +227,10 @@ const termsModel = reactive<SearchItemData>({
     value: props.termsItem?.value || '',
     termType: props.termsItem?.termType || 'like',
     column: props.termsItem?.column || undefined,
+});
+
+const isBtw = computed(() => {
+    return ['btw', 'nbtw'].includes(termsModel.termType);
 });
 
 const component = ref(componentType.input);
@@ -403,7 +409,15 @@ const handleItem = () => {
     }
 };
 
-const termTypeChange = () => {
+const termTypeChange = (v) => {
+    const isOldValueMultiple = ['btw', 'nbtw'].includes(
+        props.termsItem?.termType,
+    );
+    const isValueMultiple = ['btw', 'nbtw'].includes(v);
+
+    if (isOldValueMultiple !== isValueMultiple) {
+        termsModel.value = isValueMultiple ? [] : undefined;
+    }
     valueChange();
 };
 
