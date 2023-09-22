@@ -577,66 +577,66 @@ const editClick = (key: string) => {
  * 初始化拖拽
  */
 const sortTableHandle = () => {
-    if (sortTable.value) {
-        sortTable.value?.destroy();
-    }
-
-    const ele = draggableRef.value?.querySelector('tbody');
-
-    if (!ele) return;
-
-    sortTable.value = new Sortable(ele as HTMLElement, {
-        draggable: '.ant-table-row',
-        animation: 200,
-        ghostClass: 'draggable-ghost',
-        sort: true,
-        onEnd: ({ oldIndex, newIndex, to, from }) => {
-            // 获取真正的index
-            const oldTarget = draggableRef.value
-                .querySelector('.ant-table-tbody')
-                .querySelectorAll('.ant-table-row')[oldIndex - 1];
-            const newTarget = draggableRef.value
-                .querySelector('.ant-table-tbody')
-                .querySelectorAll('.ant-table-row')[newIndex - 1];
-            const oldTargetPositions = getElData(
-                oldTarget.querySelectorAll('.j-row-click')?.[1],
-            );
-            const newTargetPositions = getElData(
-                newTarget.querySelectorAll('.j-row-click')?.[1],
-            );
-
-            const _oldIndex = oldTargetPositions[1];
-            const _newIndex = newTargetPositions[1];
-
-            const curr = formData.table.splice(_oldIndex - 1, 1)[0];
-
-            formData.table.splice(_newIndex - 1, 0, curr);
-
-            const [min, max] = [_oldIndex, _newIndex].sort((a, b) => a - b);
-            for (let i = min; i <= max; i++) {
-                formData.table[i - 1].index = i;
-            }
-            // 判断当前拖拽中是否有选中
-            if (selectedKey.value) {
-                const [td, index, dataIndex] = selectedKey.value.split('_');
-                if (index >= min && index <= max) {
-                    // 是否在拖拽范围内
-                    const numIndex = Number(index);
-                    let _index = _newIndex;
-                    if (numIndex < _oldIndex) {
-                        _index = numIndex + 1;
-                    } else if (numIndex > _oldIndex) {
-                        _index = numIndex - 1;
-                    }
-                    selectedKey.value = [td, _index, dataIndex].join('_');
-                    if (editKey.value) {
-                        editKey.value = [td, _index, dataIndex].join('_');
-                    }
-                }
-            }
-        },
-    });
-    return sortTable;
+    // if (sortTable.value) {
+    //     sortTable.value?.destroy();
+    // }
+    //
+    // const ele = draggableRef.value?.querySelector('tbody');
+    //
+    // if (!ele) return;
+    //
+    // sortTable.value = new Sortable(ele as HTMLElement, {
+    //     draggable: '.ant-table-row',
+    //     animation: 200,
+    //     ghostClass: 'draggable-ghost',
+    //     sort: true,
+    //     onEnd: ({ oldIndex, newIndex, to, from }) => {
+    //         // 获取真正的index
+    //         const oldTarget = draggableRef.value
+    //             .querySelector('.ant-table-tbody')
+    //             .querySelectorAll('.ant-table-row')[oldIndex - 1];
+    //         const newTarget = draggableRef.value
+    //             .querySelector('.ant-table-tbody')
+    //             .querySelectorAll('.ant-table-row')[newIndex - 1];
+    //         const oldTargetPositions = getElData(
+    //             oldTarget.querySelectorAll('.j-row-click')?.[1],
+    //         );
+    //         const newTargetPositions = getElData(
+    //             newTarget.querySelectorAll('.j-row-click')?.[1],
+    //         );
+    //
+    //         const _oldIndex = oldTargetPositions[1];
+    //         const _newIndex = newTargetPositions[1];
+    //
+    //         const curr = formData.table.splice(_oldIndex - 1, 1)[0];
+    //
+    //         formData.table.splice(_newIndex - 1, 0, curr);
+    //
+    //         const [min, max] = [_oldIndex, _newIndex].sort((a, b) => a - b);
+    //         for (let i = min; i <= max; i++) {
+    //             formData.table[i - 1].index = i;
+    //         }
+    //         // 判断当前拖拽中是否有选中
+    //         if (selectedKey.value) {
+    //             const [td, index, dataIndex] = selectedKey.value.split('_');
+    //             if (index >= min && index <= max) {
+    //                 // 是否在拖拽范围内
+    //                 const numIndex = Number(index);
+    //                 let _index = _newIndex;
+    //                 if (numIndex < _oldIndex) {
+    //                     _index = numIndex + 1;
+    //                 } else if (numIndex > _oldIndex) {
+    //                     _index = numIndex - 1;
+    //                 }
+    //                 selectedKey.value = [td, _index, dataIndex].join('_');
+    //                 if (editKey.value) {
+    //                     editKey.value = [td, _index, dataIndex].join('_');
+    //                 }
+    //             }
+    //         }
+    //     },
+    // });
+    // return sortTable;
 };
 
 /**
@@ -772,6 +772,7 @@ const addItem = async (_data: any, index?: number) => {
             }
         });
     }
+    sortTableHandle();
     return cleanUUIDbyData(formData.table);
 };
 
@@ -792,6 +793,7 @@ const removeItem = (index: number) => {
         removeEditKeysByIndex(index);
         updateStatus.value.add('delete_' + index);
     }
+    sortTableHandle();
     return cleanUUIDbyData(formData.table);
 };
 
@@ -861,6 +863,7 @@ onMounted(() => {
             '.ant-table-body',
         ) as HTMLElement;
         bodyNode.style.minHeight = '200px';
+        sortTableHandle();
         useInfiniteScroll(
             draggableRef.value!.querySelector('.ant-table-body') as HTMLElement,
             () => {

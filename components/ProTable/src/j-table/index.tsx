@@ -25,7 +25,7 @@ import {
     TypeEnum,
     RequestData,
 } from '../proTableTypes';
-import { get, debounce } from 'lodash-es';
+import { get, debounce, isArray } from 'lodash-es';
 import { tableProps as _tableProps } from 'ant-design-vue/lib/table';
 
 export interface JTableProps extends TableProps {
@@ -164,6 +164,14 @@ const ProTable = defineComponent<JTableProps>({
         const _loading = ref<boolean>(false);
         const column = ref<number>(props.gridColumn || 4);
 
+        if (
+            !props.noPagination &&
+            props.pagination &&
+            isArray(props.pagination?.pageSizeOptions)
+        ) {
+            pageSize.value = props.pagination.pageSizeOptions[0] as number;
+        }
+
         /**
          * 监听宽度，计算显示卡片个数
          */
@@ -199,10 +207,11 @@ const ProTable = defineComponent<JTableProps>({
             _loading.value =
                 props.loading !== undefined ? (props.loading as boolean) : true;
             if (props.request) {
+                console.log(_params);
                 const resp: any = await props
                     .request({
                         pageIndex: 0,
-                        pageSize: 12,
+                        pageSize: pageSize.value,
                         ...props.defaultParams,
                         ..._params,
                         terms: [
