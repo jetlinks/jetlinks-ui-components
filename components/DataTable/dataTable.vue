@@ -581,7 +581,7 @@ const editClick = (key: string) => {
  * 初始化拖拽
  */
 const sortTableHandle = () => {
-    if (!props.columnDrag) {
+    if (props.columnDrag === false) {
         return;
     }
 

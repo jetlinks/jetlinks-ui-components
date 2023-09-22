@@ -219,6 +219,10 @@ const matchComponents: IMatcher[] = [
         pattern: /^CheckButton/,
         styleDir: 'CheckButton',
     },
+    {
+        pattern: /^DataTable/,
+        styleDir: 'DataTable',
+    },
 ];
 
 export interface JetlinksVueResolverOptions {
@@ -436,6 +440,7 @@ const primitiveNames = [
     'Scrollbar',
     'CardSelect',
     'CheckButton',
+    'DataTable',
 ];
 const prefix = 'J';
 

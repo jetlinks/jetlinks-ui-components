@@ -9,6 +9,7 @@ title: 基础
 <template>
     <div>
         <j-data-table
+            columnDrag
             :columns="columns"
             :serial="true"
             :dataSource="newSource"
