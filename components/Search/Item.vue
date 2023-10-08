@@ -230,7 +230,7 @@ const termsModel = reactive<SearchItemData>({
 });
 
 const isBtw = computed(() => {
-    return ['btw', 'nbtw'].includes(termsModel.termType);
+    return ['in', 'nin'].includes(termsModel.termType);
 });
 
 const component = ref(componentType.input);
@@ -410,10 +410,10 @@ const handleItem = () => {
 };
 
 const termTypeChange = (v) => {
-    const isOldValueMultiple = ['btw', 'nbtw'].includes(
+    const isOldValueMultiple = ['in', 'nin'].includes(
         props.termsItem?.termType,
     );
-    const isValueMultiple = ['btw', 'nbtw'].includes(v);
+    const isValueMultiple = ['in', 'nin'].includes(v);
 
     if (isOldValueMultiple !== isValueMultiple) {
         termsModel.value = isValueMultiple ? [] : undefined;

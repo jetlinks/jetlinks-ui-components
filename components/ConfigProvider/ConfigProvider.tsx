@@ -23,5 +23,5 @@ const JConfigProvider = defineComponent({
         };
     },
 });
-
+JConfigProvider.config = ConfigProvider.config;
 export default JConfigProvider;

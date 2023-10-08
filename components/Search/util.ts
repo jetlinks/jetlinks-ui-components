@@ -1,4 +1,4 @@
-import { cloneDeep, isFunction, isString } from 'lodash-es';
+import { cloneDeep, isArray, isFunction, isString } from 'lodash-es';
 import type { SearchItemData } from './typing';
 import { termType } from './setting';
 import { SearchProps } from './typing';
@@ -42,7 +42,12 @@ const handleItemValue = (item, columnOptionMap) => {
 };
 
 const isEmpty = (v) => {
-    return v === undefined || v === null || v === '';
+    return (
+        v === undefined ||
+        v === null ||
+        v === '' ||
+        (isArray(v) && v.length === 0)
+    );
 };
 
 const handleArrayToTerms = (terms: any[], columnOptionMap) => {
@@ -234,7 +239,7 @@ export const getTermOptions = (type?: SearchProps['type'], column?: string) => {
     switch (type) {
         case 'select':
         case 'treeSelect':
-            keys = ['not', 'eq', 'btw', 'nbtw'];
+            keys = ['not', 'eq', 'in', 'nin'];
             break;
         case 'time':
         case 'date':

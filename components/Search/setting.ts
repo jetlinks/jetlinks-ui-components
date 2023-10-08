@@ -12,8 +12,8 @@ export const termType = [
     { label: '>=', value: 'gte' },
     { label: '<', value: 'lt' },
     { label: '<=', value: 'lte' },
-    { label: '属于', value: 'in' },
-    { label: '不属于', value: 'nin' },
+    { label: '在...之中', value: 'in' },
+    { label: '不在...之中', value: 'nin' },
     { label: '在...之间', value: 'btw' },
     { label: '不在...之间', value: 'nbtw' },
 ];
