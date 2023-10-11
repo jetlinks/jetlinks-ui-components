@@ -170,6 +170,7 @@ import {
     TimeRangePicker as JTimeRangePicker,
     FormItem,
 } from '../components';
+import { isPromise } from '../util/comm';
 
 type ItemType = SearchProps['type'];
 
@@ -318,14 +319,20 @@ const handleItemOptions = debounce((option?: any[] | Function) => {
         options.value = option;
     } else if (isFunction(option)) {
         optionLoading.value = true;
-        option()
-            .then((res: any[]) => {
-                optionLoading.value = false;
-                options.value = removeOptionByKey(res);
-            })
-            .catch((_: any) => {
-                optionLoading.value = false;
-            });
+        const fn = option();
+        if (isPromise(fn)) {
+            (fn as Promise<any>)
+                .then((res: any[]) => {
+                    optionLoading.value = false;
+                    options.value = removeOptionByKey(res);
+                })
+                .catch((_: any) => {
+                    optionLoading.value = false;
+                });
+        } else {
+            optionLoading.value = false;
+            options.value = removeOptionByKey(fn || []);
+        }
     }
 }, 100);
 

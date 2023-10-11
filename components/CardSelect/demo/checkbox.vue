@@ -19,7 +19,7 @@ const state = reactive({
     options: [
         {
             value: '1',
-            label: '识别性',
+            label: '识别性识别性识别性识别性识别性',
             image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         },
         {

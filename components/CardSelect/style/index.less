@@ -14,6 +14,12 @@
 
         .j-card-title-warp {
             flex: 1 1 auto;
+            max-width: 100%;
+
+            .title {
+                word-break: keep-all;
+                width: 100%;
+            }
         }
 
         &.vertical {
@@ -55,7 +61,7 @@
     }
 
     .active {
-        border: 1px solid @primary-color !important;
+        border: 1px solid var(--ant-primary-color) !important;
     }
 
     .disabled {

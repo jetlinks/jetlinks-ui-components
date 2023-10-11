@@ -7,7 +7,14 @@ title: 单选
 </docs>
 
 <template>
-    <j-card-select v-model:value="value" float="right" :options="options">
+    <j-card-select
+        v-model:value="value"
+        float="right"
+        :options="options"
+        :column="2"
+        :showImage="false"
+        :multiple="true"
+    >
     </j-card-select>
 </template>
 
@@ -19,15 +26,11 @@ const state = reactive({
     options: [
         {
             value: '1',
-            label: '识别性',
-            subLabel: 'subLabel',
-            image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+            label: '识别性识别性识别性识别性识别性识别性识别性识别性识别性识别性识别性识别性识别性识别性识别性',
         },
         {
             value: '2',
             label: '独特性',
-            subLabel: 'subLabel',
-            image: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         },
     ],
 });

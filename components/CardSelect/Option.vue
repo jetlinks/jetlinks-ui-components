@@ -13,7 +13,9 @@
     >
         <div class="j-card-title-warp">
             <slot name="title" :title="item.title">
-                <div class="title">{{ item.label }}</div>
+                <div class="title">
+                    {{ item.label }}
+                </div>
             </slot>
             <template v-if="item.subLabel && showImage">
                 <slot name="subLabel" :sub-label="item.subLabel">

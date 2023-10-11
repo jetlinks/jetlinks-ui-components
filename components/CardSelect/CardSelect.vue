@@ -25,7 +25,9 @@
                                 :title="item.label"
                                 :option="item"
                             >
-                                {{ item.label }}
+                                <Ellipsis>
+                                    {{ item.label }}
+                                </Ellipsis>
                             </slot>
                         </div>
                         <div
@@ -70,7 +72,9 @@
                 <div class="j-card-title-warp">
                     <div class="title">
                         <slot name="title" :title="item.label" :option="item">
-                            {{ item.label }}
+                            <Ellipsis>
+                                {{ item.label }}
+                            </Ellipsis>
                         </slot>
                     </div>
                     <div v-if="item.subLabel && showSubLabel" class="sub-title">
@@ -95,7 +99,7 @@
 
 <script lang="ts" setup>
 import { computed, PropType, ref, toRefs, watch } from 'vue';
-import { Avatar, Row, Col } from '../components';
+import { Avatar, Row, Col, Ellipsis } from '../components';
 
 interface CardOption {
     value: string | number;
