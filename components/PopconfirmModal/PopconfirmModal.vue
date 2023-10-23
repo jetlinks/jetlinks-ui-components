@@ -2,9 +2,10 @@
     <j-popover
         trigger="click"
         :visible="myVisible"
-        :overlay-class-name="modalWarpName"
+        :overlay-class-name="`${modalWarpName} modal-${modalDataId}`"
         :placement="placement || 'top'"
         :get-popup-container="getPopupContainer"
+        :data-id="modalDataId"
         @visibleChange="() => {}"
     >
         <template #title>
@@ -16,7 +17,7 @@
                 class="popconfirm-modal-body"
                 :style="bodyStyle"
             >
-                <slot name="content" />
+                <slot name="content" v-bind="{ parentMask: modalDataId }" />
             </div>
             <slot name="footer">
                 <div class="popconfirm-modal-footer">
@@ -45,12 +46,11 @@
 
 <script setup lang="ts" name="JPopconfirmModal">
 import { popoverProps } from 'ant-design-vue/lib/popover';
-import { ref, computed } from 'vue';
+import { ref, computed, useSlots, inject, provide } from 'vue';
 import type { CSSProperties, PropType } from 'vue';
-import { updateStyle } from '../util/document';
 import { Button, Popover as JPopover } from '../components';
-import { isPromise } from '../util/comm';
-import { compute } from 'compute-scroll-into-view';
+import { isPromise, randomString } from '../util/comm';
+import { createMaskNode, hideMask } from './util';
 type Emit = {
     (e: 'update:visible', data: Boolean): void;
     (e: 'visibleChange', data: Boolean): void;
@@ -100,13 +100,12 @@ const emit = defineEmits<Emit>();
 const myVisible = ref(false);
 const loading = ref(false);
 
-const modalName = 'popconfirm-modal-mask';
 const modalWarpName = 'popconfirm-modal-warp';
-const modalMaskDom = ref<HTMLDivElement>();
+const modalDataId = ref(randomString(12));
 
-const bodyHasScrollbar = () => {
-    return document.body.scrollHeight > document.body.clientHeight;
-};
+const parentMask = inject<string>('parent-mask');
+
+provide('parent-mask', modalDataId.value);
 
 const destroy = computed(() => {
     if (props.destroyOnClose !== false) {
@@ -116,64 +115,14 @@ const destroy = computed(() => {
     return true;
 });
 
-const showModal = () => {
-    const hasScrollbar = bodyHasScrollbar();
-    if (hasScrollbar) {
-        updateStyle(document.body, {
-            overflow: 'hidden',
-            width: 'calc(100% - 17px)',
-        });
-    }
-};
-
-const hideModal = () => {
-    // 获取最后一个隐藏
-    const modalDivs = document.querySelectorAll<HTMLDivElement>(
-        `.${modalName}.hide`,
-    );
-    const hideModal = modalDivs.length ? modalDivs[modalDivs.length - 1] : null;
-    modalMaskDom.value?.classList?.replace?.('show', 'close'); // 关闭自身Mask遮罩
-    if (!hideModal) {
-        document.body.removeAttribute('style');
-    } else {
-        hideModal.classList.replace('hide', 'show');
-    }
-};
-
-const hideModalAll = () => {
-    const modalDivs = document.querySelectorAll(`.${modalName}.show`);
-    modalDivs.forEach((node) => {
-        (node as HTMLDivElement).classList.replace('show', 'hide');
-    });
-};
-
-const createModal = () => {
-    if (!modalMaskDom.value) {
-        const modalDiv = document.createElement('div') as HTMLDivElement;
-        const modalWarps = document.querySelectorAll(`.${modalWarpName}`);
-        modalMaskDom.value = modalDiv; // 创建mask遮罩
-
-        modalDiv.setAttribute('class', `${modalName} show`); // 添加class
-        // modalDiv.style.zIndex = `${zIndex}`
-        modalWarps[modalWarps.length - 1]?.insertAdjacentElement(
-            'beforebegin',
-            modalDiv,
-        );
-    } else {
-        modalMaskDom.value.classList.replace('close', 'show'); // 替换class为show
-    }
-    showModal();
-};
-
 const visibleChange = (e: boolean) => {
     myVisible.value = e;
     if (e) {
         setTimeout(() => {
-            // hideModalAll();
-            createModal();
+            createMaskNode(modalDataId.value);
         }, 10);
     } else {
-        hideModal();
+        hideMask(modalDataId.value, parentMask);
     }
     emit('update:visible', e);
     emit('visibleChange', e);

@@ -18,10 +18,7 @@ title: 基础
             ref="tableRef"
         >
             <template #width="{ data }">
-                <DataTableEnum
-                    v-model:value="data.record.width"
-                    :multiple="true"
-                />
+                <DataTableArray v-model:value="data.record.width" />
             </template>
             <template #action="{ data }">
                 <a-tag
