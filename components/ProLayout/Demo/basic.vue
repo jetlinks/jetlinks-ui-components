@@ -20,6 +20,18 @@ title: 基本使用
             style="min-height: 600px"
             @backClick="onBack"
         >
+            <template #rightContentRender>
+                <div class="right-content">
+                    <AIcon
+                        style="padding: 0 20px"
+                        type="QuestionCircleOutlined"
+                    />
+                    <div class="notice-container">
+                        <AIcon type="BellOutlined" style="font-size: 16px" />
+                    </div>
+                </div>
+            </template>
+
             <j-page-container
                 title="Page 1"
                 :showBack="true"
@@ -102,6 +114,15 @@ export default defineComponent({
     min-height: 600px;
     > div {
         min-height: 100%;
+    }
+}
+
+.right-content {
+    margin-right: 24px;
+    display: flex;
+    align-items: center;
+    .notice-container {
+        margin-right: 24px;
     }
 }
 </style>

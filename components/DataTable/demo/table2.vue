@@ -18,7 +18,7 @@ title: 基础
             ref="tableRef"
         >
             <template #width="{ data }">
-                <DataTableArray v-model:value="data.record.width" />
+                <DataTableFile v-model:value="data.record.width" />
             </template>
             <template #action="{ data }">
                 <a-tag

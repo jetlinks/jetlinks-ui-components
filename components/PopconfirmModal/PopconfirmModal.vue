@@ -20,7 +20,7 @@
                 <slot name="content" v-bind="{ parentMask: modalDataId }" />
             </div>
             <slot name="footer">
-                <div class="popconfirm-modal-footer">
+                <div v-if="myVisible" class="popconfirm-modal-footer">
                     <Button
                         v-if="showCancel"
                         size="small"
@@ -120,7 +120,7 @@ const visibleChange = (e: boolean) => {
     if (e) {
         setTimeout(() => {
             createMaskNode(modalDataId.value);
-        }, 10);
+        }, 100);
     } else {
         hideMask(modalDataId.value, parentMask);
     }

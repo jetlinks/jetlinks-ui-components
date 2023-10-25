@@ -8,7 +8,7 @@
     >
         <template #content>
             <Form ref="formRef" :model="formData" layout="vertical">
-                <FileType v-model:value="formData.file" />
+                <FileType v-model:value="formData.file" name="file" />
             </Form>
         </template>
         <slot>
