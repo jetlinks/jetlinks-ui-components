@@ -7,7 +7,7 @@
         @visibleChange="visibleChange"
     >
         <template #content>
-            <div style="width: 240px">
+            <div v-if="visible" style="width: 240px">
                 <j-form ref="formRef" :model="modelRef">
                     <j-form-item
                         name="name"

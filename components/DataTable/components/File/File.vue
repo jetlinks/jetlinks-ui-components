@@ -39,25 +39,24 @@ const props = defineProps({
 
 const fullRef = inject(FULL_CODE);
 
-const rules = [
-    {
-        validator: (_, value) => {
-            if (!value) {
-                return Promise.reject('请选择文件类型');
-            }
-            return Promise.resolve();
-        },
-    },
-];
-
 const formRef = ref();
 const formData = reactive({
     file: props.value,
 });
 
 const confirm = () => {
-    emit('update:value', formData.file);
-    emit('confirm', formData.file);
+    return new Promise(async (resolve, reject) => {
+        formRef.value
+            .validate()
+            .then(() => {
+                resolve(true);
+                emit('update:value', formData.file);
+                emit('confirm', formData.file);
+            })
+            .catch(() => {
+                reject(false);
+            });
+    });
 };
 
 const cancel = () => {

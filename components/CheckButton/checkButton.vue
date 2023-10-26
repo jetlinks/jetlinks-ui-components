@@ -49,7 +49,7 @@ const props = defineProps({
         default: () => ({}),
     },
 });
-const emit = defineEmits(['update:value', 'change', 'selecte']);
+const emit = defineEmits(['update:value', 'change', 'select']);
 
 const myValue = ref();
 const optionsMap = ref(new Map());
@@ -100,7 +100,7 @@ const selected = (key: string | number, disabeld: boolean) => {
 
     emit('update:value', _value);
     emit('change', _value, props.multiple ? optionsItems : optionsItems[0]);
-    emit('selecte', _value, props.multiple ? optionsItems : optionsItems[0]);
+    emit('select', _value, props.multiple ? optionsItems : optionsItems[0]);
 };
 </script>
 
