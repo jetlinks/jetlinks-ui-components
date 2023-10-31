@@ -23,6 +23,17 @@ export default [
         component: () => import('../../../components/AIcon/demo/index.vue'),
     },
     {
+        path: 'Alert',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Alert',
+            subtitle: '警告提示',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/8emPa3fjl/Alert.svg',
+        },
+        component: () => import('../../../components/Alert/demo/index.vue'),
+    },
+    {
         path: 'Anchor',
         meta: {
             category: 'Components',
@@ -33,28 +44,6 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/_1-C1JwsC/Anchor.svg',
         },
         component: () => import('../../../components/Anchor/demo/index.vue'),
-    },
-    {
-        path: 'Avatar',
-        meta: {
-            category: 'Components',
-            subtitle: '头像',
-            type: '数据展示',
-            title: 'Avatar',
-            cover: 'https://gw.alipayobjects.com/zos/antfincdn/aBcnbw68hP/Avatar.svg',
-        },
-        component: () => import('../../../components/Avatar/demo/index.vue'),
-    },
-    {
-        path: 'Alert',
-        meta: {
-            category: 'Components',
-            type: '反馈',
-            title: 'Alert',
-            subtitle: '警告提示',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/8emPa3fjl/Alert.svg',
-        },
-        component: () => import('../../../components/Alert/demo/index.vue'),
     },
     {
         path: 'AutoComplete',
@@ -70,6 +59,17 @@ export default [
             import('../../../components/AutoComplete/demo/index.vue'),
     },
     {
+        path: 'Avatar',
+        meta: {
+            category: 'Components',
+            subtitle: '头像',
+            type: '数据展示',
+            title: 'Avatar',
+            cover: 'https://gw.alipayobjects.com/zos/antfincdn/aBcnbw68hP/Avatar.svg',
+        },
+        component: () => import('../../../components/Avatar/demo/index.vue'),
+    },
+    {
         path: 'BackTop',
         meta: {
             category: 'Components',
@@ -79,6 +79,18 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/tJZ5jbTwX/BackTop.svg',
         },
         component: () => import('../../../components/BackTop/demo/index.vue'),
+    },
+    {
+        path: 'Breadcrumb',
+        meta: {
+            category: 'Components',
+            subtitle: '面包屑',
+            type: '导航',
+            title: 'Breadcrumb',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/9Ltop8JwH/Breadcrumb.svg',
+        },
+        component: () =>
+            import('../../../components/Breadcrumb/demo/index.vue'),
     },
     {
         path: 'Badge',
@@ -103,18 +115,6 @@ export default [
         component: () => import('../../../components/Button/demo/index.vue'),
     },
     {
-        path: 'Breadcrumb',
-        meta: {
-            category: 'Components',
-            subtitle: '面包屑',
-            type: '导航',
-            title: 'Breadcrumb',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/9Ltop8JwH/Breadcrumb.svg',
-        },
-        component: () =>
-            import('../../../components/Breadcrumb/demo/index.vue'),
-    },
-    {
         path: 'Calendar',
         meta: {
             category: 'Components',
@@ -124,6 +124,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/antfincdn/dPQmLq08DI/Calendar.svg',
         },
         component: () => import('../../../components/Calendar/demo/index.vue'),
+    },
+    {
+        path: 'Card',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'Card',
+            subtitle: '卡片',
+            cover: 'https://gw.alipayobjects.com/zos/antfincdn/NqXt8DJhky/Card.svg',
+        },
+        component: () => import('../../../components/Card/demo/index.vue'),
     },
     {
         path: 'CardSelect',
@@ -148,17 +159,6 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/antfincdn/%24C9tmj978R/Carousel.svg',
         },
         component: () => import('../../../components/Carousel/demo/index.vue'),
-    },
-    {
-        path: 'Card',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'Card',
-            subtitle: '卡片',
-            cover: 'https://gw.alipayobjects.com/zos/antfincdn/NqXt8DJhky/Card.svg',
-        },
-        component: () => import('../../../components/Card/demo/index.vue'),
     },
     {
         path: 'Cascader',
@@ -205,6 +205,17 @@ export default [
         component: () => import('../../../components/Collapse/demo/index.vue'),
     },
     {
+        path: 'Comment',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'Comment',
+            subtitle: '评论',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/ILhxpGzBO/Comment.svg',
+        },
+        component: () => import('../../../components/Comment/demo/index.vue'),
+    },
+    {
         path: 'ConfigProvider',
         meta: {
             category: 'Components',
@@ -230,17 +241,6 @@ export default [
             import('../../../components/ColorPicker/demo/index.vue'),
     },
     {
-        path: 'Comment',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'Comment',
-            subtitle: '评论',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/ILhxpGzBO/Comment.svg',
-        },
-        component: () => import('../../../components/Comment/demo/index.vue'),
-    },
-    {
         path: 'DataTable',
         meta: {
             category: 'Components',
@@ -264,19 +264,6 @@ export default [
             import('../../../components/DatePicker/demo/index.vue'),
     },
     {
-        path: 'Divider',
-        meta: {
-            category: 'Components',
-            title: 'Divider',
-            subtitle: '分割线',
-            cover: 'https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original',
-            cols: 2,
-            type: '布局',
-            order: 2,
-        },
-        component: () => import('../../../components/Divider/demo/index.vue'),
-    },
-    {
         path: 'Descriptions',
         meta: {
             category: 'Components',
@@ -291,15 +278,17 @@ export default [
             import('../../../components/Descriptions/demo/index.vue'),
     },
     {
-        path: 'Drawer',
+        path: 'Divider',
         meta: {
             category: 'Components',
-            type: '反馈',
-            title: 'Drawer',
-            subtitle: '抽屉',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/7z8NJQhFb/Drawer.svg',
+            title: 'Divider',
+            subtitle: '分割线',
+            cover: 'https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*7sMiTbzvaDoAAAAAAAAAAAAADrJ8AQ/original',
+            cols: 2,
+            type: '布局',
+            order: 2,
         },
-        component: () => import('../../../components/Drawer/demo/index.vue'),
+        component: () => import('../../../components/Divider/demo/index.vue'),
     },
     {
         path: 'Dropdown',
@@ -311,6 +300,17 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/eedWN59yJ/Dropdown.svg',
         },
         component: () => import('../../../components/Dropdown/demo/index.vue'),
+    },
+    {
+        path: 'Drawer',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Drawer',
+            subtitle: '抽屉',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/7z8NJQhFb/Drawer.svg',
+        },
+        component: () => import('../../../components/Drawer/demo/index.vue'),
     },
     {
         path: 'Ellipsis',
@@ -361,6 +361,17 @@ export default [
         component: () => import('../../../components/Grid/demo/index.vue'),
     },
     {
+        path: 'Image',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'Image',
+            subtitle: '图片',
+            cover: 'https://gw.alipayobjects.com/zos/antfincdn/D1dXz9PZqa/image.svg',
+        },
+        component: () => import('../../../components/Image/demo/index.vue'),
+    },
+    {
         path: 'Input',
         meta: {
             category: 'Components',
@@ -371,17 +382,6 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
         },
         component: () => import('../../../components/Input/demo/index.vue'),
-    },
-    {
-        path: 'Image',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'Image',
-            subtitle: '图片',
-            cover: 'https://gw.alipayobjects.com/zos/antfincdn/D1dXz9PZqa/image.svg',
-        },
-        component: () => import('../../../components/Image/demo/index.vue'),
     },
     {
         path: 'InputNumber',
@@ -396,6 +396,17 @@ export default [
             import('../../../components/InputNumber/demo/index.vue'),
     },
     {
+        path: 'List',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'List',
+            subtitle: '列表',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/5FrZKStG_/List.svg',
+        },
+        component: () => import('../../../components/List/demo/index.vue'),
+    },
+    {
         path: 'Layout',
         meta: {
             category: 'Components',
@@ -406,17 +417,6 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/hzEndUVEx/Layout.svg',
         },
         component: () => import('../../../components/Layout/demo/index.vue'),
-    },
-    {
-        path: 'List',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'List',
-            subtitle: '列表',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/5FrZKStG_/List.svg',
-        },
-        component: () => import('../../../components/List/demo/index.vue'),
     },
     {
         path: 'Mentions',
@@ -442,6 +442,17 @@ export default [
         component: () => import('../../../components/Menu/demo/index.vue'),
     },
     {
+        path: 'Modal',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Modal',
+            subtitle: '对话框',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/3StSdUlSH/Modal.svg',
+        },
+        component: () => import('../../../components/Modal/demo/index.vue'),
+    },
+    {
         path: 'Message',
         meta: {
             category: 'Components',
@@ -454,28 +465,16 @@ export default [
         component: () => import('../../../components/Message/demo/index.vue'),
     },
     {
-        path: 'Modal',
+        path: 'Notification',
         meta: {
             category: 'Components',
             type: '反馈',
-            title: 'Modal',
-            subtitle: '对话框',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/3StSdUlSH/Modal.svg',
-        },
-        component: () => import('../../../components/Modal/demo/index.vue'),
-    },
-    {
-        path: 'MonacoEditor',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'MonacoEditor',
-            subtitle: '代码编辑器',
-            cols: 1,
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
+            title: 'Notification',
+            subtitle: '通知提醒框',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/Jxm5nw61w/Notification.svg',
         },
         component: () =>
-            import('../../../components/MonacoEditor/demo/index.vue'),
+            import('../../../components/Notification/demo/index.vue'),
     },
     {
         path: 'PageHeader',
@@ -491,53 +490,17 @@ export default [
             import('../../../components/PageHeader/demo/index.vue'),
     },
     {
-        path: 'Notification',
+        path: 'MonacoEditor',
         meta: {
             category: 'Components',
-            type: '反馈',
-            title: 'Notification',
-            subtitle: '通知提醒框',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/Jxm5nw61w/Notification.svg',
-        },
-        component: () =>
-            import('../../../components/Notification/demo/index.vue'),
-    },
-    {
-        path: 'Pagination',
-        meta: {
-            category: 'Components',
-            subtitle: '分页',
+            type: '数据录入',
+            title: 'MonacoEditor',
+            subtitle: '代码编辑器',
             cols: 1,
-            type: '导航',
-            title: 'Pagination',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg',
         },
         component: () =>
-            import('../../../components/Pagination/demo/index.vue'),
-    },
-    {
-        path: 'Popconfirm',
-        meta: {
-            category: 'Components',
-            type: '反馈',
-            title: 'Popconfirm',
-            subtitle: '气泡确认框',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/fjMCD9xRq/Popconfirm.svg',
-            cols: 1,
-        },
-        component: () =>
-            import('../../../components/Popconfirm/demo/index.vue'),
-    },
-    {
-        path: 'Progress',
-        meta: {
-            category: 'Components',
-            type: '反馈',
-            title: 'Progress',
-            subtitle: '进度条',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/xqsDu4ZyR/Progress.svg',
-        },
-        component: () => import('../../../components/Progress/demo/index.vue'),
+            import('../../../components/MonacoEditor/demo/index.vue'),
     },
     {
         path: 'PopconfirmModal',
@@ -553,6 +516,32 @@ export default [
             import('../../../components/PopconfirmModal/demo/index.vue'),
     },
     {
+        path: 'Popconfirm',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Popconfirm',
+            subtitle: '气泡确认框',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/fjMCD9xRq/Popconfirm.svg',
+            cols: 1,
+        },
+        component: () =>
+            import('../../../components/Popconfirm/demo/index.vue'),
+    },
+    {
+        path: 'Pagination',
+        meta: {
+            category: 'Components',
+            subtitle: '分页',
+            cols: 1,
+            type: '导航',
+            title: 'Pagination',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Pagination.svg',
+        },
+        component: () =>
+            import('../../../components/Pagination/demo/index.vue'),
+    },
+    {
         path: 'Popover',
         meta: {
             category: 'Components',
@@ -562,6 +551,28 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/1PNL1p_cO/Popover.svg',
         },
         component: () => import('../../../components/Popover/demo/index.vue'),
+    },
+    {
+        path: 'Progress',
+        meta: {
+            category: 'Components',
+            type: '反馈',
+            title: 'Progress',
+            subtitle: '进度条',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/xqsDu4ZyR/Progress.svg',
+        },
+        component: () => import('../../../components/Progress/demo/index.vue'),
+    },
+    {
+        path: 'ProTable',
+        meta: {
+            category: 'Components',
+            subtitle: '表格',
+            cols: 1,
+            type: '高阶组件',
+            title: 'ProTable',
+        },
+        component: () => import('../../../components/ProTable/demo/index.vue'),
     },
     {
         path: 'ProLayout',
@@ -609,6 +620,18 @@ export default [
         component: () => import('../../../components/Result/demo/index.vue'),
     },
     {
+        path: 'Scrollbar',
+        meta: {
+            category: 'Components',
+            subtitle: '滚动条',
+            cols: 1,
+            type: '导航',
+            title: 'Scrollbar',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Scrollbar.svg',
+        },
+        component: () => import('../../../components/Scrollbar/demo/index.vue'),
+    },
+    {
         path: 'ScrollTable',
         meta: {
             category: 'Components',
@@ -632,16 +655,16 @@ export default [
         component: () => import('../../../components/Select/demo/index.vue'),
     },
     {
-        path: 'Scrollbar',
+        path: 'Search',
         meta: {
             category: 'Components',
-            subtitle: '滚动条',
+            subtitle: '搜索',
             cols: 1,
-            type: '导航',
-            title: 'Scrollbar',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Scrollbar.svg',
+            type: '高阶组件',
+            title: 'Search',
+            cover: null,
         },
-        component: () => import('../../../components/Scrollbar/demo/index.vue'),
+        component: () => import('../../../components/Search/demo/index.vue'),
     },
     {
         path: 'Skeleton',
@@ -700,29 +723,6 @@ export default [
         component: () => import('../../../components/Statistic/demo/index.vue'),
     },
     {
-        path: 'Search',
-        meta: {
-            category: 'Components',
-            subtitle: '搜索',
-            cols: 1,
-            type: '高阶组件',
-            title: 'Search',
-            cover: null,
-        },
-        component: () => import('../../../components/Search/demo/index.vue'),
-    },
-    {
-        path: 'Switch',
-        meta: {
-            category: 'Components',
-            subtitle: '开关',
-            type: '数据录入',
-            title: 'Switch',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/zNdJQMhfm/Switch.svg',
-        },
-        component: () => import('../../../components/Switch/demo/index.vue'),
-    },
-    {
         path: 'Steps',
         meta: {
             category: 'Components',
@@ -735,16 +735,15 @@ export default [
         component: () => import('../../../components/Steps/demo/index.vue'),
     },
     {
-        path: 'Table',
+        path: 'Switch',
         meta: {
             category: 'Components',
-            cols: 1,
-            type: '数据展示',
-            title: 'Table',
-            subtitle: '表格',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/f-SbcX2Lx/Table.svg',
+            subtitle: '开关',
+            type: '数据录入',
+            title: 'Switch',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/zNdJQMhfm/Switch.svg',
         },
-        component: () => import('../../../components/Table/demo/index.vue'),
+        component: () => import('../../../components/Switch/demo/index.vue'),
     },
     {
         path: 'TableCard',
@@ -759,15 +758,16 @@ export default [
         component: () => import('../../../components/TableCard/demo/index.vue'),
     },
     {
-        path: 'Tag',
+        path: 'Table',
         meta: {
             category: 'Components',
-            subtitle: '标签',
+            cols: 1,
             type: '数据展示',
-            title: 'Tag',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/cH1BOLfxC/Tag.svg',
+            title: 'Table',
+            subtitle: '表格',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/f-SbcX2Lx/Table.svg',
         },
-        component: () => import('../../../components/Tag/demo/index.vue'),
+        component: () => import('../../../components/Table/demo/index.vue'),
     },
     {
         path: 'Tabs',
@@ -779,6 +779,28 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/antfincdn/lkI2hNEDr2V/Tabs.svg',
         },
         component: () => import('../../../components/Tabs/demo/index.vue'),
+    },
+    {
+        path: 'Tag',
+        meta: {
+            category: 'Components',
+            subtitle: '标签',
+            type: '数据展示',
+            title: 'Tag',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/cH1BOLfxC/Tag.svg',
+        },
+        component: () => import('../../../components/Tag/demo/index.vue'),
+    },
+    {
+        path: 'Timeline',
+        meta: {
+            category: 'Components',
+            type: '数据展示',
+            title: 'Timeline',
+            subtitle: '时间轴',
+            cover: 'https://gw.alipayobjects.com/zos/antfincdn/vJmo00mmgR/Timeline.svg',
+        },
+        component: () => import('../../../components/Timeline/demo/index.vue'),
     },
     {
         path: 'TimePicker',
@@ -793,17 +815,6 @@ export default [
             import('../../../components/TimePicker/demo/index.vue'),
     },
     {
-        path: 'Timeline',
-        meta: {
-            category: 'Components',
-            type: '数据展示',
-            title: 'Timeline',
-            subtitle: '时间轴',
-            cover: 'https://gw.alipayobjects.com/zos/antfincdn/vJmo00mmgR/Timeline.svg',
-        },
-        component: () => import('../../../components/Timeline/demo/index.vue'),
-    },
-    {
         path: 'Tooltip',
         meta: {
             category: 'Components',
@@ -813,28 +824,6 @@ export default [
             cover: 'https://gw.alipayobjects.com/zos/alicdn/Vyyeu8jq2/Tooltp.svg',
         },
         component: () => import('../../../components/Tooltip/demo/index.vue'),
-    },
-    {
-        path: 'Transfer',
-        meta: {
-            category: 'Components',
-            type: '数据录入',
-            title: 'Transfer',
-            subtitle: '穿梭框',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/QAXskNI4G/Transfer.svg',
-        },
-        component: () => import('../../../components/Transfer/demo/index.vue'),
-    },
-    {
-        path: 'ProTable',
-        meta: {
-            category: 'Components',
-            subtitle: '表格',
-            cols: 1,
-            type: '高阶组件',
-            title: 'ProTable',
-        },
-        component: () => import('../../../components/ProTable/demo/index.vue'),
     },
     {
         path: 'Tree',
@@ -848,16 +837,15 @@ export default [
         component: () => import('../../../components/Tree/demo/index.vue'),
     },
     {
-        path: 'Upload',
+        path: 'Transfer',
         meta: {
             category: 'Components',
-            subtitle: '上传',
-            cols: 1,
-            type: '导航',
-            title: 'Upload',
-            cover: 'https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Upload.svg',
+            type: '数据录入',
+            title: 'Transfer',
+            subtitle: '穿梭框',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/QAXskNI4G/Transfer.svg',
         },
-        component: () => import('../../../components/Upload/demo/index.vue'),
+        component: () => import('../../../components/Transfer/demo/index.vue'),
     },
     {
         path: 'TreeSelect',
@@ -870,5 +858,17 @@ export default [
         },
         component: () =>
             import('../../../components/TreeSelect/demo/index.vue'),
+    },
+    {
+        path: 'Upload',
+        meta: {
+            category: 'Components',
+            subtitle: '上传',
+            cols: 1,
+            type: '导航',
+            title: 'Upload',
+            cover: 'https://gw.alipayobjects.com/zos/alicdn/1vqv2bj68/Upload.svg',
+        },
+        component: () => import('../../../components/Upload/demo/index.vue'),
     },
 ];

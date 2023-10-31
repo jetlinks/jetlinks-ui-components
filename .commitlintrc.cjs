@@ -17,6 +17,7 @@ module.exports = {
                 'perf', // 性能优化
                 'merge', // 代码合并
                 'delete', // 删除
+                'version', // 删除
             ]
         ],
         'scope-case': [0],
@@ -26,7 +27,7 @@ module.exports = {
             rules: {
                 "commit-rule": ({ raw }) => {
                     return [
-                        /^\[(build|feat|fix|update|refactor|docs|chore|style|revert|perf|merge|delete)].+/g.test(raw),
+                        /^\[(build|feat|fix|update|refactor|docs|chore|style|revert|perf|merge|delete|version)].+/g.test(raw),
                         `commit备注信息格式错误，格式为 <[type] 修改内容>，type支持${types.join(",")}`
                     ]
                 }
