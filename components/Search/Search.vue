@@ -22,19 +22,30 @@
                             />
                         </j-col>
                         <j-col :span="24 / column">
-                            <div
-                                class="JSearch-footer--btns"
-                                :style="{ paddingLeft: `${labelWidth + 8}px` }"
+                            <slot
+                                name="footerRender"
+                                :reset="reset"
+                                :submit="searchSubmit"
                             >
-                                <j-button type="stroke" @click="reset">
-                                    重置
-                                </j-button>
-                                <FormItemRest>
-                                    <j-button html-type="submit" type="primary">
-                                        搜索
+                                <div
+                                    class="JSearch-footer--btns"
+                                    :style="{
+                                        paddingLeft: `${labelWidth + 8}px`,
+                                    }"
+                                >
+                                    <j-button type="stroke" @click="reset">
+                                        {{ resetText }}
                                     </j-button>
-                                </FormItemRest>
-                            </div>
+                                    <FormItemRest>
+                                        <j-button
+                                            html-type="submit"
+                                            type="primary"
+                                        >
+                                            {{ submitText }}
+                                        </j-button>
+                                    </FormItemRest>
+                                </div>
+                            </slot>
                         </j-col>
                     </j-row>
                 </div>
@@ -53,10 +64,12 @@ import {
     FormItemRest,
 } from '../components';
 import { set } from 'lodash-es';
-import { reactive, ref } from 'vue';
+import { reactive, ref, provide } from 'vue';
 import type { PropType } from 'vue';
 import { termsParamsFormat } from './util';
 import SearchItem from './Item.vue';
+import Sort from '../Grid/demo/sort.vue';
+import { optionsMapKey } from './setting';
 
 interface Emit {
     (e: 'search', data: Terms[] | {}): void;
@@ -91,9 +104,17 @@ const props = defineProps({
         type: Number,
         default: 40,
     },
+    resetText: {
+        type: String,
+        default: '重置',
+    },
+    submitText: {
+        type: String,
+        default: '搜索',
+    },
 });
 
-const columnOptionMap = new Map();
+const columnOptionMap = ref(new Map());
 
 const emit = defineEmits<Emit>();
 // 当前查询条件
@@ -101,6 +122,7 @@ const terms = reactive<Terms>({ terms: [] });
 
 const searchItems = ref<SearchProps[]>([]); // 当前查询条件列表
 
+provide(optionsMapKey, columnOptionMap);
 const itemValueChange = (value: SearchItemData, index: number) => {
     set(terms.terms, [index], value);
 };
@@ -108,11 +130,11 @@ const itemValueChange = (value: SearchItemData, index: number) => {
 const handleItems = (reset: boolean = false) => {
     searchItems.value = [];
     terms.terms = [];
-    columnOptionMap.clear();
+    columnOptionMap.value.clear();
     let hasSearch = false;
     props.columns!.forEach((item, index) => {
         if (item.search && Object.keys(item.search).length) {
-            columnOptionMap.set(item.dataIndex, item.search);
+            columnOptionMap.value.set(item.dataIndex, item.search);
             // 默认值
             const { search } = item;
             let defaultTerms = null;
@@ -163,7 +185,12 @@ const handleItems = (reset: boolean = false) => {
 const searchSubmit = () => {
     emit(
         'search',
-        termsParamsFormat(terms.terms, columnOptionMap, 'low', props.type),
+        termsParamsFormat(
+            terms.terms,
+            columnOptionMap.value,
+            'low',
+            props.type,
+        ),
     );
 };
 

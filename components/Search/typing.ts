@@ -20,7 +20,14 @@ export interface SearchBaseProps {
     defaultOnceValue?: any; // 会被重置掉的默认值
     title?: ColumnType['title'];
     sortIndex?: number;
+
+    span?: number;
     componentProps?: any;
+
+    termFilter?: string[];
+
+    termOptions?: Array<{ label: string; value: string }>;
+
     handleValue?: (value: SearchItemData) => any;
 }
 

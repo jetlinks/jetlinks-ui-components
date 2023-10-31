@@ -146,10 +146,10 @@
 
 <script setup lang="ts">
 import SearchItem from '../Item.vue';
-import { typeOptions } from '../setting';
+import { optionsMapKey, typeOptions } from '../setting';
 import { useElementSize } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
-import { PropType, ref, reactive, watch } from 'vue';
+import { PropType, ref, reactive, watch, provide } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
 import type {
@@ -257,7 +257,9 @@ const termsData = reactive<Terms>({
     ],
 });
 
-const columnOptionMap = new Map();
+const columnOptionMap = ref(new Map());
+
+provide(optionsMapKey, columnOptionMap);
 
 const emit = defineEmits<Emit>();
 
@@ -293,7 +295,7 @@ const addUrlParams = () => {
 };
 
 const submitData = () => {
-    emit('search', termsParamsFormat(termsData, columnOptionMap));
+    emit('search', termsParamsFormat(termsData, columnOptionMap.value));
 };
 
 /**
@@ -359,7 +361,7 @@ const handleUrlParams = (_params: UrlParam) => {
         const qStr = decodeURI(_params.q);
         termsData.terms = handleQData(compatibleOldTerms(qStr))?.terms || [];
         expand.value = hasExpand(termsData.terms);
-        emit('search', termsParamsFormat(termsData, columnOptionMap));
+        emit('search', termsParamsFormat(termsData, columnOptionMap.value));
     }
 };
 
@@ -368,11 +370,11 @@ const handleUrlParams = (_params: UrlParam) => {
  */
 const handleItems = () => {
     searchItems.value = [];
-    columnOptionMap.clear();
+    columnOptionMap.value.clear();
     props.columns!.forEach((item, index) => {
         const _item = cloneDeep(item);
         if (_item.search && Object.keys(_item.search).length) {
-            columnOptionMap.set(
+            columnOptionMap.value.set(
                 // _item.search?.rename || _item.dataIndex,
                 _item.dataIndex,
                 _item.search,

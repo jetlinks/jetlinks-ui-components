@@ -92,7 +92,6 @@ export default {
         ];
 
         const onSearch = (e) => {
-            console.log(e);
             paramsStr.value = JSON.stringify(e);
         };
 

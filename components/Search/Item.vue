@@ -146,9 +146,9 @@
 </template>
 
 <script setup lang="ts" name="SearchItem">
-import { typeOptions, termType, componentType } from './setting';
+import { typeOptions, termType, componentType, optionsMapKey } from './setting';
 import type { PropType } from 'vue';
-import { ref, reactive, nextTick, watch, computed } from 'vue';
+import { ref, reactive, nextTick, watch, computed, inject } from 'vue';
 import type { SearchItemData, SearchProps } from './typing';
 import { cloneDeep, debounce, isArray, isFunction, omit } from 'lodash-es';
 import {
@@ -241,7 +241,7 @@ const cProps = ref({});
 const options = ref<any[]>([]);
 
 const columnOptions = ref<optionItemType[]>([]);
-const columnOptionMap = new Map();
+const columnOptionMap = inject(optionsMapKey, new Map());
 
 const termTypeOptions = reactive({ option: termType });
 
@@ -259,10 +259,16 @@ const getTermType = (
     column?: string,
     options?: string[],
     defaultTermType?: string,
+    termFilter?: string[],
 ) => {
     termTypeOptions.option = options?.length
         ? getTermTypes(options)
         : getTermOptions(type, column);
+    if (termFilter?.length) {
+        termTypeOptions.option = termTypeOptions.option.filter(
+            (item) => !termFilter.includes(item.value),
+        );
+    }
     return defaultTermType || options?.length
         ? termTypeOptions.option[0].value
         : getTermTypeFn(type, column);
@@ -348,7 +354,8 @@ const columnChange = (
     isChange: boolean,
     changeValue: boolean = true,
 ) => {
-    const item = columnOptionMap.get(value);
+    const item = columnOptionMap.value?.get(value);
+
     if (!item) {
         initModel();
         return;
@@ -371,6 +378,7 @@ const columnChange = (
         value,
         item.termOptions,
         item.defaultTermType,
+        item.termFilter,
     );
 
     if (changeValue) {
@@ -384,12 +392,10 @@ const columnChange = (
 };
 
 const handleItem = () => {
-    columnOptionMap.clear();
     columnOptions.value = [];
     if (!props.columns.length) return;
     columnOptions.value = props.columns.map((item) => {
         // 对columns进行Map处理以及值处理
-        columnOptionMap.set(item.column, item);
         return {
             label: item.title,
             value: item.column,
@@ -441,15 +447,6 @@ const reset = () => {
     termsModel.value = undefined;
 };
 
-const handleColumnChange = (key: string) => {
-    nextTick(() => {
-        // if (key === 'column') {
-        //     columnChange(props.termsItem[key] as string, false, false);
-        // }
-        termsModel[key] = props.termsItem[key];
-    });
-};
-
 watch(
     () => props.columns,
     () => {
@@ -462,13 +459,12 @@ watch(
 
 watch(
     () => props.termsItem,
-    () => {
-        if (props.termsItem) {
+    (val, oldVal) => {
+        if (val?.column) {
             nextTick(() => {
                 Object.keys(props.termsItem).forEach((key) => {
-                    // handleColumnChange(key);
                     termsModel[key] = props.termsItem[key];
-                    if (key === 'column' && props.termsItem.column) {
+                    if (key === 'column' && val?.column !== oldVal?.column) {
                         columnChange(
                             props.termsItem.column as string,
                             false,
@@ -478,7 +474,6 @@ watch(
                 });
             });
         } else {
-            // 重置
             handleItem();
         }
     },

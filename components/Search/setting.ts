@@ -1,22 +1,40 @@
+import { PropType } from 'vue';
+import { JColumnsProps } from './typing';
+
+export const optionsMapKey = Symbol('searchOptionsMap');
+export const basicSearch = {
+    columns: {
+        type: Array as PropType<JColumnsProps[]>,
+        default: () => [],
+        required: true,
+    },
+    type: {
+        type: String,
+        default: 'advanced',
+    },
+};
+
 export const typeOptions = [
     { label: '或者', value: 'or' },
     { label: '并且', value: 'and' },
 ];
 
-export const termType = [
-    { label: '=', value: 'eq' },
-    { label: '!=', value: 'not' },
-    { label: '包含', value: 'like' },
-    { label: '不包含', value: 'nlike' },
-    { label: '>', value: 'gt' },
-    { label: '>=', value: 'gte' },
-    { label: '<', value: 'lt' },
-    { label: '<=', value: 'lte' },
-    { label: '在...之中', value: 'in' },
-    { label: '不在...之中', value: 'nin' },
-    { label: '在...之间', value: 'btw' },
-    { label: '不在...之间', value: 'nbtw' },
-];
+export const TermTypeMap = {
+    EQ: { label: '=', value: 'eq' },
+    NOT: { label: '!=', value: 'not' },
+    LIKE: { label: '包含', value: 'like' },
+    NLIKE: { label: '不包含', value: 'nlike' },
+    GT: { label: '>', value: 'gt' },
+    GTE: { label: '>=', value: 'gte' },
+    LT: { label: '<', value: 'lt' },
+    LTE: { label: '<=', value: 'lte' },
+    IN: { label: '在...之中', value: 'in' },
+    NIN: { label: '不在...之中', value: 'nin' },
+    BTW: { label: '在...之间', value: 'btw' },
+    NBTW: { label: '不在...之间', value: 'nbtw' },
+};
+
+export const termType = Object.values(TermTypeMap);
 
 export const componentType = {
     input: 'input',
