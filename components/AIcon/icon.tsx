@@ -4,7 +4,7 @@ import { createFromIconfontCN } from '@ant-design/icons-vue';
 import './iconfont';
 
 let MyIcon = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/c/font_4035907_sok75a4vm1.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/c/font_4035907_2q888vzcob.js', // 在 iconfont.cn 上生成
 });
 
 const aIcon = $Icon;
