@@ -74,9 +74,24 @@ export default {
             },
             {
                 title: '时间',
-                dataIndex: 'time',
+                dataIndex: 'treeSelect',
                 search: {
-                    type: 'timeRange',
+                    type: 'treeSelect',
+                    componentProps: {
+                        treeNodeFilterProp: 'title',
+                        fieldNames: { label: 'title' },
+                        filterTreeNode: (v, node) => {
+                            console.log(v, node);
+                            return true;
+                        },
+                    },
+                    options: [
+                        { title: '1', value: 1 },
+                        { title: '12', value: 12 },
+                        { title: '13', value: 13 },
+                        { title: '14', value: 14 },
+                        { title: '15', value: 15 },
+                    ],
                 },
             },
         ];

@@ -124,11 +124,11 @@
                     :height="350"
                     :field-names="{ label: 'name', value: 'id' }"
                     :multiple="isBtw"
-                    v-bind="cProps"
-                    :tree-data="options"
                     :filter-tree-node="
                         (v, option) => filterTreeSelectNode(v, option)
                     "
+                    v-bind="cProps"
+                    :tree-data="options"
                     @change="valueChange"
                 />
                 <component
