@@ -371,68 +371,70 @@ const PageContainer = defineComponent({
         });
 
         return () => {
-            const { fixedHeader, pure } = props;
+            const { fixedHeader } = props;
+            const pure = value.pure;
             return (
-                <>
-                    {pure ? (
-                        <div class={classNames.value}>{slots.default?.()}</div>
-                    ) : (
-                        <div
-                            class={classNames.value}
-                            style={{
-                                ...((attrs.style as CSSProperties) || {}),
-                            }}
-                        >
-                            {fixedHeader && headerDom.value ? (
-                                <Affix
-                                    {...affixProps.value}
-                                    offsetTop={
-                                        value.hasHeader && value.fixedHeader
-                                            ? value.headerHeight
-                                            : 0
-                                    }
-                                >
-                                    {headerDom.value}
-                                </Affix>
-                            ) : (
-                                headerDom.value
-                            )}
-                            <div
-                                class={`${prefixedClassName.value}-grid-content`}
+                // <>
+                //     {pure ? (
+                //         <div class={classNames.value}>{slots.default?.()}</div>
+                //     ) : (
+                //
+                //     )}
+                // </>
+                <div
+                    className={classNames.value}
+                    style={{
+                        ...((attrs.style as CSSProperties) || {}),
+                    }}
+                >
+                    {!pure ? (
+                        fixedHeader && headerDom.value ? (
+                            <Affix
+                                {...affixProps.value}
+                                offsetTop={
+                                    value.hasHeader && value.fixedHeader
+                                        ? value.headerHeight
+                                        : 0
+                                }
                             >
-                                {loading.value ? (
-                                    <Spin />
-                                ) : slots.default ? (
-                                    <div>
-                                        <div
-                                            class={`${
-                                                prefixedClassName.value
-                                            }-children-content ${
-                                                childrenFullHeight.value
-                                                    ? 'children-full-height'
-                                                    : ''
-                                            }`}
-                                            style={{
-                                                ...((props.contentStyle as CSSProperties) ||
-                                                    {}),
-                                            }}
-                                        >
-                                            {slots.default()}
-                                        </div>
-                                        {value.hasFooterToolbar && (
-                                            <div
-                                                style={{
-                                                    height: 48,
-                                                    marginTop: 24,
-                                                }}
-                                            />
-                                        )}
-                                    </div>
-                                ) : null}
+                                {headerDom.value}
+                            </Affix>
+                        ) : (
+                            headerDom.value
+                        )
+                    ) : null}
+                    <div className={`${prefixedClassName.value}-grid-content`}>
+                        {loading.value ? (
+                            <Spin />
+                        ) : slots.default ? (
+                            <div>
+                                <div
+                                    className={`${
+                                        prefixedClassName.value
+                                    }-children-content ${
+                                        childrenFullHeight.value
+                                            ? 'children-full-height'
+                                            : ''
+                                    }`}
+                                    style={{
+                                        ...((props.contentStyle as CSSProperties) ||
+                                            {}),
+                                    }}
+                                >
+                                    {slots.default()}
+                                </div>
+                                {value.hasFooterToolbar && (
+                                    <div
+                                        style={{
+                                            height: 48,
+                                            marginTop: 24,
+                                        }}
+                                    />
+                                )}
                             </div>
-                        </div>
-                    )}
-                </>
+                        ) : null}
+                    </div>
+                </div>
             );
         };
     },
