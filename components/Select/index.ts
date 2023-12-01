@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import Select from './select.vue';
+import { Select } from 'ant-design-vue';
 import { SelectOptGroup, SelectOption } from 'ant-design-vue/lib/select';
 import SelectBoolean from './Boolean.vue';
 
