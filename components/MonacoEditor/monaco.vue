@@ -155,17 +155,22 @@ onMounted(async () => {
  * 光标位置插入内容
  * @param {String} val
  */
-const insert = (val) => {
+const insert = (val, position) => {
     if (!instance.value) return;
-    const position = toRaw(instance.value).getPosition();
+    const _position = position || toRaw(instance.value).getPosition();
     const value = toRaw(instance.value).getValue();
+
+    if (position && position.lineNumber) {
+        toRaw(instance.value).setPosition(position);
+    }
+    console.log(_position, val);
     toRaw(instance.value).executeEdits(value, [
         {
             range: new monaco.Range(
-                position?.lineNumber,
-                position?.column,
-                position?.lineNumber,
-                position?.column,
+                _position?.lineNumber,
+                _position?.column,
+                _position?.lineNumber,
+                _position?.column,
             ),
             text: val,
         },
