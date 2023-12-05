@@ -14,6 +14,7 @@ import {
     nextTick,
 } from 'vue';
 import * as monaco from 'monaco-editor';
+import { omit } from 'lodash-es';
 
 const props = defineProps({
     modelValue: [String, Number],
@@ -25,6 +26,7 @@ const props = defineProps({
     registrationTypescript: { type: Object, default: () => ({}) },
     blurFormat: { type: Boolean, default: true },
     readOnly: { type: Boolean, default: false },
+    options: { type: Object, default: () => ({}) },
 });
 
 const emit = defineEmits([
@@ -102,6 +104,13 @@ const registerTypescript = () => {
 const editorFormat = () => {
     if (!instance.value) return;
     toRaw(instance.value).getAction('editor.action.formatDocument')?.run();
+    if (props.hasOwnProperty('readOnly')) {
+        setTimeout(() => {
+            toRaw(instance.value).updateOptions({
+                readOnly: props.readOnly !== false,
+            });
+        }, 100);
+    }
 };
 
 monaco.editor.onDidChangeMarkers(([uri]) => {
@@ -119,7 +128,7 @@ onMounted(async () => {
         scrollBeyondLastLine: false,
         theme: props.theme, // 主题色: vs(默认高亮), vs-dark(黑色), hc-black(高亮黑色)
         formatOnPaste: true,
-        readOnly: props.readOnly !== false,
+        ...(omit(props.options, ['readOnly']) || {}),
     });
 
     instance.value.onDidChangeModelContent(() => {
@@ -163,7 +172,7 @@ const insert = (val, position) => {
     if (position && position.lineNumber) {
         toRaw(instance.value).setPosition(position);
     }
-    console.log(_position, val);
+
     toRaw(instance.value).executeEdits(value, [
         {
             range: new monaco.Range(

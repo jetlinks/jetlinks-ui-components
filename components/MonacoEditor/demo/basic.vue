@@ -23,16 +23,20 @@ title: 基本用法
 import { defineComponent, ref, toRaw } from 'vue';
 export default defineComponent({
     setup() {
-        const value = ref<string>();
+        const value = ref<string>(
+            `{ "name": "string", "object": { "code": 12}}`,
+        );
         const _instance = ref();
         const monaco = ref();
 
         const focus = () => {
             console.log('focus');
         };
+
         const init = (instance) => {
             console.log(instance);
             _instance.value = instance;
+
             setTimeout(() => {
                 //                 value.value = `{ "message": "success", "result": { "code": 200,
                 //         "data": {
@@ -1086,10 +1090,6 @@ export default defineComponent({
                 //     "status": 200,
                 //     "timestamp": 1689582840426
                 // }`;
-                value.value = '11111111';
-                setTimeout(() => {
-                    insert();
-                }, 1000);
             }, 3000);
         };
 
@@ -1099,8 +1099,8 @@ export default defineComponent({
             const lastColumn = model.getLineMaxColumn(lastLine);
             const positionNew = { lineNumber: lastLine, column: lastColumn };
 
-            monaco.value.insert('123123', positionNew);
             toRaw(_instance.value).focus();
+            monaco.value.insert('123123', positionNew);
         };
 
         const errorChange = (msg) => {
