@@ -1,0 +1,27 @@
+.JetLinkss-Map-InfoWindow {
+    display: flex;
+    padding: 5px;
+    border-radius: 4px;
+    filter: drop-shadow(0 0 4px rgb(0 0 0 / 50%));
+    background-color: #fff;
+    position: relative;
+}
+
+.JetLinkss-Map-InfoWindow::before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 9px solid transparent;
+    border-top-color: #fff;
+    border-bottom-width: 0;
+}
+
+.map-infoWindow {
+    min-width: 100px;
+    height: 50px;
+    padding: 12px;
+}
