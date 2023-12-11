@@ -1,5 +1,5 @@
 import { inject } from "vue"
 
 export const useMap = () => {
-    return inject()
+    return inject('map')
 }

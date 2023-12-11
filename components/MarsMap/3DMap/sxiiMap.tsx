@@ -15,6 +15,7 @@ import {
     defineComponent,
     onMounted,
     onUnmounted,
+    provide,
     ref,
     watch,
 } from 'vue';
@@ -101,7 +102,6 @@ export default defineComponent({
         const id = ref<string>(`JetLinkss_Map3D_${MapIds.length}`);
 
         const getInstance = () => {
-            console.log('mapRef.value: ', mapRef.value);
             if (mapRef.value === null) {
                 return null;
             }
@@ -121,15 +121,17 @@ export default defineComponent({
         };
 
         onMounted(() => {
-            const map = getInstance();
-            console.log('sxiiMap: ', map);
+            // const map = getInstance();
+            map.value = getInstance();
+            console.log('sxiiMap: ', map.value);
+            provide('map', map.value);
 
             UpdatePropsAndRegisterEvents({
                 updateMap,
                 eventMap: EventBaseMap,
                 prevProps: {},
                 nextProps: props,
-                instance: map,
+                instance: map.value,
             });
             MapIds.push(id.value);
 

@@ -11,7 +11,7 @@ import {
     PickOptions,
 } from '../utils';
 
-import { PropType, defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { PropType, defineComponent, inject, onMounted, onUnmounted, ref } from 'vue';
 
 export interface IMarkerProps
     extends Omit<sxii.graphic.BillboardEntityOptions, 'style' | 'position'>,
@@ -122,7 +122,9 @@ export default defineComponent({
     setup(props, { emit, attrs, slots }) {
         console.log('marker props: ', props);
         const contextType = MapContext;
-        const map = ref<sxii.Map>(null);
+        // const map = ref<sxii.Map>(null);
+        const map: sxii.Map = inject('map')
+        console.log('marker map: ', map);
         const layer = ref<sxii.layer.GraphicLayer | undefined>();
         const entity = ref<sxii.graphic.BillboardEntity | undefined>();
 
@@ -148,7 +150,7 @@ export default defineComponent({
         });
 
         const getLayer = () => {
-            return map.value.getLayer({
+            return map.getLayer({
                 id: MarkerLayerID,
             }) as sxii.layer.GraphicLayer;
         };
@@ -159,7 +161,7 @@ export default defineComponent({
                 id: MarkerLayerID,
             });
 
-            layer.addTo(map.value);
+            layer.addTo(map);
             return layer;
         };
 
