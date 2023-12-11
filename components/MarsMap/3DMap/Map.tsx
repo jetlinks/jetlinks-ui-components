@@ -1,13 +1,26 @@
-import React, { PureComponent } from 'react'
-import LoadScript from './LoadScript'
-import Sxii, { MapProps } from './sxiiMap'
-
-class Map extends PureComponent<MapProps> {
-    render() {
-        return (
-            <LoadScript> <Sxii {...this.props} /> </LoadScript>
-        )
-    }
-}
-
-export default Map
+import {
+    onMounted,
+    computed,
+    defineComponent,
+    provide,
+    reactive,
+    watchEffect,
+    toRefs,
+} from 'vue';
+import LoadScript from './LoadScript';
+import Sxii, { MapProps } from './sxiiMap';
+export default defineComponent({
+    name: 'JMarsMap',
+    inheritAttrs: false,
+    props: MapProps,
+    emits: [],
+    setup(props, { emit, attrs, slots }) {
+        return () => {
+            return (
+                <LoadScript>
+                    <Sxii {...props} />
+                </LoadScript>
+            );
+        };
+    },
+});

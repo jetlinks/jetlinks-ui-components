@@ -9,7 +9,9 @@ title: 基本用法
 </docs>
 <template>
     <div style="height: 200px">
-        <j-mars-map :center="center"></j-mars-map>
+        <j-mars-map :center="center">
+            <!-- <j-marker :position="center"></j-marker> -->
+        </j-mars-map>
     </div>
 </template>
 <script lang="ts">
