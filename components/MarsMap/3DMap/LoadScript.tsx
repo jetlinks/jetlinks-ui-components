@@ -65,8 +65,8 @@ export default defineComponent({
                         import('./sxii/sxii.css'),
                         import('./sxii/sxii.js'),
                     ]).then(([sxiiCss, sxii]) => {
-                        console.log('sxiiCss111---------: ', sxiiCss);
-                        console.log('sxii222:-----', sxii);
+                        // console.log('sxiiCss111---------: ', sxiiCss);
+                        // console.log('sxii222:-----', sxii);
                         interval.value = window.setInterval(() => {
                             checkIfScriptLoaded();
                         }, 200);

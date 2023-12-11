@@ -12,11 +12,6 @@ export default [
     component: () => import('../../../components/AIcon/demo/index.vue'),
   },
   {
-    path: 'Alert',
-    meta: {"category":"Components","type":"反馈","title":"Alert","subtitle":"警告提示","cover":"https://gw.alipayobjects.com/zos/alicdn/8emPa3fjl/Alert.svg"},
-    component: () => import('../../../components/Alert/demo/index.vue'),
-  },
-  {
     path: 'Anchor',
     meta: {"category":"Components","subtitle":"锚点","cols":2,"type":"其他","title":"Anchor","cover":"https://gw.alipayobjects.com/zos/alicdn/_1-C1JwsC/Anchor.svg"},
     component: () => import('../../../components/Anchor/demo/index.vue'),
@@ -30,6 +25,11 @@ export default [
     path: 'BackTop',
     meta: {"category":"Components","type":"其他","subtitle":"回到顶部","title":"BackTop","cover":"https://gw.alipayobjects.com/zos/alicdn/tJZ5jbTwX/BackTop.svg"},
     component: () => import('../../../components/BackTop/demo/index.vue'),
+  },
+  {
+    path: 'Alert',
+    meta: {"category":"Components","type":"反馈","title":"Alert","subtitle":"警告提示","cover":"https://gw.alipayobjects.com/zos/alicdn/8emPa3fjl/Alert.svg"},
+    component: () => import('../../../components/Alert/demo/index.vue'),
   },
   {
     path: 'Avatar',
@@ -47,9 +47,19 @@ export default [
     component: () => import('../../../components/Breadcrumb/demo/index.vue'),
   },
   {
+    path: 'Card',
+    meta: {"category":"Components","type":"数据展示","title":"Card","subtitle":"卡片","cover":"https://gw.alipayobjects.com/zos/antfincdn/NqXt8DJhky/Card.svg"},
+    component: () => import('../../../components/Card/demo/index.vue'),
+  },
+  {
     path: 'Button',
     meta: {"category":"Components","type":"通用","title":"Button","subtitle":"按钮","cover":"https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg"},
     component: () => import('../../../components/Button/demo/index.vue'),
+  },
+  {
+    path: 'CardSelect',
+    meta: {"category":"Components","title":"CardSelect","subtitle":"卡片选择器","cols":2,"type":"数据录入","order":2},
+    component: () => import('../../../components/CardSelect/demo/index.vue'),
   },
   {
     path: 'Calendar',
@@ -57,19 +67,9 @@ export default [
     component: () => import('../../../components/Calendar/demo/index.vue'),
   },
   {
-    path: 'Card',
-    meta: {"category":"Components","type":"数据展示","title":"Card","subtitle":"卡片","cover":"https://gw.alipayobjects.com/zos/antfincdn/NqXt8DJhky/Card.svg"},
-    component: () => import('../../../components/Card/demo/index.vue'),
-  },
-  {
     path: 'Carousel',
     meta: {"category":"Components","type":"数据展示","title":"Carousel","subtitle":"走马灯","cover":"https://gw.alipayobjects.com/zos/antfincdn/%24C9tmj978R/Carousel.svg"},
     component: () => import('../../../components/Carousel/demo/index.vue'),
-  },
-  {
-    path: 'CardSelect',
-    meta: {"category":"Components","title":"CardSelect","subtitle":"卡片选择器","cols":2,"type":"数据录入","order":2},
-    component: () => import('../../../components/CardSelect/demo/index.vue'),
   },
   {
     path: 'Cascader',
@@ -157,14 +157,14 @@ export default [
     component: () => import('../../../components/Grid/demo/index.vue'),
   },
   {
-    path: 'Image',
-    meta: {"category":"Components","type":"数据展示","title":"Image","subtitle":"图片","cover":"https://gw.alipayobjects.com/zos/antfincdn/D1dXz9PZqa/image.svg"},
-    component: () => import('../../../components/Image/demo/index.vue'),
-  },
-  {
     path: 'Input',
     meta: {"category":"Components","type":"数据录入","title":"Input","subtitle":"输入框","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
     component: () => import('../../../components/Input/demo/index.vue'),
+  },
+  {
+    path: 'Image',
+    meta: {"category":"Components","type":"数据展示","title":"Image","subtitle":"图片","cover":"https://gw.alipayobjects.com/zos/antfincdn/D1dXz9PZqa/image.svg"},
+    component: () => import('../../../components/Image/demo/index.vue'),
   },
   {
     path: 'InputNumber',
@@ -182,14 +182,14 @@ export default [
     component: () => import('../../../components/List/demo/index.vue'),
   },
   {
-    path: 'MarsMap',
-    meta: {"category":"Components","type":"数据录入","title":"MarsMap","subtitle":"地图","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
-    component: () => import('../../../components/MarsMap/demo/index.vue'),
-  },
-  {
     path: 'Mentions',
     meta: {"category":"Components","type":"数据录入","title":"Mentions","subtitle":"提及","cover":"https://gw.alipayobjects.com/zos/alicdn/jPE-itMFM/Mentions.svg"},
     component: () => import('../../../components/Mentions/demo/index.vue'),
+  },
+  {
+    path: 'MarsMap',
+    meta: {"category":"Components","type":"数据录入","title":"Map","subtitle":"地图","cols":1,"cover":"https://gw.alipayobjects.com/zos/alicdn/xS9YEJhfe/Input.svg"},
+    component: () => import('../../../components/MarsMap/demo/index.vue'),
   },
   {
     path: 'Menu',
@@ -247,14 +247,14 @@ export default [
     component: () => import('../../../components/Progress/demo/index.vue'),
   },
   {
-    path: 'ProTable',
-    meta: {"category":"Components","subtitle":"表格","cols":1,"type":"高阶组件","title":"ProTable"},
-    component: () => import('../../../components/ProTable/demo/index.vue'),
-  },
-  {
     path: 'ProLayout',
     meta: {"category":"Components","subtitle":"布局","type":"高阶组件","cols":1,"title":"ProLayout","cover":null},
     component: () => import('../../../components/ProLayout/demo/index.vue'),
+  },
+  {
+    path: 'ProTable',
+    meta: {"category":"Components","subtitle":"表格","cols":1,"type":"高阶组件","title":"ProTable"},
+    component: () => import('../../../components/ProTable/demo/index.vue'),
   },
   {
     path: 'Radio',

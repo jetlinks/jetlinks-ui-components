@@ -120,6 +120,7 @@ export default defineComponent({
     props: MarkerProps,
     emits: [],
     setup(props, { emit, attrs, slots }) {
+        console.log('marker props: ', props);
         const contextType = MapContext;
         const map = ref<sxii.Map>(null);
         const layer = ref<sxii.layer.GraphicLayer | undefined>();
