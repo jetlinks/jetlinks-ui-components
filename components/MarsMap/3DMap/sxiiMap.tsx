@@ -168,9 +168,10 @@ export default defineComponent({
                             props.mapContainerClassName,
                         ]}
                     >
-                        <MapContext.Provider value={map.value}>
+                        {map.value !== null ? slots.default?.() : null}
+                        {/* <MapContext.Provider value={map.value}>
                             {map.value !== null ? slots.default?.() : <></>}
-                        </MapContext.Provider>
+                        </MapContext.Provider> */}
                     </div>
                 </div>
             );

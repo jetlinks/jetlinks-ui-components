@@ -18,7 +18,7 @@ export default defineComponent({
         return () => {
             return (
                 <LoadScript>
-                    <Sxii {...props} />
+                    <Sxii {...props}>{slots.default?.()}</Sxii>
                 </LoadScript>
             );
         };

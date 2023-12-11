@@ -130,6 +130,7 @@ export default defineComponent({
 
         onMounted(() => {
             layer.value = getLayer() || createLayer();
+            console.log('layer.value: ', layer.value);
 
             createMarker();
         });
