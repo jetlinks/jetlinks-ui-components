@@ -9,7 +9,7 @@ title: 基本用法
 </docs>
 <template>
     <div style="height: 200px">
-        <j-map :center="center">
+        <j-map :center="center" :onLoad="onLoad">
             <j-marker :position="center"></j-marker>
         </j-map>
     </div>
@@ -19,9 +19,13 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
     setup() {
         const center = ref([106.638986, 29.488061]);
+        const onLoad = (e) => {
+            console.log('onLoad', e);
+        };
 
         return {
             center,
+            onLoad,
         };
     },
 });

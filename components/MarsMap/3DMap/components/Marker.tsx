@@ -11,7 +11,14 @@ import {
     PickOptions,
 } from '../utils';
 
-import { PropType, defineComponent, inject, onMounted, onUnmounted, ref } from 'vue';
+import {
+    PropType,
+    defineComponent,
+    inject,
+    onMounted,
+    onUnmounted,
+    ref,
+} from 'vue';
 
 export interface IMarkerProps
     extends Omit<sxii.graphic.BillboardEntityOptions, 'style' | 'position'>,
@@ -120,17 +127,13 @@ export default defineComponent({
     props: MarkerProps,
     emits: [],
     setup(props, { emit, attrs, slots }) {
-        console.log('marker props: ', props);
         const contextType = MapContext;
-        // const map = ref<sxii.Map>(null);
-        const map: sxii.Map = inject('map')
-        console.log('marker map: ', map);
+        const map: sxii.Map = inject('map');
         const layer = ref<sxii.layer.GraphicLayer | undefined>();
         const entity = ref<sxii.graphic.BillboardEntity | undefined>();
 
         onMounted(() => {
             layer.value = getLayer() || createLayer();
-            console.log('layer.value: ', layer.value);
 
             createMarker();
         });
@@ -151,19 +154,27 @@ export default defineComponent({
         });
 
         const getLayer = () => {
-            return map.getLayer({
+            const _layer = map.getLayer({
                 id: MarkerLayerID,
             }) as sxii.layer.GraphicLayer;
+            return _layer;
         };
 
         const createLayer = () => {
-            let layer = new sxii.layer.GraphicLayer({
+            let _layer = new sxii.layer.GraphicLayer({
                 name: 'marker-layer',
                 id: MarkerLayerID,
+                zIndex: 1,
             });
 
-            layer.addTo(map);
-            return layer;
+            _layer.addTo(map);
+            // console.log('createLayer: ', _layer);
+            // console.log('createLayer map: ', map);
+            console.log(
+                '通过图层id获取图层: ',
+                map.getLayerById(MarkerLayerID),
+            );
+            return _layer;
         };
 
         const createMarker = () => {
@@ -175,9 +186,17 @@ export default defineComponent({
                 ...handleImage(image, defaultImageUrl),
             };
 
+            console.log('_options: ', _options);
+            _options.id = 'testID';
             entity.value = new sxii.graphic.BillboardEntity(_options);
             if (layer.value) {
                 entity.value.addTo(layer.value);
+                // console.log('entity.value: ', entity.value);
+                // console.log('layer.value111: ', layer.value);
+                console.log(
+                    '通过图形id获取图形: ',
+                    layer.value.getGraphicById('testID'),
+                );
             }
 
             UpdatePropsAndRegisterEvents({
@@ -197,8 +216,8 @@ export default defineComponent({
             }
         };
 
-        return () => {
-            return null;
-        };
+        // return () => {
+        //     return null;
+        // };
     },
 });

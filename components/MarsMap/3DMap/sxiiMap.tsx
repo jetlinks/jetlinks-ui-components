@@ -123,7 +123,7 @@ export default defineComponent({
         onMounted(() => {
             // const map = getInstance();
             map.value = getInstance();
-            console.log('sxiiMap: ', map.value);
+            // console.log('sxiiMap: ', map.value);
             provide('map', map.value);
 
             UpdatePropsAndRegisterEvents({
