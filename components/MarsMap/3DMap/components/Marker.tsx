@@ -180,15 +180,19 @@ export default defineComponent({
         const createMarker = () => {
             const { image, ...extra } = props;
             let _options =
-                PickOptions<sxii.graphic.BillboardEntityOptions>(extra);
+                // PickOptions<sxii.graphic.BillboardEntityOptions>(extra);
+                PickOptions<sxii.graphic.BasePointEntityOptions>(extra);
             _options.style = {
-                ..._options.style,
-                ...handleImage(image, defaultImageUrl),
+                // ..._options.style,
+                // ...handleImage(image, defaultImageUrl),
+                color: 'red',
+                pixelSize: 10,
             };
 
             console.log('_options: ', _options);
             _options.id = 'testID';
-            entity.value = new sxii.graphic.BillboardEntity(_options);
+            // entity.value = new sxii.graphic.BillboardEntity(_options);
+            entity.value = new sxii.graphic.PointEntity(_options);
             if (layer.value) {
                 entity.value.addTo(layer.value);
                 // console.log('entity.value: ', entity.value);
