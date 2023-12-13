@@ -8,7 +8,7 @@ title: 基本用法
 
 </docs>
 <template>
-    <div style="height: 200px">
+    <div style="height: 300px">
         <j-map :center="center" :onLoad="onLoad" />
     </div>
 </template>

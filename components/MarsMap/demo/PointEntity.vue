@@ -8,9 +8,10 @@ title: PointEntity
 
 </docs>
 <template>
-    <div style="height: 200px">
+    <div style="height: 300px">
         <j-map :center="center" :onLoad="onLoad">
             <j-point :position="pointPos" :style="style" />
+            <j-marker :position="[106.648986, 29.488061]" />
         </j-map>
     </div>
 </template>
