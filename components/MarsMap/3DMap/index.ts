@@ -10,7 +10,7 @@
 // export { default as FontBillboardEntity } from './components/GraphicLayer/FontBillboardEntity'
 export { default as GraphicLayer } from './components/GraphicLayer'
 // export { default as GlftModel } from './components/GlftModel'
-// export { default as InfoWindow } from './components/InfoWindow'
+export { default as InfoWindow } from './components/InfoWindow'
 // export { default as LabelEntity } from './components/GraphicLayer/LabelEntity'
 // export { default as Layer } from './components/Layer'
 export { default as LoadScript } from './LoadScript'

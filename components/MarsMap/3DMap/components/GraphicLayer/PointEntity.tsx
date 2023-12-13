@@ -85,6 +85,12 @@ const Props = {
         >,
         default: undefined,
     },
+    onClick: {
+        type: Function as PropType<
+            (entity: sxii.graphic.BillboardEntity) => void
+        >,
+        default: undefined,
+    },
 };
 export default defineComponent({
     name: 'Marker',

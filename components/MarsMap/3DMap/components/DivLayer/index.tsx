@@ -1,87 +1,116 @@
-import { applyUpdaterToNextProps, UnRegisterEvents, UpdatePropsAndRegisterEvents } from '../../utils';
-import React, { PureComponent } from 'react'
-import MapContext from '../../MapContext'
-import DivLayerContext from './DivLayerContext';
-import { EventLayerMap, EventLayerMapProps } from '../../utils';
+import {
+    applyUpdaterToNextProps,
+    UnRegisterEvents,
+    UpdatePropsAndRegisterEvents,
+    EventLayerMap,
+    EventLayerMapProps,
+    PickOptions,
+} from '../../utils';
+import {
+    PropType,
+    defineComponent,
+    inject,
+    onMounted,
+    onUnmounted,
+    provide,
+    ref,
+} from 'vue';
 
 export interface DeleteAttr {
     /**@default {false} false:会自动删除释放所有属性，true：不删除绑定的变量 */
-    isDeleteAttr?: boolean
+    isDeleteAttr?: boolean;
 }
 
-export interface DivLayerProps extends sxii.layer.DivLayerOptions, DeleteAttr, EventLayerMapProps {
-    onLoad?: (layer: sxii.layer.DivLayer) => void
-    onUnmount?: (layer: sxii.layer.DivLayer) => void
+export interface DivLayerProps
+    extends sxii.layer.DivLayerOptions,
+        DeleteAttr,
+        EventLayerMapProps {
+    onLoad?: (layer: sxii.layer.DivLayer) => void;
+    onUnmount?: (layer: sxii.layer.DivLayer) => void;
 }
 
 interface DivLayerState {
-    layer: sxii.layer.DivLayer | null
+    layer: sxii.layer.DivLayer | null;
 }
 
 const updateMap = {
     hasEdit(layer: sxii.layer.DivLayer, edit: boolean) {
-        layer.hasEdit = edit
-    }
-}
+        layer.hasEdit = edit;
+    },
+};
 
-export default class DivLayer extends PureComponent<DivLayerProps, DivLayerState> {
+const Props = {
+    /**
+     * false:会自动删除释放所有属性，true：不删除绑定的变量
+     */
+    isDeleteAttr: {
+        type: Boolean,
+        default: false,
+    },
+    name: {
+        type: String,
+        default: '',
+    },
+    onLoad: {
+        type: Function as PropType<(entity: sxii.layer.DivLayer) => void>,
+        default: undefined,
+    },
+    onUnmount: {
+        type: Function as PropType<(entity: sxii.layer.DivLayer) => void>,
+        default: undefined,
+    },
+};
+export default defineComponent({
+    name: 'DivLayer',
+    inheritAttrs: false,
+    props: Props,
+    emits: [],
+    setup(props, { emit, attrs, slots }) {
+        const map: sxii.Map = inject('map');
+        const layer = ref<sxii.layer.DivLayer | null>(null);
 
-    static contextType = MapContext
-    map: sxii.Map = this.context
-    state: DivLayerState = {
-        layer: null
-    }
+        onMounted(() => {
+            createLayer();
+        });
 
-    componentDidMount() {
-        this.createLayer()
-    }
+        onUnmounted(() => {
+            if (layer.value) {
+                if (props.onUnmount) {
+                    props.onUnmount(layer.value);
+                }
+                UnRegisterEvents(props, layer.value, EventLayerMap);
 
-    componentDidUpdate(prevProps: DivLayerProps) {
-        if (this.state.layer) {
-            applyUpdaterToNextProps(updateMap, prevProps, this.props, this.state.layer)
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.state.layer !== null) {
-            if (this.props.onUnmount) {
-                this.props.onUnmount(this.state.layer)
+                layer.value.destroy(props.isDeleteAttr);
             }
-            UnRegisterEvents(this.props, this.state.layer, EventLayerMap)
+        });
 
-            this.state.layer.destroy(!!this.props.isDeleteAttr)
-        }
-    }
+        const createLayer = () => {
+            let _options = PickOptions<sxii.layer.DivLayerOptions>(props);
+            _options.id = 'DivLayer';
+            // console.log('DivLayer _options: ', _options);
+            layer.value = new sxii.layer.DivLayer(_options);
+            layer.value.addTo(map);
+            provide('DivLayer', layer.value);
 
-    createLayer() {
-        const { onLoad, onUnmount, children, isDeleteAttr, ...extraOptions } = this.props
-        let layer = new sxii.layer.DivLayer(extraOptions)
-        layer.addTo(this.map)
+            UpdatePropsAndRegisterEvents({
+                updateMap,
+                eventMap: EventLayerMap,
+                prevProps: {},
+                nextProps: props,
+                instance: layer.value,
+            });
 
-        UpdatePropsAndRegisterEvents({
-            updateMap,
-            eventMap: EventLayerMap,
-            prevProps: {},
-            nextProps: this.props,
-            instance: layer
-        })
+            onLoad();
+        };
 
-        this.setState({
-            layer
-        }, this.onLoad)
-    }
-
-    onLoad() {
-        if (this.state.layer && this.props.onLoad) {
-            this.props.onLoad(this.state.layer)
-        }
-    }
-
-    render() {
-        return <DivLayerContext.Provider value={this.state.layer}>
-            {
-                this.state.layer ? this.props.children : null
+        const onLoad = () => {
+            if (layer.value && props.onLoad) {
+                props.onLoad(layer.value);
             }
-        </DivLayerContext.Provider>
-    }
-}
+        };
+
+        return () => {
+            return <>{layer.value ? slots.default?.() : null}</>;
+        };
+    },
+});
