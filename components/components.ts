@@ -261,4 +261,4 @@ export {
 export { default as PopconfirmModal } from './PopconfirmModal';
 
 export { default as CheckButton } from './CheckButton';
-export { default as MarsMap, JMarker } from './MarsMap';
+export { default as MarsMap, JMarker, JPoint } from './MarsMap';

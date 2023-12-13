@@ -1,16 +1,16 @@
 <docs>
 ---
 order: 0
-title: PointEntity
+title: Marker
 ---
 
-像素点 Entity对象
+Marker
 
 </docs>
 <template>
     <div style="height: 200px">
         <j-map :center="center" :onLoad="onLoad">
-            <j-point :position="pointPos" :style="style" />
+            <j-marker :position="markerPos" :image="markerIcon"></j-marker>
         </j-map>
     </div>
 </template>
@@ -19,19 +19,18 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
     setup() {
         const center = ref([106.638986, 29.488061]);
-        const pointPos = ref([106.638986, 29.488061]);
-        const style = ref({
-            pixelSize: 20,
-            color: 'blue',
-        });
+        const markerPos = ref([106.638986, 29.488061]);
+        const markerIcon = ref(
+            'https://pic.616pic.com/ys_img/00/25/54/uhG3OtV6GB.jpg',
+        );
         const onLoad = (e) => {
             console.log('onLoad', e);
         };
 
         return {
             center,
-            pointPos,
-            style,
+            markerPos,
+            markerIcon,
             onLoad,
         };
     },

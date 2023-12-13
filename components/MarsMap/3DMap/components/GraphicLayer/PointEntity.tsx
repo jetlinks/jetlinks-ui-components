@@ -1,102 +1,165 @@
-import React, { PureComponent } from 'react'
-import { UnRegisterEvents, UpdatePropsAndRegisterEvents, PickOptions, EventEntityMap, EventEntityMapProps, handleLable } from '../../utils';
 import { DeleteAttr } from '.';
-import GraphicLayerContext from './GraphicLayerContext';
+import {
+    EventEntityMapProps,
+    UnRegisterEvents,
+    UpdatePropsAndRegisterEvents,
+    EventEntityMap,
+    handleLable,
+    PickOptions,
+} from '../../utils';
 
-export interface PointProps extends Omit<sxii.graphic.BasePointEntityOptions, 'position'>, DeleteAttr, EventEntityMapProps {
+import {
+    PropType,
+    defineComponent,
+    inject,
+    onMounted,
+    onUnmounted,
+    ref,
+} from 'vue';
+
+export interface PointProps
+    extends Omit<sxii.graphic.BasePointEntityOptions, 'position'>,
+        DeleteAttr,
+        EventEntityMapProps {
     /** 位置 */
-    position: Array<number>
+    position: Array<number>;
     /** 像素大小 */
-    pixelSize?: number
+    pixelSize?: number;
     /** 添加文本标注 */
-    label?: sxii.style.LabelEntity
+    label?: sxii.style.LabelEntity;
     /** 点标记是否可见，默认为true */
-    visible?: boolean
-    onLoad?: (entity: sxii.graphic.PointEntity) => void
-    onUnmount?: (entity: sxii.graphic.PointEntity) => void
+    visible?: boolean;
+    onLoad?: (entity: sxii.graphic.PointEntity) => void;
+    onUnmount?: (entity: sxii.graphic.PointEntity) => void;
 }
+
+const LayerID = 'JetLinks_3DMap_Point_Layer';
 
 const updateMap = {
     position(instance: sxii.graphic.PointEntity, position: Array<number>) {
-        instance.position = position
+        instance.position = position;
     },
     style(instance: sxii.graphic.PointEntity, style: object) {
-        instance.style = { ...instance.style, ...style }
+        instance.style = { ...instance.style, ...style };
     },
     pixelSize(instance: sxii.graphic.PointEntity, pixelSize: number) {
-        instance.style = { ...instance.style, pixelSize }
+        instance.style = { ...instance.style, pixelSize };
     },
     label(instance: sxii.graphic.PointEntity, label: sxii.style.LabelEntity) {
         instance.style = {
             ...instance.style,
-            label: handleLable(label)
-        }
+            label: handleLable(label),
+        };
     },
     visible(instance: sxii.graphic.PointEntity, visible: boolean) {
-        instance.show = visible
-    }
-}
+        instance.show = visible;
+    },
+};
 
-export default class PointEntity extends PureComponent<PointProps> {
+const Props = {
+    position: {
+        type: Array as PropType<number[]>,
+        default: () => [],
+    },
+    label: {
+        type: Object as PropType<sxii.style.LabelEntity>,
+        default: () => ({}),
+    },
+    style: {
+        type: Object as PropType<sxii.style.PointEntityStyle>,
+        default: () => ({}),
+    },
+    visible: {
+        type: Boolean,
+        default: true,
+    },
+    onLoad: {
+        type: Function as PropType<
+            (entity: sxii.graphic.BillboardEntity) => void
+        >,
+        default: undefined,
+    },
+    onUnmount: {
+        type: Function as PropType<
+            (entity: sxii.graphic.BillboardEntity) => void
+        >,
+        default: undefined,
+    },
+};
+export default defineComponent({
+    name: 'Marker',
+    inheritAttrs: false,
+    props: Props,
+    emits: [],
+    setup(props, { emit, attrs, slots }) {
+        const map: sxii.Map = inject('map');
+        const layer = ref<sxii.layer.GraphicLayer | undefined>();
+        const entity = ref<sxii.graphic.BillboardEntity | undefined>();
 
-    static contextType = GraphicLayerContext
-    entity: sxii.graphic.PointEntity | undefined
-    componentDidMount() {
-        if (this.context) {
-            this.createLayer()
-        } else {
-            console.error('没有找到父组件GraphicLayer,请添加。')
-        }
-    }
+        onMounted(() => {
+            layer.value = getLayer() || createLayer();
 
-    componentDidUpdate(prevProps: PointProps) {
-        if (this.entity) {
-            UnRegisterEvents(this.props, this.entity, EventEntityMap)
+            createPoint();
+        });
+
+        onUnmounted(() => {
+            if (entity.value) {
+                if (props.onUnmount) {
+                    props.onUnmount(entity.value);
+                }
+                UnRegisterEvents(props, entity.value, EventEntityMap);
+
+                entity.value.destroy(true);
+
+                if (layer.value && !layer.value.getGraphics().length) {
+                    layer.value.destroy(true);
+                }
+            }
+        });
+
+        const getLayer = () => {
+            const _layer = map.getLayer({
+                id: LayerID,
+            }) as sxii.layer.GraphicLayer;
+            return _layer;
+        };
+
+        const createLayer = () => {
+            let _layer = new sxii.layer.GraphicLayer({
+                name: 'marker-layer',
+                id: LayerID,
+                zIndex: 1,
+            });
+
+            _layer.addTo(map);
+            return _layer;
+        };
+
+        const createPoint = () => {
+            let _options =
+                PickOptions<sxii.graphic.BasePointEntityOptions>(props);
+            _options.id = 'point';
+            console.log('point _options: ', _options);
+            entity.value = new sxii.graphic.PointEntity(_options);
+            if (layer.value) {
+                entity.value.addTo(layer.value);
+            }
 
             UpdatePropsAndRegisterEvents({
                 updateMap,
-                prevProps,
                 eventMap: EventEntityMap,
-                nextProps: this.props,
-                instance: this.entity
-            })
-        }
-    }
+                prevProps: {},
+                nextProps: props,
+                instance: entity.value,
+            });
 
-    componentWillUnmount() {
-        if (this.entity) {
-            if (this.props.onUnmount) {
-                this.props.onUnmount(this.entity)
+            onLoad();
+        };
+
+        const onLoad = () => {
+            if (entity.value && props.onLoad) {
+                props.onLoad(entity.value);
             }
-            UnRegisterEvents(this.props, this.entity, EventEntityMap)
-
-            this.entity.destroy(!!this.props.isDeleteAttr)
-        }
-    }
-
-    createLayer() {
-        const _options = PickOptions<sxii.graphic.BasePointEntityOptions>(this.props)
-        this.entity = new sxii.graphic.PointEntity(_options)
-        this.entity.addTo(this.context)
-
-        UpdatePropsAndRegisterEvents({
-            updateMap,
-            eventMap: EventEntityMap,
-            prevProps: {},
-            nextProps: this.props,
-            instance: this.entity
-        })
-
-        this.onLoad()
-    }
-
-    onLoad() {
-        if (this.entity && this.props.onLoad) {
-            this.props.onLoad(this.entity)
-        }
-    }
-
-    render() {
-        return null
-    }
-}
+        };
+    },
+});
