@@ -1,7 +1,7 @@
 <docs>
 ---
 order: 0
-title: PointEntity
+title: 像素点
 ---
 
 像素点 Entity对象

@@ -1,7 +1,7 @@
 <docs>
 ---
 order: 0
-title: PolygonEntity
+title: 多边形
 ---
 
 Polygon对象 标绘处理对应的编辑类
@@ -21,7 +21,6 @@ export default defineComponent({
         const center = ref([106.638986, 29.488061]);
         const positions = ref([
             [106.638986, 29.488061],
-            [106.632986, 29.483061],
             [106.637986, 29.485061],
             [106.634986, 29.482061],
             [106.633986, 29.484061],
