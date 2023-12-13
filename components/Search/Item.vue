@@ -450,6 +450,7 @@ const reset = () => {
 watch(
     () => props.columns,
     () => {
+        console.log(props.columns);
         if (props.columns) {
             handleItem();
         }
