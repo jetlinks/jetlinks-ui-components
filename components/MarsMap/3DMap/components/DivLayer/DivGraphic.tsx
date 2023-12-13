@@ -133,7 +133,7 @@ export default defineComponent({
                 offsetX,
                 offsetY,
             };
-            // console.log('DivLayer _options: ', _options);
+            console.log('DivGraphic _options: ', _options);
             entity.value = new sxii.graphic.DivGraphic(_options);
             entity.value.addTo(layer);
 
@@ -156,10 +156,10 @@ export default defineComponent({
 
         const setChild = (className?: string): string => {
             return className
-                ? `<div class='${className}'>${(
-                      <>{slots.default?.()}</>
+                ? `<div class='${className}'>${String(
+                      <>{slots.default?.()}</>,
                   )}</div>`
-                : `${(<>{slots.default?.()}</>)}`;
+                : `${String(<>{slots.default?.()}</>)}`;
         };
         const onLoad = () => {
             if (entity.value && props.onLoad) {

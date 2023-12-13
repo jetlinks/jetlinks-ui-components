@@ -16,9 +16,17 @@ const Props = {
         type: Boolean,
         default: false,
     },
+    position: {
+        type: Array as PropType<number[]>,
+        default: () => [],
+    },
     className: {
         type: String,
         default: '',
+    },
+    visible: {
+        type: Boolean,
+        default: false,
     },
 };
 export default defineComponent({
