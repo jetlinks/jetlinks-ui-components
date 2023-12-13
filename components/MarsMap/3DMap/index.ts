@@ -8,7 +8,7 @@
 // export { default as EllipseEntity } from './components/GraphicLayer/EllipseEntity'
 // export { default as EllipsoidEntity } from './components/GraphicLayer/EllipsoidEntity'
 // export { default as FontBillboardEntity } from './components/GraphicLayer/FontBillboardEntity'
-// export { default as GraphicLayer } from './components/GraphicLayer'
+export { default as GraphicLayer } from './components/GraphicLayer'
 // export { default as GlftModel } from './components/GlftModel'
 // export { default as InfoWindow } from './components/InfoWindow'
 // export { default as LabelEntity } from './components/GraphicLayer/LabelEntity'

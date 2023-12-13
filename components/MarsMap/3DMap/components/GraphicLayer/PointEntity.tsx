@@ -139,7 +139,7 @@ export default defineComponent({
             let _options =
                 PickOptions<sxii.graphic.BasePointEntityOptions>(props);
             _options.id = 'point';
-            console.log('point _options: ', _options);
+            // console.log('point _options: ', _options);
             entity.value = new sxii.graphic.PointEntity(_options);
             if (layer.value) {
                 entity.value.addTo(layer.value);

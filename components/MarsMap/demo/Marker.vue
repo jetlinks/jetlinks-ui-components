@@ -24,7 +24,7 @@ export default defineComponent({
             'https://pic.616pic.com/ys_img/00/25/54/uhG3OtV6GB.jpg',
         );
         const onLoad = (e) => {
-            console.log('onLoad', e);
+            // console.log('onLoad', e);
         };
 
         return {

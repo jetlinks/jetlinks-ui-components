@@ -19,7 +19,7 @@ export default defineComponent({
         const center = ref([106.638986, 29.488061]);
 
         const onLoad = (e) => {
-            console.log('onLoad', e);
+            // console.log('onLoad', e);
         };
 
         return {

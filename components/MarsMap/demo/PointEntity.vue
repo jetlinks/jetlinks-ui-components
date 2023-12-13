@@ -26,7 +26,7 @@ export default defineComponent({
             color: 'blue',
         });
         const onLoad = (e) => {
-            console.log('onLoad', e);
+            // console.log('onLoad', e);
         };
 
         return {

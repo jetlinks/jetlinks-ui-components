@@ -10,7 +10,9 @@ Polygon对象 标绘处理对应的编辑类
 <template>
     <div style="height: 300px">
         <j-map :center="center" :onLoad="onLoad">
-            <j-polygon :positions="positions" :style="style" />
+            <j-graphic-layer :onLoad="onLoadLayer">
+                <j-polygon :positions="positions" :style="style" />
+            </j-graphic-layer>
         </j-map>
     </div>
 </template>
@@ -30,7 +32,10 @@ export default defineComponent({
         });
 
         const onLoad = (e) => {
-            console.log('onLoad', e);
+            // console.log('onLoad', e);
+        };
+        const onLoadLayer = (e) => {
+            // console.log('onLoadLayer:', e);
         };
 
         return {
@@ -38,6 +43,7 @@ export default defineComponent({
             positions,
             style,
             onLoad,
+            onLoadLayer,
         };
     },
 });

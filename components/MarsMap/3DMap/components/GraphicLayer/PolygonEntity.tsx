@@ -100,7 +100,7 @@ export default defineComponent({
     props: Props,
     emits: [],
     setup(props, { emit, attrs, slots }) {
-        console.log('polygon props: ', props);
+        // console.log('polygon props: ', props);
         const map: sxii.Map = inject('map');
         const layer = ref<sxii.layer.GraphicLayer | undefined>();
         const entity = ref<sxii.graphic.PolygonEntity | undefined>();
@@ -148,7 +148,7 @@ export default defineComponent({
             let _options =
                 PickOptions<sxii.graphic.PolygonEntityOptions>(props);
             _options.id = 'polygon';
-            console.log('polygon _options: ', _options);
+            // console.log('polygon _options: ', _options);
             entity.value = new sxii.graphic.PolygonEntity(_options);
             if (layer.value) {
                 entity.value.addTo(layer.value);
