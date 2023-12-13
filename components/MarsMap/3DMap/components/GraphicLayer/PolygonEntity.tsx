@@ -100,14 +100,11 @@ export default defineComponent({
     props: Props,
     emits: [],
     setup(props, { emit, attrs, slots }) {
-        // console.log('polygon props: ', props);
-        const map: sxii.Map = inject('map');
-        const layer = ref<sxii.layer.GraphicLayer | undefined>();
+        const layer: sxii.layer.GraphicLayer | undefined =
+            inject('graphicLayer');
         const entity = ref<sxii.graphic.PolygonEntity | undefined>();
 
         onMounted(() => {
-            layer.value = getLayer() || createLayer();
-
             createPolygon();
         });
 
@@ -119,30 +116,8 @@ export default defineComponent({
                 UnRegisterEvents(props, entity.value, EventEntityMap);
 
                 entity.value.destroy(true);
-
-                if (layer.value && !layer.value.getGraphics().length) {
-                    layer.value.destroy(true);
-                }
             }
         });
-
-        const getLayer = () => {
-            const _layer = map.getLayer({
-                id: LayerID,
-            }) as sxii.layer.GraphicLayer;
-            return _layer;
-        };
-
-        const createLayer = () => {
-            let _layer = new sxii.layer.GraphicLayer({
-                name: 'polygon-layer',
-                id: LayerID,
-                zIndex: 1,
-            });
-
-            _layer.addTo(map);
-            return _layer;
-        };
 
         const createPolygon = () => {
             let _options =
@@ -150,8 +125,8 @@ export default defineComponent({
             _options.id = 'polygon';
             // console.log('polygon _options: ', _options);
             entity.value = new sxii.graphic.PolygonEntity(_options);
-            if (layer.value) {
-                entity.value.addTo(layer.value);
+            if (layer) {
+                entity.value.addTo(layer);
             }
 
             UpdatePropsAndRegisterEvents({

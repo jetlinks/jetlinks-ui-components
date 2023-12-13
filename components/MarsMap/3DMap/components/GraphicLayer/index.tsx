@@ -4,6 +4,7 @@ import {
     inject,
     onMounted,
     onUnmounted,
+    provide,
     ref,
 } from 'vue';
 import {
@@ -84,6 +85,7 @@ export default defineComponent({
             layer.value = new sxii.layer.GraphicLayer(_options);
 
             layer.value.addTo(map);
+            provide('graphicLayer', layer.value);
 
             UpdatePropsAndRegisterEvents({
                 updateMap,
@@ -108,3 +110,4 @@ export default defineComponent({
         };
     },
 });
+

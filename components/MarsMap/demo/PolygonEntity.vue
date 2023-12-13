@@ -1,10 +1,10 @@
 <docs>
 ---
 order: 0
-title: 多边形
+title: 面
 ---
 
-Polygon对象 标绘处理对应的编辑类
+面 Entity矢量数据
 
 </docs>
 <template>
