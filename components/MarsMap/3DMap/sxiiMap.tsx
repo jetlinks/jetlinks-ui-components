@@ -99,7 +99,8 @@ export default defineComponent({
     setup(props, { emit, attrs, slots }) {
         const map = ref(null);
         const mapRef = ref<any>();
-        const id = ref<string>(`JetLinkss_Map3D_${MapIds.length}`);
+        // const id = ref<string>(`JetLinkss_Map3D_${MapIds.length}`);
+        const id = ref<string>(`JetLinkss_Map3D_${new Date().getTime()}`);
 
         const getInstance = () => {
             if (mapRef.value === null) {
@@ -121,9 +122,7 @@ export default defineComponent({
         };
 
         onMounted(() => {
-            // const map = getInstance();
             map.value = getInstance();
-            // console.log('sxiiMap: ', map.value);
             provide('map', map.value);
 
             UpdatePropsAndRegisterEvents({
@@ -134,8 +133,6 @@ export default defineComponent({
                 instance: map.value,
             });
             MapIds.push(id.value);
-
-            // map.value = map;
             setMapCallback();
         });
 

@@ -90,7 +90,7 @@ const MarkerProps = {
     },
     image: {
         type: [Object, String] as PropType<ImageProps | string>,
-        default: defaultImageUrl,
+        default: '', // defaultImageUrl
     },
     offset: {
         type: Array as PropType<number[]>,
@@ -183,10 +183,14 @@ export default defineComponent({
                 // PickOptions<sxii.graphic.BillboardEntityOptions>(extra);
                 PickOptions<sxii.graphic.BasePointEntityOptions>(extra);
             _options.style = {
-                // ..._options.style,
+                ..._options.style,
                 // ...handleImage(image, defaultImageUrl),
+                // pixelOffset: [10, 20],
+                // width: 100,
+                // height: 100,
+                clampToGround: true,
                 color: 'red',
-                pixelSize: 10,
+                pixelSize: 20,
             };
 
             console.log('_options: ', _options);
