@@ -140,13 +140,13 @@ export default defineComponent({
             entity = new sxii.graphic.DivGraphic(_options);
             entity.addTo(layer);
 
-            UpdatePropsAndRegisterEvents({
-                updateMap,
-                eventMap: EventDivGraphic,
-                prevProps: {},
-                nextProps: props,
-                instance: entity,
-            });
+            // UpdatePropsAndRegisterEvents({
+            //     updateMap,
+            //     eventMap: EventDivGraphic,
+            //     prevProps: {},
+            //     nextProps: props,
+            //     instance: entity,
+            // });
 
             onLoad();
         };
@@ -159,11 +159,14 @@ export default defineComponent({
 
         const setChild = (className?: string): string => {
             return className
-                ? `<div class='${className}'>${String(
+                ? `<div class='${className}'>${componentToHtml(
                       <>{slots.default?.()}</>,
                   )}</div>`
-                : `${String(<>{slots.default?.()}</>)}`;
+                : `${componentToHtml(<>{slots.default?.()}</>)}`;
         };
+        const componentToHtml = (com: any) => {
+            return `<div class="JetLinkss-Map-InfoWindow map-infoWindow" data-reactroot=""><div class="infoWindow-content"><div class="infoWindow-children"><div>infoWindow 弹窗</div></div></div></div>`
+        }
         const onLoad = () => {
             if (entity && props.onLoad) {
                 props.onLoad(entity);

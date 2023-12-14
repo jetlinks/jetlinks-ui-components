@@ -10,14 +10,10 @@ title: 信息窗
 <template>
     <div style="height: 300px">
         <j-map :center="center" :onLoad="onLoad">
-            <j-point
-                :position="pointPos"
-                :style="style"
-                :onClick="onPointClick"
-            />
-            <!-- <j-info-window :visible="visible" :position="infoWindowPosition">
+            <j-marker :position="center" @click="handleClick"></j-marker>
+            <j-info-window :visible="visible" :position="infoWindowPosition">
                 <div>infoWindow 弹窗</div>
-            </j-info-window> -->
+            </j-info-window>
         </j-map>
     </div>
 </template>
@@ -37,8 +33,8 @@ export default defineComponent({
         const onLoad = (e) => {
             // console.log('onLoad', e);
         };
-        const onPointClick = (e) => {
-            console.log('onPointClick', e);
+        const handleClick = (e) => {
+            console.log('handleClick', e);
             infoWindowPosition.value = [106.638986, 29.488061];
             visible.value = true;
         };
@@ -50,7 +46,7 @@ export default defineComponent({
             visible,
             infoWindowPosition,
             onLoad,
-            onPointClick,
+            handleClick,
         };
     },
 });

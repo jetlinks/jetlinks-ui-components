@@ -126,7 +126,7 @@ export default defineComponent({
     name: 'Marker',
     inheritAttrs: false,
     props: MarkerProps,
-    emits: [],
+    emits: ['click'],
     setup(props, { emit, attrs, slots }) {
         const contextType = MapContext;
         const map: sxii.Map = inject('map');
@@ -168,12 +168,6 @@ export default defineComponent({
             });
 
             _layer.addTo(map);
-            // console.log('createLayer: ', _layer);
-            // console.log('createLayer map: ', map);
-            // console.log(
-            //     '通过图层id获取图层: ',
-            //     map.getLayerById(MarkerLayerID),
-            // );
             return _layer;
         };
 
@@ -181,30 +175,19 @@ export default defineComponent({
             const { image, ...extra } = props;
             let _options =
                 PickOptions<sxii.graphic.BillboardEntityOptions>(extra);
-            // PickOptions<sxii.graphic.BasePointEntityOptions>(extra);
             _options.style = {
                 ..._options.style,
                 ...handleImage(image, defaultImageUrl),
-                // pixelOffset: [10, 20],
-                // width: 20,
-                // height: 20,
-                // clampToGround: true,
-                // color: 'red',
-                // pixelSize: 20,
             };
 
-            console.log('_options: ', _options);
+            // console.log('_options: ', _options);
             _options.id = 'testID';
             entity = new sxii.graphic.BillboardEntity(_options);
-            // entity = new sxii.graphic.PointEntity(_options);
             if (layer) {
                 entity.addTo(layer);
-                // console.log('entity: ', entity);
-                // console.log('layer.value111: ', layer);
-                console.log(
-                    '通过图形id获取图形: ',
-                    layer.getGraphicById('testID'),
-                );
+                entity.on('click', () => {
+                    emit('click', entity);
+                });
             }
 
             // UpdatePropsAndRegisterEvents({
