@@ -12,7 +12,7 @@ title: 信息窗
         <j-map :center="center" :onLoad="onLoad">
             <j-marker :position="center" @click="handleClick"></j-marker>
             <j-info-window :visible="visible" :position="infoWindowPosition">
-                <div>infoWindow 弹窗</div>
+                <div>infoWindow 弹窗111</div>
             </j-info-window>
         </j-map>
     </div>
@@ -36,7 +36,7 @@ export default defineComponent({
         const handleClick = (e) => {
             console.log('handleClick', e);
             infoWindowPosition.value = [106.638986, 29.488061];
-            visible.value = true;
+            visible.value = !visible.value;
         };
 
         return {

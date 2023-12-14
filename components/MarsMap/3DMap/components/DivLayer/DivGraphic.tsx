@@ -94,9 +94,6 @@ export default defineComponent({
     props: Props,
     emits: [],
     setup(props, { emit, attrs, slots }) {
-        // const layer: sxii.layer.DivLayer | null = inject('DivLayer');
-        // const entity = ref<sxii.graphic.DivGraphic | undefined>();
-        // const containerElement = ref<HTMLDivElement | null>(null);
         let layer: sxii.layer.DivLayer | null = inject('DivLayer');
         let entity: sxii.graphic.DivGraphic | undefined = undefined;
         let containerElement: HTMLDivElement | null = null

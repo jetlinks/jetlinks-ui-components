@@ -67,20 +67,20 @@ export default defineComponent({
     emits: [],
     setup(props, { emit, attrs, slots }) {
         const map: sxii.Map = inject('map');
-        const layer = ref<sxii.layer.DivLayer | null>(null);
+        let layer: sxii.layer.DivLayer | null = null
 
         onMounted(() => {
             createLayer();
         });
 
         onUnmounted(() => {
-            if (layer.value) {
+            if (layer) {
                 if (props.onUnmount) {
-                    props.onUnmount(layer.value);
+                    props.onUnmount(layer);
                 }
-                UnRegisterEvents(props, layer.value, EventLayerMap);
+                UnRegisterEvents(props, layer, EventLayerMap);
 
-                layer.value.destroy(props.isDeleteAttr);
+                layer.destroy(props.isDeleteAttr);
             }
         });
 
@@ -88,29 +88,29 @@ export default defineComponent({
             let _options = PickOptions<sxii.layer.DivLayerOptions>(props);
             _options.id = 'DivLayer';
             // console.log('DivLayer _options: ', _options);
-            layer.value = new sxii.layer.DivLayer(_options);
-            layer.value.addTo(map);
-            provide('DivLayer', layer.value);
+            layer = new sxii.layer.DivLayer(_options);
+            layer.addTo(map);
+            provide('DivLayer', layer);
 
             UpdatePropsAndRegisterEvents({
                 updateMap,
                 eventMap: EventLayerMap,
                 prevProps: {},
                 nextProps: props,
-                instance: layer.value,
+                instance: layer,
             });
 
             onLoad();
         };
 
         const onLoad = () => {
-            if (layer.value && props.onLoad) {
-                props.onLoad(layer.value);
+            if (layer && props.onLoad) {
+                props.onLoad(layer);
             }
         };
 
         return () => {
-            return <>{layer.value ? slots.default?.() : null}</>;
+            return <>{layer ? slots.default?.() : null}</>;
         };
     },
 });
