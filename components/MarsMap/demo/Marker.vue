@@ -10,7 +10,7 @@ Marker
 <template>
     <div style="height: 300px">
         <j-map :center="center" :onLoad="onLoad">
-            <j-marker :position="markerPos" :image="markerIcon"></j-marker>
+            <j-marker :position="markerPos"></j-marker>
         </j-map>
     </div>
 </template>

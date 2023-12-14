@@ -18,6 +18,7 @@ import {
     onMounted,
     onUnmounted,
     ref,
+    watch,
 } from 'vue';
 
 export interface IMarkerProps
@@ -129,26 +130,25 @@ export default defineComponent({
     setup(props, { emit, attrs, slots }) {
         const contextType = MapContext;
         const map: sxii.Map = inject('map');
-        const layer = ref<sxii.layer.GraphicLayer | undefined>();
-        const entity = ref<sxii.graphic.BillboardEntity | undefined>();
-
+        let layer: sxii.layer.GraphicLayer | undefined = undefined;
+        let entity: sxii.graphic.BillboardEntity | undefined = undefined;
         onMounted(() => {
-            layer.value = getLayer() || createLayer();
+            layer = getLayer() || createLayer();
 
             createMarker();
         });
 
         onUnmounted(() => {
-            if (entity.value) {
+            if (entity) {
                 if (props.onUnmount) {
-                    props.onUnmount(entity.value);
+                    props.onUnmount(entity);
                 }
-                UnRegisterEvents(props, entity.value, EventEntityMap);
+                UnRegisterEvents(props, entity, EventEntityMap);
 
-                entity.value.destroy(true);
+                entity.destroy(true);
 
-                if (layer.value && !layer.value.getGraphics().length) {
-                    layer.value.destroy(true);
+                if (layer && !layer.getGraphics().length) {
+                    layer.destroy(true);
                 }
             }
         });
@@ -170,57 +170,57 @@ export default defineComponent({
             _layer.addTo(map);
             // console.log('createLayer: ', _layer);
             // console.log('createLayer map: ', map);
-            console.log(
-                '通过图层id获取图层: ',
-                map.getLayerById(MarkerLayerID),
-            );
+            // console.log(
+            //     '通过图层id获取图层: ',
+            //     map.getLayerById(MarkerLayerID),
+            // );
             return _layer;
         };
 
         const createMarker = () => {
             const { image, ...extra } = props;
             let _options =
-                // PickOptions<sxii.graphic.BillboardEntityOptions>(extra);
-                PickOptions<sxii.graphic.BasePointEntityOptions>(extra);
+                PickOptions<sxii.graphic.BillboardEntityOptions>(extra);
+            // PickOptions<sxii.graphic.BasePointEntityOptions>(extra);
             _options.style = {
                 ..._options.style,
-                // ...handleImage(image, defaultImageUrl),
+                ...handleImage(image, defaultImageUrl),
                 // pixelOffset: [10, 20],
-                // width: 100,
-                // height: 100,
-                clampToGround: true,
-                color: 'red',
-                pixelSize: 20,
+                // width: 20,
+                // height: 20,
+                // clampToGround: true,
+                // color: 'red',
+                // pixelSize: 20,
             };
 
             console.log('_options: ', _options);
             _options.id = 'testID';
-            // entity.value = new sxii.graphic.BillboardEntity(_options);
-            entity.value = new sxii.graphic.PointEntity(_options);
-            if (layer.value) {
-                entity.value.addTo(layer.value);
-                // console.log('entity.value: ', entity.value);
-                // console.log('layer.value111: ', layer.value);
+            entity = new sxii.graphic.BillboardEntity(_options);
+            // entity = new sxii.graphic.PointEntity(_options);
+            if (layer) {
+                entity.addTo(layer);
+                // console.log('entity: ', entity);
+                // console.log('layer.value111: ', layer);
                 console.log(
                     '通过图形id获取图形: ',
-                    layer.value.getGraphicById('testID'),
+                    layer.getGraphicById('testID'),
                 );
             }
 
-            UpdatePropsAndRegisterEvents({
-                updateMap,
-                eventMap: EventEntityMap,
-                prevProps: {},
-                nextProps: props,
-                instance: entity.value,
-            });
+            // UpdatePropsAndRegisterEvents({
+            //     updateMap,
+            //     eventMap: EventEntityMap,
+            //     prevProps: {},
+            //     nextProps: props,
+            //     instance: entity,
+            // });
 
             onLoad();
         };
 
         const onLoad = () => {
-            if (entity.value && props.onLoad) {
-                props.onLoad(entity.value);
+            if (entity && props.onLoad) {
+                props.onLoad(entity);
             }
         };
 

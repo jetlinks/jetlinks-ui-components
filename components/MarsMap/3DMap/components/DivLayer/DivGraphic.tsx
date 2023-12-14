@@ -94,31 +94,34 @@ export default defineComponent({
     props: Props,
     emits: [],
     setup(props, { emit, attrs, slots }) {
-        const layer: sxii.layer.DivLayer | null = inject('DivLayer');
-        const entity = ref<sxii.graphic.DivGraphic | undefined>();
-        const containerElement = ref<HTMLDivElement | null>(null);
+        // const layer: sxii.layer.DivLayer | null = inject('DivLayer');
+        // const entity = ref<sxii.graphic.DivGraphic | undefined>();
+        // const containerElement = ref<HTMLDivElement | null>(null);
+        let layer: sxii.layer.DivLayer | null = inject('DivLayer');
+        let entity: sxii.graphic.DivGraphic | undefined = undefined;
+        let containerElement: HTMLDivElement | null = null
 
         onMounted(() => {
             createLayer();
         });
         onUnmounted(() => {
-            if (entity.value) {
+            if (entity) {
                 if (props.onUnmount) {
-                    props.onUnmount(entity.value);
+                    props.onUnmount(entity);
                 }
-                UnRegisterEvents(props, entity.value, EventDivGraphic);
+                UnRegisterEvents(props, entity, EventDivGraphic);
 
-                entity.value.destroy(props.isDeleteAttr);
+                entity.destroy(props.isDeleteAttr);
             }
         });
         watchEffect(() => {
-            if (entity.value) {
-                entity.value.html = refreshWindow(props);
+            if (entity) {
+                entity.html = refreshWindow(props);
             }
         });
 
         const createLayer = () => {
-            containerElement.value = document.createElement('div');
+            containerElement = document.createElement('div');
             const { style, position, offset, ...extra } = props;
             let _options = PickOptions<sxii.graphic.DivGraphicOptions>(extra);
             _options.id = 'DivGraphicOptions';
@@ -134,15 +137,15 @@ export default defineComponent({
                 offsetY,
             };
             console.log('DivGraphic _options: ', _options);
-            entity.value = new sxii.graphic.DivGraphic(_options);
-            entity.value.addTo(layer);
+            entity = new sxii.graphic.DivGraphic(_options);
+            entity.addTo(layer);
 
             UpdatePropsAndRegisterEvents({
                 updateMap,
                 eventMap: EventDivGraphic,
                 prevProps: {},
                 nextProps: props,
-                instance: entity.value,
+                instance: entity,
             });
 
             onLoad();
@@ -162,8 +165,8 @@ export default defineComponent({
                 : `${String(<>{slots.default?.()}</>)}`;
         };
         const onLoad = () => {
-            if (entity.value && props.onLoad) {
-                props.onLoad(entity.value);
+            if (entity && props.onLoad) {
+                props.onLoad(entity);
             }
         };
 
