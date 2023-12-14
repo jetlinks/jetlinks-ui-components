@@ -57,7 +57,7 @@ export default defineComponent({
     emits: [],
     setup(props, { emit, attrs, slots }) {
         const map: sxii.Map = inject('map');
-        const layer = ref<sxii.layer.GraphicLayer | undefined>();
+        let layer: sxii.layer.GraphicLayer | undefined = undefined;
         const load = ref(false);
 
         onMounted(() => {
@@ -65,16 +65,16 @@ export default defineComponent({
         });
 
         onUnmounted(() => {
-            if (layer.value) {
+            if (layer) {
                 if (props.onUnmount) {
-                    props.onUnmount(layer.value);
+                    props.onUnmount(layer);
                 }
-                UnRegisterEvents(props, layer.value, EventLayerMap);
+                UnRegisterEvents(props, layer, EventLayerMap);
 
-                layer.value.remove(true);
+                layer.remove(true);
 
-                if (layer.value && !layer.value.getGraphics().length) {
-                    layer.value.destroy(true);
+                if (layer && !layer.getGraphics().length) {
+                    layer.destroy(true);
                 }
             }
         });
@@ -82,26 +82,26 @@ export default defineComponent({
         const createLayer = () => {
             let _options = PickOptions<sxii.graphic.BaseGraphicOptions>(props);
             _options.name = 'graphic-layer';
-            layer.value = new sxii.layer.GraphicLayer(_options);
+            layer = new sxii.layer.GraphicLayer(_options);
 
-            layer.value.addTo(map);
-            provide('graphicLayer', layer.value);
+            layer.addTo(map);
+            provide('graphicLayer', layer);
 
-            UpdatePropsAndRegisterEvents({
-                updateMap,
-                eventMap: EventLayerMap,
-                prevProps: {},
-                nextProps: props,
-                instance: layer.value,
-            });
+            // UpdatePropsAndRegisterEvents({
+            //     updateMap,
+            //     eventMap: EventLayerMap,
+            //     prevProps: {},
+            //     nextProps: props,
+            //     instance: layer,
+            // });
 
             load.value = true;
             onLoad();
         };
 
         const onLoad = () => {
-            if (layer.value && props.onLoad) {
-                props.onLoad(layer.value);
+            if (layer && props.onLoad) {
+                props.onLoad(layer);
             }
         };
 

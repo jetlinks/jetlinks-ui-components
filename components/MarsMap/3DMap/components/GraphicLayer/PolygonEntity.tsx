@@ -102,20 +102,20 @@ export default defineComponent({
     setup(props, { emit, attrs, slots }) {
         const layer: sxii.layer.GraphicLayer | undefined =
             inject('graphicLayer');
-        const entity = ref<sxii.graphic.PolygonEntity | undefined>();
+        let entity: sxii.graphic.PolygonEntity | undefined = undefined;
 
         onMounted(() => {
             createPolygon();
         });
 
         onUnmounted(() => {
-            if (entity.value) {
+            if (entity) {
                 if (props.onUnmount) {
-                    props.onUnmount(entity.value);
+                    props.onUnmount(entity);
                 }
-                UnRegisterEvents(props, entity.value, EventEntityMap);
+                UnRegisterEvents(props, entity, EventEntityMap);
 
-                entity.value.destroy(true);
+                entity.destroy(true);
             }
         });
 
@@ -124,25 +124,25 @@ export default defineComponent({
                 PickOptions<sxii.graphic.PolygonEntityOptions>(props);
             _options.id = 'polygon';
             // console.log('polygon _options: ', _options);
-            entity.value = new sxii.graphic.PolygonEntity(_options);
+            entity = new sxii.graphic.PolygonEntity(_options);
             if (layer) {
-                entity.value.addTo(layer);
+                entity.addTo(layer);
             }
 
-            UpdatePropsAndRegisterEvents({
-                updateMap,
-                eventMap: EventEntityMap,
-                prevProps: {},
-                nextProps: props,
-                instance: entity.value,
-            });
+            // UpdatePropsAndRegisterEvents({
+            //     updateMap,
+            //     eventMap: EventEntityMap,
+            //     prevProps: {},
+            //     nextProps: props,
+            //     instance: entity,
+            // });
 
             onLoad();
         };
 
         const onLoad = () => {
-            if (entity.value && props.onLoad) {
-                props.onLoad(entity.value);
+            if (entity && props.onLoad) {
+                props.onLoad(entity);
             }
         };
     },
