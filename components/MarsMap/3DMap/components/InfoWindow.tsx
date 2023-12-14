@@ -1,7 +1,7 @@
 import DivGraphic, { DivGraphicProps } from './DivLayer/DivGraphic';
 import DivLayer from './DivLayer';
 import './infoWindow.css';
-import { defineComponent } from 'vue';
+import { PropType, defineComponent } from 'vue';
 
 export interface InfoWindowProps extends Omit<DivGraphicProps, 'style'> {
     /** 是否自定义窗体。设为true时，信息窗体外框及内容完全按照content所设的值添加（默认为false，即在系统默认的信息窗体外框中显示content内容） */

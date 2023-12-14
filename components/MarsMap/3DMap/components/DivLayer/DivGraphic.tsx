@@ -1,5 +1,6 @@
 import {
     PropType,
+    createApp,
     defineComponent,
     inject,
     onMounted,
@@ -94,9 +95,10 @@ export default defineComponent({
     props: Props,
     emits: [],
     setup(props, { emit, attrs, slots }) {
+        console.log('DivGraphic props: ', props);
         let layer: sxii.layer.DivLayer | null = inject('DivLayer');
         let entity: sxii.graphic.DivGraphic | undefined = undefined;
-        let containerElement: HTMLDivElement | null = null
+        let containerElement: HTMLDivElement | null = null;
 
         onMounted(() => {
             createLayer();
@@ -111,11 +113,11 @@ export default defineComponent({
                 entity.destroy(props.isDeleteAttr);
             }
         });
-        watchEffect(() => {
-            if (entity) {
-                entity.html = refreshWindow(props);
-            }
-        });
+        // watchEffect(() => {
+        //     if (entity) {
+        //         entity.html = refreshWindow(props);
+        //     }
+        // });
 
         const createLayer = () => {
             containerElement = document.createElement('div');
@@ -136,7 +138,6 @@ export default defineComponent({
             console.log('DivGraphic _options: ', _options);
             entity = new sxii.graphic.DivGraphic(_options);
             entity.addTo(layer);
-
             // UpdatePropsAndRegisterEvents({
             //     updateMap,
             //     eventMap: EventDivGraphic,
@@ -162,8 +163,13 @@ export default defineComponent({
                 : `${componentToHtml(<>{slots.default?.()}</>)}`;
         };
         const componentToHtml = (com: any) => {
-            return `<div class="JetLinkss-Map-InfoWindow map-infoWindow" data-reactroot=""><div class="infoWindow-content"><div class="infoWindow-children"><div>infoWindow 弹窗</div></div></div></div>`
-        }
+            return `<div class="JetLinkss-Map-InfoWindow map-infoWindow" data-reactroot=""><div class="infoWindow-content"><div class="infoWindow-children"><div>infoWindow 弹窗</div></div></div></div>`;
+            const dom: any = document.createDocumentFragment();
+            const bbb = createApp(com).mount(dom);
+            console.log('bbb: ', bbb);
+            console.log('dom: ', dom);
+            // return dom.innerHTML
+        };
         const onLoad = () => {
             if (entity && props.onLoad) {
                 props.onLoad(entity);
