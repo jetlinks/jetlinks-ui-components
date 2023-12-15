@@ -6,8 +6,10 @@ import {
     onMounted,
     onUnmounted,
     ref,
+    watch,
     watchEffect,
 } from 'vue';
+import { renderToString } from 'vue/server-renderer'
 import {
     UnRegisterEvents,
     UpdatePropsAndRegisterEvents,
@@ -113,11 +115,15 @@ export default defineComponent({
                 entity.destroy(props.isDeleteAttr);
             }
         });
-        // watchEffect(() => {
-        //     if (entity) {
-        //         entity.html = refreshWindow(props);
-        //     }
-        // });
+
+        watch(
+            () => props.visible,
+            (val) => {
+                if (entity) {
+                    entity.show = val;
+                }
+            },
+        );
 
         const createLayer = () => {
             containerElement = document.createElement('div');
@@ -164,11 +170,17 @@ export default defineComponent({
         };
         const componentToHtml = (com: any) => {
             return `<div class="JetLinkss-Map-InfoWindow map-infoWindow" data-reactroot=""><div class="infoWindow-content"><div class="infoWindow-children"><div>infoWindow 弹窗</div></div></div></div>`;
-            const dom: any = document.createDocumentFragment();
-            const bbb = createApp(com).mount(dom);
+            console.log('com: ', com);
+            console.log('com1: ', com.children[0][0]?.children[0]?.el);
+            // const str = com.children[0].children[0].el;
+            // console.log('str: ', str);
+            // const dom: any = document.createDocumentFragment();
+            const dom: Element = document.createElement('div');
+            const bbb = createApp(com);
             console.log('bbb: ', bbb);
             console.log('dom: ', dom);
-            // return dom.innerHTML
+            console.log('dom innerHTML: ', JSON.stringify(dom.innerHTML));
+            return JSON.stringify(dom.innerHTML);
         };
         const onLoad = () => {
             if (entity && props.onLoad) {
