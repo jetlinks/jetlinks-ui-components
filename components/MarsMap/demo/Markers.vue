@@ -10,7 +10,10 @@ Markers
 <template>
     <div style="height: 300px">
         <j-map :center="center" :onLoad="onLoad">
-            <j-markers :markers="markers" />
+            <j-markers :markers="markers" @click="handleClick" />
+            <j-info-window :visible="visible" :position="infoWindowPosition">
+                <div>infoWindow 弹窗111</div>
+            </j-info-window>
         </j-map>
     </div>
 </template>
@@ -29,14 +32,27 @@ export default defineComponent({
             },
         ]);
 
+        const infoWindowPosition = ref([]);
+        const visible = ref(false);
         const onLoad = (e) => {
             // console.log('onLoad', e);
+        };
+        const handleClick = (e) => {
+            console.log('handleClick', e);
+            const {
+                options: { position },
+            } = e;
+            infoWindowPosition.value = position;
+            visible.value = !visible.value;
         };
 
         return {
             center,
             markers,
+            visible,
+            infoWindowPosition,
             onLoad,
+            handleClick,
         };
     },
 });

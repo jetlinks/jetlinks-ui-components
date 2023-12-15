@@ -126,6 +126,9 @@ export default defineComponent({
                                   {...item}
                                   layer={layer}
                                   key={'markers_' + index}
+                                  onClick={(e) => {
+                                      emit('click', e);
+                                  }}
                               />
                           ))
                         : null}
