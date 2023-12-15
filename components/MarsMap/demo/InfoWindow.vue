@@ -35,7 +35,10 @@ export default defineComponent({
         };
         const handleClick = (e) => {
             console.log('handleClick', e);
-            infoWindowPosition.value = [106.638986, 29.488061];
+            const {
+                options: { position },
+            } = e;
+            infoWindowPosition.value = position;
             visible.value = !visible.value;
         };
 
