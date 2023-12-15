@@ -15,6 +15,7 @@ import {
     provide,
     ref,
 } from 'vue';
+import { useMap } from '../../../hooks/useMap';
 
 export interface DeleteAttr {
     /**@default {false} false:会自动删除释放所有属性，true：不删除绑定的变量 */
@@ -66,7 +67,7 @@ export default defineComponent({
     props: Props,
     emits: [],
     setup(props, { emit, attrs, slots }) {
-        const map: sxii.Map = inject('map');
+        const map: sxii.Map | null = useMap();
         let layer: sxii.layer.DivLayer | null = null
 
         onMounted(() => {

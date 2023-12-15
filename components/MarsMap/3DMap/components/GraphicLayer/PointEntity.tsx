@@ -16,6 +16,7 @@ import {
     onUnmounted,
     ref,
 } from 'vue';
+import { useMap } from '../../../hooks/useMap';
 
 export interface PointProps
     extends Omit<sxii.graphic.BasePointEntityOptions, 'position'>,
@@ -98,7 +99,7 @@ export default defineComponent({
     props: Props,
     emits: [],
     setup(props, { emit, attrs, slots }) {
-        const map: sxii.Map = inject('map');
+        const map: sxii.Map | null = useMap();
         const layer = ref<sxii.layer.GraphicLayer | undefined>();
         const entity = ref<sxii.graphic.BillboardEntity | undefined>();
 

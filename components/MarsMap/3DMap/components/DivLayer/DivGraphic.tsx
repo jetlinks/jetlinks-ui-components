@@ -1,6 +1,7 @@
 import {
     PropType,
     createApp,
+    createSSRApp,
     defineComponent,
     inject,
     onMounted,
@@ -9,7 +10,7 @@ import {
     watch,
     watchEffect,
 } from 'vue';
-import { renderToString } from 'vue/server-renderer'
+import { renderToString } from 'vue/server-renderer';
 import {
     UnRegisterEvents,
     UpdatePropsAndRegisterEvents,
@@ -119,8 +120,13 @@ export default defineComponent({
         watch(
             () => props.visible,
             (val) => {
-                if (entity) {
-                    entity.show = val;
+                // if (entity) {
+                //     entity.show = val;
+                // }
+                if (!val) {
+                    entity?.destroy(props.isDeleteAttr);
+                } else {
+                    createLayer();
                 }
             },
         );
@@ -169,18 +175,18 @@ export default defineComponent({
                 : `${componentToHtml(<>{slots.default?.()}</>)}`;
         };
         const componentToHtml = (com: any) => {
-            return `<div class="JetLinkss-Map-InfoWindow map-infoWindow" data-reactroot=""><div class="infoWindow-content"><div class="infoWindow-children"><div>infoWindow 弹窗</div></div></div></div>`;
-            console.log('com: ', com);
-            console.log('com1: ', com.children[0][0]?.children[0]?.el);
-            // const str = com.children[0].children[0].el;
-            // console.log('str: ', str);
-            // const dom: any = document.createDocumentFragment();
-            const dom: Element = document.createElement('div');
-            const bbb = createApp(com);
-            console.log('bbb: ', bbb);
-            console.log('dom: ', dom);
-            console.log('dom innerHTML: ', JSON.stringify(dom.innerHTML));
-            return JSON.stringify(dom.innerHTML);
+            console.log('插槽传入的数据: ', com);
+            const dom: any = document.createDocumentFragment();
+            const app = createApp(com); //.mount(dom);
+            console.log('app: ', app);
+            setTimeout(() => {
+                app.mount(dom);
+                console.log('dom: ', dom);
+            }, 500);
+            const _target = `<div class="JetLinkss-Map-InfoWindow map-infoWindow" data-reactroot=""><div class="infoWindow-content"><div class="infoWindow-children"><div>infoWindow 弹窗</div></div></div></div>`;
+            console.log('我想要的数据: ', _target);
+            // app.mount(dom)
+            return _target;
         };
         const onLoad = () => {
             if (entity && props.onLoad) {

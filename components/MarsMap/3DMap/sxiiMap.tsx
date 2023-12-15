@@ -97,7 +97,7 @@ export default defineComponent({
     props: MapProps,
     emits: [],
     setup(props, { emit, attrs, slots }) {
-        const map = ref(null);
+        const map = ref<sxii.Map | null>(null);
         const mapRef = ref<any>();
         // const id = ref<string>(`JetLinkss_Map3D_${MapIds.length}`);
         const id = ref<string>(`JetLinkss_Map3D_${new Date().getTime()}`);

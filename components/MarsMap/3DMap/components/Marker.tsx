@@ -20,6 +20,7 @@ import {
     ref,
     watch,
 } from 'vue';
+import { useMap } from '../../hooks/useMap';
 
 export interface IMarkerProps
     extends Omit<sxii.graphic.BillboardEntityOptions, 'style' | 'position'>,
@@ -129,7 +130,7 @@ export default defineComponent({
     emits: ['click'],
     setup(props, { emit, attrs, slots }) {
         const contextType = MapContext;
-        const map: sxii.Map = inject('map');
+        const map: sxii.Map | null = useMap();
         let layer: sxii.layer.GraphicLayer | undefined = undefined;
         let entity: sxii.graphic.BillboardEntity | undefined = undefined;
         onMounted(() => {
