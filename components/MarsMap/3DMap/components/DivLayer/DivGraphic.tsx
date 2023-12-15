@@ -118,14 +118,25 @@ export default defineComponent({
         });
 
         watch(
-            () => props.visible,
-            (val) => {
-                // if (entity) {
-                //     entity.show = val;
-                // }
-                if (!val) {
-                    entity?.destroy(props.isDeleteAttr);
+            () => [props.visible, props.position],
+            ([visible, position], [prevVisible, prevPosition]) => {
+                console.log('visible: ', visible);
+                console.log('prevVisible: ', prevVisible);
+                console.log('position: ', position);
+                console.log('prevPosition: ', prevPosition);
+                if (
+                    position[0] === prevPosition[0] &&
+                    position[1] === prevPosition[1]
+                ) {
+                    // 点击同一个坐标点时，按正常的显隐展示信息窗
+                    if (!visible) {
+                        entity?.destroy(props.isDeleteAttr);
+                    } else {
+                        createLayer();
+                    }
                 } else {
+                    // 点击不同坐标点时，重新创建信息窗
+                    entity?.destroy(props.isDeleteAttr);
                     createLayer();
                 }
             },
