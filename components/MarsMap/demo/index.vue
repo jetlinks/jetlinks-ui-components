@@ -2,7 +2,8 @@
     <demo-sort>
         <Basic />
         <Marker />
-        <PointEntity />
+        <Markers />
+        <!-- <PointEntity /> -->
         <PolygonEntity />
         <InfoWindow />
     </demo-sort>
@@ -10,6 +11,7 @@
 <script lang="ts">
 import Basic from './basic.vue';
 import Marker from './Marker.vue';
+import Markers from './Markers.vue';
 import PointEntity from './PointEntity.vue';
 import PolygonEntity from './PolygonEntity.vue';
 import InfoWindow from './InfoWindow.vue';
@@ -17,6 +19,7 @@ export default {
     components: {
         Basic,
         Marker,
+        Markers,
         PointEntity,
         PolygonEntity,
         InfoWindow,

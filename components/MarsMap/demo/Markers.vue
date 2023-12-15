@@ -1,16 +1,16 @@
 <docs>
 ---
-order: 1
-title: 标记点
+order: 2
+title: 多个标记点
 ---
 
-Marker
+Markers
 
 </docs>
 <template>
     <div style="height: 300px">
         <j-map :center="center" :onLoad="onLoad">
-            <j-marker :position="markerPos"></j-marker>
+            <j-markers :markers="markers" />
         </j-map>
     </div>
 </template>
@@ -19,18 +19,23 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
     setup() {
         const center = ref([106.638986, 29.488061]);
-        const markerPos = ref([106.638986, 29.488061]);
-        const markerIcon = ref(
-            'https://pic.616pic.com/ys_img/00/25/54/uhG3OtV6GB.jpg',
-        );
+        const markers = ref([
+            {
+                position: [106.638986, 29.488061],
+                // image: 'https://pic.616pic.com/ys_img/00/25/54/uhG3OtV6GB.jpg',
+            },
+            {
+                position: [106.634986, 29.488061],
+            },
+        ]);
+
         const onLoad = (e) => {
             // console.log('onLoad', e);
         };
 
         return {
             center,
-            markerPos,
-            markerIcon,
+            markers,
             onLoad,
         };
     },

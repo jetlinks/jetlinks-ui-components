@@ -1,4 +1,3 @@
-import MapContext from '../MapContext';
 import {
     EventEntityMapProps,
     UnRegisterEvents,
@@ -110,6 +109,10 @@ const MarkerProps = {
         type: Boolean,
         default: true,
     },
+    layer: {
+        type: Object as PropType<sxii.layer.GraphicLayer>,
+        default: () => ({}),
+    },
     onLoad: {
         type: Function as PropType<
             (entity: sxii.graphic.BillboardEntity) => void
@@ -129,7 +132,6 @@ export default defineComponent({
     props: MarkerProps,
     emits: ['click'],
     setup(props, { emit, attrs, slots }) {
-        const contextType = MapContext;
         const map: sxii.Map | null = useMap();
         let layer: sxii.layer.GraphicLayer | undefined = undefined;
         let entity: sxii.graphic.BillboardEntity | undefined = undefined;

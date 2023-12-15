@@ -1,6 +1,6 @@
 <docs>
 ---
-order: 0
+order: 4
 title: 信息窗
 ---
 
