@@ -1,5 +1,8 @@
 <template>
-    <Select :filter-option="filterOption" v-bind="props">
+    <Select
+        v-bind="props"
+        :filter-option="props.filterOption ? props.filterOption : filterOption"
+    >
         <template v-for="item in slotArr" :key="item" #[item]="scope">
             <slot :name="item" v-bind="scope || {}"></slot>
         </template>
