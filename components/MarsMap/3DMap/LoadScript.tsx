@@ -64,6 +64,8 @@ export default defineComponent({
                     Promise.all([
                         import('./sxii/sxii.css'),
                         import('./sxii/sxii.js'),
+                        import('./sxii/widget/sxii-widget.css'),
+                        import('./sxii/widget/sxii-widget.js'),
                     ]).then(([sxiiCss, sxii]) => {
                         // console.log('sxiiCss111---------: ', sxiiCss);
                         // console.log('sxii222:-----', sxii);
