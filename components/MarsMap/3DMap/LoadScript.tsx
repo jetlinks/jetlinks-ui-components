@@ -1,5 +1,5 @@
-import { PropType, defineComponent, onMounted, onUnmounted, ref } from 'vue';
-import { injectScript as injectScriptUtil } from './utils';
+import {PropType, defineComponent, onMounted, onUnmounted, ref} from 'vue';
+import {injectScript as injectScriptUtil} from './utils';
 // import './sxii/sxii.css';
 // import './sxii/sxii';
 interface ILoadScriptState {
@@ -11,19 +11,23 @@ export interface ILoadScriptProps {
     onError?: (error: Error) => void;
     onUnmount?: () => void;
 }
+
 let cleaningUp = false;
 const LoadScriptProps = {
     onLoad: {
         type: Function as PropType<() => void>,
-        default: () => {},
+        default: () => {
+        },
     },
     onError: {
         type: Function as PropType<(error: Error) => void>,
-        default: () => {},
+        default: () => {
+        },
     },
     onUnmount: {
         type: Function as PropType<() => void>,
-        default: () => {},
+        default: () => {
+        },
     },
 };
 
@@ -32,7 +36,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: LoadScriptProps,
     emits: [],
-    setup(props, { emit, attrs, slots }) {
+    setup(props, {emit, attrs, slots}) {
         const loaded = ref(false);
         const interval = ref<number | undefined>();
 
@@ -52,35 +56,21 @@ export default defineComponent({
         });
 
         const injectScript = () => {
-            const objs = [
-                'http://Mars3d.cn/lib/Cesium/Widgets/widgets.css',
-                'http://Mars3d.cn/lib/Cesium/Cesium.js',
-            ];
 
-            injectScriptUtil(objs)
-                .then(() => {
-                    // require('./sxii/sxii.css');
-                    // require('./sxii/sxii');
-                    Promise.all([
-                        import('./sxii/sxii.css'),
-                        import('./sxii/sxii.js'),
-                        import('./sxii/widget/sxii-widget.css'),
-                        import('./sxii/widget/sxii-widget.js'),
-                    ]).then(([sxiiCss, sxii]) => {
-                        // console.log('sxiiCss111---------: ', sxiiCss);
-                        // console.log('sxii222:-----', sxii);
-                        interval.value = window.setInterval(() => {
-                            checkIfScriptLoaded();
-                        }, 200);
-                    });
-                })
-                .catch((err) => {
-                    console.log('injectScript:' + err);
-                });
+            injectScriptUtil([
+                '/js/sxii/Cesium/Cesium.js',
+                '/js/sxii/Cesium/Widgets/widgets.css',
+                '/js/sxii/sxii.js',
+                '/js/sxii/plugins/compatible/cesium-version.js',
+            ]).then(() => {
+                interval.value = window.setInterval(() => {
+                    checkIfScriptLoaded();
+                }, 200);
+            })
         };
 
         const onLoad = () => {
-            const { onLoad } = props;
+            const {onLoad} = props;
             if (onLoad) {
                 onLoad();
             }
@@ -89,10 +79,15 @@ export default defineComponent({
         const checkIfScriptLoaded = () => {
             if (!!window.sxii) {
                 console.log('地图API加载完成');
+                if (!window.sxii.Util.webglreport()) {
+                    window.clearInterval(interval.value);
+                    return
+                }
 
                 loaded.value = true;
                 onLoad();
                 window.clearInterval(interval.value);
+            } else {
             }
         };
 
@@ -102,7 +97,7 @@ export default defineComponent({
                     {loaded.value ? (
                         slots.default?.()
                     ) : (
-                        <div style={{ textAlign: 'center' }}>加载中...</div>
+                        <div style={{textAlign: 'center'}}>加载中...</div>
                     )}
                 </>
             );

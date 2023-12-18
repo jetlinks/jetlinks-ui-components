@@ -5,6 +5,7 @@ import docs from '../plugin/docs';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { additionalData } from './themeConfig';
 import monacoEditorPlugin from 'vite-plugin-monaco-editor';
+import copy from 'rollup-plugin-copy'
 
 const prefix = `monaco-editor/esm/vs`;
 
@@ -23,6 +24,11 @@ export default {
         port: 8082,
     },
     plugins: [
+        copy({
+            targets: [
+                { src: `../components/MarsMap/3DMap/sxii/*/**`, dest: 'public/js' },
+            ]
+        }),
         monacoEditorPlugin({}),
         vueJsx({
             // options are passed on to @vue/babel-plugin-jsx
@@ -34,6 +40,7 @@ export default {
         vue({
             include: [/\.vue$/, /\.md$/],
         }),
+
     ],
     optimizeDeps: {
         include: ['vue', 'vue-router'],

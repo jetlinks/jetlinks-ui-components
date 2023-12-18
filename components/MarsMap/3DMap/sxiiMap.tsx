@@ -106,7 +106,10 @@ export default defineComponent({
             if (mapRef.value === null) {
                 return null;
             }
-
+            console.log({
+                ...defaultBaseMapOptions,
+                ...props,
+            })
             return new sxii.Map(id.value, {
                 ...defaultBaseMapOptions,
                 ...props,
