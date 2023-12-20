@@ -12,7 +12,7 @@
                             <SearchItem
                                 :only-value="true"
                                 :expand="false"
-                                :index="`search_item_${index + 1}`"
+                                :index="index + 1"
                                 :columns="searchItems"
                                 :component-props="item.componentProps"
                                 :terms-item="terms.terms[index]"

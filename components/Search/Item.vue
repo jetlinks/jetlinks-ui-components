@@ -33,7 +33,9 @@
                 class="JSearch-item--label"
                 :style="{ minWidth: `${labelWidth}px` }"
             >
-                {{ columnOptions[0]?.label }}
+                {{
+                    columnOptions.length ? columnOptions[index - 1]?.label : ''
+                }}
             </div>
         </template>
         <div class="JSearch-item--value">
@@ -401,6 +403,7 @@ const handleItem = () => {
             value: item.column,
         };
     });
+    console.log(props.onlyValue);
     if (!props.onlyValue) {
         // 获取第一个值
         const sortColumn = cloneDeep(props.columns);
@@ -418,7 +421,7 @@ const handleItem = () => {
             columnChange(null, false);
         }
     } else {
-        columnChange(props.columns[0]?.column as string, false);
+        columnChange(props.columns[props.index - 1]?.column as string, false);
     }
 };
 
