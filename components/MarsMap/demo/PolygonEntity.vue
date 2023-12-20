@@ -20,7 +20,7 @@ title: 面
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
     setup() {
-        const center = ref([106.638986, 29.488061]);
+        const center = ref([117.302056, 31.858145]);
         const positions = ref([
             [106.638986, 29.488061],
             [106.637986, 29.485061],
@@ -29,6 +29,11 @@ export default defineComponent({
         ]);
         const style = ref({
             color: '#ff0000',
+            opacity: 0.5,
+            label: {
+                text: 'jetlinks',
+                color: 'blue',
+            },
         });
 
         const onLoad = (e) => {

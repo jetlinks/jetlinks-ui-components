@@ -12,6 +12,16 @@ export const defaultBaseMapOptions: sxii.MapOptions = {
         }
     },
 
+    control: {
+        // baseLayerPicker: true, //basemaps底图切换按钮
+        // homeButton: true, //视角复位按钮
+        // sceneModePicker: true, //二三维切换按钮
+        defaultContextMenu: true, //右键菜单
+        contextmenu: {
+            preventDefault: true,
+            hasDefault: true,
+        }
+      },
     basemaps: [
         {
             name: '高德电子',

@@ -62,6 +62,8 @@ export default defineComponent({
                 '/js/sxii/Cesium/Widgets/widgets.css',
                 '/js/sxii/sxii.js',
                 '/js/sxii/plugins/compatible/cesium-version.js',
+                '/js/sxii/widget/sxii-widget.css',
+                '/js/sxii/widget/sxii-widget.js',
             ]).then(() => {
                 interval.value = window.setInterval(() => {
                     checkIfScriptLoaded();
