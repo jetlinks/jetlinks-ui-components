@@ -117,21 +117,20 @@ export default defineComponent({
             }
         };
         function bindLayerPopup() {
-            layer
-                .bindPopup(function (event) {
-                    console.log('bindPopup: ', event);
-                    const attr = event.graphic.attr || {};
-                    attr['类型'] = event.graphic.type;
-                    attr['来源'] = '我是layer上绑定的Popup';
-                    attr['备注'] = '我支持鼠标交互';
-                    // return '<div style="width: 200px;height: 200px;color: blue">我是layer上绑定的Popup</div>';
-                    return sxii.Util.getTemplateHtml({
-                        title: '矢量图层111',
-                        template: 'all',
-                        attr,
-                    });
-                })
-                .openPopup();
+            layer.bindPopup(function (event) {
+                console.log('bindPopup: ', event);
+                const attr = event.graphic.attr || {};
+                attr['类型'] = event.graphic.type;
+                attr['来源'] = '我是layer上绑定的Popup';
+                attr['备注'] = '我支持鼠标交互';
+                // return '<div style="width: 200px;height: 200px;color: blue">我是layer上绑定的Popup</div>';
+                return sxii.Util.getTemplateHtml({
+                    title: '矢量图层111',
+                    template: 'all',
+                    attr,
+                });
+            }, {});
+            // .openPopup();
         }
         function bindLayerContextMenu() {
             // 绑定右键菜单
