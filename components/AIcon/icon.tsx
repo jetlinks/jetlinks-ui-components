@@ -1,10 +1,10 @@
-import { defineComponent, createVNode, watchEffect } from 'vue';
+import { defineComponent, createVNode, watchEffect, inject } from 'vue';
 import * as $Icon from '@ant-design/icons-vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import './iconfont';
 
 let MyIcon = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/c/font_4035907_2q888vzcob.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/c/font_3183515_i7oma42he.js', // 在 iconfont.cn 上生成
 });
 
 const aIcon = $Icon;
@@ -25,9 +25,11 @@ export default defineComponent({
     emits: ['click'],
     setup(props, { emit, attrs }) {
         watchEffect(() => {
-            if (props.scriptUrl) {
+            const config = inject('jetlinks-icon', {}) as { scriptUrl: string };
+            const url = props.scriptUrl || config.scriptUrl;
+            if (url) {
                 MyIcon = createFromIconfontCN({
-                    scriptUrl: props.scriptUrl,
+                    scriptUrl: url,
                 });
             }
         });
@@ -36,9 +38,6 @@ export default defineComponent({
             emit('click');
         };
 
-        // const render = () => {
-        //     return
-        // };
         return () => <Icon {...props} style={attrs.style} onClick={click} />;
     },
 });

@@ -211,7 +211,7 @@ const ProTable = defineComponent<JTableProps>({
                 const resp: any = await props
                     .request({
                         pageIndex: 0,
-                        pageSize: pageSize.value,
+                        pageSize: Number(pageSize.value),
                         ...props.defaultParams,
                         ..._params,
                         terms: [
@@ -236,7 +236,7 @@ const ProTable = defineComponent<JTableProps>({
                         ) {
                             pageIndex.value =
                                 pageIndex.value > 0 ? pageIndex.value - 1 : 0;
-                            console.log(pageIndex.value);
+
                             handleSearch({
                                 ..._params,
                                 pageSize: pageSize.value,

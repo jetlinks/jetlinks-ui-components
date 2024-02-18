@@ -21,5 +21,6 @@
       "jetlinks-ui-components": ["components/components"],
     }
   },
-  "exclude": ["node_modules", "lib", "es", "dist"]
+  "exclude": ["node_modules", "lib", "es", "dist"],
+  "include": ["./components/MarsMap/3DMap/sxii.d.ts"]
 }
