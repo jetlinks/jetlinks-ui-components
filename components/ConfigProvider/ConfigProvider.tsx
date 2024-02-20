@@ -1,7 +1,9 @@
 import ConfigProvider from 'ant-design-vue/lib/config-provider';
 import { Empty } from '../components';
-import { defineComponent, reactive, provide } from 'vue';
+import { defineComponent, reactive, ref, provide } from 'vue';
 import { configProviderProps } from 'ant-design-vue/lib/config-provider/context';
+import { omit } from 'lodash-es';
+import { JETLINKS_ICON } from '../AIcon';
 
 const JConfigProvider = defineComponent({
     name: 'JConfigProvider',
@@ -11,15 +13,15 @@ const JConfigProvider = defineComponent({
             type: Object,
         },
     },
-    setup(props, { attrs, slots }) {
+    setup(props, { slots }) {
+        const IconConfig = reactive(props.IconConfig || {});
+
+        provide(JETLINKS_ICON, IconConfig);
+
         return () => {
-            const IconConfig = reactive(props.IconConfig || {});
-
-            provide('jetlinks-icon', IconConfig);
-
             return (
                 <ConfigProvider
-                    {...props}
+                    {...omit(props, ['IconConfig'])}
                     v-slots={{
                         renderEmpty: () =>
                             slots.renderEmpty ? (
@@ -29,7 +31,9 @@ const JConfigProvider = defineComponent({
                             ),
                         ...slots,
                     }}
-                ></ConfigProvider>
+                >
+                    {slots.default?.()}
+                </ConfigProvider>
             );
         };
     },
