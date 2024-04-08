@@ -28,15 +28,14 @@ const props = defineProps({
 const emit = defineEmits(['update:value']);
 
 const options = [
-    { label: 'yy-mm-dd hh:mm:ss', value: 'yy-mm-dd hh:mm:ss' },
-    { label: 'yy-mm-dd', value: 'yy-mm-dd' },
+    { label: 'YYYY-MM—DD hh:mm:ss', value: 'YYYY-MM—DD hh:mm:ss' },
+    { label: 'YYYY-MM—DD', value: 'YYYY-MM—DD' },
     { label: 'hh:mm:ss', value: 'hh:mm:ss' },
 ];
 
 const date = ref<string>(props.value);
 
 const change = (v: string[]) => {
-    console.log(v, date.value);
     emit('update:value', date.value);
 };
 
