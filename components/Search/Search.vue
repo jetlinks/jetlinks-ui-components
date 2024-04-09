@@ -198,13 +198,38 @@ const searchSubmit = () => {
  * 重置查询
  */
 const resetNumber = ref(1);
+
+const handleResetValue = () => {
+    const values = [];
+
+    props.columns.forEach((item) => {
+        if (item.search.defaultValue) {
+            values.push({
+                column: item.search.rename || item.dataIndex,
+                termType: item.search.defaultTermType || 'eq',
+                value: item.search.defaultValue,
+            });
+        }
+    });
+
+    if (props.type === 'object') {
+        return values.reduce((prev, next) => {
+            prev[next.column] = next.value;
+            return prev;
+        }, {});
+    }
+
+    return values;
+};
+
 const reset = () => {
     resetNumber.value += 1;
     handleItems(true);
+    const resetValue = handleResetValue();
     if (props.type == 'object') {
-        emit('search', {});
+        emit('search', resetValue);
     } else if (props.type == 'terms') {
-        emit('search', []);
+        emit('search', resetValue);
     }
 };
 

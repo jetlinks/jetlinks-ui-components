@@ -18,6 +18,7 @@ import {
     PropType,
     ref,
     watch,
+    renderSlot,
 } from 'vue';
 import {
     JColumnProps,
@@ -511,7 +512,12 @@ const ProTable = defineComponent<JTableProps>({
                             props.type === 'PAGE' && (
                                 <div class={'jtable-pagination'}>
                                     {slots?.paginationRender ? (
-                                        slots.paginationRender()
+                                        renderSlot(slots, 'paginationRender', {
+                                            total: total.value,
+                                            current: pageIndex.value + 1,
+                                            pageSize: pageSize.value,
+                                            handleSearch,
+                                        })
                                     ) : (
                                         <Pagination
                                             {...props.pagination}

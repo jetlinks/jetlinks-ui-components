@@ -38,6 +38,15 @@ title: 远程加载数据
                     <p>{{ slotProps?.address }}</p>
                 </div>
             </template>
+            <template
+                #paginationRender="{ total, current, pageSize, handleSearch }"
+            >
+                {{ total }}，{{ current }}，{{ pageSize }}
+                <a-button
+                    @click="() => handleSearch({ current: 2, pageSize: 15 })"
+                    >下一页</a-button
+                >
+            </template>
         </j-pro-table>
     </div>
 </template>
