@@ -28,8 +28,8 @@ const props = defineProps({
 const emit = defineEmits(['update:value']);
 
 const options = [
-    { label: 'YYYY-MM—DD hh:mm:ss', value: 'YYYY-MM—DD hh:mm:ss' },
-    { label: 'YYYY-MM—DD', value: 'YYYY-MM—DD' },
+    { label: 'YYYY-MM-DD hh:mm:ss', value: 'YYYY-MM-DD hh:mm:ss' },
+    { label: 'YYYY-MM-DD', value: 'YYYY-MM-DD' },
     { label: 'hh:mm:ss', value: 'hh:mm:ss' },
 ];
 
