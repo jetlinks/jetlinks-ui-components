@@ -1,5 +1,5 @@
 <template>
-    <FormItem label="时间格式" :name="name">
+    <FormItem label="时间格式" :name="name" required>
         <AutoComplete
             v-model:value="date"
             :options="options"
@@ -28,8 +28,8 @@ const props = defineProps({
 const emit = defineEmits(['update:value']);
 
 const options = [
-    { label: 'YYYY-MM-DD hh:mm:ss', value: 'YYYY-MM-DD hh:mm:ss' },
-    { label: 'YYYY-MM-DD', value: 'YYYY-MM-DD' },
+    { label: 'YYYY-MM-DD hh:mm:ss', value: 'yy-mm-dd hh:mm:ss' },
+    { label: 'YYYY-MM-DD', value: 'yy-mm-dd' },
     { label: 'hh:mm:ss', value: 'hh:mm:ss' },
 ];
 
