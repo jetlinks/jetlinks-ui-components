@@ -56,8 +56,16 @@ const cancel = () => {
 };
 
 const confirm = () => {
-    emit('update:value', formData.format);
-    emit('confirm', formData.format);
+    return new Promise(async (resolve, reject) => {
+        const data = await formRef.value!.validate().catch(() => {
+            reject();
+        });
+        if (data) {
+            emit('update:value', formData.format);
+            emit('confirm', formData.format);
+            resolve(true);
+        }
+    });
 };
 
 watch(
