@@ -1,6 +1,6 @@
 {
   "name": "jetlinks-ui-components",
-  "version": "1.0.36-2",
+  "version": "1.0.39",
   "main": "lib/index.js",
   "module": "es/index.js",
   "keywords": [
@@ -48,7 +48,6 @@
   "dependencies": {
     "@vueuse/core": "^9.12.0",
     "@vueuse/router": "^9.13.0",
-    "ant-design-vue": "^3.2.15",
     "colorpicker-v3": "^2.10.2",
     "lodash-es": "^4.17.21",
     "monaco-editor": "^0.40.0",
@@ -57,6 +56,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "ant-design-vue": "^3.2.15",
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.10.5",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
