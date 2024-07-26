@@ -253,8 +253,8 @@ export const getTermOptions = (type?: SearchProps['type'], column?: string) => {
             keys = ['eq', 'not', 'gt', 'lt', 'gte', 'lte'];
             break;
         default:
-            keys = ['like', 'nlike'];
-            // column?.includes('id') && type === 'string'
+            keys = ['like', 'nlike', 'eq', 'not'];
+            // keys = column?.includes('id') && type === 'string'
             //     ? ['eq']
             //     : ['like', 'nlike'];
             break;

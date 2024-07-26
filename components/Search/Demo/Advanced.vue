@@ -53,9 +53,19 @@ export default {
                 dataIndex: 'provider',
                 search: {
                     type: 'select',
+                    defaultTermType: 'nin',
                     options: [
                         { label: 'GB/T28181', value: 'gb28181-2016' },
-                        { label: '固定地址', value: 'fixed-media' },
+                        {
+                            label: '固定地址固定地址固定地址固定地址固定地址固定地址固定地址固定地址',
+                            value: 'fixed-media',
+                        },
+                        { label: '固定地址1', value: 'fixed-media1' },
+                        { label: '固定地址2', value: 'fixed-media2' },
+                        { label: '固定地址3', value: 'fixed-media3' },
+                        { label: '固定地址4', value: 'fixed-media4' },
+                        { label: '固定地址5', value: 'fixed-media5' },
+                        { label: '固定地址6', value: 'fixed-media6' },
                     ],
                 },
             },

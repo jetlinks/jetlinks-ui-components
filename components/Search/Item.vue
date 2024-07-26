@@ -54,6 +54,8 @@
                     allow-clear
                     show-search
                     :mode="isBtw ? 'multiple' : 'combobox'"
+                    max-tag-count="responsive"
+                    :max-tag-text-length="10"
                     v-bind="cProps"
                     style="width: 100%; min-width: 80px"
                     :loading="optionLoading"
