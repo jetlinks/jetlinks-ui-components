@@ -126,6 +126,8 @@
                     show-search
                     style="width: 100%"
                     :height="350"
+                    max-tag-count="responsive"
+                    :max-tag-text-length="10"
                     :field-names="{ label: 'name', value: 'id' }"
                     :multiple="isBtw"
                     :filter-tree-node="

@@ -31,15 +31,10 @@
                                 item.name
                             }}</Ellipsis>
                         </div>
-                        <j-popconfirm
-                            title="确认删除吗？"
-                            placement="top"
-                            @confirm="deleteHistory(item)"
-                        >
-                            <span class="delete">
-                                <AIcon type="DeleteOutlined" />
-                            </span>
-                        </j-popconfirm>
+
+                        <span class="delete" @click="() => showDelete(item)">
+                            <AIcon type="DeleteOutlined" />
+                        </span>
                     </div>
                 </div>
                 <div v-else class="search-history-empty">
@@ -62,18 +57,15 @@ import { computed, ref } from 'vue';
 import type { PropType } from 'vue';
 import { isFunction } from 'lodash-es';
 import {
-    Menu as JMenu,
-    MenuItem as JMenuItem,
     AIcon,
     Empty as JEmpty,
     Popconfirm as JPopconfirm,
-    Dropdown,
     Button,
-    Input,
     FormItemRest,
     Popover,
     Ellipsis,
     message,
+    Modal,
 } from '../../components';
 
 type Emit = {
@@ -132,6 +124,16 @@ const itemClick = (content: string) => {
     emit('itemClick', content);
 };
 
+const showDelete = (item: any) => {
+    Modal.confirm({
+        title: '确认删除?',
+        zIndex: 1031,
+        onOk: () => {
+            return deleteHistory(item);
+        },
+    });
+};
+
 const deleteHistory = async (item: any) => {
     if (props.deleteRequest && isFunction(props.deleteRequest)) {
         const resp = await props.deleteRequest(
@@ -139,7 +141,7 @@ const deleteHistory = async (item: any) => {
             item[props.deleteKey],
         );
         historyVisible.value = false;
-        if (resp.success || resp.status === 200 || resp.code === 200) {
+        if (resp?.success || resp?.status === 200 || resp?.code === 200) {
             message.success('操作成功');
         } else {
             message.error('操作失败');

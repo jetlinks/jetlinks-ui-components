@@ -81,7 +81,21 @@ export default {
                 dataIndex: 'manufacturer',
                 key: 'manufacturer',
                 search: {
-                    type: 'string',
+                    type: 'treeSelect',
+                    defaultTermType: 'nin',
+                    options: [
+                        { name: 'GB/T28181', id: 'gb28181-2016' },
+                        {
+                            name: '固定地址固定地址固定地址固定地址固定地址固定地址固定地址固定地址',
+                            id: 'fixed-media',
+                        },
+                        { name: '固定地址1', id: 'fixed-media1' },
+                        { name: '固定地址2', id: 'fixed-media2' },
+                        { name: '固定地址3', id: 'fixed-media3' },
+                        { name: '固定地址4', id: 'fixed-media4' },
+                        { name: '固定地址5', id: 'fixed-media5' },
+                        { name: '固定地址6', id: 'fixed-media6' },
+                    ],
                 },
                 ellipsis: true,
             },
