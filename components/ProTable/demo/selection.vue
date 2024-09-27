@@ -40,6 +40,7 @@ title: 可选择
 <script lang="ts">
 import { random } from 'lodash';
 import { defineComponent, ref } from 'vue';
+
 const columns = [
     {
         title: '名称',

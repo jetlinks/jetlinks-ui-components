@@ -183,10 +183,6 @@ const matchComponents: IMatcher[] = [
         styleDir: 'ProLayout',
     },
     {
-        pattern: /^ScrollTable/,
-        styleDir: 'ScrollTable',
-    },
-    {
         pattern: /^Scrollbar/,
         styleDir: 'Scrollbar',
     },

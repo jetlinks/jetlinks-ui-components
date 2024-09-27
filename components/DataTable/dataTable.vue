@@ -322,7 +322,6 @@ import {
     provide,
     getCurrentInstance,
 } from 'vue';
-import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
 import {
     Form,
@@ -337,7 +336,6 @@ import {
 } from '../components';
 import BooleanSelect from '../Select/Boolean.vue';
 import { DataTableTypeSelect, FormError } from './components';
-import Sortable from 'sortablejs';
 import { useFullscreen, useInfiniteScroll } from '@vueuse/core';
 
 import {
@@ -593,60 +591,6 @@ const sortTableHandle = () => {
 
     if (!ele) return;
 
-    sortTable.value = new Sortable(ele as HTMLElement, {
-        draggable: '.ant-table-row',
-        animation: 200,
-        ghostClass: 'draggable-ghost',
-        sort: true,
-        onEnd: ({ oldIndex, newIndex, to, from }) => {
-            // 获取真正的index
-            const curr = formData.table[oldIndex - 1];
-            formData.table.splice(oldIndex - 1, 1);
-            formData.table.splice(newIndex - 1, 0, curr);
-            // const oldTarget = draggableRef.value
-            //     .querySelector('.ant-table-tbody')
-            //     .querySelectorAll('.ant-table-row')[oldIndex - 1];
-            // const newTarget = draggableRef.value
-            //     .querySelector('.ant-table-tbody')
-            //     .querySelectorAll('.ant-table-row')[newIndex - 1];
-            // const oldTargetPositions = getElData(
-            //     oldTarget.querySelectorAll('.j-row-click')?.[1],
-            // );
-            // const newTargetPositions = getElData(
-            //     newTarget.querySelectorAll('.j-row-click')?.[1],
-            // );
-            //
-            // const _oldIndex = oldTargetPositions[1];
-            // const _newIndex = newTargetPositions[1];
-            //
-            // const curr = formData.table.splice(_oldIndex - 1, 1)[0];
-            // console.log(_newIndex, _oldIndex, newIndex, oldIndex)
-            // formData.table.splice(_newIndex - 1, 0, curr);
-            //
-            // const [min, max] = [_oldIndex, _newIndex].sort((a, b) => a - b);
-            // for (let i = min; i <= max; i++) {
-            //     formData.table[i - 1].index = i;
-            // }
-            // // 判断当前拖拽中是否有选中
-            // if (selectedKey.value) {
-            //     const [td, index, dataIndex] = selectedKey.value.split('_');
-            //     if (index >= min && index <= max) {
-            //         // 是否在拖拽范围内
-            //         const numIndex = Number(index);
-            //         let _index = _newIndex;
-            //         if (numIndex < _oldIndex) {
-            //             _index = numIndex + 1;
-            //         } else if (numIndex > _oldIndex) {
-            //             _index = numIndex - 1;
-            //         }
-            //         selectedKey.value = [td, _index, dataIndex].join('_');
-            //         if (editKey.value) {
-            //             editKey.value = [td, _index, dataIndex].join('_');
-            //         }
-            //     }
-            // }
-        },
-    });
     return sortTable;
 };
 

@@ -1,7 +1,6 @@
 import { defineComponent, createVNode, watchEffect, inject } from 'vue';
 import * as $Icon from '@ant-design/icons-vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
-import './iconfont';
 import { JETLINKS_ICON } from './index';
 
 let MyIcon = createFromIconfontCN({

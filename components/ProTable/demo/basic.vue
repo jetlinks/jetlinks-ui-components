@@ -11,7 +11,6 @@ title: 基本
     <j-pro-table
         :columns="columns"
         :data-source="data"
-        :noPagination="true"
         :gridColumn="3"
         v-model:modelValue="model"
     >
@@ -66,7 +65,7 @@ const columns = [
     },
 ];
 
-const data = Array(10)
+const data = Array(22)
     .fill(1)
     .map((item, index) => {
         return {

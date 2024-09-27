@@ -2,7 +2,12 @@ export { default as Pagination } from './Pagination';
 export { default as TableCard } from './TableCard';
 export { default as Scrollbar } from './Scrollbar';
 export { default as AIcon } from './AIcon';
-export { default as Select, SelectOption, SelectOptGroup, SelectBoolean } from './Select';
+export {
+    default as Select,
+    SelectOption,
+    SelectOptGroup,
+    SelectBoolean,
+} from './Select';
 export { default as Empty } from './Empty';
 export { default as Tree } from './Tree';
 export { default as AutoComplete } from './AutoComplete';
@@ -30,7 +35,6 @@ export { default as Result } from './Result';
 export { default as ProLayout, PageContainer } from './ProLayout';
 export { default as CardSelect, CardSelectOption } from './CardSelect';
 export { default as ProTable } from './ProTable';
-export { default as ScrollTable } from './ScrollTable';
 export { default as Search, AdvancedSearch } from './Search';
 export { default as ColorPicker } from './ColorPicker';
 

@@ -4,9 +4,9 @@
 
 <script lang="ts" setup name="JPagination">
 import { Pagination } from 'ant-design-vue';
-import { computed, defineProps, reactive } from 'vue';
+import { computed, defineProps, inject, reactive } from 'vue';
 import { paginationProps } from 'ant-design-vue/lib/pagination';
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 
 const props = defineProps({
     ...paginationProps(),
@@ -19,12 +19,15 @@ const props = defineProps({
     },
 });
 const baseProps = omit(props, ['isShowContent']);
+const config = inject('pagination');
 
 const { isShowContent } = reactive(props);
 
 const className = computed(() => {
+    const _isShowContent = config.isShowContent || props.isShowContent;
+    console.log('config', config);
     return {
-        'show-content': !isShowContent,
+        'show-content': !_isShowContent,
     };
 });
 </script>

@@ -46,6 +46,7 @@ export default {
                 search: {
                     type: 'string',
                     first: true,
+                    termOptions: ['in'],
                 },
             },
             {

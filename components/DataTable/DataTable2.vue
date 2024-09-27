@@ -332,7 +332,6 @@
 
 <script setup lang="ts">
 import { computed, defineProps, nextTick, reactive, watch, ref } from 'vue';
-import type { PropType } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/lib/table';
 import { Form, FormItem, Input, InputNumber, Ellipsis } from '../components';
 import {
@@ -347,7 +346,6 @@ import {
     DataTableEnum,
     DataTableString,
 } from './components';
-import Sortable from 'sortablejs';
 import useRevoke from './useRevoke';
 import { cloneDeep, debounce, isEqual } from 'lodash-es';
 
@@ -440,7 +438,7 @@ const sortTableHandle = () => {
         sortTable.value?.destroy();
     }
     const ele = document.querySelector('.draggable-body .ant-table-tbody');
-    console.log(ele);
+
     sortTable.value = new Sortable(ele as HTMLElement, {
         draggable: '.ant-table-row',
         animation: 200,

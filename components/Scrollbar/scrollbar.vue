@@ -46,7 +46,6 @@ import Bar from './bar.vue';
 import { scrollbarEmits, scrollbarProps } from './scrollbarUtil';
 import type { BarInstance } from './barUtil';
 import type { CSSProperties, StyleValue } from 'vue';
-import { omit } from 'lodash';
 const COMPONENT_NAME = 'ElScrollbar';
 
 // defineOptions({
@@ -54,7 +53,6 @@ const COMPONENT_NAME = 'ElScrollbar';
 // })
 
 const props = defineProps(scrollbarProps);
-const baseProps = omit(props, ['height']);
 const emit = defineEmits(scrollbarEmits);
 
 const ns = useNamespace('scrollbar');

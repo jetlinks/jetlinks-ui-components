@@ -12,11 +12,16 @@ const JConfigProvider = defineComponent({
         IconConfig: {
             type: Object,
         },
+        pagination: {
+            type: Object,
+        },
     },
     setup(props, { slots }) {
         const IconConfig = reactive(props.IconConfig || {});
+        const pagination = reactive(props.pagination || {});
 
         provide(JETLINKS_ICON, IconConfig);
+        provide('pagination', pagination);
 
         return () => {
             return (
