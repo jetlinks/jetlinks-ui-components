@@ -2,7 +2,7 @@
     <Pagination v-bind="props" :class="className" />
 </template>
 
-<script lang="ts" setup name="JPagination">
+<script setup name="JPagination">
 import { Pagination } from 'ant-design-vue';
 import { computed, defineProps, inject, reactive } from 'vue';
 import { paginationProps } from 'ant-design-vue/lib/pagination';
@@ -19,7 +19,7 @@ const props = defineProps({
     },
 });
 const baseProps = omit(props, ['isShowContent']);
-const config = inject('pagination');
+const config = inject('pagination', {});
 
 const { isShowContent } = reactive(props);
 
