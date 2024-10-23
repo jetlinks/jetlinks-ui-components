@@ -149,7 +149,7 @@ import SearchItem from '../Item.vue';
 import { optionsMapKey, typeOptions } from '../setting';
 import { useElementSize } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
-import { PropType, ref, reactive, watch, provide } from 'vue';
+import { PropType, ref, reactive, watch, provide, toRaw } from 'vue';
 import SaveHistory from './SaveHistory.vue';
 import History from './History.vue';
 import type {
@@ -180,7 +180,7 @@ type UrlParam = {
 };
 
 interface Emit {
-    (e: 'search', data: Terms): void;
+    (e: 'search', data: Terms, terms: any, options: any): void;
 }
 
 const props = defineProps({
@@ -295,7 +295,12 @@ const addUrlParams = () => {
 };
 
 const submitData = () => {
-    emit('search', termsParamsFormat(termsData, columnOptionMap.value));
+    emit(
+        'search',
+        termsParamsFormat(termsData, columnOptionMap.value),
+        toRaw(termsData),
+        toRaw(columnOptionMap),
+    );
 };
 
 /**
@@ -361,7 +366,7 @@ const handleUrlParams = (_params: UrlParam) => {
         const qStr = decodeURI(_params.q);
         termsData.terms = handleQData(compatibleOldTerms(qStr))?.terms || [];
         expand.value = hasExpand(termsData.terms);
-        emit('search', termsParamsFormat(termsData, columnOptionMap.value));
+        submitData();
     }
 };
 

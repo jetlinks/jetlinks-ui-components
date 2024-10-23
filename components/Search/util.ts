@@ -22,7 +22,7 @@ export const handleLikeValue = (v: string) => {
     return v;
 };
 
-const handleItemValue = (item, columnOptionMap) => {
+export const handleItemValue = (item, columnOptionMap) => {
     const _item = columnOptionMap.get(item.column);
 
     if (!_item) return item;
