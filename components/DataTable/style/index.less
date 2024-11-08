@@ -1,5 +1,3 @@
-@import 'ant-design-vue/lib/style/index.less';
-
 .j-data-table {
     background-color: #fff;
 
@@ -36,7 +34,7 @@
             &::after {
                 content: '*';
                 position: absolute;
-                color: @error-color;
+                color: ~'var(--ant-error-color)';
                 top: 0;
                 right: 0;
             }
@@ -64,7 +62,7 @@
                         height: 0;
                         border-top: 8px solid transparent;
                         border-bottom: 8px solid transparent;
-                        border-left: 8px solid @error-color;
+                        border-left: 8px solid ~'var(--ant-error-color)';
                         transform: rotate(-45deg);
                         z-index: 4;
                         transition: all 0.3s;
@@ -73,7 +71,7 @@
                     &.update::after {
                         border-top: 8px solid transparent;
                         border-bottom: 8px solid transparent;
-                        border-left: 8px solid @error-color;
+                        border-left: 8px solid ~'var(--ant-error-color)';
                     }
                 }
 
@@ -103,7 +101,10 @@
                     transition: background-color 0.3s;
 
                     &.j-row-selected-active {
-                        background-color: rgba(@primary-color, 0.1);
+                        background-color: rgba(
+                            ~'var(--ant-primary-color)',
+                            0.1
+                        );
                     }
                 }
 

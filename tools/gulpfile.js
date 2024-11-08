@@ -89,7 +89,7 @@ function compileTs(stream) {
             through2.obj(function (file, encoding, next) {
                 // console.log(file.path, file.base);
                 file.path = file.path.replace(/\.[jt]sx$/, '.js');
-                console.log(file.path)
+                console.log(file.path);
                 this.push(file);
                 next();
             }),
@@ -175,7 +175,7 @@ function compile(modules) {
                 // Clone for css here since `this.push` will modify file.path
                 const cloneCssFile = cloneFile.clone();
                 this.push(cloneFile);
-
+                console.log('[less]>', file.path);
                 // Transform less file
                 if (
                     file.path.match(/(\/|\\)style(\/|\\)index\.less$/) ||

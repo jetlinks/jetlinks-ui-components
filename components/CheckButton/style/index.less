@@ -1,5 +1,4 @@
 @import '../../style/variable.less';
-@import 'ant-design-vue/lib/style/index.less';
 
 .j-check-button {
     display: flex;
@@ -10,7 +9,7 @@
         flex: 1;
         min-width: 0;
         padding: 8px;
-        border-radius: @border-radius-base;
+        border-radius: 2px;
         background-color: #f2f3f5;
         transition: all 0.3s;
         color: #333;
@@ -18,13 +17,13 @@
         cursor: pointer;
 
         &:hover {
-            background-color: @primary-color;
+            background-color: ~'var(--ant-primary-color)';
             opacity: 0.85;
             color: #fff;
         }
 
         &.selected {
-            background-color: @primary-color;
+            background-color: ~'var(--ant-primary-color)';
             color: #fff;
         }
 
